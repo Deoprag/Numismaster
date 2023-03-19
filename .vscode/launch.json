@@ -1,0 +1,27 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Test",
+            "request": "launch",
+            "mainClass": "com.numismaster.view.Test",
+            "projectName": "numismaster"
+        },
+        {
+            "type": "java",
+            "name": "Launch App",
+            "request": "launch",
+            "mainClass": "com.numismaster.app.App",
+            "vmArgs": "--module-path D:/JFX/javafx-sdk-19.0.2.1/lib/ --add-modules javafx.controls,javafx.fxml"
+        },
+        {
+            "type": "java",
+            "name": "JavaFX App",
+            "request": "launch",
+            "vmArgs": "--module-path D:/JFX/javafx-sdk-19.0.2.1/lib/ --add-modules javafx.controls,javafx.fxml",
+            "mainClass": "com.numismaster.app.App",
+            "projectName": "numismaster"
+        }
+    ]
+}

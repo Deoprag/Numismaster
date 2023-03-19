@@ -1,0 +1,81 @@
+.button{
+    -fx-background-color: #565e62;
+    -fx-text-fill: white;
+    -fx-font-family: Segoe UI;
+    -fx-font-weight: bold;
+    -fx-font-size: 16px;
+}
+
+.button:hover{
+    -fx-background-color: #373c3f;
+}
+
+.button:pressed{
+    -fx-background-color: #272a2b;
+}
+
+.btn-close{
+    -fx-background-color: #373c3f;
+    -fx-text-fill: white;
+    -fx-font-family: Segoe UI;
+    -fx-font-weight: bold;
+    -fx-font-size: 12px;
+}
+
+.btn-close:hover{
+    -fx-background-color: #ad3434;
+    
+}
+
+.btn-close:pressed{
+    -fx-background-color: #872929;
+}
+
+.btn-minimize{
+    -fx-background-color: #373c3f;
+    -fx-text-fill: white;
+    -fx-font-family: Segoe UI;
+    -fx-font-weight: bold;
+    -fx-font-size: 12px;
+}
+
+.btn-minimize:hover{
+    -fx-background-color: #c6c6c6;
+}
+
+.btn-minimize:pressed{
+    -fx-background-color: #a0a0a0;
+}
+
+.clickabelLabel{
+    -fx-font-size: 10px;
+    -fx-text-fill: #6293ac;
+    -fx-font-family: Segoe UI;
+    -fx-background-color: d9d9d9;
+    -fx-font-weight: none;
+}
+
+.clickabelLabel:hover{
+    -fx-underline: true;
+    -fx-background-color: d9d9d9;
+    -fx-font-weight: none;
+    -fx-cursor: hand;
+}
+
+.btn-filechooser{
+    -fx-background-color: #d1d1d1;
+    -fx-font-size: 11px;
+    -fx-text-fill: #999999;
+    -fx-font-weight: none;
+}
+
+.btn-filechooser:hover{
+    -fx-background-color: #d1d1d1;
+    -fx-text-fill: #888888;
+    -fx-cursor: hand;
+}
+
+.btn-filechooser:pressed{
+    -fx-background-color: #d1d1d1;
+    -fx-text-fill: #777777;
+}

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: #707980;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.numismaster.controller.MyCoinsController">
+   <children>
+      <Pane layoutX="198.0" layoutY="30.0" prefHeight="690.0" prefWidth="1082.0" style="-fx-border-width: 2; -fx-border-color: #373c3f;">
+         <children>
+            <Label alignment="CENTER" layoutX="3.0" layoutY="5.0" prefHeight="30.0" prefWidth="85.0" text="Pesquisar" textFill="WHITE">
+               <font>
+                  <Font name="Segoe UI Bold" size="16.0" />
+               </font>
+            </Label>
+            <TextField layoutX="88.0" layoutY="4.0" prefHeight="30.0" prefWidth="300.0" promptText="Insira o nome (ex. Olimpíadas)" style="-fx-border-color: #373c3f; -fx-border-width: 0 0 2 0; -fx-background-color: #707980;" />
+            <Button layoutX="358.0" layoutY="4.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="30.0" styleClass="btn-minimize" stylesheets="@../css/style.css" text="&gt;" />
+            <TableView fx:id="tableCoins" layoutX="4.0" layoutY="36.0" prefHeight="650.0" prefWidth="1074.0" styleClass="tableCoins" stylesheets="@../css/style.css">
+              <columns>
+                  <TableColumn fx:id="imgFront" editable="false" prefWidth="150.0" resizable="false" text="Imagem Frente" />
+                  <TableColumn fx:id="imgBack" editable="false" prefWidth="150.0" resizable="false" text="Imagem Costa" />
+                <TableColumn fx:id="name" editable="false" prefWidth="150.0" resizable="false" text="Nome" />
+                  <TableColumn fx:id="country" editable="false" prefWidth="75.0" resizable="false" text="País" />
+                <TableColumn fx:id="year" editable="false" prefWidth="50.0" resizable="false" text="Ano" />
+                  <TableColumn fx:id="condition" editable="false" prefWidth="75.0" resizable="false" text="Condição" />
+                  <TableColumn fx:id="rarity" editable="false" prefWidth="100.0" resizable="false" text="Raridade" />
+                  <TableColumn fx:id="isForSale" editable="false" prefWidth="75.0" resizable="false" text="A Venda?" />
+                  <TableColumn fx:id="price" editable="false" prefWidth="100.0" resizable="false" text="Preço" />
+                  <TableColumn fx:id="details" editable="false" prefWidth="152.0" resizable="false" text="Detalhes" />
+              </columns>
+            </TableView>
+         </children>
+      </Pane>
+      <Pane prefHeight="30.0" prefWidth="1280.0">
+         <children>
+            <Pane fx:id="paneBar" onMouseDragged="#barDragged" onMousePressed="#barPressed" prefHeight="30.0" prefWidth="1280.0" style="-fx-background-color: #373c3f;">
+               <children>
+                  <Label alignment="CENTER" layoutX="563.0" layoutY="2.0" prefHeight="24.0" prefWidth="175.0" text="Numismaster" textAlignment="JUSTIFY" textFill="WHITE">
+                     <font>
+                        <Font name="Segoe UI Bold" size="24.0" />
+                     </font>
+                  </Label>
+                  <Button fx:id="btnClose" layoutX="1249.0" layoutY="3.0" mnemonicParsing="false" onAction="#close" prefHeight="24.0" prefWidth="30.0" styleClass="btn-close" stylesheets="@../css/style.css" text="X" textFill="WHITE">
+                     <cursor>
+                        <Cursor fx:constant="DEFAULT" />
+                     </cursor>
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="btnMinimize" layoutX="1218.0" layoutY="3.0" mnemonicParsing="false" onAction="#minimize" prefHeight="24.0" prefWidth="30.0" styleClass="btn-minimize" stylesheets="@../css/style.css" text="_" textFill="WHITE">
+                     <cursor>
+                        <Cursor fx:constant="DEFAULT" />
+                     </cursor>
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Button>
+                  <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="543.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../icon/large-app-icon.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </Pane>
+         </children>
+      </Pane>
+      <Pane layoutY="30.0" prefHeight="690.0" prefWidth="200.0" style="-fx-background-color: #586065; -fx-border-color: #373c3f; -fx-border-width: 2;">
+         <children>
+            <Circle fill="#757f86" layoutX="100.0" layoutY="89.0" radius="75.0" stroke="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" />
+            <ImageView fx:id="profilePhoto" fitHeight="150.0" fitWidth="150.0" layoutX="25.0" layoutY="14.0" pickOnBounds="true">
+               <image>
+                  <Image url="@../../../../../../../../../../Media/Fotos/Screenshot_2.png" />
+               </image>
+            </ImageView>
+            <Circle fill="#ffffff00" layoutX="100.0" layoutY="89.0" radius="75.0" stroke="#34393c" strokeType="OUTSIDE" strokeWidth="3.0" />
+            <Label fx:id="lblName" alignment="CENTER" contentDisplay="CENTER" layoutY="164.0" prefHeight="50.0" prefWidth="200.0" text="Pedro Rabelo" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+               <font>
+                  <Font name="Segoe UI Bold" size="16.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>
