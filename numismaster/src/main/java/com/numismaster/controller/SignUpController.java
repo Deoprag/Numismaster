@@ -3,6 +3,7 @@ package com.numismaster.controller;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.sql.Date;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -10,6 +11,7 @@ import java.util.Optional;
 
 import javax.sql.rowset.serial.SerialException;
 
+import com.numismaster.model.Type;
 import com.numismaster.model.User;
 import com.numismaster.repository.UserRepository;
 import com.numismaster.util.Email;
@@ -32,6 +34,7 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
@@ -64,6 +67,7 @@ public class SignUpController {
 	@FXML private ChoiceBox<String> boxGender;
 	@FXML private ImageView imageView;
 	@FXML private Label lblWarning;
+	@FXML private Label lblSelectedFile;
     
     private double x, y = 0;
 
@@ -165,10 +169,6 @@ public class SignUpController {
 		stage.show();
 	}
 
-	public void signIn(){
-		
-	}
-
 	public void chooseFile(ActionEvent e) throws SerialException, SQLException{
 		FileChooser fc = new FileChooser();
 		fc.setTitle("Selecionar imagem");
@@ -180,13 +180,14 @@ public class SignUpController {
 		try {
 			FileInputStream fis = new FileInputStream(file);
 			user.setProfilePhoto(Util.convertToBlob(fis));
+			lblSelectedFile.setText(file.getName().toString());
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
-
 	}
 
-	public void signUp(){
+	@FXML
+	public void signUp(ActionEvent e) throws IOException{
 		if (validateSignUpFields()){
 			UserRepository ur = new UserRepository();
 			user.setFirstName(txtFirstName.getText());
@@ -198,6 +199,8 @@ public class SignUpController {
 			user.setUsername(txtUsername.getText());
 			user.setPassword(Util.hashPassword(txtPassword.getText()));
 			user.setBlocked(false);
+			user.setType(Type.DEFAULT);
+			user.setRegistrationDate(Date.valueOf(LocalDate.now()));
 			String code = Util.generateCode();
 			Email.sendEmail(code, user.getEmail(), user.getFirstName());
 
@@ -219,7 +222,7 @@ public class SignUpController {
 							alert.setHeaderText("Usuário cadastrado com sucesso!");
 							alert.setContentText("Agora você poderá efetuar seu login no sistema.");
 							alert.showAndWait();
-							signIn();
+							returnToLogin(e);
 						}
 						break;
 					}
@@ -260,15 +263,6 @@ public class SignUpController {
 		mtf.setMask("###.###.###-##");
 		mtf.setValidCharacters("0123456789");
 		mtf.setTf(txtCpf);
-		mtf.formatter();
-	}
-
-	@FXML
-	private void checkBirthdate(){
-		MaskTextField mtf = new MaskTextField();
-		mtf.setMask("##/##/####");
-		mtf.setValidCharacters("0123456789");
-		mtf.setTf(txtBirthDate.getEditor());
 		mtf.formatter();
 	}
 }

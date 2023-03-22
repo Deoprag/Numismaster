@@ -134,6 +134,8 @@ public class LoginController {
 	public void changeSceneLogin(ActionEvent e) throws IOException{
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/numismaster/view/MyCoins.fxml"));
 		root = loader.load();
+		MyCoinsController mcc = loader.getController();
+		mcc.loadUser(user);
 		stage = (Stage)((Node)e.getSource()).getScene().getWindow();
 		scene = new Scene(root);
 		stage.getIcons().add(new Image("/com/numismaster/icon/large-app-icon.png"));

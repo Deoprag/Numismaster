@@ -115,3 +115,6 @@ CREATE TABLE TB_Coin_User_Sale (
 	FOREIGN KEY (sale_id) REFERENCES TB_Sale (id),
     CONSTRAINT coin_sale_id PRIMARY KEY (id)
 );
+
+use db_numismaster;
+select * from tb_user;

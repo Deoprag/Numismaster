@@ -83,7 +83,7 @@
                </image>
             </ImageView>
             <Circle fill="#ffffff00" layoutX="100.0" layoutY="89.0" radius="75.0" stroke="#34393c" strokeType="OUTSIDE" strokeWidth="3.0" />
-            <Label fx:id="lblName" alignment="CENTER" contentDisplay="CENTER" layoutY="164.0" prefHeight="50.0" prefWidth="200.0" text="Pedro Rabelo" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+            <Label fx:id="lblName" alignment="CENTER" contentDisplay="CENTER" layoutY="164.0" prefHeight="50.0" prefWidth="200.0" text="Usuário" textAlignment="CENTER" textFill="WHITE" wrapText="true">
                <font>
                   <Font name="Segoe UI Bold" size="16.0" />
                </font>

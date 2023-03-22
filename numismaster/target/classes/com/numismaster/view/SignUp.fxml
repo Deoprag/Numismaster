@@ -30,14 +30,14 @@
             </Label>
             <TextField fx:id="txtFirstName" layoutX="25.0" layoutY="115.0" prefHeight="30.0" prefWidth="150.0" promptText="ex. João" style="-fx-background-color: #d9d9d9; -fx-border-color: #373c3f; -fx-border-width: 0 0 2 0;" />
             <TextField fx:id="txtLastName" layoutX="225.0" layoutY="115.0" prefHeight="30.0" prefWidth="150.0" promptText="ex. Silva" style="-fx-background-color: #d9d9d9; -fx-border-color: #373c3f; -fx-border-width: 0 0 2 0;" />
-            <DatePicker fx:id="txtBirthDate" editable="true" layoutX="25.0" layoutY="185.0" prefHeight="30.0" prefWidth="150.0" promptText="dd/mm/aaaa" style="-fx-background-color: #d9d9d9;" onKeyReleased = "#checkBirthdate"/>
+            <DatePicker fx:id="txtBirthDate" editable="false" layoutX="25.0" layoutY="185.0" prefHeight="30.0" prefWidth="150.0" promptText="dd/mm/aaaa" style="-fx-background-color: #d9d9d9;" />
             <TextField fx:id="txtCpf" layoutX="225.0" layoutY="185.0" onKeyReleased="#checkCpf" prefHeight="30.0" prefWidth="150.0" promptText="ex. 000.000.000-00" style="-fx-background-color: #d9d9d9; -fx-border-color: #373c3f; -fx-border-width: 0 0 2 0;" />
             <ChoiceBox fx:id="boxGender" layoutX="25.0" layoutY="250.0" prefHeight="30.0" prefWidth="150.0" style="-fx-background-color: #d9d9d9; -fx-border-color: #373c3f; -fx-border-width: 0 0 2 0;" />
             <TextField fx:id="txtUsername" layoutX="225.0" layoutY="250.0" prefHeight="30.0" prefWidth="150.0" promptText="ex. joaosilva" style="-fx-background-color: #d9d9d9; -fx-border-color: #373c3f; -fx-border-width: 0 0 2 0;" />
             <PasswordField fx:id="txtPassword" layoutX="25.0" layoutY="325.0" onKeyReleased="#checkPassword" prefHeight="30.0" prefWidth="150.0" promptText="Digite sua senha" style="-fx-background-color: #d9d9d9; -fx-border-color: #373c3f; -fx-border-width: 0 0 2 0;" />
             <PasswordField fx:id="txtPasswordConfirmation" layoutX="225.0" layoutY="325.0" prefHeight="30.0" prefWidth="150.0" promptText="Repita a senha" style="-fx-background-color: #d9d9d9; -fx-border-color: #373c3f; -fx-border-width: 0 0 2 0;" />
             <TextField fx:id="txtEmail" layoutX="25.0" layoutY="400.0" prefHeight="30.0" prefWidth="150.0" promptText="ex. joaosilva@gmail.com" style="-fx-background-color: #d9d9d9; -fx-border-color: #373c3f; -fx-border-width: 0 0 2 0;" />
-            <Button fx:id="btnFileChooser" layoutX="225.0" layoutY="400.0" mnemonicParsing="false" onAction="#chooseFile" prefHeight="30.0" prefWidth="150.0" styleClass="btn-filechooser" stylesheets="@../css/style.css" text="Selecionar arquivo" textFill="#5b5b5b">
+            <Button fx:id="btnFileChooser" layoutX="224.0" layoutY="405.0" mnemonicParsing="false" onAction="#chooseFile" prefHeight="20.0" prefWidth="150.0" styleClass="btn-filechooser" stylesheets="@../css/style.css" text="Selecionar arquivo" textFill="#5b5b5b">
                <font>
                   <Font size="11.0" />
                </font>
@@ -98,6 +98,11 @@
                </font>
             </Label>
             <Label fx:id="lblWarning" alignment="CENTER" contentDisplay="CENTER" layoutY="441.0" prefHeight="20.0" prefWidth="400.0" textAlignment="CENTER" textFill="#ff4a4a" wrapText="true" />
+            <Label fx:id="lblSelectedFile" alignment="TOP_LEFT" layoutX="223.0" layoutY="430.0" prefHeight="30.0" prefWidth="150.0" textAlignment="CENTER" textFill="#666666" wrapText="true">
+               <font>
+                  <Font size="9.0" />
+               </font>
+            </Label>
          </children>
          <opaqueInsets>
             <Insets />

@@ -1,7 +1,9 @@
 package com.numismaster.controller;
 
 import com.numismaster.model.TableCoin;
+import com.numismaster.model.Type;
 import com.numismaster.model.User;
+import com.numismaster.util.Util;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -12,12 +14,16 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
+import lombok.Setter;
 
+@Setter
 public class MyCoinsController {
 
 	private User user;
@@ -44,6 +50,19 @@ public class MyCoinsController {
 	public void initialize(){
 		fixImage(profilePhoto, true);
 		loadCoins();
+	}
+
+	public void loadUser(User newUser){
+		user = newUser;
+		lblName.setText(user.getFirstName() + " " + user.getLastName());
+		if(user.getType().equals(Type.ADMIN)){
+			lblName.setTextFill(Color.RED);
+		}
+		try {
+			profilePhoto.setImage(new Image(Util.convertFromBlob(user.getProfilePhoto())));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void fixImage(ImageView image, boolean circle){
