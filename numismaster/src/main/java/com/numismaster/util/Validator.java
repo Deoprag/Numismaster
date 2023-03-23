@@ -95,7 +95,6 @@ public class Validator {
 			}
 		}
 
-		System.out.println(password + " " + passwordConfirmation);
 		if(!password.equals(passwordConfirmation)){
 			if(label != null) {
 				label.setText("As senhas não coincidem!");

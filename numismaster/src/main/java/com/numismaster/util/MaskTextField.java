@@ -34,7 +34,7 @@ public class MaskTextField {
             if (text.equals("")) {
                 break;
             } else {
-                lastCharacter = text.charAt(text.length()); // - 1
+                lastCharacter = text.charAt(text.length() - 1);
             }
 
             try {
@@ -50,7 +50,7 @@ public class MaskTextField {
         tf.setText(text);
 
         if (!text.equals("")) {
-            for (int i = 0; tf.getText().charAt(i) != ' ' && i < tf.getLength(); i++) {
+            for (int i = 0; i < tf.getLength() && tf.getText().charAt(i) != ' '; i++) {
                 tf.forward();
             }
         }
@@ -60,30 +60,18 @@ public class MaskTextField {
         formatter(this.tf, this.ValidCharacters, this.mask);
     }
 
-    /**
-     * @return the tf
-     */
     public TextField getTf() {
         return tf;
     }
 
-    /**
-     * @param tf the tf to set
-     */
     public void setTf(TextField tf) {
         this.tf = tf;
     }
 
-    /**
-     * @return the ValidCharacters
-     */
     public String getValidCharacters() {
         return ValidCharacters;
     }
 
-    /**
-     * @param ValidCharacters the ValidCharacters to set
-     */
     public void setValidCharacters(String ValidCharacters) {
         this.ValidCharacters = ValidCharacters;
     }
@@ -92,9 +80,6 @@ public class MaskTextField {
         return mask;
     }
 
-    /**
-     * @param mask the mask to set
-     */
     public void setMask(String mask) {
         this.mask = mask;
     }

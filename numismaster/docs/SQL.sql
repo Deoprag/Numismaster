@@ -54,7 +54,7 @@ CREATE TABLE TB_User (
 	password VARCHAR(255) NOT NULL,
     type VARCHAR(7) DEFAULT "DEFAULT",
     is_blocked TINYINT DEFAULT 1,
-	profile_photo LONGBLOB,
+	profile_photo LONGBLOB NOT NULL,
 	registration_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	CONSTRAINT user_id PRIMARY KEY (id)
 );
@@ -118,3 +118,4 @@ CREATE TABLE TB_Coin_User_Sale (
 
 use db_numismaster;
 select * from tb_user;
+delete from tb_user where id = 16;

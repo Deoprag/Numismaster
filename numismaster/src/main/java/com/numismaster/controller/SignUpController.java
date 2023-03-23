@@ -74,6 +74,13 @@ public class SignUpController {
 	public void initialize(){
 		datePickerInitializer();
 		boxGender.getItems().addAll("Masculino", "Feminino");
+		try{
+			File file = new File("numismaster/src/main/java/com/numismaster/icon/user.png");
+			FileInputStream fis = new FileInputStream(file);
+			user.setProfilePhoto(Util.convertToBlob(fis));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	public boolean validateSignUpFields(){
