@@ -35,7 +35,7 @@
             <ChoiceBox fx:id="boxGender" layoutX="25.0" layoutY="250.0" prefHeight="30.0" prefWidth="150.0" style="-fx-background-color: #d9d9d9; -fx-border-color: #373c3f; -fx-border-width: 0 0 2 0;" />
             <TextField fx:id="txtUsername" layoutX="225.0" layoutY="250.0" prefHeight="30.0" prefWidth="150.0" promptText="ex. joaosilva" style="-fx-background-color: #d9d9d9; -fx-border-color: #373c3f; -fx-border-width: 0 0 2 0;" />
             <PasswordField fx:id="txtPassword" layoutX="25.0" layoutY="325.0" onKeyReleased="#checkPassword" prefHeight="30.0" prefWidth="150.0" promptText="Digite sua senha" style="-fx-background-color: #d9d9d9; -fx-border-color: #373c3f; -fx-border-width: 0 0 2 0;" />
-            <PasswordField fx:id="txtPasswordConfirmation" layoutX="225.0" layoutY="325.0" prefHeight="30.0" prefWidth="150.0" promptText="Repita a senha" style="-fx-background-color: #d9d9d9; -fx-border-color: #373c3f; -fx-border-width: 0 0 2 0;" />
+            <PasswordField fx:id="txtPasswordConfirmation" layoutX="225.0" layoutY="325.0" onKeyReleased="#checkPassword" prefHeight="30.0" prefWidth="150.0" promptText="Repita a senha" style="-fx-background-color: #d9d9d9; -fx-border-color: #373c3f; -fx-border-width: 0 0 2 0;" />
             <TextField fx:id="txtEmail" layoutX="25.0" layoutY="400.0" prefHeight="30.0" prefWidth="150.0" promptText="ex. joaosilva@gmail.com" style="-fx-background-color: #d9d9d9; -fx-border-color: #373c3f; -fx-border-width: 0 0 2 0;" />
             <Button fx:id="btnFileChooser" layoutX="224.0" layoutY="405.0" mnemonicParsing="false" onAction="#chooseFile" prefHeight="20.0" prefWidth="150.0" styleClass="btn-filechooser" stylesheets="@../css/style.css" text="Selecionar arquivo" textFill="#5b5b5b">
                <font>

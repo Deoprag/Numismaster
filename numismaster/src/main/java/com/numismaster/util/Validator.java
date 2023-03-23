@@ -64,8 +64,8 @@ public class Validator {
 			return result;
 	}
 
-	public static boolean passwordRequirements(String password, Label label) {
-		if (password.length() <= 12 || password.length() > 32) {
+	public static boolean passwordRequirements(String password, String passwordConfirmation, Label label) {
+		if (password.length() < 8 || password.length() > 32) {
 			if(label != null) {
 				label.setText("A senha é muito curta!");	    		
 			}
@@ -90,12 +90,22 @@ public class Validator {
 				if(label != null) {
 					label.setText("");	        		
 				}
-				return true;
+			} else if(label != null) {
+				label.setText("Verifique se sua senha possui: letras, números e caracteres especiais.");
 			}
 		}
-		if(label != null) {
-			label.setText("Verifique se sua senha possui: letras, números e caracteres especiais.");
+
+		System.out.println(password + " " + passwordConfirmation);
+		if(!password.equals(passwordConfirmation)){
+			if(label != null) {
+				label.setText("As senhas não coincidem!");
+			}
+			return false;
 		}
-		return false;
+
+		if(label != null) {
+			label.setText("");	        		
+		}
+		return true;
 	}
 }

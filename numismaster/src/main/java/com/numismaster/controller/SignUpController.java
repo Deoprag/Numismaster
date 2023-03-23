@@ -105,7 +105,7 @@ public class SignUpController {
 			alert.showAndWait();
 			return false;
 		}
-		if(!Validator.passwordRequirements(txtPassword.getText(), null)){
+		if(!checkPassword()){
 			Alert alert = new Alert(AlertType.WARNING);
 			alert.setTitle("ERRO!");
 			alert.setHeaderText("Senha inválida.");
@@ -131,7 +131,7 @@ public class SignUpController {
 	}
 
 	public boolean checkPassword(){
-		if(!Validator.passwordRequirements(txtPassword.getText(), lblWarning)){
+		if(!Validator.passwordRequirements(txtPassword.getText(), txtPasswordConfirmation.getText(), lblWarning)){
 			return false;
 		}
 		return true;
@@ -174,13 +174,22 @@ public class SignUpController {
 		fc.setTitle("Selecionar imagem");
 		fc.setInitialDirectory(null);
 		fc.getExtensionFilters().addAll(
-			new ExtensionFilter("Imagens", "*.png", "*.jpg", "*.jpeg")
+				new ExtensionFilter("Imagens", "*.png", "*.jpg", "*.jpeg")
 		);
 		File file = fc.showOpenDialog(btnFileChooser.getScene().getWindow());
 		try {
-			FileInputStream fis = new FileInputStream(file);
-			user.setProfilePhoto(Util.convertToBlob(fis));
-			lblSelectedFile.setText(file.getName().toString());
+			long fileSize = file.length();
+			if (fileSize <= 2 * 1024 * 1024) {
+				FileInputStream fis = new FileInputStream(file);
+				user.setProfilePhoto(Util.convertToBlob(fis));
+				lblSelectedFile.setText(file.getName().toString());
+			} else {
+				Alert alert = new Alert(Alert.AlertType.WARNING);
+				alert.setTitle("Erro ao selecionar arquivo.");
+				alert.setHeaderText("Arquivo muito grande!");
+				alert.setContentText("O arquivo selecionado é maior do que 2MB. Selecione um arquivo menor.");
+				alert.showAndWait();
+			}
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
