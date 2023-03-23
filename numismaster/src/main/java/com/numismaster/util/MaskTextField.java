@@ -34,7 +34,7 @@ public class MaskTextField {
             if (text.equals("")) {
                 break;
             } else {
-                lastCharacter = text.charAt(text.length() - 1);
+                lastCharacter = text.charAt(text.length()); // - 1
             }
 
             try {
