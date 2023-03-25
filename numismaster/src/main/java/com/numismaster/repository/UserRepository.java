@@ -90,4 +90,49 @@ public class UserRepository {
     	query.setParameter("name", name);
     	return query.getResultList();
     }
+
+    public User findByUsername(String username) {
+    	EntityManager em = factory.createEntityManager();
+        User result;
+        try {
+            Query query = em.createQuery("SELECT u FROM tb_user u WHERE u.username = :username");
+            query.setParameter("username", username);
+            result = (User) query.getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        } finally {
+            em.close();
+        }
+        return result;
+    }
+
+    public User findByEmail(String email) {
+    	EntityManager em = factory.createEntityManager();
+        User result;
+        try {
+            Query query = em.createQuery("SELECT u FROM tb_user u WHERE u.email = :email");
+            query.setParameter("email", email);
+            result = (User) query.getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        } finally {
+            em.close();
+        }
+        return result;   
+    }
+
+    public User findByCpf(String cpf) {
+    	EntityManager em = factory.createEntityManager();
+        User result;
+        try {
+            Query query = em.createQuery("SELECT u FROM tb_user u WHERE u.cpf = :cpf");
+            query.setParameter("cpf", cpf);
+            result = (User) query.getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        } finally {
+            em.close();
+        }
+        return result;
+    }
 }

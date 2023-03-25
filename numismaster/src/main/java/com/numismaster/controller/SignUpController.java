@@ -84,13 +84,14 @@ public class SignUpController {
 	}
 
 	public boolean validateSignUpFields(){
+		UserRepository ur = new UserRepository();
 		if (txtFirstName.getText().isBlank() || txtLastName.getText().isBlank() ||
 		txtBirthDate.getValue().toString().isBlank() || txtCpf.getText().isBlank() ||
-		txtUsername.getText().isBlank() || txtEmail.getText().isBlank() ||
-		boxGender.getValue().isBlank() || txtPassword.getText().isBlank() ||
-		txtPasswordConfirmation.getText().isBlank()){
+		boxGender.getValue() == null || txtUsername.getText().isBlank() ||
+		txtEmail.getText().isBlank() || boxGender.getValue().isBlank() || 
+		txtPassword.getText().isBlank() || txtPasswordConfirmation.getText().isBlank()){
 			Alert alert = new Alert(AlertType.WARNING);
-			alert.setTitle("ERRO!");
+			alert.setTitle("OPS...");
 			alert.setHeaderText("Verifique os campos.");
 			alert.setContentText("Você precisa preencher todos os campos!");
 			alert.showAndWait();
@@ -98,7 +99,7 @@ public class SignUpController {
 		}
 		if (!txtBirthDate.getValue().isBefore(LocalDate.now().minusYears(18).plusDays(1))){
 			Alert alert = new Alert(AlertType.WARNING);
-			alert.setTitle("ERRO!");
+			alert.setTitle("OPS...");
 			alert.setHeaderText("Impossivel cadastrar usuário.");
 			alert.setContentText("Você precisa ser maior de 18 anos para se cadastrar!");
 			alert.showAndWait();
@@ -106,7 +107,7 @@ public class SignUpController {
 		}
 		if(!Validator.isCpf(txtCpf.getText().replace(".", "").replace("-", ""))){
 			Alert alert = new Alert(AlertType.WARNING);
-			alert.setTitle("ERRO!");
+			alert.setTitle("OPS...");
 			alert.setHeaderText("CPF Inválido.");
 			alert.setContentText("Você precisa informar um CPF válido!");
 			alert.showAndWait();
@@ -114,7 +115,7 @@ public class SignUpController {
 		}
 		if(!checkPassword()){
 			Alert alert = new Alert(AlertType.WARNING);
-			alert.setTitle("ERRO!");
+			alert.setTitle("OPS...");
 			alert.setHeaderText("Senha inválida.");
 			alert.setContentText("Verifique sua senha e tente novamente!");
 			alert.showAndWait();
@@ -122,9 +123,33 @@ public class SignUpController {
 		}
 		if(!Validator.isEmail(txtEmail.getText())){
 			Alert alert = new Alert(AlertType.WARNING);
-			alert.setTitle("ERRO!");
+			alert.setTitle("OPS...");
 			alert.setHeaderText("Email Inválido.");
 			alert.setContentText("Você precisa informar um email válido!");
+			alert.showAndWait();
+			return false;
+		}
+		if(ur.findByCpf(txtCpf.getText().replace(".", "").replace("-", "")) != null){
+			Alert alert = new Alert(AlertType.WARNING);
+			alert.setTitle("OPS...");
+			alert.setHeaderText("CPF duplicado.");
+			alert.setContentText("O CPF informado já existe, escolha outro e tente novamente!");
+			alert.showAndWait();
+			return false;
+		}
+		if(ur.findByUsername(txtUsername.getText()) != null){
+			Alert alert = new Alert(AlertType.WARNING);
+			alert.setTitle("OPS...");
+			alert.setHeaderText("Nome de usuário duplicado.");
+			alert.setContentText("O nome de usuário informado já existe, escolha outro e tente novamente!");
+			alert.showAndWait();
+			return false;
+		}
+		if(ur.findByEmail(txtEmail.getText()) != null){
+			Alert alert = new Alert(AlertType.WARNING);
+			alert.setTitle("OPS...");
+			alert.setHeaderText("Email duplicado.");
+			alert.setContentText("O email informado já existe, escolha outro e tente novamente!");
 			alert.showAndWait();
 			return false;
 		}
@@ -185,8 +210,7 @@ public class SignUpController {
 		);
 		File file = fc.showOpenDialog(btnFileChooser.getScene().getWindow());
 		try {
-			long fileSize = file.length();
-			if (fileSize <= 2 * 1024 * 1024) {
+			if (file.length() <= 2 * 1024 * 1024) {
 				FileInputStream fis = new FileInputStream(file);
 				user.setProfilePhoto(Util.convertToBlob(fis));
 				lblSelectedFile.setText(file.getName().toString());
