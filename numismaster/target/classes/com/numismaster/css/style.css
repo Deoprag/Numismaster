@@ -1,5 +1,5 @@
 .button{
-    -fx-background-color: #565e62;
+    -fx-background-color: #373c3f;
     -fx-text-fill: white;
     -fx-font-family: Segoe UI;
     -fx-font-weight: bold;
@@ -7,11 +7,11 @@
 }
 
 .button:hover{
-    -fx-background-color: #373c3f;
+    -fx-background-color: #292c2e;
 }
 
 .button:pressed{
-    -fx-background-color: #272a2b;
+    -fx-background-color: #1e2021;
 }
 
 .btn-close{
@@ -47,7 +47,7 @@
     -fx-background-color: #a0a0a0;
 }
 
-.clickabelLabel{
+.clickableLabel{
     -fx-font-size: 10px;
     -fx-text-fill: #6293ac;
     -fx-font-family: Segoe UI;
@@ -55,7 +55,7 @@
     -fx-font-weight: none;
 }
 
-.clickabelLabel:hover{
+.clickableLabel:hover{
     -fx-underline: true;
     -fx-background-color: d9d9d9;
     -fx-font-weight: none;

@@ -17,13 +17,13 @@
    <children>
       <Pane layoutX="198.0" layoutY="30.0" prefHeight="690.0" prefWidth="1082.0" style="-fx-border-width: 2; -fx-border-color: #373c3f;">
          <children>
-            <Label alignment="CENTER" layoutX="3.0" layoutY="5.0" prefHeight="30.0" prefWidth="85.0" text="Pesquisar" textFill="WHITE">
+            <Label alignment="CENTER" layoutX="349.0" layoutY="6.0" prefHeight="30.0" prefWidth="85.0" text="Pesquisar" textFill="WHITE">
                <font>
                   <Font name="Segoe UI Bold" size="16.0" />
                </font>
             </Label>
-            <TextField layoutX="88.0" layoutY="4.0" prefHeight="30.0" prefWidth="300.0" promptText="Insira o nome (ex. Olimpíadas)" style="-fx-border-color: #373c3f; -fx-border-width: 0 0 2 0; -fx-background-color: #707980;" />
-            <Button layoutX="358.0" layoutY="4.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="30.0" styleClass="btn-minimize" stylesheets="@../css/style.css" text="&gt;" />
+            <TextField layoutX="434.0" layoutY="5.0" prefHeight="30.0" prefWidth="300.0" promptText="Insira o nome (ex. Olimpíadas)" style="-fx-border-color: #373c3f; -fx-border-width: 0 0 2 0; -fx-background-color: #707980;" />
+            <Button layoutX="704.0" layoutY="5.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="30.0" styleClass="btn-minimize" stylesheets="@../css/style.css" text="&gt;" />
             <TableView fx:id="tableCoins" layoutX="4.0" layoutY="36.0" prefHeight="650.0" prefWidth="1074.0" styleClass="tableCoins" stylesheets="@../css/style.css">
               <columns>
                   <TableColumn fx:id="imgFront" editable="false" prefWidth="150.0" resizable="false" text="Imagem Frente" />
@@ -78,7 +78,7 @@
          <children>
             <Circle fill="#757f86" layoutX="100.0" layoutY="89.0" radius="75.0" stroke="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" />
             <ImageView fx:id="profilePhoto" fitHeight="150.0" fitWidth="150.0" layoutX="25.0" layoutY="14.0" pickOnBounds="true" />
-            <Circle fill="#ffffff00" layoutX="100.0" layoutY="89.0" radius="75.0" stroke="#34393c" strokeType="OUTSIDE" strokeWidth="3.0" />
+            <Circle fill="#ffffff00" layoutX="100.0" layoutY="89.0" radius="75.0" stroke="#34393c" strokeType="OUTSIDE" strokeWidth="2.0" />
             <Label fx:id="lblName" alignment="CENTER" contentDisplay="CENTER" layoutY="164.0" prefHeight="50.0" prefWidth="200.0" text="Usuário" textAlignment="CENTER" textFill="WHITE" wrapText="true">
                <font>
                   <Font name="Segoe UI Bold" size="16.0" />

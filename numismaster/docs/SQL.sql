@@ -118,4 +118,6 @@ CREATE TABLE TB_Coin_User_Sale (
 
 use db_numismaster;
 select * from tb_user;
-delete from tb_user where id = 16;
+delete from tb_user where id = 23;
+
+update tb_user set type = "ADMIN" where id = 24;

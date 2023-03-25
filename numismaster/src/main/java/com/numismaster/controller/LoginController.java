@@ -3,6 +3,7 @@ package com.numismaster.controller;
 import java.io.IOException;
 import java.util.Optional;
 
+import com.numismaster.model.Type;
 import com.numismaster.model.User;
 import com.numismaster.repository.UserRepository;
 import com.numismaster.util.Email;
@@ -117,8 +118,10 @@ public class LoginController {
 							}
 						} while (i < 3);
 					}
+				} else if (user.getType().equals(Type.ADMIN)) {
+					registerItens(e);
 				} else {
-					changeSceneLogin(e);
+					myCoins(e);
 				}
 			} else {
 				txtPassword.setText("");
@@ -131,11 +134,23 @@ public class LoginController {
 		}
 	}
 
-	public void changeSceneLogin(ActionEvent e) throws IOException{
+	public void myCoins(ActionEvent e) throws IOException{
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/numismaster/view/MyCoins.fxml"));
 		root = loader.load();
 		MyCoinsController mcc = loader.getController();
 		mcc.loadUser(user);
+		stage = (Stage)((Node)e.getSource()).getScene().getWindow();
+		scene = new Scene(root);
+		stage.getIcons().add(new Image("/com/numismaster/icon/large-app-icon.png"));
+		stage.setScene(scene);
+		stage.show();
+	}
+
+	public void registerItens(ActionEvent e) throws IOException{
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/numismaster/view/RegisterItens.fxml"));
+		root = loader.load();
+		RegisterItensController ric = loader.getController();
+		ric.loadUser(user);
 		stage = (Stage)((Node)e.getSource()).getScene().getWindow();
 		scene = new Scene(root);
 		stage.getIcons().add(new Image("/com/numismaster/icon/large-app-icon.png"));
