@@ -11,6 +11,7 @@ import java.util.Optional;
 
 import javax.sql.rowset.serial.SerialException;
 
+import com.numismaster.model.Gender;
 import com.numismaster.model.Type;
 import com.numismaster.model.User;
 import com.numismaster.repository.UserRepository;
@@ -34,7 +35,6 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
@@ -64,7 +64,7 @@ public class SignUpController {
 	@FXML private TextField txtEmail;
 	@FXML private TextField txtPassword;
 	@FXML private TextField txtPasswordConfirmation;
-	@FXML private ChoiceBox<String> boxGender;
+	@FXML private ChoiceBox<Gender> boxGender;
 	@FXML private ImageView imageView;
 	@FXML private Label lblWarning;
 	@FXML private Label lblSelectedFile;
@@ -73,7 +73,9 @@ public class SignUpController {
 
 	public void initialize(){
 		datePickerInitializer();
-		boxGender.getItems().addAll("Masculino", "Feminino");
+		boxGender.getItems().add(Gender.FEMININO);
+		boxGender.getItems().add(Gender.MASCULINO);
+		boxGender.getItems().add(Gender.OUTRO);
 		try{
 			File file = new File("numismaster/src/main/java/com/numismaster/icon/user.png");
 			FileInputStream fis = new FileInputStream(file);
@@ -88,7 +90,7 @@ public class SignUpController {
 		if (txtFirstName.getText().isBlank() || txtLastName.getText().isBlank() ||
 		txtBirthDate.getValue().toString().isBlank() || txtCpf.getText().isBlank() ||
 		boxGender.getValue() == null || txtUsername.getText().isBlank() ||
-		txtEmail.getText().isBlank() || boxGender.getValue().isBlank() || 
+		txtEmail.getText().isBlank() || boxGender.getValue().toString().isBlank() ||
 		txtPassword.getText().isBlank() || txtPasswordConfirmation.getText().isBlank()){
 			Alert alert = new Alert(AlertType.WARNING);
 			alert.setTitle("OPS...");
@@ -235,7 +237,7 @@ public class SignUpController {
 			user.setBirthDate(Util.localDateToDate(txtBirthDate.getValue()));
 			user.setCpf(txtCpf.getText().replace(".", "").replace("-", ""));
 			user.setEmail(txtEmail.getText());
-			user.setGender(boxGender.getValue() == "Feminino" ? 'F' : 'M');
+			user.setGender(boxGender.getValue() == Gender.FEMININO ? 'F' : boxGender.getValue() == Gender.MASCULINO ? 'M' : 'O');
 			user.setUsername(txtUsername.getText());
 			user.setPassword(Util.hashPassword(txtPassword.getText()));
 			user.setBlocked(false);

@@ -1,6 +1,5 @@
 package com.numismaster.controller;
 
-import com.numismaster.model.Type;
 import com.numismaster.model.User;
 import com.numismaster.util.Util;
 

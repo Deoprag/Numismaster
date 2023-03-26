@@ -84,6 +84,7 @@ public class UserRepository {
         return user.getPassword().equals(Util.hashPassword(password)) ? user : null;
     }
     
+    @SuppressWarnings("unchecked")
     public List<User> findByName(String name) {
     	EntityManager em = factory.createEntityManager();
     	Query query = em.createQuery("SELECT u FROM tb_user u WHERE u.firstName = :name OR u.lastName = :name");
