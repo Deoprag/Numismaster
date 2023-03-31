@@ -4,9 +4,15 @@ import java.util.List;
 
 import com.numismaster.javafx.NumismasterCheckComboBox;
 import com.numismaster.model.Country;
+import com.numismaster.model.Edge;
+import com.numismaster.model.Material;
 import com.numismaster.model.Rarity;
+import com.numismaster.model.Shape;
 import com.numismaster.model.User;
 import com.numismaster.repository.CountryRepository;
+import com.numismaster.repository.EdgeRepository;
+import com.numismaster.repository.MaterialRepository;
+import com.numismaster.repository.ShapeRepository;
 import com.numismaster.util.Util;
 
 import javafx.collections.FXCollections;
@@ -20,6 +26,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -62,7 +69,7 @@ public class RegisterItensController {
 	@FXML
 	private NumismasterCheckComboBox<String> boxMaterial;
 	@FXML
-	private NumismasterCheckComboBox<String> boxEdge;
+	private TableView tbCoin;
 	@FXML
 	private Pane paneCoin;
 
@@ -75,50 +82,49 @@ public class RegisterItensController {
 
 	public void initializeBoxes() {
 
+		ShapeRepository sr = new ShapeRepository();
+		MaterialRepository mr = new MaterialRepository();
+
+		List<Shape> shapeList = sr.findAll();
+		List<Material> materialList = mr.findAll();
+
+
+		ObservableList<String> shapes = FXCollections.observableArrayList();
+		ObservableList<String> materials = FXCollections.observableArrayList();
+
+		for (Shape shape : shapeList) {
+			shapes.add(shape.getName());
+		}
+		for (Material material : materialList) {
+			materials.add(material.getName());
+		}
+		
 		boxRarity.getItems().addAll(Rarity.values());
 		boxCountry.setItems(loadCountries());
+		
 
-		// boxShape = new NumismasterCheckComboBox<String>(strings, 150, 30, 225, 325);
-		// paneCoin.getChildren().add(boxShape);
+		boxShape = new NumismasterCheckComboBox<String>(shapes, 150, 30, 225, 325);
+		paneCoin.getChildren().add(boxShape);
 
-		// boxMaterial = new NumismasterCheckComboBox<String>(strings, 150, 30, 25, 410);
-		// paneCoin.getChildren().add(boxMaterial);
+		boxMaterial = new NumismasterCheckComboBox<String>(materials, 150, 30, 25, 400);
+		paneCoin.getChildren().add(boxMaterial);
 
-		// boxEdge = new NumismasterCheckComboBox<String>(strings, 150, 30, 225, 410);
-		// paneCoin.getChildren().add(boxEdge);
-
-		// boxCountry.getCheckModel().getCheckedItems().addListener(new ListChangeListener<String>() {
-		// 	public void onChanged(ListChangeListener.Change<? extends String> c) {
-		// 		while (c.next()) {
-		// 			// do something with changes here
-		// 		}
-
-		// 	}
-		// });
-		// boxShape.getCheckModel().getCheckedItems().addListener(new ListChangeListener<String>() {
-		// 	public void onChanged(ListChangeListener.Change<? extends String> c) {
-		// 		while (c.next()) {
-		// 			// do something with changes here
-		// 		}
-		// 		System.out.println(boxShape.getCheckModel().getCheckedIndices());
-		// 	}
-		// });
-		// boxMaterial.getCheckModel().getCheckedItems().addListener(new ListChangeListener<String>() {
-		// 	public void onChanged(ListChangeListener.Change<? extends String> c) {
-		// 		while (c.next()) {
-		// 			// do something with changes here
-		// 		}
-		// 		System.out.println(boxMaterial.getCheckModel().getCheckedIndices());
-		// 	}
-		// });
-		// boxCountry.getCheckModel().getCheckedItems().addListener(new ListChangeListener<String>() {
-		// 	public void onChanged(ListChangeListener.Change<? extends String> c) {
-		// 		while (c.next()) {
-		// 			// do something with changes here
-		// 		}
-		// 		System.out.println(boxCountry.getCheckModel().getCheckedIndices());
-		// 	}
-		// });
+		boxShape.getCheckModel().getCheckedItems().addListener(new ListChangeListener<String>() {
+			public void onChanged(ListChangeListener.Change<? extends String> c) {
+				while (c.next()) {
+					// do something with changes here
+				}
+				System.out.println(boxShape.getCheckModel().getCheckedIndices());
+			}
+		});
+		boxMaterial.getCheckModel().getCheckedItems().addListener(new ListChangeListener<String>() {
+			public void onChanged(ListChangeListener.Change<? extends String> c) {
+				while (c.next()) {
+					// do something with changes here
+				}
+				System.out.println(boxMaterial.getCheckModel().getCheckedIndices());
+			}
+		});
 	}
 
 	public ObservableList<String> loadCountries(){

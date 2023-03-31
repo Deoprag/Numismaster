@@ -33,11 +33,12 @@ public class CoinRepository {
     }
 
     public Coin findById(int id) {
-        return entityManager.find(Coin.class, id);
+        return entityManager.createQuery(
+            "SELECT c FROM TB_Coin c ", Coin.class).setParameter("id", id).getSingleResult();
     }
-
+    
     public List<Coin> findAll() {
-        return entityManager.createQuery("SELECT c FROM tb_coin c", Coin.class).getResultList();
+        return entityManager.createQuery("SELECT c FROM TB_Coin c ", Coin.class).getResultList();
     }
 
     public boolean update(Coin coin) {

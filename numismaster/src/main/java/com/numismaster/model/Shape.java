@@ -26,7 +26,4 @@ public class Shape {
 	
 	@Column(name = "name")
 	private String name;
-
-	@OneToMany(mappedBy = "shape")
-	private List<Coin> coin;
 }

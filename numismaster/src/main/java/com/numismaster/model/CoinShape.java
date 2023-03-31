@@ -15,8 +15,8 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity(name = "tb_coin_edge")
-public class CoinEdge {
+@Entity(name = "tb_coin_shape")
+public class CoinShape {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
@@ -26,6 +26,6 @@ public class CoinEdge {
 	private Coin coin;
 
 	@ManyToOne
-	@JoinColumn(name = "edge_id")
-	private Edge edge;
+	@JoinColumn(name = "shape_id")
+	private Shape shape;
 }

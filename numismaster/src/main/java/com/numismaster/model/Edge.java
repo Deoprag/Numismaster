@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,8 +26,4 @@ public class Edge {
 
 	@Column(name = "name")
 	private String name;
-
-	@OneToMany(mappedBy = "edge")
-	private List<CoinEdge> coinEdges;
-	
 }

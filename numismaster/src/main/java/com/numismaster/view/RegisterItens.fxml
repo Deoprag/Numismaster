@@ -109,18 +109,20 @@
                                     <Font name="Segoe UI Bold" size="14.0" />
                                  </font>
                               </Label>
+                              <ComboBox fx:id="boxCountry1" layoutX="225.0" layoutY="400.0" prefHeight="30.0" prefWidth="150.0" style="-fx-background-color: #d9d9d9; -fx-border-color: #373c3f; -fx-border-width: 0 0 2 0;" />
                            </children>
                            <opaqueInsets>
                               <Insets />
                            </opaqueInsets>
                         </Pane>
-                        <TableView layoutX="420.0" layoutY="14.0" prefHeight="630.0" prefWidth="650.0" style="-fx-background-color: #d9d9d9e6; -fx-border-color: #373c3f; -fx-border-width: 2px;">
+                        <TableView fx:id="tbCoin" layoutX="420.0" layoutY="14.0" prefHeight="630.0" prefWidth="650.0" style="-fx-background-color: #d9d9d9e6; -fx-border-color: #373c3f; -fx-border-width: 2px;">
                            <columns>
                               <TableColumn prefWidth="75.0" text="Nome" />
                               <TableColumn prefWidth="75.0" text="Valor Nominal" />
                               <TableColumn prefWidth="75.0" text="Peso" />
                               <TableColumn prefWidth="75.0" text="Diâmetro" />
                               <TableColumn prefWidth="75.0" text="Grossura" />
+                              <TableColumn prefWidth="75.0" text="Raridade" />
                               <TableColumn prefWidth="75.0" text="País" />
                               <TableColumn prefWidth="75.0" text="Formato" />
                               <TableColumn prefWidth="75.0" text="Material" />

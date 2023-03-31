@@ -7,6 +7,27 @@ VALUES
 ("Esfera"), 
 ("Triangular");
 
+INSERT INTO TB_Material (name)
+VALUES
+("Ferro"),
+("Chumbo"),
+("Estanho"),
+("Cobre"),
+("Ouro"),
+("Prata"),
+("Madeira"),
+("Platina"),
+("Bronze"),
+("Aço");
+
+INSERT INTO TB_Edge (name)
+VALUES
+("Lisa"),
+("Serrilhada"),
+("Plana"),
+("Inscrita"),
+("Dentada");
+
 INSERT INTO TB_Country (name, code) VALUES
 ('Afeganistão', 'AF'),
 ('Ilhas Aland', 'AX'),

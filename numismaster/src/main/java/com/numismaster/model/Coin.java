@@ -1,15 +1,21 @@
 package com.numismaster.model;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
@@ -23,47 +29,52 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity(name = "tb_coin")
+@Entity(name = "TB_Coin")
 public class Coin {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	
-	@Column(name = "name")
+	@Column(name = "name", unique = true, nullable = false)
 	private String name;
-	
-	@Column(name = "denomination")
-	private float denomination;
-	
-	@Column(name = "weight")
-	private float weight;
-	
-	@Column(name = "diameter")
-	private float diameter;
-	
-	@Column(name = "thickness")
-	private float thickness;
-		
-	@Column(name = "rarity")
-	@Enumerated(EnumType.STRING)
+
+	@Column(name = "denomination", nullable = false)
+	private BigDecimal denomination;
+
+	@Column(name = "weight", nullable = false)
+	private BigDecimal weight;
+
+	@Column(name = "diameter", nullable = false)
+	private BigDecimal diameter;
+
+	@Column(name = "thickness", nullable = false)
+	private BigDecimal thickness;
+
+    @Enumerated(EnumType.STRING)
+	@Column(name = "rarity", nullable = false)
 	private Rarity rarity;
 
-	@ManyToOne
-	@JoinColumn(name = "country_id")
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "country_id", nullable = false)
 	private Country country;
-	
-	@ManyToOne
-	@JoinColumn(name = "shape_id")
-	private Shape shape;
-    
-	@OneToMany(mappedBy = "coin")
-	private List<CoinUser> coinUser;
-    
-	@OneToMany(mappedBy = "coin")
-	private List<CoinEdge> coinEdges;
 
-	@OneToMany(mappedBy = "coin")
-	private List<CoinMaterial> coinMaterial;
-    
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "edge_id", nullable = false)
+	private Edge edge;
+
+	@OneToMany(mappedBy = "coin", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<CoinUser> coinUsers = new ArrayList<>();
+
+	@ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+	@JoinTable(name = "TB_Coin_Material",
+			joinColumns = @JoinColumn(name = "coin_id"),
+			inverseJoinColumns = @JoinColumn(name = "material_id"))
+	private List<Material> materials = new ArrayList<>();
+
+	@ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+	@JoinTable(name = "TB_Coin_Shape",
+			joinColumns = @JoinColumn(name = "coin_id"),
+			inverseJoinColumns = @JoinColumn(name = "shape_id"))
+	private List<Shape> shapes = new ArrayList<>();
 }
