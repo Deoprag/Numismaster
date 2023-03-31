@@ -1,18 +1,26 @@
 package com.numismaster.controller;
 
+import java.util.List;
+
+import com.numismaster.javafx.NumismasterCheckComboBox;
+import com.numismaster.model.Country;
+import com.numismaster.model.Rarity;
 import com.numismaster.model.User;
+import com.numismaster.repository.CountryRepository;
 import com.numismaster.util.Util;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.SelectionMode;
-import javafx.scene.control.SelectionModel;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -25,19 +33,108 @@ public class RegisterItensController {
 
 	private User user;
 
-    @FXML private Button btnClose;
-	@FXML private Button btnMinimize;
-	@FXML private Pane paneBar;
-	@FXML private ImageView profilePhoto;
-	@FXML private Label lblName;
+	@FXML
+	private Button btnClose;
+	@FXML
+	private Button btnMinimize;
+	@FXML
+	private Pane paneBar;
+	@FXML
+	private ImageView profilePhoto;
+	@FXML
+	private Label lblName;
+	@FXML
+	private TextField txtName;
+	@FXML
+	private TextField txtDenomination;
+	@FXML
+	private TextField txtWeight;
+	@FXML
+	private TextField txtDiameter;
+	@FXML
+	private TextField txtThickness;
+	@FXML
+	private ComboBox<Rarity> boxRarity;
+	@FXML
+	private ComboBox<String> boxCountry;
+	@FXML
+	private NumismasterCheckComboBox<String> boxShape;
+	@FXML
+	private NumismasterCheckComboBox<String> boxMaterial;
+	@FXML
+	private NumismasterCheckComboBox<String> boxEdge;
+	@FXML
+	private Pane paneCoin;
 
-    private double x, y = 0;
+	private double x, y = 0;
 
-	public void initialize(){
+	public void initialize() {
 		fixImage(profilePhoto, true);
+		initializeBoxes();
 	}
 
-	public void loadUser(User newUser){
+	public void initializeBoxes() {
+
+		boxRarity.getItems().addAll(Rarity.values());
+		boxCountry.setItems(loadCountries());
+
+		// boxShape = new NumismasterCheckComboBox<String>(strings, 150, 30, 225, 325);
+		// paneCoin.getChildren().add(boxShape);
+
+		// boxMaterial = new NumismasterCheckComboBox<String>(strings, 150, 30, 25, 410);
+		// paneCoin.getChildren().add(boxMaterial);
+
+		// boxEdge = new NumismasterCheckComboBox<String>(strings, 150, 30, 225, 410);
+		// paneCoin.getChildren().add(boxEdge);
+
+		// boxCountry.getCheckModel().getCheckedItems().addListener(new ListChangeListener<String>() {
+		// 	public void onChanged(ListChangeListener.Change<? extends String> c) {
+		// 		while (c.next()) {
+		// 			// do something with changes here
+		// 		}
+
+		// 	}
+		// });
+		// boxShape.getCheckModel().getCheckedItems().addListener(new ListChangeListener<String>() {
+		// 	public void onChanged(ListChangeListener.Change<? extends String> c) {
+		// 		while (c.next()) {
+		// 			// do something with changes here
+		// 		}
+		// 		System.out.println(boxShape.getCheckModel().getCheckedIndices());
+		// 	}
+		// });
+		// boxMaterial.getCheckModel().getCheckedItems().addListener(new ListChangeListener<String>() {
+		// 	public void onChanged(ListChangeListener.Change<? extends String> c) {
+		// 		while (c.next()) {
+		// 			// do something with changes here
+		// 		}
+		// 		System.out.println(boxMaterial.getCheckModel().getCheckedIndices());
+		// 	}
+		// });
+		// boxCountry.getCheckModel().getCheckedItems().addListener(new ListChangeListener<String>() {
+		// 	public void onChanged(ListChangeListener.Change<? extends String> c) {
+		// 		while (c.next()) {
+		// 			// do something with changes here
+		// 		}
+		// 		System.out.println(boxCountry.getCheckModel().getCheckedIndices());
+		// 	}
+		// });
+	}
+
+	public ObservableList<String> loadCountries(){
+		CountryRepository cr = new CountryRepository();
+		List<Country> list = cr.findAll();
+		final ObservableList<String> obsList = FXCollections.observableArrayList();
+		int i = 0;
+		for (Country c : list) {
+			obsList.add(list.get(i).getName());
+			i++;
+		}
+
+		return obsList;
+	}
+
+	public void loadUser(User newUser) {
 		user = newUser;
 		lblName.setText(user.getFirstName() + " " + user.getLastName());
 		lblName.setTextFill(Color.rgb(255, 85, 85));
@@ -48,11 +145,11 @@ public class RegisterItensController {
 		}
 	}
 
-	public void fixImage(ImageView image, boolean circle){
+	public void fixImage(ImageView image, boolean circle) {
 		image.setFitWidth(150);
 		image.setFitHeight(150);
 
-		if (circle){
+		if (circle) {
 			Circle clip = new Circle();
 			clip.setCenterX(75);
 			clip.setCenterY(75);
@@ -64,31 +161,31 @@ public class RegisterItensController {
 		}
 	}
 
-    public void barPressed(MouseEvent e) {
+	public void barPressed(MouseEvent e) {
 		x = e.getSceneX();
 		y = e.getSceneY();
 	}
 
-    public void barDragged(MouseEvent e) {
-		Stage stage = (Stage)((Pane)e.getSource()).getScene().getWindow();
+	public void barDragged(MouseEvent e) {
+		Stage stage = (Stage) ((Pane) e.getSource()).getScene().getWindow();
 		stage.setY(e.getScreenY() - y);
 		stage.setX(e.getScreenX() - x);
 	}
-	
+
 	public void close(ActionEvent e) {
 		Alert alert = new Alert(AlertType.CONFIRMATION);
 		alert.setTitle("Sair");
 		alert.setHeaderText("Você está saindo!");
 		alert.setContentText("Tem certeza que deseja sair?");
-		
-		if(alert.showAndWait().get() == ButtonType.OK) {
-			Stage stage = (Stage)((Button)e.getSource()).getScene().getWindow();
+
+		if (alert.showAndWait().get() == ButtonType.OK) {
+			Stage stage = (Stage) ((Button) e.getSource()).getScene().getWindow();
 			stage.close();
 		}
 	}
-	
+
 	public void minimize(ActionEvent e) {
-		Stage stage = (Stage)((Button)e.getSource()).getScene().getWindow();
+		Stage stage = (Stage) ((Button) e.getSource()).getScene().getWindow();
 		stage.setIconified(true);
 	}
 }

@@ -49,34 +49,52 @@ public class SignUpController {
 	private Scene scene;
 	private Parent root;
 	private User user = new User();
-	
-	@FXML private Button btnSignUp;
-	@FXML private Button btnClose;
-	@FXML private Button btnMinimize;
-	@FXML private Button btnReturn;
-	@FXML private Button btnFileChooser;
-	@FXML private Pane paneBar;
-	@FXML private TextField txtFirstName;
-	@FXML private TextField txtLastName;
-	@FXML private DatePicker txtBirthDate;
-	@FXML private TextField txtCpf;
-	@FXML private TextField txtUsername;
-	@FXML private TextField txtEmail;
-	@FXML private TextField txtPassword;
-	@FXML private TextField txtPasswordConfirmation;
-	@FXML private ChoiceBox<Gender> boxGender;
-	@FXML private ImageView imageView;
-	@FXML private Label lblWarning;
-	@FXML private Label lblSelectedFile;
-    
-    private double x, y = 0;
 
-	public void initialize(){
+	@FXML
+	private Button btnSignUp;
+	@FXML
+	private Button btnClose;
+	@FXML
+	private Button btnMinimize;
+	@FXML
+	private Button btnReturn;
+	@FXML
+	private Button btnFileChooser;
+	@FXML
+	private Pane paneBar;
+	@FXML
+	private TextField txtFirstName;
+	@FXML
+	private TextField txtLastName;
+	@FXML
+	private DatePicker txtBirthDate;
+	@FXML
+	private TextField txtCpf;
+	@FXML
+	private TextField txtUsername;
+	@FXML
+	private TextField txtEmail;
+	@FXML
+	private TextField txtPassword;
+	@FXML
+	private TextField txtPasswordConfirmation;
+	@FXML
+	private ChoiceBox<Gender> boxGender;
+	@FXML
+	private ImageView imageView;
+	@FXML
+	private Label lblWarning;
+	@FXML
+	private Label lblSelectedFile;
+
+	private double x, y = 0;
+
+	public void initialize() {
 		datePickerInitializer();
 		boxGender.getItems().add(Gender.FEMININO);
 		boxGender.getItems().add(Gender.MASCULINO);
 		boxGender.getItems().add(Gender.OUTRO);
-		try{
+		try {
 			File file = new File("numismaster/src/main/java/com/numismaster/icon/user.png");
 			FileInputStream fis = new FileInputStream(file);
 			user.setProfilePhoto(Util.convertToBlob(fis));
@@ -85,13 +103,13 @@ public class SignUpController {
 		}
 	}
 
-	public boolean validateSignUpFields(){
+	public boolean validateSignUpFields() {
 		UserRepository ur = new UserRepository();
 		if (txtFirstName.getText().isBlank() || txtLastName.getText().isBlank() ||
-		txtBirthDate.getValue().toString().isBlank() || txtCpf.getText().isBlank() ||
-		boxGender.getValue() == null || txtUsername.getText().isBlank() ||
-		txtEmail.getText().isBlank() || boxGender.getValue().toString().isBlank() ||
-		txtPassword.getText().isBlank() || txtPasswordConfirmation.getText().isBlank()){
+				txtBirthDate.getValue().toString().isBlank() || txtCpf.getText().isBlank() ||
+				boxGender.getValue() == null || txtUsername.getText().isBlank() ||
+				txtEmail.getText().isBlank() || boxGender.getValue().toString().isBlank() ||
+				txtPassword.getText().isBlank() || txtPasswordConfirmation.getText().isBlank()) {
 			Alert alert = new Alert(AlertType.WARNING);
 			alert.setTitle("OPS...");
 			alert.setHeaderText("Verifique os campos.");
@@ -99,7 +117,7 @@ public class SignUpController {
 			alert.showAndWait();
 			return false;
 		}
-		if (!txtBirthDate.getValue().isBefore(LocalDate.now().minusYears(18).plusDays(1))){
+		if (!txtBirthDate.getValue().isBefore(LocalDate.now().minusYears(18).plusDays(1))) {
 			Alert alert = new Alert(AlertType.WARNING);
 			alert.setTitle("OPS...");
 			alert.setHeaderText("Impossivel cadastrar usuário.");
@@ -107,7 +125,7 @@ public class SignUpController {
 			alert.showAndWait();
 			return false;
 		}
-		if(!Validator.isCpf(txtCpf.getText().replace(".", "").replace("-", ""))){
+		if (!Validator.isCpf(txtCpf.getText().replace(".", "").replace("-", ""))) {
 			Alert alert = new Alert(AlertType.WARNING);
 			alert.setTitle("OPS...");
 			alert.setHeaderText("CPF Inválido.");
@@ -115,7 +133,7 @@ public class SignUpController {
 			alert.showAndWait();
 			return false;
 		}
-		if(!checkPassword()){
+		if (!checkPassword()) {
 			Alert alert = new Alert(AlertType.WARNING);
 			alert.setTitle("OPS...");
 			alert.setHeaderText("Senha inválida.");
@@ -123,7 +141,7 @@ public class SignUpController {
 			alert.showAndWait();
 			return false;
 		}
-		if(!Validator.isEmail(txtEmail.getText())){
+		if (!Validator.isEmail(txtEmail.getText())) {
 			Alert alert = new Alert(AlertType.WARNING);
 			alert.setTitle("OPS...");
 			alert.setHeaderText("Email Inválido.");
@@ -131,7 +149,7 @@ public class SignUpController {
 			alert.showAndWait();
 			return false;
 		}
-		if(ur.findByCpf(txtCpf.getText().replace(".", "").replace("-", "")) != null){
+		if (ur.findByCpf(txtCpf.getText().replace(".", "").replace("-", "")) != null) {
 			Alert alert = new Alert(AlertType.WARNING);
 			alert.setTitle("OPS...");
 			alert.setHeaderText("CPF duplicado.");
@@ -139,7 +157,7 @@ public class SignUpController {
 			alert.showAndWait();
 			return false;
 		}
-		if(ur.findByUsername(txtUsername.getText()) != null){
+		if (ur.findByUsername(txtUsername.getText()) != null) {
 			Alert alert = new Alert(AlertType.WARNING);
 			alert.setTitle("OPS...");
 			alert.setHeaderText("Nome de usuário duplicado.");
@@ -147,7 +165,7 @@ public class SignUpController {
 			alert.showAndWait();
 			return false;
 		}
-		if(ur.findByEmail(txtEmail.getText()) != null){
+		if (ur.findByEmail(txtEmail.getText()) != null) {
 			Alert alert = new Alert(AlertType.WARNING);
 			alert.setTitle("OPS...");
 			alert.setHeaderText("Email duplicado.");
@@ -159,57 +177,56 @@ public class SignUpController {
 		return true;
 	}
 
-    public void barPressed(MouseEvent e) {
+	public void barPressed(MouseEvent e) {
 		x = e.getSceneX();
 		y = e.getSceneY();
 	}
 
-	public boolean checkPassword(){
-		if(!Validator.passwordRequirements(txtPassword.getText(), txtPasswordConfirmation.getText(), lblWarning)){
+	public boolean checkPassword() {
+		if (!Validator.passwordRequirements(txtPassword.getText(), txtPasswordConfirmation.getText(), lblWarning)) {
 			return false;
 		}
 		return true;
 	}
-	
+
 	public void barDragged(MouseEvent e) {
-		Stage stage = (Stage)((Pane)e.getSource()).getScene().getWindow();
+		Stage stage = (Stage) ((Pane) e.getSource()).getScene().getWindow();
 		stage.setY(e.getScreenY() - y);
 		stage.setX(e.getScreenX() - x);
 	}
-	
+
 	public void close(ActionEvent e) {
 		Alert alert = new Alert(AlertType.CONFIRMATION);
 		alert.setTitle("Sair");
 		alert.setHeaderText("Você está saindo!");
 		alert.setContentText("Tem certeza que deseja sair?");
-		
-		if(alert.showAndWait().get() == ButtonType.OK) {
-			Stage stage = (Stage)((Button)e.getSource()).getScene().getWindow();
+
+		if (alert.showAndWait().get() == ButtonType.OK) {
+			Stage stage = (Stage) ((Button) e.getSource()).getScene().getWindow();
 			stage.close();
 		}
 	}
-	
+
 	public void minimize(ActionEvent e) {
-		Stage stage = (Stage)((Button)e.getSource()).getScene().getWindow();
+		Stage stage = (Stage) ((Button) e.getSource()).getScene().getWindow();
 		stage.setIconified(true);
 	}
 
-	public void returnToLogin(ActionEvent e) throws IOException{
+	public void returnToLogin(ActionEvent e) throws IOException {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/numismaster/view/Login.fxml"));
 		root = loader.load();
-		stage = (Stage)((Node)e.getSource()).getScene().getWindow();
+		stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
 		scene = new Scene(root);
 		stage.setScene(scene);
 		stage.show();
 	}
 
-	public void chooseFile(ActionEvent e) throws SerialException, SQLException{
+	public void chooseFile(ActionEvent e) throws SerialException, SQLException {
 		FileChooser fc = new FileChooser();
 		fc.setTitle("Selecionar imagem");
 		fc.setInitialDirectory(null);
 		fc.getExtensionFilters().addAll(
-				new ExtensionFilter("Imagens", "*.png", "*.jpg", "*.jpeg")
-		);
+				new ExtensionFilter("Imagens", "*.png", "*.jpg", "*.jpeg"));
 		File file = fc.showOpenDialog(btnFileChooser.getScene().getWindow());
 		try {
 			if (file.length() <= 2 * 1024 * 1024) {
@@ -229,15 +246,16 @@ public class SignUpController {
 	}
 
 	@FXML
-	public void signUp(ActionEvent e) throws IOException{
-		if (validateSignUpFields()){
+	public void signUp(ActionEvent e) throws IOException {
+		if (validateSignUpFields()) {
 			UserRepository ur = new UserRepository();
 			user.setFirstName(txtFirstName.getText());
 			user.setLastName(txtLastName.getText());
 			user.setBirthDate(Util.localDateToDate(txtBirthDate.getValue()));
 			user.setCpf(txtCpf.getText().replace(".", "").replace("-", ""));
 			user.setEmail(txtEmail.getText());
-			user.setGender(boxGender.getValue() == Gender.FEMININO ? 'F' : boxGender.getValue() == Gender.MASCULINO ? 'M' : 'O');
+			user.setGender(boxGender.getValue() == Gender.FEMININO ? 'F'
+					: boxGender.getValue() == Gender.MASCULINO ? 'M' : 'O');
 			user.setUsername(txtUsername.getText());
 			user.setPassword(Util.hashPassword(txtPassword.getText()));
 			user.setBlocked(false);
@@ -255,10 +273,10 @@ public class SignUpController {
 				td.setContentText("Código: ");
 
 				Optional<String> result = td.showAndWait();
-				if(result.isPresent()) {
+				if (result.isPresent()) {
 					String name = result.get();
-					if (code.equals(name)){
-						if(ur.insert(user)){
+					if (code.equals(name)) {
+						if (ur.insert(user)) {
 							Alert alert = new Alert(AlertType.CONFIRMATION);
 							alert.setTitle("SUCESSO!");
 							alert.setHeaderText("Usuário cadastrado com sucesso!");
@@ -271,22 +289,23 @@ public class SignUpController {
 				} else {
 					break;
 				}
-				if(i >= 3){
+				if (i >= 3) {
 					Alert alert = new Alert(AlertType.ERROR);
 					alert.setTitle("ERRO!");
 					alert.setHeaderText("Código incorreto!");
-					alert.setContentText("Você errou o código 3 vezes. Infelizmente não foi possivel finalizar o cadastro!");
+					alert.setContentText(
+							"Você errou o código 3 vezes. Infelizmente não foi possivel finalizar o cadastro!");
 					alert.showAndWait();
 				}
 			} while (i < 3);
 		}
 	}
 
-	public void datePickerInitializer(){
+	public void datePickerInitializer() {
 		txtBirthDate.setValue(LocalDate.now());
-		txtBirthDate.setConverter(new StringConverter<LocalDate>(){
+		txtBirthDate.setConverter(new StringConverter<LocalDate>() {
 			@Override
-			public String toString(LocalDate localdate){
+			public String toString(LocalDate localdate) {
 				DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 				return dtf.format(localdate);
 			}
@@ -296,11 +315,11 @@ public class SignUpController {
 				return null;
 			}
 		});
-		
+
 	}
 
 	@FXML
-	private void checkCpf(){
+	private void checkCpf() {
 		MaskTextField mtf = new MaskTextField();
 		mtf.setMask("###.###.###-##");
 		mtf.setValidCharacters("0123456789");
