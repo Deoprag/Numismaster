@@ -36,9 +36,9 @@ CREATE TABLE TB_Coin (
 	thickness DECIMAL(10, 2) NOT NULL,
     rarity VARCHAR(20) NOT NULL,
 	country_id INT NOT NULL,
-	shape_id INT NOT NULL,
+	edge_id INT NOT NULL,
 	FOREIGN KEY (country_id) REFERENCES TB_Country (id),
-	FOREIGN KEY (shape_id) REFERENCES TB_Shape (id),
+	FOREIGN KEY (edge_id) REFERENCES TB_Edge (id),
 	CONSTRAINT coin_id PRIMARY KEY (id)
 );
 
@@ -79,13 +79,13 @@ CREATE TABLE TB_Coin_Material (
     CONSTRAINT coin_material_id PRIMARY KEY (id)
 );
 
-CREATE TABLE TB_Coin_Edge (
+CREATE TABLE TB_Coin_Shape (
     id INT AUTO_INCREMENT,
     coin_id INT NOT NULL,
-    edge_id INT NOT NULL,
+    shape_id INT NOT NULL,
     FOREIGN KEY (coin_id) REFERENCES TB_Coin(id),
-    FOREIGN KEY (edge_id) REFERENCES TB_Edge(id),
-    CONSTRAINT coin_edge_id PRIMARY KEY (id)
+    FOREIGN KEY (shape_id) REFERENCES TB_Shape(id),
+    CONSTRAINT coin_shape_id PRIMARY KEY (id)
 );
 
 CREATE TABLE TB_Coin_User (
@@ -118,6 +118,13 @@ CREATE TABLE TB_Coin_User_Sale (
 
 use db_numismaster;
 select * from tb_user;
+select * from tb_coin;
+select * from tb_shape;
+select * from tb_material;
+select * from tb_edge;
+
 delete from tb_user where id = 23;
 
-update tb_user set type = "ADMIN" where id = 24;
+update tb_user set type = "ADMIN" where id = 1;
+
+alter table tb_coin drop column edge_id;

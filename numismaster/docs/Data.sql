@@ -1,33 +1,5 @@
 USE db_numismaster;
 
-INSERT INTO TB_Shape (name) 
-VALUES 
-("Circular"), 
-("Quadrado"), 
-("Esfera"), 
-("Triangular");
-
-INSERT INTO TB_Material (name)
-VALUES
-("Ferro"),
-("Chumbo"),
-("Estanho"),
-("Cobre"),
-("Ouro"),
-("Prata"),
-("Madeira"),
-("Platina"),
-("Bronze"),
-("Aço");
-
-INSERT INTO TB_Edge (name)
-VALUES
-("Lisa"),
-("Serrilhada"),
-("Plana"),
-("Inscrita"),
-("Dentada");
-
 INSERT INTO TB_Country (name, code) VALUES
 ('Afeganistão', 'AF'),
 ('Ilhas Aland', 'AX'),
@@ -295,6 +267,33 @@ VALUES
 ('williamjones', 'William', 'Jones', 'M', 'pa$$w0rd9', '2001-09-09', 'williamjones@email.com', '12345678909'),
 ('oliviagreen', 'Olivia', 'Green', 'F', 'pa$$w0rd10', '2003-10-10', 'oliviagreen@email.com', '12345678910');
 
+INSERT INTO TB_Shape (name) 
+VALUES 
+("Circular"), 
+("Quadrado"), 
+("Esfera"), 
+("Triangular");
+
+INSERT INTO TB_Material (name)
+VALUES
+("Ferro"),
+("Chumbo"),
+("Estanho"),
+("Cobre"),
+("Ouro"),
+("Prata"),
+("Madeira"),
+("Platina"),
+("Bronze"),
+("Aço");
+
+INSERT INTO TB_Edge (name)
+VALUES
+("Lisa"),
+("Serrilhada"),
+("Plana"),
+("Inscrita"),
+("Dentada");
 
 select * from TB_Coin;
 select * from TB_Coin_User;
@@ -305,15 +304,32 @@ select * from TB_Sale;
 select * from TB_Shape;
 select * from TB_User;
 
-SELECT c.name AS name, co.name AS country, c.denomination, c.weight, c.diameter, c.thickness, s.name AS shape, r.name AS rarity
+SELECT c.name AS name, co.name AS country, c.denomination, c.weight, c.diameter, c.thickness, s.name AS edge
 FROM TB_Coin AS c
 INNER JOIN TB_Country AS co ON c.country_id = co.id
-INNER JOIN TB_Shape AS s ON c.shape_id = s.id
-INNER JOIN TB_Rarity AS r ON c.rarity_id = r.id;
+INNER JOIN TB_Edge AS s ON c.edge_id = s.id;
 
-INSERT INTO TB_Coin (name, country_id, denomination, weight, diameter, thickness, shape_id)
+INSERT INTO TB_Coin (name, country_id, denomination, weight, diameter, thickness, edge_id, rarity)
 VALUES
-('1 Real (XXXI Olimpíadas de Verão de 2016 no Rio - Rugby)', 32, 1.00, 7, 27, 1.95, 1),
-('1 Real (XXXI Olimpíadas de Verão de 2016 no Rio - Futebol)', 32, 1.00, 7, 27, 1.95, 1),
-('1 Real (XXXI Olimpíadas de Verão de 2016 no Rio - Basquete)', 32, 1.00, 7, 27, 1.95, 1),
-('1 Real (XXXI Olimpíadas de Verão de 2016 no Rio - Paracanoagem)', 32, 1.00, 7, 27, 1.95, 1);
+('1 Real (XXXI Olimpíadas de Verão de 2016 no Rio - Rugby)', 32, 1.00, 7, 27, 1.95, 1, "COMUM"),
+('1 Real (XXXI Olimpíadas de Verão de 2016 no Rio - Futebol)', 32, 1.00, 7, 27, 1.95, 1, "COMUM"),
+('1 Real (XXXI Olimpíadas de Verão de 2016 no Rio - Basquete)', 32, 1.00, 7, 27, 1.95, 1, "COMUM"),
+('1 Real (XXXI Olimpíadas de Verão de 2016 no Rio - Paracanoagem)', 32, 1.00, 7, 27, 1.95, 1, "COMUM");
+
+INSERT INTO TB_Coin_Material (coin_id, material_id)
+VALUES
+(1, 1),
+(1, 4),
+(2, 1),
+(2, 4),
+(3, 1),
+(3, 4),
+(4, 1),
+(4, 4);
+
+INSERT INTO TB_Coin_Shape (coin_id, shape_id)
+VALUES
+(1, 1),
+(2, 1),
+(3, 1),
+(4, 1);
