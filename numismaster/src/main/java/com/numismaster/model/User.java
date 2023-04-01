@@ -1,17 +1,20 @@
 package com.numismaster.model;
 
 import java.sql.Blob;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -29,43 +32,46 @@ public class User {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	
-	@Column(name = "first_name")
+	@Column(name = "first_name", nullable = false)
 	private String firstName;
 	
-	@Column(name = "last_name")
+	@Column(name = "last_name", nullable = false)
 	private String lastName;
-
-	@Column(name = "gender")
+	
+	@Column(name = "gender", nullable = false)
 	private char gender;
 	
-	@Column(name = "birth_date")
-	private Date birthDate;
+	@Column(name = "birth_date", nullable = false)
+	private LocalDate birthDate;
 	
-	@Column(name = "email")
+	@Column(name = "email", unique = true, nullable = false)
 	private String email;
 	
-	@Column(name = "cpf")
+	@Column(name = "cpf", unique = true, nullable = false, length = 11)
 	private String cpf;
 	
-	@Column(name = "username")
+	@Column(name = "username", unique = true, nullable = false)
 	private String username;
 	
-	@Column(name = "password")
+	@Column(name = "password", nullable = false)
 	private String password;
-
-	@Column(name = "type")
-	@Enumerated(EnumType.STRING)
-	private Type type;
-
-	@Column(name = "is_blocked")
-	private boolean isBlocked;
-
-	@Column(name = "profile_photo")
+	
+	@Column(name = "type", nullable = false)
+	private Type type = Type.DEFAULT;
+	
+	@Column(name = "is_blocked", nullable = false)
+	private boolean isBlocked = true;
+	
+	@Column(name = "profile_photo", nullable = false)
 	private Blob profilePhoto;
 	
-	@Column(name = "registration_date")
-	private Date registrationDate;
+	@Column(name = "registration_date", nullable = false)
+	private LocalDateTime registrationDate = LocalDateTime.now();
 	
-	@OneToMany(mappedBy = "user")
-	private List<CoinUser> coinUser;
+	@ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+	@JoinTable(name = "TB_Coin_User",
+			joinColumns = @JoinColumn(name = "user_id"),
+			inverseJoinColumns = @JoinColumn(name = "coin_id"))
+	private List<Coin> coins = new ArrayList<>();
+
 }

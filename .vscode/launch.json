@@ -3,6 +3,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Test",
+            "request": "launch",
+            "mainClass": "com.numismaster.app.Test",
+            "projectName": "numismaster"
+        },
+        {
+            "type": "java",
             "name": "Main",
             "request": "launch",
             "mainClass": "com.numismaster.app.Main",

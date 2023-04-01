@@ -6,6 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -27,33 +28,33 @@ public class CoinUser {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
-	@ManyToOne
-	@JoinColumn(name = "user_id")
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "user_id", nullable = false)
 	private User user;
-	
-	@ManyToOne
-	@JoinColumn(name = "coin_id")
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "coin_id", nullable = false)
 	private Coin coin;
-	
-	@Column(name = "year")
+
+	@Column(name = "year", nullable = false)
 	private short year;
 
-	@Column(name = "coin_condition")
 	@Enumerated(EnumType.STRING)
+	@Column(name = "coin_condition", nullable = false)
 	private CoinCondition coinCondition;
-	
-	@Column(name = "is_for_sale")
+
+	@Column(name = "is_for_sale", nullable = false)
 	private boolean isForSale;
-	
+
 	@Column(name = "price")
-	private float price;
-	
+	private Float price;
+
 	@Column(name = "image_front")
 	private Blob imageFront;
-	
+
 	@Column(name = "image_back")
 	private Blob imageBack;
-	
+
 	@Column(name = "notes")
 	private String notes;
 

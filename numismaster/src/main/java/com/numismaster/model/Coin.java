@@ -40,16 +40,16 @@ public class Coin {
 	private String name;
 
 	@Column(name = "denomination", nullable = false)
-	private BigDecimal denomination;
+	private Float denomination;
 
 	@Column(name = "weight", nullable = false)
-	private BigDecimal weight;
+	private Float weight;
 
 	@Column(name = "diameter", nullable = false)
-	private BigDecimal diameter;
+	private Float diameter;
 
 	@Column(name = "thickness", nullable = false)
-	private BigDecimal thickness;
+	private Float thickness;
 
     @Enumerated(EnumType.STRING)
 	@Column(name = "rarity", nullable = false)
@@ -63,9 +63,6 @@ public class Coin {
 	@JoinColumn(name = "edge_id", nullable = false)
 	private Edge edge;
 
-	@OneToMany(mappedBy = "coin", cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<CoinUser> coinUsers = new ArrayList<>();
-
 	@ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
 	@JoinTable(name = "TB_Coin_Material",
 			joinColumns = @JoinColumn(name = "coin_id"),
@@ -77,4 +74,7 @@ public class Coin {
 			joinColumns = @JoinColumn(name = "coin_id"),
 			inverseJoinColumns = @JoinColumn(name = "shape_id"))
 	private List<Shape> shapes = new ArrayList<>();
+
+	@ManyToMany(mappedBy = "coinUsers")
+	private List<User> users = new ArrayList<>();
 }
