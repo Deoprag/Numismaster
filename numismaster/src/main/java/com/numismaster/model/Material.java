@@ -28,5 +28,4 @@ public class Material {
 	
     @OneToMany(mappedBy = "material")
     private List<CoinMaterial> coinMaterial;
-
 }

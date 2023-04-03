@@ -333,3 +333,15 @@ VALUES
 (2, 1),
 (3, 1),
 (4, 1);
+
+INSERT INTO TB_Coin_User (user_id, coin_id, year, coin_condition, is_for_sale, price)
+VALUES
+(1, 1, 2016, "BOA", 1, 49.90),
+(1, 2, 2016, "NOVA", 0, 0),
+(1, 3, 2016, "BOA", 1, 54.90),
+(1, 4, 2016, "NOVA", 1, 0);
+
+select c.name, c.denomination, c.weight, c.diameter, c.thickness, c.rarity, cu.year, cu.coin_condition, cu.is_for_sale, cu.price, u.first_name as dono
+FROM tb_coin_user cu
+INNER JOIN tb_coin c ON cu.coin_id = c.id
+INNER JOIN tb_user u ON cu.user_id = u.id;

@@ -74,7 +74,4 @@ public class Coin {
 			joinColumns = @JoinColumn(name = "coin_id"),
 			inverseJoinColumns = @JoinColumn(name = "shape_id"))
 	private List<Shape> shapes = new ArrayList<>();
-
-	@ManyToMany(mappedBy = "coinUsers")
-	private List<User> users = new ArrayList<>();
 }

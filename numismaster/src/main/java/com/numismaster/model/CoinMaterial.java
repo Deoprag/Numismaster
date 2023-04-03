@@ -22,9 +22,6 @@ public class CoinMaterial {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
-	@Column(name = "name")
-	private String name;
-
 	@ManyToOne
 	@JoinColumn(name = "coin_id")
 	private Coin coin;
@@ -32,5 +29,4 @@ public class CoinMaterial {
 	@ManyToOne
 	@JoinColumn(name = "material_id")
 	private Material material;
-
 }
