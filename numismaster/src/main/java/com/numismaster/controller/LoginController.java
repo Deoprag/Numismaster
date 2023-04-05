@@ -59,14 +59,6 @@ public class LoginController {
 
 	private double x, y;
 
-	public void initialize() {
-		if (Util.isDatabaseOn()) {
-			dbImage.setImage(new Image("/com/numismaster/icon/database-on.png"));
-		} else {
-
-		}
-	}
-
 	@FXML
 	public void checkUsernameInput(KeyEvent e) {
 		txtUsername.textProperty().addListener((observable, oldValue, newValue) -> {

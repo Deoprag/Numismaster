@@ -5,6 +5,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
+import javax.persistence.Query;
 
 import com.numismaster.model.Shape;
 
@@ -37,6 +38,13 @@ public class ShapeRepository {
     
     public List<Shape> findAll() {
         return entityManager.createQuery("SELECT s FROM tb_shape s", Shape.class).getResultList();
+    }
+
+    public Shape findByName(String name) {
+    	EntityManager em = factory.createEntityManager();
+    	Query query = em.createQuery("SELECT u FROM tb_shape u WHERE u.name = :name");
+    	query.setParameter("name", name);
+    	return (Shape) query.getSingleResult();
     }
     
     public boolean update(Shape shape) {

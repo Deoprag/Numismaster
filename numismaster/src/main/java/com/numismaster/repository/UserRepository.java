@@ -85,7 +85,7 @@ public class UserRepository {
     }
     
     @SuppressWarnings("unchecked")
-    public List<User> findByName(String name) {
+    public List<User> findAllByName(String name) {
     	EntityManager em = factory.createEntityManager();
     	Query query = em.createQuery("SELECT u FROM tb_user u WHERE u.firstName = :name OR u.lastName = :name");
     	query.setParameter("name", name);

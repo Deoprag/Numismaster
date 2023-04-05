@@ -5,6 +5,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
+import javax.persistence.Query;
 
 import com.numismaster.model.Edge;
 
@@ -37,6 +38,13 @@ public class EdgeRepository {
 
     public List<Edge> findAll() {
         return entityManager.createQuery("SELECT c FROM tb_edge c", Edge.class).getResultList();
+    }
+
+    public Edge findByName(String name) {
+    	EntityManager em = factory.createEntityManager();
+    	Query query = em.createQuery("SELECT u FROM tb_edge u WHERE u.name = :name");
+    	query.setParameter("name", name);
+    	return (Edge) query.getSingleResult();
     }
 
     public boolean update(Edge edge) {

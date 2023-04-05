@@ -68,7 +68,7 @@ public class User {
 	@Column(name = "registration_date", nullable = false)
 	private LocalDateTime registrationDate = LocalDateTime.now();
 	
-	@ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+	@ManyToMany(cascade = {CascadeType.ALL})
 	@JoinTable(name = "TB_Coin_User",
 			joinColumns = @JoinColumn(name = "user_id"),
 			inverseJoinColumns = @JoinColumn(name = "coin_id"))

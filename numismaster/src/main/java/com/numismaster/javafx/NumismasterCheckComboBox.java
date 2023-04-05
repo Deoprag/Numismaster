@@ -6,8 +6,13 @@ import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.Border;
+import javafx.scene.layout.BorderStroke;
+import javafx.scene.layout.BorderStrokeStyle;
+import javafx.scene.layout.BorderWidths;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 
 public class NumismasterCheckComboBox<T> extends CheckComboBox<T> {
 
@@ -17,6 +22,9 @@ public class NumismasterCheckComboBox<T> extends CheckComboBox<T> {
 		setPrefHeight(height);
         setLayoutX(x);
 		setLayoutY(y);
-        setBackground(new Background(new BackgroundFill(Color.rgb(217, 217, 217), CornerRadii.EMPTY, Insets.EMPTY)));
+        setStyle("-fx-body-color: #d9d9d9;" + 
+        "-fx-selection-bar: #0096c9;" +
+        "fx-border-style: hidden;");
+        setBorder(new Border(new BorderStroke(Color.valueOf("#373c3f"), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(0, 0, 3, 0))));
     }    
 }

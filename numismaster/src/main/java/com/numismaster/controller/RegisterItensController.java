@@ -114,18 +114,37 @@ public class RegisterItensController {
 
 		boxShape.getCheckModel().getCheckedItems().addListener(new ListChangeListener<String>() {
 			public void onChanged(ListChangeListener.Change<? extends String> c) {
-				while (c.next()) {
-					// do something with changes here
+				int i = boxShape.getCheckModel().getCheckedIndices().size();
+				if (i > 3){
+					boxShape.getCheckModel().clearChecks();
+					Alert alert = new Alert(AlertType.WARNING);
+					alert.setTitle("ERRO!");
+					alert.setHeaderText("Vamos com calma!");
+					alert.setContentText("Você só pode selecionar até 3 itens!");
+					alert.showAndWait();
+				} else {
+					while (c.next()) {
+						boxShape.setTitle("Selecionados: " + i + "/3");
+					}
 				}
-				System.out.println(boxShape.getCheckModel().getCheckedIndices());
 			}
 		});
+
 		boxMaterial.getCheckModel().getCheckedItems().addListener(new ListChangeListener<String>() {
 			public void onChanged(ListChangeListener.Change<? extends String> c) {
-				while (c.next()) {
-					// do something with changes here
+				int i = boxMaterial.getCheckModel().getCheckedIndices().size();
+				if (i > 3){
+					boxMaterial.getCheckModel().clearChecks();
+					Alert alert = new Alert(AlertType.WARNING);
+					alert.setTitle("ERRO!");
+					alert.setHeaderText("Vamos com calma!");
+					alert.setContentText("Você só pode selecionar até 3 itens!");
+					alert.showAndWait();
+				} else {
+					while (c.next()) {
+						boxMaterial.setTitle("Selecionados: " + i + "/3");
+					}
 				}
-				System.out.println(boxMaterial.getCheckModel().getCheckedIndices());
 			}
 		});
 	}

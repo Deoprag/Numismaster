@@ -63,13 +63,13 @@ public class Coin {
 	@JoinColumn(name = "edge_id", nullable = false)
 	private Edge edge;
 
-	@ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+	@ManyToMany(cascade = {CascadeType.MERGE})
 	@JoinTable(name = "TB_Coin_Material",
 			joinColumns = @JoinColumn(name = "coin_id"),
 			inverseJoinColumns = @JoinColumn(name = "material_id"))
 	private List<Material> materials = new ArrayList<>();
 
-	@ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+	@ManyToMany(cascade = {CascadeType.MERGE})
 	@JoinTable(name = "TB_Coin_Shape",
 			joinColumns = @JoinColumn(name = "coin_id"),
 			inverseJoinColumns = @JoinColumn(name = "shape_id"))

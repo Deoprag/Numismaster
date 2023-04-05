@@ -1,9 +1,11 @@
 package com.numismaster.repository;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
-import java.util.List;
+import javax.persistence.Query;
 
 import com.numismaster.model.Material;
 
@@ -36,6 +38,13 @@ public class MaterialRepository {
 
     public List<Material> findAll() {
         return entityManager.createQuery("SELECT m FROM tb_material m", Material.class).getResultList();
+    }
+
+    public Material findByName(String name) {
+    	EntityManager em = factory.createEntityManager();
+    	Query query = em.createQuery("SELECT u FROM tb_material u WHERE u.name = :name");
+    	query.setParameter("name", name);
+    	return (Material) query.getSingleResult();
     }
     
     public boolean update(Material material) {
