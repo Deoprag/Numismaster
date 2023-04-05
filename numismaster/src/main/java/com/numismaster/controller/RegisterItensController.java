@@ -65,6 +65,8 @@ public class RegisterItensController {
 	@FXML
 	private ComboBox<String> boxCountry;
 	@FXML
+	private ComboBox<String> boxEdge;
+	@FXML
 	private NumismasterCheckComboBox<String> boxShape;
 	@FXML
 	private NumismasterCheckComboBox<String> boxMaterial;
@@ -88,9 +90,9 @@ public class RegisterItensController {
 		List<Shape> shapeList = sr.findAll();
 		List<Material> materialList = mr.findAll();
 
-
 		ObservableList<String> shapes = FXCollections.observableArrayList();
 		ObservableList<String> materials = FXCollections.observableArrayList();
+		
 
 		for (Shape shape : shapeList) {
 			shapes.add(shape.getName());
@@ -101,6 +103,7 @@ public class RegisterItensController {
 		
 		boxRarity.getItems().addAll(Rarity.values());
 		boxCountry.setItems(loadCountries());
+		boxEdge.setItems(loadEdges());
 		
 
 		boxShape = new NumismasterCheckComboBox<String>(shapes, 150, 30, 225, 325);
@@ -131,10 +134,19 @@ public class RegisterItensController {
 		CountryRepository cr = new CountryRepository();
 		List<Country> list = cr.findAll();
 		final ObservableList<String> obsList = FXCollections.observableArrayList();
-		int i = 0;
 		for (Country c : list) {
-			obsList.add(list.get(i).getName());
-			i++;
+			obsList.add(c.getName());
+		}
+
+		return obsList;
+	}
+
+	public ObservableList<String> loadEdges(){
+		EdgeRepository er = new EdgeRepository();
+		List<Edge> list = er.findAll();
+		final ObservableList<String> obsList = FXCollections.observableArrayList();
+		for (Edge e : list) {
+			obsList.add(e.getName());
 		}
 
 		return obsList;

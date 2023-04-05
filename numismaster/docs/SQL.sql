@@ -123,8 +123,8 @@ select * from tb_shape;
 select * from tb_material;
 select * from tb_edge;
 
-delete from tb_user where id = 23;
+delete from tb_user where id = 1;
 
-update tb_user set type = "ADMIN" where id = 1;
+update tb_user set type = 1 where id = 1;
 
 alter table tb_coin drop column edge_id;

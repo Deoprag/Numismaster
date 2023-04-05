@@ -109,7 +109,7 @@
                                     <Font name="Segoe UI Bold" size="14.0" />
                                  </font>
                               </Label>
-                              <ComboBox fx:id="boxCountry1" layoutX="225.0" layoutY="400.0" prefHeight="30.0" prefWidth="150.0" style="-fx-background-color: #d9d9d9; -fx-border-color: #373c3f; -fx-border-width: 0 0 2 0;" />
+                              <ComboBox fx:id="boxEdge" layoutX="225.0" layoutY="400.0" prefHeight="30.0" prefWidth="150.0" style="-fx-background-color: #d9d9d9; -fx-border-color: #373c3f; -fx-border-width: 0 0 2 0;" />
                            </children>
                            <opaqueInsets>
                               <Insets />
