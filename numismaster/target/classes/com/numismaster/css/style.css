@@ -51,13 +51,13 @@
     -fx-font-size: 10px;
     -fx-text-fill: #6293ac;
     -fx-font-family: Segoe UI;
-    -fx-background-color: d9d9d9;
+    -fx-background-color: #d9d9d9;
     -fx-font-weight: none;
 }
 
 .clickableLabel:hover{
     -fx-underline: true;
-    -fx-background-color: d9d9d9;
+    -fx-background-color: #d9d9d9;
     -fx-font-weight: none;
     -fx-cursor: hand;
 }
@@ -82,4 +82,40 @@
 
 .tableCoins{
     -fx-background-color: #757f86;
+}
+
+.btn-add{
+    -fx-text-fill: #34393c;
+    -fx-background-color: #90ee90;
+    -fx-border-color:  #34393c;
+    -fx-border-width: 1;
+}
+
+.btn-add:hover{
+    -fx-background-color: #71bb71;
+    -fx-cursor: hand;
+}
+
+.btn-delete{
+    -fx-text-fill: #34393c;
+    -fx-background-color: #ee7a6d;
+    -fx-border-color:  #34393c;
+    -fx-border-width: 1;
+}
+
+.btn-delete:hover{
+    -fx-background-color: #bb5f55;
+    -fx-cursor: hand;
+}
+
+.btn-update{
+    -fx-text-fill: #34393c;
+    -fx-background-color: #d2faff;
+    -fx-border-color:  #34393c;
+    -fx-border-width: 1;
+}
+
+.btn-update:hover{
+    -fx-background-color: #a8c7cc;
+    -fx-cursor: hand;
 }

@@ -106,10 +106,12 @@ public class RegisterItensController {
 		boxEdge.setItems(loadEdges());
 		
 
-		boxShape = new NumismasterCheckComboBox<String>(shapes, 150, 30, 225, 325);
+		boxShape = new NumismasterCheckComboBox<String>(shapes, 150, 30, 225, 375);
+		boxShape.setTitle("Selecionados: 0/3");
 		paneCoin.getChildren().add(boxShape);
 
-		boxMaterial = new NumismasterCheckComboBox<String>(materials, 150, 30, 25, 400);
+		boxMaterial = new NumismasterCheckComboBox<String>(materials, 150, 30, 25, 450);
+		boxMaterial.setTitle("Selecionados: 0/3");
 		paneCoin.getChildren().add(boxMaterial);
 
 		boxShape.getCheckModel().getCheckedItems().addListener(new ListChangeListener<String>() {
