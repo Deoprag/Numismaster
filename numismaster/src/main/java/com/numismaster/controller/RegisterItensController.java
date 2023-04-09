@@ -48,6 +48,9 @@ import javafx.util.Callback;
 public class RegisterItensController {
 
 	private User user;
+	private List<Shape> shapeList;
+	private List<Edge> edgeList;
+	private List<Material> materialList;
 
 	@FXML
 	private Button btnClose;
@@ -74,11 +77,11 @@ public class RegisterItensController {
 	@FXML
 	private ComboBox<String> boxCountry;
 	@FXML
-	private ComboBox<String> boxEdge;
-	@FXML
 	private NumismasterCheckComboBox<String> boxShape;
 	@FXML
 	private NumismasterCheckComboBox<String> boxMaterial;
+	@FXML
+	private NumismasterCheckComboBox<String> boxEdge;
 	@FXML
 	private TableView<Coin> tbCoin;
 	@FXML
@@ -100,7 +103,7 @@ public class RegisterItensController {
 	@FXML
 	private TableColumn<Coin, List<String>> colMaterial = new TableColumn<>("Materiais");
 	@FXML
-	private TableColumn<Coin, String> colEdge = new TableColumn<>("Borda");
+	private TableColumn<Coin, List<String>> colEdge = new TableColumn<>("Bordas");
 	@FXML
 	private Pane paneCoin;
 
@@ -157,7 +160,21 @@ public class RegisterItensController {
 				}
 			}
 		});
-		colEdge.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getEdge().getName()));
+		colEdge.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Coin, List<String>>, ObservableValue<List<String>>>() {
+			@Override
+			public ObservableValue<List<String>> call(TableColumn.CellDataFeatures<Coin, List<String>> cellData) {
+				List<Edge> edges = cellData.getValue().getEdges();
+				if (edges != null && !edges.isEmpty()) {
+					List<String> edgeNames = new ArrayList<>();
+					for (Edge edge : edges) {
+						edgeNames.add(edge.getName());
+					}
+					return new SimpleObjectProperty<>(edgeNames);
+				} else {
+					return new SimpleObjectProperty<>(new ArrayList<>());
+				}
+			}
+		});
 
 		tbCoin.getColumns().addAll(colName, colDenomination, colWeight, colDiameter, colThickness, colRarity, colCountry, colShape, colMaterial, colEdge);
 		tbCoin.setItems(coinList);
@@ -167,12 +184,15 @@ public class RegisterItensController {
 
 		ShapeRepository sr = new ShapeRepository();
 		MaterialRepository mr = new MaterialRepository();
+		EdgeRepository er = new EdgeRepository();
 
-		List<Shape> shapeList = sr.findAll();
-		List<Material> materialList = mr.findAll();
+		shapeList = sr.findAll();
+		materialList = mr.findAll();
+		edgeList = er.findAll();
 
 		ObservableList<String> shapes = FXCollections.observableArrayList();
 		ObservableList<String> materials = FXCollections.observableArrayList();
+		ObservableList<String> edges = FXCollections.observableArrayList();
 
 		for (Shape shape : shapeList) {
 			shapes.add(shape.getName());
@@ -180,42 +200,33 @@ public class RegisterItensController {
 		for (Material material : materialList) {
 			materials.add(material.getName());
 		}
+		for (Edge edge : edgeList) {
+			edges.add(edge.getName());
+		}
 
 		boxRarity.getItems().addAll(Rarity.values());
 		boxCountry.setItems(loadCountries());
-		boxEdge.setItems(loadEdges());
 
 		boxShape = new NumismasterCheckComboBox<String>(shapes, 150, 30, 225, 375);
-		boxShape.setTitle("Selecionados: 0/3");
 		paneCoin.getChildren().add(boxShape);
 
 		boxMaterial = new NumismasterCheckComboBox<String>(materials, 150, 30, 25, 450);
-		boxMaterial.setTitle("Selecionados: 0/3");
 		paneCoin.getChildren().add(boxMaterial);
 
-		boxShape.getCheckModel().getCheckedItems().addListener(new ListChangeListener<String>() {
-			public void onChanged(ListChangeListener.Change<? extends String> c) {
-				int i = boxShape.getCheckModel().getCheckedIndices().size();
-				if (i > 3) {
-					boxShape.getCheckModel().clearChecks();
-					Alert alert = new Alert(AlertType.WARNING);
-					alert.setTitle("ERRO!");
-					alert.setHeaderText("Vamos com calma!");
-					alert.setContentText("Você só pode selecionar até 3 itens!");
-					alert.showAndWait();
-				} else {
-					while (c.next()) {
-						boxShape.setTitle("Selecionados: " + i + "/3");
-					}
-				}
-			}
-		});
+		boxEdge = new NumismasterCheckComboBox<String>(edges, 150, 30, 225, 450);
+		paneCoin.getChildren().add(boxEdge);
 
-		boxMaterial.getCheckModel().getCheckedItems().addListener(new ListChangeListener<String>() {
+		boxListener(boxShape);
+		boxListener(boxMaterial);
+		boxListener(boxEdge);
+	}
+
+	private void boxListener(NumismasterCheckComboBox<String> box){
+		box.getCheckModel().getCheckedItems().addListener(new ListChangeListener<String>() {
 			public void onChanged(ListChangeListener.Change<? extends String> c) {
-				int i = boxMaterial.getCheckModel().getCheckedIndices().size();
+				int i = box.getCheckModel().getCheckedIndices().size();
 				if (i > 3) {
-					boxMaterial.getCheckModel().clearChecks();
+					box.getCheckModel().clearChecks();
 					Alert alert = new Alert(AlertType.WARNING);
 					alert.setTitle("ERRO!");
 					alert.setHeaderText("Vamos com calma!");
@@ -223,7 +234,7 @@ public class RegisterItensController {
 					alert.showAndWait();
 				} else {
 					while (c.next()) {
-						boxMaterial.setTitle("Selecionados: " + i + "/3");
+						box.setTitle("Selecionados: " + i + "/3");
 					}
 				}
 			}

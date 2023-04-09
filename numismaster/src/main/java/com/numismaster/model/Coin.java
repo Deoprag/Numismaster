@@ -59,9 +59,11 @@ public class Coin {
 	@JoinColumn(name = "country_id", nullable = false)
 	private Country country;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "edge_id", nullable = false)
-	private Edge edge;
+	@ManyToMany(cascade = {CascadeType.MERGE})
+	@JoinTable(name = "TB_Coin_Edge",
+			joinColumns = @JoinColumn(name = "coin_id"),
+			inverseJoinColumns = @JoinColumn(name = "edge_id"))
+	private List<Edge> edges = new ArrayList<>();
 
 	@ManyToMany(cascade = {CascadeType.MERGE})
 	@JoinTable(name = "TB_Coin_Material",

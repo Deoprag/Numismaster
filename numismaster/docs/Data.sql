@@ -295,26 +295,12 @@ VALUES
 ("Inscrita"),
 ("Dentada");
 
-select * from TB_Coin;
-select * from TB_Coin_User;
-select * from TB_Edge;
-select * from TB_Material;
-select * from TB_Rarity;
-select * from TB_Sale;
-select * from TB_Shape;
-select * from TB_User;
-
-SELECT c.name AS name, co.name AS country, c.denomination, c.weight, c.diameter, c.thickness, s.name AS edge
-FROM TB_Coin AS c
-INNER JOIN TB_Country AS co ON c.country_id = co.id
-INNER JOIN TB_Edge AS s ON c.edge_id = s.id;
-
-INSERT INTO TB_Coin (name, country_id, denomination, weight, diameter, thickness, edge_id, rarity)
+INSERT INTO TB_Coin (name, country_id, denomination, weight, diameter, thickness, rarity)
 VALUES
-('1 Real (XXXI Olimpíadas de Verão de 2016 no Rio - Rugby)', 32, 1.00, 7, 27, 1.95, 1, "COMUM"),
-('1 Real (XXXI Olimpíadas de Verão de 2016 no Rio - Futebol)', 32, 1.00, 7, 27, 1.95, 1, "COMUM"),
-('1 Real (XXXI Olimpíadas de Verão de 2016 no Rio - Basquete)', 32, 1.00, 7, 27, 1.95, 1, "COMUM"),
-('1 Real (XXXI Olimpíadas de Verão de 2016 no Rio - Paracanoagem)', 32, 1.00, 7, 27, 1.95, 1, "COMUM");
+('1 Real (XXXI Olimpíadas de Verão de 2016 no Rio - Rugby)', 32, 1.00, 7, 27, 1.95, "COMUM"),
+('1 Real (XXXI Olimpíadas de Verão de 2016 no Rio - Futebol)', 32, 1.00, 7, 27, 1.95, "COMUM"),
+('1 Real (XXXI Olimpíadas de Verão de 2016 no Rio - Basquete)', 32, 1.00, 7, 27, 1.95, "COMUM"),
+('1 Real (XXXI Olimpíadas de Verão de 2016 no Rio - Paracanoagem)', 32, 1.00, 7, 27, 1.95, "COMUM");
 
 INSERT INTO TB_Coin_Material (coin_id, material_id)
 VALUES
@@ -334,17 +320,20 @@ VALUES
 (3, 1),
 (4, 1);
 
+INSERT INTO TB_Coin_Edge (coin_id, edge_id)
+VALUES
+(1, 1),
+(1, 2),
+(2, 1),
+(2, 2),
+(3, 1),
+(3, 2),
+(4, 1),
+(4, 2);
+
 INSERT INTO TB_Coin_User (user_id, coin_id, year, coin_condition, is_for_sale, price)
 VALUES
 (1, 1, 2016, "BOA", 1, 49.90),
 (1, 2, 2016, "NOVA", 0, 0),
 (1, 3, 2016, "BOA", 1, 54.90),
 (1, 4, 2016, "NOVA", 0, 0);
-
-select c.name, c.denomination, c.weight, c.diameter, c.thickness, c.rarity, cu.year, cu.coin_condition, cu.is_for_sale, cu.price, u.first_name as dono
-FROM tb_coin_user cu
-INNER JOIN tb_coin c ON cu.coin_id = c.id
-INNER JOIN tb_user u ON cu.user_id = u.id;
-
-UPDATE tb_coin_user SET is_for_sale = 0 where id = 4;
-

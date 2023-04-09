@@ -36,9 +36,7 @@ CREATE TABLE TB_Coin (
 	thickness DECIMAL(10, 2) NOT NULL,
     rarity VARCHAR(20) NOT NULL,
 	country_id INT NOT NULL,
-	edge_id INT NOT NULL,
 	FOREIGN KEY (country_id) REFERENCES TB_Country (id),
-	FOREIGN KEY (edge_id) REFERENCES TB_Edge (id),
 	CONSTRAINT coin_id PRIMARY KEY (id)
 );
 
@@ -52,9 +50,9 @@ CREATE TABLE TB_User (
 	cpf CHAR(11) NOT NULL UNIQUE,
 	username VARCHAR(255) NOT NULL UNIQUE,
 	password VARCHAR(255) NOT NULL,
-    type VARCHAR(7) DEFAULT "DEFAULT",
+    type SMALLINT DEFAULT 0,
     is_blocked TINYINT DEFAULT 1,
-	profile_photo LONGBLOB NOT NULL,
+	profile_photo LONGBLOB,
 	registration_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	CONSTRAINT user_id PRIMARY KEY (id)
 );
@@ -88,6 +86,15 @@ CREATE TABLE TB_Coin_Shape (
     CONSTRAINT coin_shape_id PRIMARY KEY (id)
 );
 
+CREATE TABLE TB_Coin_Edge (
+    id INT AUTO_INCREMENT,
+    coin_id INT NOT NULL,
+    edge_id INT NOT NULL,
+    FOREIGN KEY (coin_id) REFERENCES TB_Coin(id),
+    FOREIGN KEY (edge_id) REFERENCES TB_Edge(id),
+    CONSTRAINT coin_edge_id PRIMARY KEY (id)
+);
+
 CREATE TABLE TB_Coin_User (
 	id INT AUTO_INCREMENT,
 	user_id INT NOT NULL,
@@ -115,16 +122,3 @@ CREATE TABLE TB_Coin_User_Sale (
 	FOREIGN KEY (sale_id) REFERENCES TB_Sale (id),
     CONSTRAINT coin_sale_id PRIMARY KEY (id)
 );
-
-use db_numismaster;
-select * from tb_user;
-select * from tb_coin;
-select * from tb_shape;
-select * from tb_material;
-select * from tb_edge;
-
-delete from tb_user where id = 1;
-
-update tb_user set type = 1 where id = 1;
-
-alter table tb_coin drop column edge_id;

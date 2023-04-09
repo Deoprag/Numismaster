@@ -39,7 +39,6 @@
                               <TextField fx:id="txtThickness" layoutX="25.0" layoutY="300.0" prefHeight="30.0" prefWidth="150.0" promptText="ex. 3" style="-fx-background-color: #d9d9d9; -fx-border-color: #373c3f; -fx-border-width: 0 0 2 0;" />
                               <ComboBox fx:id="boxRarity" layoutX="225.0" layoutY="300.0" prefHeight="30.0" prefWidth="150.0" style="-fx-background-color: #d9d9d9; -fx-border-color: #373c3f; -fx-border-width: 0 0 2 0;" />
                               <ComboBox fx:id="boxCountry" layoutX="25.0" layoutY="375.0" prefHeight="30.0" prefWidth="150.0" style="-fx-background-color: #d9d9d9; -fx-border-color: #373c3f; -fx-border-width: 0 0 2 0;" />
-                              <ComboBox fx:id="boxEdge" layoutX="225.0" layoutY="450.0" prefHeight="30.0" prefWidth="150.0" style="-fx-background-color: #d9d9d9; -fx-border-color: #373c3f; -fx-border-width: 0 0 2 0;" />
                               <Label layoutX="25.0" layoutY="148.0" text="Nome" textFill="#373c3f">
                                  <font>
                                     <Font name="Segoe UI Bold" size="14.0" />
@@ -215,7 +214,10 @@
       <Pane layoutY="30.0" prefHeight="690.0" prefWidth="200.0" style="-fx-background-color: #586065; -fx-border-color: #373c3f; -fx-border-width: 2;">
          <children>
             <Circle fill="#757f86" layoutX="100.0" layoutY="89.0" radius="75.0" stroke="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" />
-            <ImageView fx:id="profilePhoto" fitHeight="150.0" fitWidth="150.0" layoutX="25.0" layoutY="14.0" pickOnBounds="true" />
+            <ImageView fx:id="profilePhoto" fitHeight="150.0" fitWidth="150.0" layoutX="25.0" layoutY="14.0" pickOnBounds="true">
+               <image>
+                  <Image url="@../icon/user.png" />
+               </image></ImageView>
             <Circle fill="#ffffff00" layoutX="100.0" layoutY="89.0" radius="75.0" stroke="#34393c" strokeType="OUTSIDE" strokeWidth="2.0" />
             <Label fx:id="lblName" alignment="CENTER" contentDisplay="CENTER" layoutY="164.0" prefHeight="50.0" prefWidth="200.0" text="Usuário" textAlignment="CENTER" textFill="WHITE" wrapText="true">
                <font>
