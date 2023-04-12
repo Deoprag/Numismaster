@@ -4,13 +4,13 @@ import lombok.Getter;
 
 @Getter
 public enum Rarity {
-    MUITO_COMUM,
-    COMUM,
-    ESCASSA,
-    RARA,
-    MUITO_RARA,
-    RARISSIMA,
-    EXTREMAMENTE_RARA,
-    MAIS_ALTA_RARIDADE,
-    UNICA
+    Muito_Comum,
+    Comum,
+    Escassa,
+    Rara,
+    Muito_Rara,
+    Rarissima,
+    Extremamente_Rara,
+    Mais_Alta_Raridade,
+    Unica
 }

@@ -4,6 +4,6 @@ import lombok.Getter;
 
 @Getter
 public enum Type {
-    DEFAULT,
-    ADMIN
+    Default,
+    Admin
 }

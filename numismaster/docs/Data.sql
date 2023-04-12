@@ -297,10 +297,10 @@ VALUES
 
 INSERT INTO TB_Coin (name, country_id, denomination, weight, diameter, thickness, rarity)
 VALUES
-('1 Real (XXXI Olimpíadas de Verão de 2016 no Rio - Rugby)', 32, 1.00, 7, 27, 1.95, "COMUM"),
-('1 Real (XXXI Olimpíadas de Verão de 2016 no Rio - Futebol)', 32, 1.00, 7, 27, 1.95, "COMUM"),
-('1 Real (XXXI Olimpíadas de Verão de 2016 no Rio - Basquete)', 32, 1.00, 7, 27, 1.95, "COMUM"),
-('1 Real (XXXI Olimpíadas de Verão de 2016 no Rio - Paracanoagem)', 32, 1.00, 7, 27, 1.95, "COMUM");
+('1 Real (XXXI Olimpíadas de Verão de 2016 no Rio - Rugby)', 32, 1.00, 7, 27, 1.95, 1),
+('1 Real (XXXI Olimpíadas de Verão de 2016 no Rio - Futebol)', 32, 1.00, 7, 27, 1.95, 1),
+('1 Real (XXXI Olimpíadas de Verão de 2016 no Rio - Basquete)', 32, 1.00, 7, 27, 1.95, 1),
+('1 Real (XXXI Olimpíadas de Verão de 2016 no Rio - Paracanoagem)', 32, 1.00, 7, 27, 1.95, 1);
 
 INSERT INTO TB_Coin_Material (coin_id, material_id)
 VALUES

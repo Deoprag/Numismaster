@@ -91,9 +91,9 @@ public class SignUpController {
 
 	public void initialize() {
 		datePickerInitializer();
-		boxGender.getItems().add(Gender.FEMININO);
-		boxGender.getItems().add(Gender.MASCULINO);
-		boxGender.getItems().add(Gender.OUTRO);
+		boxGender.getItems().add(Gender.Feminino);
+		boxGender.getItems().add(Gender.Masculino);
+		boxGender.getItems().add(Gender.Outro);
 		try {
 			File file = new File("numismaster/src/main/java/com/numismaster/icon/user.png");
 			FileInputStream fis = new FileInputStream(file);
@@ -173,7 +173,6 @@ public class SignUpController {
 			alert.showAndWait();
 			return false;
 		}
-
 		return true;
 	}
 
@@ -254,12 +253,11 @@ public class SignUpController {
 			user.setBirthDate(txtBirthDate.getValue());
 			user.setCpf(txtCpf.getText().replace(".", "").replace("-", ""));
 			user.setEmail(txtEmail.getText());
-			user.setGender(boxGender.getValue() == Gender.FEMININO ? 'F'
-					: boxGender.getValue() == Gender.MASCULINO ? 'M' : 'O');
+			user.setGender(boxGender.getValue());
 			user.setUsername(txtUsername.getText());
 			user.setPassword(Util.hashPassword(txtPassword.getText()));
 			user.setBlocked(false);
-			user.setType(Type.DEFAULT);
+			user.setType(Type.Default);
 			String code = Util.generateCode();
 
 			if(Email.sendEmail(code, user.getEmail(), user.getFirstName())){

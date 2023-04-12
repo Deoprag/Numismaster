@@ -57,6 +57,12 @@ public class RegisterItensController {
 	@FXML
 	private Button btnMinimize;
 	@FXML
+	private Button btnRegisterCoin;
+	@FXML
+	private Button btnDeleteCoin;
+	@FXML
+	private Button btnUpdateCoin;
+	@FXML
 	private Pane paneBar;
 	@FXML
 	private ImageView profilePhoto;
@@ -113,6 +119,21 @@ public class RegisterItensController {
 		fixImage(profilePhoto, true);
 		initializeBoxes();
 		loadTable();
+	}
+	
+	public void registerCoin(){
+		
+
+	}
+
+	public void deleteCoin(){
+
+
+	}
+
+	public void updateCoin(){
+
+
 	}
 
 	public void loadTable() {

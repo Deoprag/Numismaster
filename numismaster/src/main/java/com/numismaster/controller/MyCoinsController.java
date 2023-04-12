@@ -68,7 +68,7 @@ public class MyCoinsController {
 	public void loadUser(User newUser) {
 		user = newUser;
 		lblName.setText(user.getFirstName() + " " + user.getLastName());
-		if (user.getType().equals(Type.ADMIN)) {
+		if (user.getType().equals(Type.Admin)) {
 			lblName.setTextFill(Color.rgb(255, 85, 85));
 		}
 		try {

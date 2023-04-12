@@ -122,7 +122,7 @@ public class LoginController {
 							}
 						} while (i < 3);
 					}
-				} else if (user.getType().equals(Type.ADMIN)) {
+				} else if (user.getType().equals(Type.Admin)) {
 					registerItens(e);
 				} else {
 					myCoins(e);

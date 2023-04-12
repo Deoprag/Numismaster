@@ -95,17 +95,17 @@
                                     <Font name="Segoe UI Bold" size="14.0" />
                                  </font>
                               </Label>
-                              <Button fx:id="btnSignUp" layoutX="150.0" layoutY="530.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="100.0" styleClass="btn-add" stylesheets="@../css/style.css" text="Cadastrar" textFill="#34393c">
+                              <Button fx:id="btnRegisterCoin" layoutX="150.0" layoutY="530.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="100.0" styleClass="btn-add" stylesheets="@../css/style.css" text="Cadastrar" textFill="#34393c">
                                  <font>
                                     <Font name="System Bold" size="16.0" />
                                  </font>
                               </Button>
-                              <Button fx:id="btnSignUp1" layoutX="275.0" layoutY="530.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="100.0" styleClass="btn-update" stylesheets="@../css/style.css" text="Atualizar" textFill="#34393c">
+                              <Button fx:id="btnUpdateCoin" layoutX="275.0" layoutY="530.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="100.0" styleClass="btn-update" stylesheets="@../css/style.css" text="Atualizar" textFill="#34393c">
                                  <font>
                                     <Font name="System Bold" size="16.0" />
                                  </font>
                               </Button>
-                              <Button fx:id="btnSignUp11" layoutX="25.0" layoutY="530.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="100.0" styleClass="btn-delete" stylesheets="@../css/style.css" text="Deletar" textFill="#34393c">
+                              <Button fx:id="btnDeleteCoin" layoutX="25.0" layoutY="530.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="100.0" styleClass="btn-delete" stylesheets="@../css/style.css" text="Deletar" textFill="#34393c">
                                  <font>
                                     <Font name="System Bold" size="16.0" />
                                  </font>

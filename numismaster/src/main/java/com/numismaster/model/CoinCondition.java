@@ -4,9 +4,9 @@ import lombok.Getter;
 
 @Getter
 public enum CoinCondition {
-    NOVA,
-    OTIMA,
-    BOA,
-    RUIM,
-    PESSIMA;
+    Nova,
+    Otima,
+    Boa,
+    Ruim,
+    Pessima;
 }

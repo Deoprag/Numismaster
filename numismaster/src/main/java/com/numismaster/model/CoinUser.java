@@ -4,8 +4,6 @@ import java.sql.Blob;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -39,7 +37,6 @@ public class CoinUser {
 	@Column(name = "year", nullable = false)
 	private short year;
 
-	@Enumerated(EnumType.STRING)
 	@Column(name = "coin_condition", nullable = false)
 	private CoinCondition coinCondition;
 
