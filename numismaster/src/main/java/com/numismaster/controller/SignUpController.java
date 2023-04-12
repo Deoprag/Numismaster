@@ -3,7 +3,6 @@ package com.numismaster.controller;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.sql.Date;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -15,6 +14,7 @@ import com.numismaster.model.Gender;
 import com.numismaster.model.Type;
 import com.numismaster.model.User;
 import com.numismaster.repository.UserRepository;
+import com.numismaster.service.UserService;
 import com.numismaster.util.Email;
 import com.numismaster.util.MaskTextField;
 import com.numismaster.util.Util;
@@ -117,59 +117,11 @@ public class SignUpController {
 			alert.showAndWait();
 			return false;
 		}
-		if (!txtBirthDate.getValue().isBefore(LocalDate.now().minusYears(18).plusDays(1))) {
-			Alert alert = new Alert(AlertType.WARNING);
-			alert.setTitle("OPS...");
-			alert.setHeaderText("Impossivel cadastrar usuário.");
-			alert.setContentText("Você precisa ser maior de 18 anos para se cadastrar!");
-			alert.showAndWait();
-			return false;
-		}
-		if (!Validator.isCpf(txtCpf.getText().replace(".", "").replace("-", ""))) {
-			Alert alert = new Alert(AlertType.WARNING);
-			alert.setTitle("OPS...");
-			alert.setHeaderText("CPF Inválido.");
-			alert.setContentText("Você precisa informar um CPF válido!");
-			alert.showAndWait();
-			return false;
-		}
 		if (!checkPassword()) {
 			Alert alert = new Alert(AlertType.WARNING);
 			alert.setTitle("OPS...");
 			alert.setHeaderText("Senha inválida.");
 			alert.setContentText("Verifique sua senha e tente novamente!");
-			alert.showAndWait();
-			return false;
-		}
-		if (!Validator.isEmail(txtEmail.getText())) {
-			Alert alert = new Alert(AlertType.WARNING);
-			alert.setTitle("OPS...");
-			alert.setHeaderText("Email Inválido.");
-			alert.setContentText("Você precisa informar um email válido!");
-			alert.showAndWait();
-			return false;
-		}
-		if (ur.findByCpf(txtCpf.getText().replace(".", "").replace("-", "")) != null) {
-			Alert alert = new Alert(AlertType.WARNING);
-			alert.setTitle("OPS...");
-			alert.setHeaderText("CPF duplicado.");
-			alert.setContentText("O CPF informado já existe, escolha outro e tente novamente!");
-			alert.showAndWait();
-			return false;
-		}
-		if (ur.findByUsername(txtUsername.getText()) != null) {
-			Alert alert = new Alert(AlertType.WARNING);
-			alert.setTitle("OPS...");
-			alert.setHeaderText("Nome de usuário duplicado.");
-			alert.setContentText("O nome de usuário informado já existe, escolha outro e tente novamente!");
-			alert.showAndWait();
-			return false;
-		}
-		if (ur.findByEmail(txtEmail.getText()) != null) {
-			Alert alert = new Alert(AlertType.WARNING);
-			alert.setTitle("OPS...");
-			alert.setHeaderText("Email duplicado.");
-			alert.setContentText("O email informado já existe, escolha outro e tente novamente!");
 			alert.showAndWait();
 			return false;
 		}
@@ -247,7 +199,7 @@ public class SignUpController {
 	@FXML
 	public void signUp(ActionEvent e) throws IOException {
 		if (validateSignUpFields()) {
-			UserRepository ur = new UserRepository();
+			UserService userService = new UserService();
 			user.setFirstName(txtFirstName.getText());
 			user.setLastName(txtLastName.getText());
 			user.setBirthDate(txtBirthDate.getValue());
@@ -273,7 +225,7 @@ public class SignUpController {
 					if (result.isPresent()) {
 						String name = result.get();
 						if (code.equals(name)) {
-							if (ur.insert(user)) {
+							if (userService.save(user)) {
 								Alert alert = new Alert(AlertType.CONFIRMATION);
 								alert.setTitle("SUCESSO!");
 								alert.setHeaderText("Usuário cadastrado com sucesso!");

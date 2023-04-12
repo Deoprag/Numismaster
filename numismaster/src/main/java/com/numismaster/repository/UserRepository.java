@@ -34,7 +34,7 @@ public class UserRepository {
         }
     }
 
-    public User findById(int id) {
+    public User findById(Long id) {
         return entityManager.find(User.class, id);
     }
 
@@ -55,7 +55,7 @@ public class UserRepository {
         }
     }
 
-    public boolean delete(int id) {
+    public boolean delete(Long id) {
         EntityTransaction transaction = entityManager.getTransaction();
         try {
             transaction.begin();
