@@ -16,6 +16,11 @@ import com.numismaster.repository.CountryRepository;
 import com.numismaster.repository.EdgeRepository;
 import com.numismaster.repository.MaterialRepository;
 import com.numismaster.repository.ShapeRepository;
+import com.numismaster.service.CoinService;
+import com.numismaster.service.CountryService;
+import com.numismaster.service.EdgeService;
+import com.numismaster.service.MaterialService;
+import com.numismaster.service.ShapeService;
 import com.numismaster.util.Util;
 
 import javafx.beans.property.SimpleObjectProperty;
@@ -51,6 +56,7 @@ public class RegisterItensController {
 	private List<Shape> shapeList;
 	private List<Edge> edgeList;
 	private List<Material> materialList;
+	private List<Country> countryList;
 
 	@FXML
 	private Button btnClose;
@@ -120,19 +126,83 @@ public class RegisterItensController {
 		initializeBoxes();
 		loadTable();
 	}
-	
-	public void registerCoin(){
-		
 
+	public boolean validadeCoinFields() {
+
+		return true;
 	}
 
-	public void deleteCoin(){
+	public void registerCoin() {
 
+		if (validadeCoinFields()) {
+			Alert alert = new Alert(AlertType.CONFIRMATION);
+			alert.setTitle("Confirmação");
+			alert.setHeaderText("Confirmação de registro");
+			alert.setContentText("Deseja realmente registrar este moeda?");
 
+			if (alert.showAndWait().get() == ButtonType.OK) {
+				Coin coin = new Coin();
+				CountryService countryService = new CountryService();
+				ShapeService shapeService = new ShapeService();
+				EdgeService edgeService = new EdgeService();
+				MaterialService materialService = new MaterialService();
+				CoinService coinService = new CoinService();
+
+				coin.setName(txtName.getText());
+				coin.setDenomination(Float.parseFloat(txtDenomination.getText()));
+				coin.setWeight(Float.parseFloat(txtWeight.getText()));
+				coin.setDiameter(Float.parseFloat(txtDiameter.getText()));
+				coin.setThickness(Float.parseFloat(txtThickness.getText()));
+				coin.setRarity(boxRarity.getValue());
+				coin.setCountry(countryService.findByName(boxCountry.getValue()));
+				for (Shape shape : shapeList) {
+					if (boxShape.getCheckModel().isChecked(shape.getName())) {
+						coin.getShapes().add(shape);
+					}
+				}
+				for (Material material : materialList) {
+					if (boxMaterial.getCheckModel().isChecked(material.getName())) {
+						coin.getMaterials().add(material);
+					}
+				}
+				for (Edge edge : edgeList) {
+					if (boxEdge.getCheckModel().isChecked(edge.getName())) {
+						coin.getEdges().add(edge);
+					}
+				}
+				coinService.save(coin);
+
+				Alert alertSuccess = new Alert(AlertType.INFORMATION);
+				alertSuccess.setTitle("Sucesso");
+				alertSuccess.setHeaderText("Sucesso ao registrar moeda");
+				alertSuccess.setContentText("Moeda registrada com sucesso!");
+				alertSuccess.showAndWait();
+
+				txtName.clear();
+				txtDenomination.clear();
+				txtWeight.clear();
+				txtDiameter.clear();
+				txtThickness.clear();
+				boxRarity.getSelectionModel().clearSelection();
+				boxCountry.getSelectionModel().clearSelection();
+				boxShape.getCheckModel().clearChecks();
+				boxMaterial.getCheckModel().clearChecks();
+				boxEdge.getCheckModel().clearChecks();
+
+				loadTable();
+			}
+		}
 	}
 
-	public void updateCoin(){
+	public void deleteCoin() {
+		if (tbCoin.getSelectionModel().getSelectedItem() != null) {
+			Coin coin = tbCoin.getSelectionModel().getSelectedItem();
+			CoinService coinService = new CoinService();
+			coinService.delete(coin);
+		}
+	}
 
+	public void updateCoin() {
 
 	}
 
@@ -151,53 +221,60 @@ public class RegisterItensController {
 		colThickness.setCellValueFactory(new PropertyValueFactory<>("thickness"));
 		colRarity.setCellValueFactory(new PropertyValueFactory<>("rarity"));
 		colCountry.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getCountry().getName()));
-		colShape.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Coin, List<String>>, ObservableValue<List<String>>>() {
-			@Override
-			public ObservableValue<List<String>> call(TableColumn.CellDataFeatures<Coin, List<String>> cellData) {
-				List<Shape> shapes = cellData.getValue().getShapes();
-				if (shapes != null && !shapes.isEmpty()) {
-					List<String> shapeNames = new ArrayList<>();
-					for (Shape shape : shapes) {
-						shapeNames.add(shape.getName());
+		colShape.setCellValueFactory(
+				new Callback<TableColumn.CellDataFeatures<Coin, List<String>>, ObservableValue<List<String>>>() {
+					@Override
+					public ObservableValue<List<String>> call(
+							TableColumn.CellDataFeatures<Coin, List<String>> cellData) {
+						List<Shape> shapes = cellData.getValue().getShapes();
+						if (shapes != null && !shapes.isEmpty()) {
+							List<String> shapeNames = new ArrayList<>();
+							for (Shape shape : shapes) {
+								shapeNames.add(shape.getName());
+							}
+							return new SimpleObjectProperty<>(shapeNames);
+						} else {
+							return new SimpleObjectProperty<>(new ArrayList<>());
+						}
 					}
-					return new SimpleObjectProperty<>(shapeNames);
-				} else {
-					return new SimpleObjectProperty<>(new ArrayList<>());
-				}
-			}
-		});
-		colMaterial.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Coin, List<String>>, ObservableValue<List<String>>>() {
-			@Override
-			public ObservableValue<List<String>> call(TableColumn.CellDataFeatures<Coin, List<String>> cellData) {
-				List<Material> materials = cellData.getValue().getMaterials();
-				if (materials != null && !materials.isEmpty()) {
-					List<String> materialNames = new ArrayList<>();
-					for (Material material : materials) {
-						materialNames.add(material.getName());
+				});
+		colMaterial.setCellValueFactory(
+				new Callback<TableColumn.CellDataFeatures<Coin, List<String>>, ObservableValue<List<String>>>() {
+					@Override
+					public ObservableValue<List<String>> call(
+							TableColumn.CellDataFeatures<Coin, List<String>> cellData) {
+						List<Material> materials = cellData.getValue().getMaterials();
+						if (materials != null && !materials.isEmpty()) {
+							List<String> materialNames = new ArrayList<>();
+							for (Material material : materials) {
+								materialNames.add(material.getName());
+							}
+							return new SimpleObjectProperty<>(materialNames);
+						} else {
+							return new SimpleObjectProperty<>(new ArrayList<>());
+						}
 					}
-					return new SimpleObjectProperty<>(materialNames);
-				} else {
-					return new SimpleObjectProperty<>(new ArrayList<>());
-				}
-			}
-		});
-		colEdge.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Coin, List<String>>, ObservableValue<List<String>>>() {
-			@Override
-			public ObservableValue<List<String>> call(TableColumn.CellDataFeatures<Coin, List<String>> cellData) {
-				List<Edge> edges = cellData.getValue().getEdges();
-				if (edges != null && !edges.isEmpty()) {
-					List<String> edgeNames = new ArrayList<>();
-					for (Edge edge : edges) {
-						edgeNames.add(edge.getName());
+				});
+		colEdge.setCellValueFactory(
+				new Callback<TableColumn.CellDataFeatures<Coin, List<String>>, ObservableValue<List<String>>>() {
+					@Override
+					public ObservableValue<List<String>> call(
+							TableColumn.CellDataFeatures<Coin, List<String>> cellData) {
+						List<Edge> edges = cellData.getValue().getEdges();
+						if (edges != null && !edges.isEmpty()) {
+							List<String> edgeNames = new ArrayList<>();
+							for (Edge edge : edges) {
+								edgeNames.add(edge.getName());
+							}
+							return new SimpleObjectProperty<>(edgeNames);
+						} else {
+							return new SimpleObjectProperty<>(new ArrayList<>());
+						}
 					}
-					return new SimpleObjectProperty<>(edgeNames);
-				} else {
-					return new SimpleObjectProperty<>(new ArrayList<>());
-				}
-			}
-		});
+				});
 
-		tbCoin.getColumns().addAll(colName, colDenomination, colWeight, colDiameter, colThickness, colRarity, colCountry, colShape, colMaterial, colEdge);
+		tbCoin.getColumns().addAll(colName, colDenomination, colWeight, colDiameter, colThickness, colRarity,
+				colCountry, colShape, colMaterial, colEdge);
 		tbCoin.setItems(coinList);
 	}
 
@@ -242,7 +319,7 @@ public class RegisterItensController {
 		boxListener(boxEdge);
 	}
 
-	private void boxListener(NumismasterCheckComboBox<String> box){
+	private void boxListener(NumismasterCheckComboBox<String> box) {
 		box.getCheckModel().getCheckedItems().addListener(new ListChangeListener<String>() {
 			public void onChanged(ListChangeListener.Change<? extends String> c) {
 				int i = box.getCheckModel().getCheckedIndices().size();
@@ -264,9 +341,9 @@ public class RegisterItensController {
 
 	public ObservableList<String> loadCountries() {
 		CountryRepository cr = new CountryRepository();
-		List<Country> list = cr.findAll();
+		countryList = cr.findAll();
 		final ObservableList<String> obsList = FXCollections.observableArrayList();
-		for (Country c : list) {
+		for (Country c : countryList) {
 			obsList.add(c.getName());
 		}
 

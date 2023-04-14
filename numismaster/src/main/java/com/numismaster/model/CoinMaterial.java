@@ -23,10 +23,10 @@ public class CoinMaterial {
 	private int id;
 
 	@ManyToOne
-	@JoinColumn(name = "coin_id")
+	@JoinColumn(name = "coin_id", nullable = false)
 	private Coin coin;
 
 	@ManyToOne
-	@JoinColumn(name = "material_id")
+	@JoinColumn(name = "material_id", nullable = false)
 	private Material material;
 }

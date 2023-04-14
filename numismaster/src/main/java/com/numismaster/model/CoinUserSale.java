@@ -23,17 +23,17 @@ public class CoinUserSale {
 	private int id;
 	
 	@ManyToOne
-	@JoinColumn(name = "coin_user_id")
+	@JoinColumn(name = "coin_user_id", nullable = false)
 	private CoinUser coinUser;
 
 	@ManyToOne
-	@JoinColumn(name = "sale_id")
+	@JoinColumn(name = "sale_id", nullable = false)
 	private Sale sale;
 	
-	@Column(name = "price")
+	@Column(name = "price", nullable = false)
 	private float price;
 	
-	@Column(name = "quantity")
+	@Column(name = "quantity", nullable = false)
 	private int quantity;
 	
 }

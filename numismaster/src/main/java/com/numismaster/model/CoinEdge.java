@@ -23,10 +23,10 @@ public class CoinEdge {
 	private int id;
 
 	@ManyToOne
-	@JoinColumn(name = "coin_id")
+	@JoinColumn(name = "coin_id", nullable = false)
 	private Coin coin;
 
 	@ManyToOne
-	@JoinColumn(name = "edge_id")
+	@JoinColumn(name = "edge_id", nullable = false)
 	private Edge edge;
 }

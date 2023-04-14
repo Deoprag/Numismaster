@@ -5,7 +5,7 @@ USE DB_Numismaster;
 CREATE TABLE TB_Country (
     id INT AUTO_INCREMENT,
     name VARCHAR(255) NOT NULL UNIQUE,
-    code CHAR(2) NOT NULL UNIQUE,
+    code CHAR(3) NOT NULL UNIQUE,
     CONSTRAINT country_id PRIMARY KEY (id)
 );
 

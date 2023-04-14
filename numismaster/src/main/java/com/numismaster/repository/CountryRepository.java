@@ -44,6 +44,13 @@ public class CountryRepository {
     	return (Country) query.getSingleResult();
     }
 
+    public Country findByCode(String code) {
+    	EntityManager em = factory.createEntityManager();
+    	Query query = em.createQuery("SELECT u FROM tb_country u WHERE u.code = :code");
+    	query.setParameter("code", code);
+    	return (Country) query.getSingleResult();
+    }
+
     public List<Country> findAll() {
         return entityManager.createQuery("SELECT c FROM tb_country c", Country.class).getResultList();
     }

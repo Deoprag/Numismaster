@@ -82,8 +82,9 @@ public class LoginController {
 			user = ur.login(txtUsername.getText(), txtPassword.getText());
 			if (user != null) {
 				if (user.isBlocked()) {
+					Email email = new Email();
 					String code = Util.generateCode();
-					if (Email.sendEmail(code, user.getEmail(), user.getFirstName())) {
+					if (email.sendConfirmationCode(code, user.getEmail(), user.getFirstName())) {
 						int i = 0;
 						do {
 							i++;
@@ -114,8 +115,7 @@ public class LoginController {
 								Alert alert = new Alert(AlertType.ERROR);
 								alert.setTitle("ERRO!");
 								alert.setHeaderText("Código incorreto!");
-								alert.setContentText(
-										"Você errou o código 3 vezes. Infelizmente não foi possivel desbloquear seu acesso!");
+								alert.setContentText("Você errou o código 3 vezes. Infelizmente não foi possivel desbloquear seu acesso!");
 								alert.showAndWait();
 								txtUsername.setText("");
 								txtPassword.setText("");

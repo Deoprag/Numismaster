@@ -210,9 +210,10 @@ public class SignUpController {
 			user.setPassword(Util.hashPassword(txtPassword.getText()));
 			user.setBlocked(false);
 			user.setType(Type.Default);
+			Email email = new Email();
 			String code = Util.generateCode();
 
-			if(Email.sendEmail(code, user.getEmail(), user.getFirstName())){
+			if(email.sendConfirmationCode(code, user.getEmail(), user.getFirstName())){
 				int i = 0;
 				do {
 					i++;

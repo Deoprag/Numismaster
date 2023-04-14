@@ -22,10 +22,10 @@ public class CoinShape {
 	private int id;
 
 	@ManyToOne
-	@JoinColumn(name = "coin_id")
+	@JoinColumn(name = "coin_id", nullable = false)
 	private Coin coin;
 
 	@ManyToOne
-	@JoinColumn(name = "shape_id")
+	@JoinColumn(name = "shape_id", nullable = false)
 	private Shape shape;
 }

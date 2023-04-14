@@ -24,13 +24,10 @@ public class Country {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	
-	@Column(name = "name")
+	@Column(name = "name", nullable = false, unique = true)
 	private String name;
 
-	@Column(name = "code")
+	@Column(name = "code", nullable = false, unique = true, length = 3)
 	private String code;
-	
-	@OneToMany(mappedBy = "country")
-	private List<Coin> coin;
 
 }
