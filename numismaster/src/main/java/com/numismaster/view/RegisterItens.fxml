@@ -115,7 +115,7 @@
                               <Insets />
                            </opaqueInsets>
                         </Pane>
-                        <TableView fx:id="tbCoin" layoutX="420.0" layoutY="14.0" prefHeight="630.0" prefWidth="650.0" style="-fx-background-color: #d9d9d9; -fx-border-color: #373c3f; -fx-border-width: 2px;" />
+                        <TableView fx:id="tbCoin" layoutX="420.0" layoutY="14.0" onMouseClicked="#loadSelectedCoin" prefHeight="630.0" prefWidth="650.0" style="-fx-background-color: #d9d9d9; -fx-border-color: #373c3f; -fx-border-width: 2px;" />
                      </children></AnchorPane>
             </content>
           </Tab>

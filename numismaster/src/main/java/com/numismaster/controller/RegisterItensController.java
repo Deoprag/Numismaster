@@ -52,6 +52,7 @@ public class RegisterItensController {
 	private List<Edge> edgeList;
 	private List<Material> materialList;
 	private List<Country> countryList;
+	private Coin coin;
 
 	@FXML
 	private Button btnClose;
@@ -142,7 +143,6 @@ public class RegisterItensController {
 	}
 
 	public void registerCoin() {
-
 		if (validadeCoinFields()) {
 			Alert alert = new Alert(AlertType.CONFIRMATION);
 			alert.setTitle("Confirmação");
@@ -150,9 +150,9 @@ public class RegisterItensController {
 			alert.setContentText("Deseja realmente registrar este moeda?");
 
 			if (alert.showAndWait().get() == ButtonType.OK) {
-				Coin coin = new Coin();
 				CoinService coinService = new CoinService();
 
+				coin.setId(0);
 				coin.setName(txtCoinName.getText());
 				coin.setDenomination(Float.parseFloat(txtDenomination.getText().replace(",", ".")));
 				coin.setWeight(Float.parseFloat(txtWeight.getText().replace(",", ".")));
@@ -166,16 +166,19 @@ public class RegisterItensController {
 						break;
 					}
 				}
+				coin.getShapes().clear();
 				for (Shape shape : shapeList) {
 					if (boxShape.getCheckModel().isChecked(shape.getName())) {
 						coin.getShapes().add(shape);
 					}
 				}
+				coin.getMaterials().clear();
 				for (Material material : materialList) {
 					if (boxMaterial.getCheckModel().isChecked(material.getName())) {
 						coin.getMaterials().add(material);
 					}
 				}
+				coin.getEdges().clear();
 				for (Edge edge : edgeList) {
 					if (boxEdge.getCheckModel().isChecked(edge.getName())) {
 						coin.getEdges().add(edge);
@@ -207,17 +210,17 @@ public class RegisterItensController {
 	}
 
 	public void deleteCoin() {
-		
 		if (tbCoin.getSelectionModel().getSelectedItem() != null) {
 			Alert alert = new Alert(AlertType.CONFIRMATION);
 			alert.setTitle("Confirmação");
 			alert.setHeaderText("Confirmação de remoção");
-			alert.setContentText("Deseja realmente apagar a moeda: " + tbCoin.getSelectionModel().getSelectedItem().getName() + "?");
+			alert.setContentText(
+					"Deseja realmente apagar a moeda: " + tbCoin.getSelectionModel().getSelectedItem().getName() + "?");
 
 			if (alert.showAndWait().get() == ButtonType.OK) {
-				Coin coin = tbCoin.getSelectionModel().getSelectedItem();
+				coin = tbCoin.getSelectionModel().getSelectedItem();
 				CoinService coinService = new CoinService();
-				if(coinService.delete(coin)){
+				if (coinService.delete(coin)) {
 					alert = new Alert(AlertType.CONFIRMATION);
 					alert.setTitle("Sucesso!");
 					alert.setHeaderText("Sucesso na remoção");
@@ -229,7 +232,96 @@ public class RegisterItensController {
 	}
 
 	public void updateCoin() {
+		if (validadeCoinFields()) {
+			Alert alert = new Alert(AlertType.CONFIRMATION);
+			alert.setTitle("Confirmação");
+			alert.setHeaderText("Confirmação de atualização");
+			alert.setContentText("Deseja realmente atualizar este moeda?");
 
+			if (alert.showAndWait().get() == ButtonType.OK) {
+				CoinService coinService = new CoinService();
+
+				coin.setName(txtCoinName.getText());
+				coin.setDenomination(Float.parseFloat(txtDenomination.getText().replace(",", ".")));
+				coin.setWeight(Float.parseFloat(txtWeight.getText().replace(",", ".")));
+				coin.setDiameter(Float.parseFloat(txtDiameter.getText().replace(",", ".")));
+				coin.setThickness(Float.parseFloat(txtThickness.getText().replace(",", ".")));
+				coin.setRarity(boxRarity.getValue());
+
+				
+				for (Country country : countryList) {
+					if (boxCountry.getSelectionModel().getSelectedItem().equals(country.getName())) {
+						coin.setCountry(country);
+						break;
+					}
+				}
+				coin.getShapes().clear();
+				for (Shape shape : shapeList) {
+					if (boxShape.getCheckModel().isChecked(shape.getName())) {
+						coin.getShapes().add(shape);
+					}
+				}
+				coin.getMaterials().clear();
+				for (Material material : materialList) {
+					if (boxMaterial.getCheckModel().isChecked(material.getName())) {
+						coin.getMaterials().add(material);
+					}
+				}
+				coin.getEdges().clear();
+				for (Edge edge : edgeList) {
+					if (boxEdge.getCheckModel().isChecked(edge.getName())) {
+						coin.getEdges().add(edge);
+					}
+				}
+
+				if (coinService.save(coin)) {
+					Alert alertSuccess = new Alert(AlertType.INFORMATION);
+					alertSuccess.setTitle("Sucesso");
+					alertSuccess.setHeaderText("Sucesso ao atualizar moeda");
+					alertSuccess.setContentText("Moeda atualizada com sucesso!");
+					alertSuccess.showAndWait();
+
+					txtCoinName.clear();
+					txtDenomination.clear();
+					txtWeight.clear();
+					txtDiameter.clear();
+					txtThickness.clear();
+					boxRarity.getSelectionModel().clearSelection();
+					boxCountry.getSelectionModel().clearSelection();
+					boxShape.getCheckModel().clearChecks();
+					boxMaterial.getCheckModel().clearChecks();
+					boxEdge.getCheckModel().clearChecks();
+					
+					loadTable();
+				}
+			}
+		}
+	}
+
+	public void loadSelectedCoin() {
+		coin = tbCoin.getSelectionModel().getSelectedItem();
+
+		if (coin != null) {
+			txtCoinName.setText(coin.getName());
+			txtDenomination.setText(coin.getDenomination().toString());
+			txtWeight.setText(coin.getWeight().toString());
+			txtDiameter.setText(coin.getDiameter().toString());
+			txtThickness.setText(coin.getThickness().toString());
+			boxRarity.setValue(coin.getRarity());
+			boxCountry.getSelectionModel().select(coin.getCountry().getName());
+			boxShape.getCheckModel().clearChecks();
+			boxMaterial.getCheckModel().clearChecks();
+			boxEdge.getCheckModel().clearChecks();
+			for (Shape shape : coin.getShapes()) {
+				boxShape.getCheckModel().check(shape.getName());
+			}
+			for (Material material : coin.getMaterials()) {
+				boxMaterial.getCheckModel().check(material.getName());
+			}
+			for (Edge edge : coin.getEdges()) {
+				boxEdge.getCheckModel().check(edge.getName());
+			}
+		}
 	}
 
 	public void loadTable() {

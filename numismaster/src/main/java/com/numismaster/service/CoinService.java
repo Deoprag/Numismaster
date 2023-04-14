@@ -3,6 +3,7 @@ package com.numismaster.service;
 import java.util.List;
 
 import com.numismaster.model.Coin;
+import com.numismaster.model.CoinUser;
 import com.numismaster.repository.CoinRepository;
 
 import javafx.scene.control.Alert;
@@ -16,21 +17,21 @@ public class CoinService {
     }
 
     public boolean save(Coin coin){
-        if(findByName(coin.getName()) != null){
-            Alert alert = new Alert(AlertType.WARNING);
-            alert.setTitle("OPS...");
-            alert.setHeaderText("Moeda duplicada.");
-            alert.setContentText("O nome de moeda informado já está cadastrado no sistema.");
-            alert.showAndWait();
-        } else {
-            if(coin.getId() == 0){
+        if(coin.getId() == 0){
+            if(findByName(coin.getName()) != null){
+                Alert alert = new Alert(AlertType.WARNING);
+                alert.setTitle("OPS...");
+                alert.setHeaderText("Moeda duplicada.");
+                alert.setContentText("O nome de moeda informado já está cadastrado no sistema.");
+                alert.showAndWait();
+            } else {
                 if(coinRepository.insert(coin)){
                     return true;
                 }
-            } else {
-                if(coinRepository.update(coin)){
-                    return true;
-                }
+            }
+        } else {
+            if(coinRepository.update(coin)){
+                return true;
             }
         }
         return false;
@@ -38,7 +39,7 @@ public class CoinService {
 
     public boolean delete(Coin coin){
         CoinUserService coinUserService = new CoinUserService();
-        if(coinUserService.findUsersByCoin(coin) != null){
+        if(coinUserService.findUsersByCoin(coin).size() > 0){
             Alert alert = new Alert(AlertType.WARNING);
             alert.setTitle("OPS...");
             alert.setHeaderText("Não é possível excluir a moeda.");
