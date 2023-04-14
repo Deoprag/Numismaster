@@ -5,6 +5,8 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
+import javax.persistence.NoResultException;
+import javax.persistence.Query;
 
 import com.numismaster.model.Coin;
 
@@ -35,6 +37,21 @@ public class CoinRepository {
     public Coin findById(int id) {
         return entityManager.createQuery(
             "SELECT c FROM TB_Coin c ", Coin.class).setParameter("id", id).getSingleResult();
+    }
+
+    public Coin findByName(String name) {
+        EntityManager em = factory.createEntityManager();
+        Coin result;
+        try {
+            Query query = em.createQuery("SELECT c FROM TB_Coin c WHERE c.name = :name");
+            query.setParameter("name", name);
+            result = (Coin) query.getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        } finally {
+            em.close();
+        }
+        return result;
     }
     
     public List<Coin> findAll() {

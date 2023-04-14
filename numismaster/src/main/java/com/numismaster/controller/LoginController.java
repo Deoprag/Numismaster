@@ -5,7 +5,7 @@ import java.util.Optional;
 
 import com.numismaster.model.Type;
 import com.numismaster.model.User;
-import com.numismaster.repository.UserRepository;
+import com.numismaster.service.UserService;
 import com.numismaster.util.Email;
 import com.numismaster.util.Util;
 
@@ -23,7 +23,6 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
@@ -35,6 +34,8 @@ public class LoginController {
 	private Scene scene;
 	private Parent root;
 	private User user;
+
+	private double x, y;
 
 	@FXML
 	private Button btnSignIn;
@@ -54,16 +55,11 @@ public class LoginController {
 	private PasswordField txtPassword;
 	@FXML
 	private Pane paneBar;
-	@FXML
-	private ImageView dbImage;
-
-	private double x, y;
 
 	@FXML
 	public void checkUsernameInput(KeyEvent e) {
 		txtUsername.textProperty().addListener((observable, oldValue, newValue) -> {
 			String filteredValue = newValue.replaceAll("[^a-zA-Z0-9]", "");
-
 			if (!newValue.equals(filteredValue)) {
 				txtUsername.setText(filteredValue);
 			}
@@ -71,7 +67,7 @@ public class LoginController {
 	}
 
 	public void signIn(ActionEvent e) throws IOException {
-		UserRepository ur = new UserRepository();
+		UserService userService = new UserService();
 		if (txtUsername.getText().isBlank() || txtPassword.getText().isBlank()) {
 			Alert alert = new Alert(AlertType.WARNING);
 			alert.setTitle("ERRO!");
@@ -79,7 +75,7 @@ public class LoginController {
 			alert.setContentText("Você precisa preencher todos os campos!");
 			alert.showAndWait();
 		} else {
-			user = ur.login(txtUsername.getText(), txtPassword.getText());
+			user = userService.login(txtUsername.getText(), txtPassword.getText());
 			if (user != null) {
 				if (user.isBlocked()) {
 					Email email = new Email();
@@ -99,7 +95,7 @@ public class LoginController {
 								String name = result.get();
 								if (code.equals(name)) {
 									user.setBlocked(false);
-									if (ur.update(user)) {
+									if (userService.save(user)) {
 										Alert alert = new Alert(AlertType.CONFIRMATION);
 										alert.setTitle("SUCESSO!");
 										alert.setHeaderText("Usuário desbloqueado com sucesso!");

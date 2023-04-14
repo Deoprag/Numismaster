@@ -1,5 +1,8 @@
 package com.numismaster.service;
 
+import java.util.List;
+
+import com.numismaster.model.Edge;
 import com.numismaster.repository.EdgeRepository;
 
 public class EdgeService {
@@ -7,5 +10,9 @@ public class EdgeService {
 
     public EdgeService(){
         edgeRepository = new EdgeRepository();
+    }
+
+    public List<Edge> findAll(){
+        return edgeRepository.findAll();
     }
 }

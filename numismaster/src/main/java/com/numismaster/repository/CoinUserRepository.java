@@ -41,8 +41,15 @@ public class CoinUserRepository {
         return entityManager.createQuery("SELECT c FROM tb_coin_user c", CoinUser.class).getResultList();
     }
 
-    public List<CoinUser> listCoinsByUsers(Long id) {
+    public List<CoinUser> findCoinsByUsers(Long id) {
         String queryString = "SELECT c FROM tb_coin_user c WHERE c.user.id = :id";
+        TypedQuery<CoinUser> query = entityManager.createQuery(queryString, CoinUser.class);
+        query.setParameter("id", id);
+        return query.getResultList();
+    }
+
+    public List<CoinUser> findUsersByCoin(int id) {
+        String queryString = "SELECT c FROM tb_coin_user c WHERE c.coin.id = :id";
         TypedQuery<CoinUser> query = entityManager.createQuery(queryString, CoinUser.class);
         query.setParameter("id", id);
         return query.getResultList();

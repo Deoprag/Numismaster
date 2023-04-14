@@ -1,5 +1,7 @@
 package com.numismaster.service;
 
+import java.util.List;
+
 import com.numismaster.model.Country;
 import com.numismaster.repository.CountryRepository;
 
@@ -47,5 +49,8 @@ public class CountryService {
         return countryRepository.findByName(name);
     }
 
+    public List<Country> findAll(){
+        return countryRepository.findAll();
+    }
 }
 

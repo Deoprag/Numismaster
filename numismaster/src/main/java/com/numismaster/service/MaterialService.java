@@ -1,5 +1,8 @@
 package com.numismaster.service;
 
+import java.util.List;
+
+import com.numismaster.model.Material;
 import com.numismaster.repository.MaterialRepository;
 
 public class MaterialService {
@@ -7,5 +10,9 @@ public class MaterialService {
 
     public MaterialService(){
         materialRepository = new MaterialRepository();
+    }
+
+    public List<Material> findAll(){
+        return materialRepository.findAll();
     }
 }

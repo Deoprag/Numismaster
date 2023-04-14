@@ -11,11 +11,6 @@ import com.numismaster.model.Material;
 import com.numismaster.model.Rarity;
 import com.numismaster.model.Shape;
 import com.numismaster.model.User;
-import com.numismaster.repository.CoinRepository;
-import com.numismaster.repository.CountryRepository;
-import com.numismaster.repository.EdgeRepository;
-import com.numismaster.repository.MaterialRepository;
-import com.numismaster.repository.ShapeRepository;
 import com.numismaster.service.CoinService;
 import com.numismaster.service.CountryService;
 import com.numismaster.service.EdgeService;
@@ -75,7 +70,7 @@ public class RegisterItensController {
 	@FXML
 	private Label lblName;
 	@FXML
-	private TextField txtName;
+	private TextField txtCoinName;
 	@FXML
 	private TextField txtDenomination;
 	@FXML
@@ -128,6 +123,20 @@ public class RegisterItensController {
 	}
 
 	public boolean validadeCoinFields() {
+		if (txtCoinName.getText().isBlank() || txtDenomination.getText().isBlank() ||
+				txtWeight.getText().isBlank() || txtDiameter.getText().isBlank() ||
+				txtThickness.getText().isBlank() || boxRarity.getValue() == null ||
+				boxCountry.getSelectionModel().getSelectedItem() == null ||
+				boxShape.getCheckModel().getCheckedItems().isEmpty() ||
+				boxMaterial.getCheckModel().getCheckedItems().isEmpty() ||
+				boxEdge.getCheckModel().getCheckedItems().isEmpty()) {
+			Alert alert = new Alert(AlertType.WARNING);
+			alert.setTitle("ERRO!");
+			alert.setHeaderText("Verifique os campos.");
+			alert.setContentText("Você precisa preencher todos os campos!");
+			alert.showAndWait();
+			return false;
+		}
 
 		return true;
 	}
@@ -142,19 +151,21 @@ public class RegisterItensController {
 
 			if (alert.showAndWait().get() == ButtonType.OK) {
 				Coin coin = new Coin();
-				CountryService countryService = new CountryService();
-				ShapeService shapeService = new ShapeService();
-				EdgeService edgeService = new EdgeService();
-				MaterialService materialService = new MaterialService();
 				CoinService coinService = new CoinService();
 
-				coin.setName(txtName.getText());
-				coin.setDenomination(Float.parseFloat(txtDenomination.getText()));
-				coin.setWeight(Float.parseFloat(txtWeight.getText()));
-				coin.setDiameter(Float.parseFloat(txtDiameter.getText()));
-				coin.setThickness(Float.parseFloat(txtThickness.getText()));
+				coin.setName(txtCoinName.getText());
+				coin.setDenomination(Float.parseFloat(txtDenomination.getText().replace(",", ".")));
+				coin.setWeight(Float.parseFloat(txtWeight.getText().replace(",", ".")));
+				coin.setDiameter(Float.parseFloat(txtDiameter.getText().replace(",", ".")));
+				coin.setThickness(Float.parseFloat(txtThickness.getText().replace(",", ".")));
 				coin.setRarity(boxRarity.getValue());
-				coin.setCountry(countryService.findByName(boxCountry.getValue()));
+
+				for (Country country : countryList) {
+					if (boxCountry.getSelectionModel().getSelectedItem().equals(country.getName())) {
+						coin.setCountry(country);
+						break;
+					}
+				}
 				for (Shape shape : shapeList) {
 					if (boxShape.getCheckModel().isChecked(shape.getName())) {
 						coin.getShapes().add(shape);
@@ -170,35 +181,50 @@ public class RegisterItensController {
 						coin.getEdges().add(edge);
 					}
 				}
-				coinService.save(coin);
 
-				Alert alertSuccess = new Alert(AlertType.INFORMATION);
-				alertSuccess.setTitle("Sucesso");
-				alertSuccess.setHeaderText("Sucesso ao registrar moeda");
-				alertSuccess.setContentText("Moeda registrada com sucesso!");
-				alertSuccess.showAndWait();
+				if (coinService.save(coin)) {
+					Alert alertSuccess = new Alert(AlertType.INFORMATION);
+					alertSuccess.setTitle("Sucesso");
+					alertSuccess.setHeaderText("Sucesso ao registrar moeda");
+					alertSuccess.setContentText("Moeda registrada com sucesso!");
+					alertSuccess.showAndWait();
 
-				txtName.clear();
-				txtDenomination.clear();
-				txtWeight.clear();
-				txtDiameter.clear();
-				txtThickness.clear();
-				boxRarity.getSelectionModel().clearSelection();
-				boxCountry.getSelectionModel().clearSelection();
-				boxShape.getCheckModel().clearChecks();
-				boxMaterial.getCheckModel().clearChecks();
-				boxEdge.getCheckModel().clearChecks();
+					txtCoinName.clear();
+					txtDenomination.clear();
+					txtWeight.clear();
+					txtDiameter.clear();
+					txtThickness.clear();
+					boxRarity.getSelectionModel().clearSelection();
+					boxCountry.getSelectionModel().clearSelection();
+					boxShape.getCheckModel().clearChecks();
+					boxMaterial.getCheckModel().clearChecks();
+					boxEdge.getCheckModel().clearChecks();
 
-				loadTable();
+					loadTable();
+				}
 			}
 		}
 	}
 
 	public void deleteCoin() {
+		
 		if (tbCoin.getSelectionModel().getSelectedItem() != null) {
-			Coin coin = tbCoin.getSelectionModel().getSelectedItem();
-			CoinService coinService = new CoinService();
-			coinService.delete(coin);
+			Alert alert = new Alert(AlertType.CONFIRMATION);
+			alert.setTitle("Confirmação");
+			alert.setHeaderText("Confirmação de remoção");
+			alert.setContentText("Deseja realmente apagar a moeda: " + tbCoin.getSelectionModel().getSelectedItem().getName() + "?");
+
+			if (alert.showAndWait().get() == ButtonType.OK) {
+				Coin coin = tbCoin.getSelectionModel().getSelectedItem();
+				CoinService coinService = new CoinService();
+				if(coinService.delete(coin)){
+					alert = new Alert(AlertType.CONFIRMATION);
+					alert.setTitle("Sucesso!");
+					alert.setHeaderText("Sucesso na remoção");
+					alert.setContentText("Moeda apagada com sucesso!");
+					loadTable();
+				}
+			}
 		}
 	}
 
@@ -207,10 +233,11 @@ public class RegisterItensController {
 	}
 
 	public void loadTable() {
-		CoinRepository cr = new CoinRepository();
+		tbCoin.getColumns().clear();
+		CoinService coinService = new CoinService();
 		ObservableList<Coin> coinList = FXCollections.observableArrayList();
 
-		for (Coin coin : cr.findAll()) {
+		for (Coin coin : coinService.findAll()) {
 			coinList.add(coin);
 		}
 
@@ -220,7 +247,8 @@ public class RegisterItensController {
 		colDiameter.setCellValueFactory(new PropertyValueFactory<>("diameter"));
 		colThickness.setCellValueFactory(new PropertyValueFactory<>("thickness"));
 		colRarity.setCellValueFactory(new PropertyValueFactory<>("rarity"));
-		colCountry.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getCountry().getName()));
+		colCountry
+				.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getCountry().getName()));
 		colShape.setCellValueFactory(
 				new Callback<TableColumn.CellDataFeatures<Coin, List<String>>, ObservableValue<List<String>>>() {
 					@Override
@@ -280,13 +308,13 @@ public class RegisterItensController {
 
 	public void initializeBoxes() {
 
-		ShapeRepository sr = new ShapeRepository();
-		MaterialRepository mr = new MaterialRepository();
-		EdgeRepository er = new EdgeRepository();
+		ShapeService shapeService = new ShapeService();
+		MaterialService materialService = new MaterialService();
+		EdgeService edgeService = new EdgeService();
 
-		shapeList = sr.findAll();
-		materialList = mr.findAll();
-		edgeList = er.findAll();
+		shapeList = shapeService.findAll();
+		materialList = materialService.findAll();
+		edgeList = edgeService.findAll();
 
 		ObservableList<String> shapes = FXCollections.observableArrayList();
 		ObservableList<String> materials = FXCollections.observableArrayList();
@@ -340,8 +368,8 @@ public class RegisterItensController {
 	}
 
 	public ObservableList<String> loadCountries() {
-		CountryRepository cr = new CountryRepository();
-		countryList = cr.findAll();
+		CountryService countryService = new CountryService();
+		countryList = countryService.findAll();
 		final ObservableList<String> obsList = FXCollections.observableArrayList();
 		for (Country c : countryList) {
 			obsList.add(c.getName());
@@ -351,8 +379,8 @@ public class RegisterItensController {
 	}
 
 	public ObservableList<String> loadEdges() {
-		EdgeRepository er = new EdgeRepository();
-		List<Edge> list = er.findAll();
+		EdgeService edgeService = new EdgeService();
+		List<Edge> list = edgeService.findAll();
 		final ObservableList<String> obsList = FXCollections.observableArrayList();
 		for (Edge e : list) {
 			obsList.add(e.getName());

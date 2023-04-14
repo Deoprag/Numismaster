@@ -13,7 +13,6 @@ import javax.sql.rowset.serial.SerialException;
 import com.numismaster.model.Gender;
 import com.numismaster.model.Type;
 import com.numismaster.model.User;
-import com.numismaster.repository.UserRepository;
 import com.numismaster.service.UserService;
 import com.numismaster.util.Email;
 import com.numismaster.util.MaskTextField;
@@ -104,7 +103,6 @@ public class SignUpController {
 	}
 
 	public boolean validateSignUpFields() {
-		UserRepository ur = new UserRepository();
 		if (txtFirstName.getText().isBlank() || txtLastName.getText().isBlank() ||
 				txtBirthDate.getValue().toString().isBlank() || txtCpf.getText().isBlank() ||
 				boxGender.getValue() == null || txtUsername.getText().isBlank() ||

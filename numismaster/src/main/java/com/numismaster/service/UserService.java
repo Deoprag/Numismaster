@@ -39,21 +39,21 @@ public class UserService {
                     alert.setContentText("Você precisa informar um email válido!");
                     alert.showAndWait();
                 } else {
-                    if (userRepository.findByCpf(user.getCpf()) != null) {
+                    if (findByCpf(user.getCpf()) != null) {
                         Alert alert = new Alert(AlertType.WARNING);
                         alert.setTitle("OPS...");
                         alert.setHeaderText("CPF duplicado.");
                         alert.setContentText("O CPF informado já existe, escolha outro e tente novamente!");
                         alert.showAndWait();
                     } else {
-                        if (userRepository.findByUsername(user.getUsername()) != null) {
+                        if (findByUsername(user.getUsername()) != null) {
                             Alert alert = new Alert(AlertType.WARNING);
                             alert.setTitle("OPS...");
                             alert.setHeaderText("Nome de usuário duplicado.");
                             alert.setContentText("O nome de usuário informado já existe, escolha outro e tente novamente!");
                             alert.showAndWait();
                         } else {
-                            if (userRepository.findByEmail(user.getEmail()) != null) {
+                            if (findByEmail(user.getEmail()) != null) {
                                 Alert alert = new Alert(AlertType.WARNING);
                                 alert.setTitle("OPS...");
                                 alert.setHeaderText("Email duplicado.");
@@ -64,12 +64,10 @@ public class UserService {
                                     if(userRepository.insert(user)){
                                         return true;
                                     }
-                                    return false;
                                 } else {
                                     if(userRepository.update(user)){
                                         return true;
                                     }
-                                    return false;
                                 }
                             }
                         }
@@ -87,4 +85,20 @@ public class UserService {
         return false;
     }
 
+    public User login(String username, String password){
+        return userRepository.login(username, password);
+    }
+
+    public User findByCpf(String cpf){
+        return userRepository.findByCpf(cpf);
+    }
+
+    public User findByUsername(String username){
+        return userRepository.findByUsername(username);
+    }
+
+    public User findByEmail(String email){
+        return userRepository.findByEmail(email);
+    }
 }
+
