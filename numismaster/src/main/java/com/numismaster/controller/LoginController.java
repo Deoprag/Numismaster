@@ -3,12 +3,14 @@ package com.numismaster.controller;
 import java.io.IOException;
 import java.util.Optional;
 
+import com.numismaster.javafx.WaitingDialog;
 import com.numismaster.model.Type;
 import com.numismaster.model.User;
 import com.numismaster.service.UserService;
 import com.numismaster.util.Email;
 import com.numismaster.util.Util;
 
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -20,6 +22,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.PasswordField;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.Image;
@@ -34,7 +37,6 @@ public class LoginController {
 	private Scene scene;
 	private Parent root;
 	private User user;
-
 	private double x, y;
 
 	@FXML
@@ -56,7 +58,14 @@ public class LoginController {
 	@FXML
 	private Pane paneBar;
 
-	@FXML
+	public void enter() {
+		txtPassword.setOnKeyPressed(event -> {
+			if (event.getCode().getName().equals("Enter")) {
+				btnSignIn.fire();
+			}
+		});
+	}
+
 	public void checkUsernameInput(KeyEvent e) {
 		txtUsername.textProperty().addListener((observable, oldValue, newValue) -> {
 			String filteredValue = newValue.replaceAll("[^a-zA-Z0-9]", "");
@@ -67,7 +76,6 @@ public class LoginController {
 	}
 
 	public void signIn(ActionEvent e) throws IOException {
-		UserService userService = new UserService();
 		if (txtUsername.getText().isBlank() || txtPassword.getText().isBlank()) {
 			Alert alert = new Alert(AlertType.WARNING);
 			alert.setTitle("ERRO!");
@@ -75,62 +83,95 @@ public class LoginController {
 			alert.setContentText("Você precisa preencher todos os campos!");
 			alert.showAndWait();
 		} else {
-			user = userService.login(txtUsername.getText(), txtPassword.getText());
-			if (user != null) {
-				if (user.isBlocked()) {
-					Email email = new Email();
-					String code = Util.generateCode();
-					if (email.sendConfirmationCode(code, user.getEmail(), user.getFirstName())) {
-						int i = 0;
-						do {
-							i++;
-							TextInputDialog td = new TextInputDialog();
-							td.setTitle("USUARIO BLOQUEADO! Tentativa: " + i + "/3");
-							td.setHeaderText("Insira o código de confirmação enviado no email: "
-									+ Util.mockEmail(user.getEmail()));
-							td.setContentText("Código: ");
+			UserService userService = new UserService();
+			Task<User> task = new Task<User>() {
+				@Override
+				protected User call() throws Exception {
+					return userService.login(txtUsername.getText(), txtPassword.getText());
+				}
+			};
+			WaitingDialog waitingDialog = new WaitingDialog(task);
+			Thread thread = new Thread(task);
 
-							Optional<String> result = td.showAndWait();
-							if (result.isPresent()) {
-								String name = result.get();
-								if (code.equals(name)) {
-									user.setBlocked(false);
-									if (userService.save(user)) {
-										Alert alert = new Alert(AlertType.CONFIRMATION);
-										alert.setTitle("SUCESSO!");
-										alert.setHeaderText("Usuário desbloqueado com sucesso!");
-										alert.setContentText("Agora você poderá efetuar seu login no sistema.");
-										alert.showAndWait();
+			waitingDialog.show();
+			thread.start();
+			
+			task.setOnSucceeded(event -> {
+				waitingDialog.close();
+				user = task.getValue();
+				if (user != null) {
+					if (user.isBlocked()) {
+						Email email = new Email();
+						String code = Util.generateCode();
+						if (email.sendConfirmationCode(code, user.getEmail(), user.getFirstName())) {
+							int i = 0;
+							do {
+								i++;
+								TextInputDialog td = new TextInputDialog();
+								td.setTitle("USUARIO BLOQUEADO! Tentativa: " + i + "/3");
+								td.setHeaderText("Insira o código de confirmação enviado no email: "
+										+ Util.mockEmail(user.getEmail()));
+								td.setContentText("Código: ");
+
+								Optional<String> result = td.showAndWait();
+								if (result.isPresent()) {
+									String name = result.get();
+									if (code.equals(name)) {
+										user.setBlocked(false);
+										if (userService.save(user)) {
+											Alert alert = new Alert(AlertType.CONFIRMATION);
+											alert.setTitle("SUCESSO!");
+											alert.setHeaderText("Usuário desbloqueado com sucesso!");
+											alert.setContentText("Agora você poderá efetuar seu login no sistema.");
+											alert.showAndWait();
+										}
+										break;
 									}
+								} else {
 									break;
 								}
-							} else {
-								break;
-							}
-							if (i >= 3) {
-								Alert alert = new Alert(AlertType.ERROR);
-								alert.setTitle("ERRO!");
-								alert.setHeaderText("Código incorreto!");
-								alert.setContentText("Você errou o código 3 vezes. Infelizmente não foi possivel desbloquear seu acesso!");
-								alert.showAndWait();
-								txtUsername.setText("");
-								txtPassword.setText("");
-							}
-						} while (i < 3);
+								if (i >= 3) {
+									Alert alert = new Alert(AlertType.ERROR);
+									alert.setTitle("ERRO!");
+									alert.setHeaderText("Código incorreto!");
+									alert.setContentText(
+											"Você errou o código 3 vezes. Infelizmente não foi possivel desbloquear seu acesso!");
+									alert.showAndWait();
+									txtUsername.setText("");
+									txtPassword.setText("");
+								}
+							} while (i < 3);
+						}
+					} else if (user.getType().equals(Type.Admin)) {
+						try {
+							registerItens(e);
+						} catch (IOException e1) {
+							e1.printStackTrace();
+						}
+					} else {
+						try {
+							myCoins(e);
+						} catch (IOException e1) {
+							e1.printStackTrace();
+						}
 					}
-				} else if (user.getType().equals(Type.Admin)) {
-					registerItens(e);
 				} else {
-					myCoins(e);
+					txtPassword.setText("");
+					Alert alert = new Alert(AlertType.ERROR);
+					alert.setTitle("ERRO!");
+					alert.setHeaderText("Dados incorretos.");
+					alert.setContentText("Verifique se seu nome de usuário e senha estão corretos");
+					alert.showAndWait();
 				}
-			} else {
-				txtPassword.setText("");
+			});
+			task.setOnFailed(event -> {
+				waitingDialog.close();
 				Alert alert = new Alert(AlertType.ERROR);
 				alert.setTitle("ERRO!");
-				alert.setHeaderText("Dados incorretos.");
-				alert.setContentText("Verifique se seu nome de usuário e senha estão corretos");
+				alert.setHeaderText("Ocorreu um erro durante o login.");
+				alert.setContentText("Por favor, tente novamente mais tarde.");
 				alert.showAndWait();
-			}
+			});
 		}
 	}
 

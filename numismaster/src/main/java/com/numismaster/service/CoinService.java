@@ -3,7 +3,6 @@ package com.numismaster.service;
 import java.util.List;
 
 import com.numismaster.model.Coin;
-import com.numismaster.model.CoinUser;
 import com.numismaster.repository.CoinRepository;
 
 import javafx.scene.control.Alert;

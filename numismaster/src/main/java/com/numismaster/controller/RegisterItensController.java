@@ -38,6 +38,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -53,23 +54,28 @@ public class RegisterItensController {
 	private List<Material> materialList;
 	private List<Country> countryList;
 	private Coin coin;
+	private double x, y = 0;
 
 	@FXML
 	private Button btnClose;
 	@FXML
 	private Button btnMinimize;
 	@FXML
-	private Button btnRegisterCoin;
-	@FXML
-	private Button btnDeleteCoin;
-	@FXML
-	private Button btnUpdateCoin;
-	@FXML
 	private Pane paneBar;
 	@FXML
 	private ImageView profilePhoto;
 	@FXML
 	private Label lblName;
+	
+	//	Coin
+	@FXML
+	private Pane paneCoin;
+	@FXML
+	private Button btnRegisterCoin;
+	@FXML
+	private Button btnDeleteCoin;
+	@FXML
+	private Button btnUpdateCoin;
 	@FXML
 	private TextField txtCoinName;
 	@FXML
@@ -93,7 +99,7 @@ public class RegisterItensController {
 	@FXML
 	private TableView<Coin> tbCoin;
 	@FXML
-	private TableColumn<Coin, String> colName = new TableColumn<>("Nome");
+	private TableColumn<Coin, String> colCoinName = new TableColumn<>("Nome");
 	@FXML
 	private TableColumn<Coin, Integer> colDenomination = new TableColumn<>("Valor Nominal");
 	@FXML
@@ -112,15 +118,55 @@ public class RegisterItensController {
 	private TableColumn<Coin, List<String>> colMaterial = new TableColumn<>("Materiais");
 	@FXML
 	private TableColumn<Coin, List<String>> colEdge = new TableColumn<>("Bordas");
-	@FXML
-	private Pane paneCoin;
 
-	private double x, y = 0;
+	//	Country
+	@FXML
+	private TableView<Country> tbCountry;
+	@FXML
+	private Button btnRegisterCountry;
+	@FXML
+	private Button btnDeleteCountry;
+	@FXML
+	private Button btnUpdateCountry;
+	
+	//	Shape
+	@FXML
+	private TableView<Shape> tbShape;
+	@FXML
+	private Button btnRegisterShape;
+	@FXML
+	private Button btnDeleteShape;
+	@FXML
+	private Button btnUpdateShape;
+	
+	//	Material
+	@FXML
+	private TableView<Material> tbMaterial;
+	@FXML
+	private Button btnRegisterMaterial;
+	@FXML
+	private Button btnDeleteMaterial;
+	@FXML
+	private Button btnUpdateMaterial;
+	
+	//	Edge
+	@FXML
+	private TableView<Edge> tbEdge;
+	@FXML
+	private Button btnRegisterEdge;
+	@FXML
+	private Button btnDeleteEdge;
+	@FXML
+	private Button btnUpdateEdge;
 
 	public void initialize() {
 		fixImage(profilePhoto, true);
 		initializeBoxes();
-		loadTable();
+		loadCoinTable();
+	}
+
+	public void validateTextInput(KeyEvent e){
+					
 	}
 
 	public boolean validadeCoinFields() {
@@ -138,6 +184,25 @@ public class RegisterItensController {
 			alert.showAndWait();
 			return false;
 		}
+		return true;
+	}
+
+	public boolean validateCountryFields(){
+
+		return true;
+	}
+
+	public boolean validateShapeFields(){
+
+		return true;
+	}
+
+	public boolean validadeMaterialFields(){
+
+		return true;
+	}
+
+	public boolean validadeEdgeFields(){
 
 		return true;
 	}
@@ -203,10 +268,26 @@ public class RegisterItensController {
 					boxMaterial.getCheckModel().clearChecks();
 					boxEdge.getCheckModel().clearChecks();
 
-					loadTable();
+					loadCoinTable();
 				}
 			}
 		}
+	}
+
+	public void registerCountry(){
+
+	}
+	
+	public void registerShape(){
+
+	}
+
+	public void registerMaterial(){
+
+	}
+
+	public void registerEdge(){
+
 	}
 
 	public void deleteCoin() {
@@ -225,10 +306,26 @@ public class RegisterItensController {
 					alert.setTitle("Sucesso!");
 					alert.setHeaderText("Sucesso na remoção");
 					alert.setContentText("Moeda apagada com sucesso!");
-					loadTable();
+					loadCoinTable();
 				}
 			}
 		}
+	}
+
+	public void deleteCountry(){
+
+	}
+
+	public void deleteShape(){
+
+	}
+
+	public void deleteMaterial(){
+
+	}
+
+	public void deleteEdge(){
+
 	}
 
 	public void updateCoin() {
@@ -292,10 +389,26 @@ public class RegisterItensController {
 					boxMaterial.getCheckModel().clearChecks();
 					boxEdge.getCheckModel().clearChecks();
 					
-					loadTable();
+					loadCoinTable();
 				}
 			}
 		}
+	}
+
+	public void updateCountry(){
+
+	}
+
+	public void updateShape(){
+
+	}
+
+	public void updateMaterial(){
+
+	}
+
+	public void updateEdge(){
+
 	}
 
 	public void loadSelectedCoin() {
@@ -324,7 +437,23 @@ public class RegisterItensController {
 		}
 	}
 
-	public void loadTable() {
+	public void loadSelectedCountry(){
+
+	}
+
+	public void loadSelectedShape(){
+
+	}
+
+	public void loadSelectedMaterial(){
+
+	}
+
+	public void loadSelectedEdge(){
+
+	}
+
+	public void loadCoinTable() {
 		tbCoin.getColumns().clear();
 		CoinService coinService = new CoinService();
 		ObservableList<Coin> coinList = FXCollections.observableArrayList();
@@ -333,7 +462,7 @@ public class RegisterItensController {
 			coinList.add(coin);
 		}
 
-		colName.setCellValueFactory(new PropertyValueFactory<>("name"));
+		colCoinName.setCellValueFactory(new PropertyValueFactory<>("name"));
 		colDenomination.setCellValueFactory(new PropertyValueFactory<>("denomination"));
 		colWeight.setCellValueFactory(new PropertyValueFactory<>("weight"));
 		colDiameter.setCellValueFactory(new PropertyValueFactory<>("diameter"));
@@ -393,9 +522,45 @@ public class RegisterItensController {
 					}
 				});
 
-		tbCoin.getColumns().addAll(colName, colDenomination, colWeight, colDiameter, colThickness, colRarity,
+		tbCoin.getColumns().addAll(colCoinName, colDenomination, colWeight, colDiameter, colThickness, colRarity,
 				colCountry, colShape, colMaterial, colEdge);
 		tbCoin.setItems(coinList);
+	}
+
+	public void loadCountryTable(){
+
+	}
+
+	public void loadShapeTable(){
+
+	}
+
+	public void loadMaterialTable(){
+
+	}
+
+	public void loadEdgeTable(){
+
+	}
+
+	public void searchCoin(){
+
+	}
+
+	public void searchCountry(){
+		
+	}
+
+	public void searchShape(){
+
+	}
+
+	public void searchMaterial(){
+
+	}
+
+	public void searchEdge(){
+
 	}
 
 	public void initializeBoxes() {
