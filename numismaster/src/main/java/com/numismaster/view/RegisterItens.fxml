@@ -38,10 +38,10 @@
                                  </font>
                               </Label>
                               <TextField fx:id="txtCoinName" layoutX="25.0" layoutY="165.0" prefHeight="30.0" prefWidth="150.0" promptText="ex. Moeda do Império" style="-fx-background-color: #d9d9d9; -fx-border-color: #373c3f; -fx-border-width: 0 0 2 0;" />
-                              <TextField fx:id="txtDenomination" layoutX="225.0" layoutY="165.0" prefHeight="30.0" prefWidth="150.0" promptText="ex. 500" style="-fx-background-color: #d9d9d9; -fx-border-color: #373c3f; -fx-border-width: 0 0 2 0;" />
-                              <TextField fx:id="txtWeight" layoutX="25.0" layoutY="235.0" prefHeight="30.0" prefWidth="150.0" promptText="ex. 5.8" style="-fx-background-color: #d9d9d9; -fx-border-color: #373c3f; -fx-border-width: 0 0 2 0;" />
-                              <TextField fx:id="txtDiameter" layoutX="225.0" layoutY="235.0" prefHeight="30.0" prefWidth="150.0" promptText="ex. 55" style="-fx-background-color: #d9d9d9; -fx-border-color: #373c3f; -fx-border-width: 0 0 2 0;" />
-                              <TextField fx:id="txtThickness" layoutX="25.0" layoutY="300.0" prefHeight="30.0" prefWidth="150.0" promptText="ex. 3" style="-fx-background-color: #d9d9d9; -fx-border-color: #373c3f; -fx-border-width: 0 0 2 0;" />
+                              <TextField fx:id="txtDenomination" layoutX="225.0" layoutY="165.0" onKeyTyped="#checkInputs" prefHeight="30.0" prefWidth="150.0" promptText="ex. 500" style="-fx-background-color: #d9d9d9; -fx-border-color: #373c3f; -fx-border-width: 0 0 2 0;" />
+                              <TextField fx:id="txtWeight" layoutX="25.0" layoutY="235.0" onKeyTyped="#checkInputs" prefHeight="30.0" prefWidth="150.0" promptText="ex. 5.8" style="-fx-background-color: #d9d9d9; -fx-border-color: #373c3f; -fx-border-width: 0 0 2 0;" />
+                              <TextField fx:id="txtDiameter" layoutX="225.0" layoutY="235.0" onKeyTyped="#checkInputs" prefHeight="30.0" prefWidth="150.0" promptText="ex. 55" style="-fx-background-color: #d9d9d9; -fx-border-color: #373c3f; -fx-border-width: 0 0 2 0;" />
+                              <TextField fx:id="txtThickness" layoutX="25.0" layoutY="300.0" onKeyTyped="#checkInputs" prefHeight="30.0" prefWidth="150.0" promptText="ex. 3" style="-fx-background-color: #d9d9d9; -fx-border-color: #373c3f; -fx-border-width: 0 0 2 0;" />
                               <ComboBox fx:id="boxRarity" layoutX="225.0" layoutY="300.0" prefHeight="30.0" prefWidth="150.0" style="-fx-background-color: #d9d9d9; -fx-border-color: #373c3f; -fx-border-width: 0 0 2 0;" />
                               <ComboBox fx:id="boxCountry" layoutX="25.0" layoutY="375.0" prefHeight="30.0" prefWidth="150.0" style="-fx-background-color: #d9d9d9; -fx-border-color: #373c3f; -fx-border-width: 0 0 2 0;" />
                               <Label layoutX="25.0" layoutY="148.0" text="Nome" textFill="#373c3f">

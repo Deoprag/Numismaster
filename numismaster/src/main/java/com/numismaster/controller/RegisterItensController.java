@@ -163,10 +163,34 @@ public class RegisterItensController {
 		fixImage(profilePhoto, true);
 		initializeBoxes();
 		loadCoinTable();
+		checkInputs();
 	}
 
-	public void validateTextInput(KeyEvent e){
-					
+	public void checkInputs() {
+		txtDenomination.textProperty().addListener((observable, oldValue, newValue) -> {
+			String filteredValue = newValue.replaceAll("[^0-9]", "");
+			if (!newValue.equals(filteredValue)) {
+				txtDenomination.setText(filteredValue);
+			}
+		});
+		txtDiameter.textProperty().addListener((observable, oldValue, newValue) -> {
+			String filteredValue = newValue.replaceAll("[^0-9,.]", "");
+			if (!newValue.equals(filteredValue)) {
+				txtDiameter.setText(filteredValue);
+			}
+		});
+		txtThickness.textProperty().addListener((observable, oldValue, newValue) -> {
+			String filteredValue = newValue.replaceAll("[^0-9,.]", "");
+			if (!newValue.equals(filteredValue)) {
+				txtThickness.setText(filteredValue);
+			}
+		});
+		txtWeight.textProperty().addListener((observable, oldValue, newValue) -> {
+			String filteredValue = newValue.replaceAll("[^0-9,.]", "");
+			if (!newValue.equals(filteredValue)) {
+				txtWeight.setText(filteredValue);
+			}
+		});
 	}
 
 	public boolean validadeCoinFields() {
@@ -219,7 +243,7 @@ public class RegisterItensController {
 
 				coin.setId(0);
 				coin.setName(txtCoinName.getText());
-				coin.setDenomination(Float.parseFloat(txtDenomination.getText().replace(",", ".")));
+				coin.setDenomination(Integer.parseInt(txtDenomination.getText()));
 				coin.setWeight(Float.parseFloat(txtWeight.getText().replace(",", ".")));
 				coin.setDiameter(Float.parseFloat(txtDiameter.getText().replace(",", ".")));
 				coin.setThickness(Float.parseFloat(txtThickness.getText().replace(",", ".")));
@@ -339,7 +363,7 @@ public class RegisterItensController {
 				CoinService coinService = new CoinService();
 
 				coin.setName(txtCoinName.getText());
-				coin.setDenomination(Float.parseFloat(txtDenomination.getText().replace(",", ".")));
+				coin.setDenomination(Integer.parseInt(txtDenomination.getText()));
 				coin.setWeight(Float.parseFloat(txtWeight.getText().replace(",", ".")));
 				coin.setDiameter(Float.parseFloat(txtDiameter.getText().replace(",", ".")));
 				coin.setThickness(Float.parseFloat(txtThickness.getText().replace(",", ".")));
@@ -416,7 +440,7 @@ public class RegisterItensController {
 
 		if (coin != null) {
 			txtCoinName.setText(coin.getName());
-			txtDenomination.setText(coin.getDenomination().toString());
+			txtDenomination.setText(Integer.toString(coin.getDenomination()));
 			txtWeight.setText(coin.getWeight().toString());
 			txtDiameter.setText(coin.getDiameter().toString());
 			txtThickness.setText(coin.getThickness().toString());

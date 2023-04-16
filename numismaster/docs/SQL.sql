@@ -30,7 +30,7 @@ CREATE TABLE TB_Shape (
 CREATE TABLE TB_Coin (
 	id INT AUTO_INCREMENT,
 	name VARCHAR(255) NOT NULL UNIQUE,
-	denomination DECIMAL(10, 2) NOT NULL,
+	denomination INT NOT NULL,
 	weight DECIMAL(10, 2) NOT NULL,
 	diameter DECIMAL(10, 2) NOT NULL,
 	thickness DECIMAL(10, 2) NOT NULL,

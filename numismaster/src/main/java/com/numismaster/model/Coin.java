@@ -36,7 +36,7 @@ public class Coin {
 	private String name;
 
 	@Column(name = "denomination", nullable = false)
-	private Float denomination;
+	private int denomination;
 
 	@Column(name = "weight", nullable = false)
 	private Float weight;
