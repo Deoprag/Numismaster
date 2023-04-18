@@ -1,8 +1,10 @@
 package com.numismaster.util;
 
 import java.text.ParseException;
-import javafx.scene.control.TextField;
+
 import javax.swing.text.MaskFormatter;
+
+import javafx.scene.control.TextField;
 
 public class MaskTextField {
 
@@ -25,7 +27,7 @@ public class MaskTextField {
         mf.setValidCharacters(ValidCharacters);
         mf.setValueContainsLiteralCharacters(false);
         String text = tf.getText().replaceAll("[\\W]", "");
-        
+
         boolean repeat = true;
         while (repeat) {
 

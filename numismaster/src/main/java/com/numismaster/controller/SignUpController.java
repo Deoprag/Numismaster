@@ -100,6 +100,28 @@ public class SignUpController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		checkInputs();
+	}
+
+	public void checkInputs() {
+		txtFirstName.textProperty().addListener((observable, oldValue, newValue) -> {
+			String filteredValue = newValue.replaceAll("[^a-zA-Z]", "");
+			if (!newValue.equals(filteredValue)) {
+				txtFirstName.setText(filteredValue);
+			}
+		});
+		txtLastName.textProperty().addListener((observable, oldValue, newValue) -> {
+			String filteredValue = newValue.replaceAll("[^a-zA-Z]", "");
+			if (!newValue.equals(filteredValue)) {
+				txtLastName.setText(filteredValue);
+			}
+		});
+		txtUsername.textProperty().addListener((observable, oldValue, newValue) -> {
+			String filteredValue = newValue.replaceAll("[^a-zA-Z0-9]", "");
+			if (!newValue.equals(filteredValue)) {
+				txtUsername.setText(filteredValue);
+			}
+		});
 	}
 
 	public boolean validateSignUpFields() {
