@@ -1,4 +1,4 @@
-package com.numismaster.util;
+package com.numismaster.javafx;
 
 import java.text.ParseException;
 

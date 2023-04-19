@@ -38,10 +38,10 @@
                                  </font>
                               </Label>
                               <TextField fx:id="txtCoinName" layoutX="25.0" layoutY="165.0" prefHeight="30.0" prefWidth="150.0" promptText="ex. Moeda do Império" style="-fx-background-color: #d9d9d9; -fx-border-color: #373c3f; -fx-border-width: 0 0 2 0;" />
-                              <TextField fx:id="txtDenomination" layoutX="225.0" layoutY="165.0" onKeyTyped="#checkInputs" prefHeight="30.0" prefWidth="150.0" promptText="ex. 500" style="-fx-background-color: #d9d9d9; -fx-border-color: #373c3f; -fx-border-width: 0 0 2 0;" />
-                              <TextField fx:id="txtWeight" layoutX="25.0" layoutY="235.0" onKeyTyped="#checkInputs" prefHeight="30.0" prefWidth="150.0" promptText="ex. 5.8" style="-fx-background-color: #d9d9d9; -fx-border-color: #373c3f; -fx-border-width: 0 0 2 0;" />
-                              <TextField fx:id="txtDiameter" layoutX="225.0" layoutY="235.0" onKeyTyped="#checkInputs" prefHeight="30.0" prefWidth="150.0" promptText="ex. 55" style="-fx-background-color: #d9d9d9; -fx-border-color: #373c3f; -fx-border-width: 0 0 2 0;" />
-                              <TextField fx:id="txtThickness" layoutX="25.0" layoutY="300.0" onKeyTyped="#checkInputs" prefHeight="30.0" prefWidth="150.0" promptText="ex. 3" style="-fx-background-color: #d9d9d9; -fx-border-color: #373c3f; -fx-border-width: 0 0 2 0;" />
+                              <TextField fx:id="txtDenomination" layoutX="225.0" layoutY="165.0" prefHeight="30.0" prefWidth="150.0" promptText="ex. 500" style="-fx-background-color: #d9d9d9; -fx-border-color: #373c3f; -fx-border-width: 0 0 2 0;" />
+                              <TextField fx:id="txtWeight" layoutX="25.0" layoutY="235.0" prefHeight="30.0" prefWidth="150.0" promptText="ex. 5.8" style="-fx-background-color: #d9d9d9; -fx-border-color: #373c3f; -fx-border-width: 0 0 2 0;" />
+                              <TextField fx:id="txtDiameter" layoutX="225.0" layoutY="235.0" prefHeight="30.0" prefWidth="150.0" promptText="ex. 55" style="-fx-background-color: #d9d9d9; -fx-border-color: #373c3f; -fx-border-width: 0 0 2 0;" />
+                              <TextField fx:id="txtThickness" layoutX="25.0" layoutY="300.0" prefHeight="30.0" prefWidth="150.0" promptText="ex. 3" style="-fx-background-color: #d9d9d9; -fx-border-color: #373c3f; -fx-border-width: 0 0 2 0;" />
                               <ComboBox fx:id="boxRarity" layoutX="225.0" layoutY="300.0" prefHeight="30.0" prefWidth="150.0" style="-fx-background-color: #d9d9d9; -fx-border-color: #373c3f; -fx-border-width: 0 0 2 0;" />
                               <ComboBox fx:id="boxCountry" layoutX="25.0" layoutY="375.0" prefHeight="30.0" prefWidth="150.0" style="-fx-background-color: #d9d9d9; -fx-border-color: #373c3f; -fx-border-width: 0 0 2 0;" />
                               <Label layoutX="25.0" layoutY="148.0" text="Nome" textFill="#373c3f">
@@ -129,7 +129,7 @@
                      </children></AnchorPane>
             </content>
           </Tab>
-          <Tab fx:id="tabCountry" closable="false" text="País">
+          <Tab fx:id="tabCountry" closable="false" onSelectionChanged="#loadCountryTable" text="País">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #f4f4f4;">
                      <children>
@@ -169,12 +169,27 @@
                                     <Font name="System Bold" size="16.0" />
                                  </font>
                               </Button>
+                              <Label layoutX="176.0" layoutY="204.0" text="Código" textFill="#373c3f">
+                                 <font>
+                                    <Font name="Segoe UI Bold" size="14.0" />
+                                 </font>
+                              </Label>
+                              <TextField fx:id="txtCountryCode" layoutX="125.0" layoutY="222.0" prefHeight="30.0" prefWidth="150.0" promptText="ex. BR" style="-fx-background-color: #d9d9d9; -fx-border-color: #373c3f; -fx-border-width: 0 0 2 0;" />
+                              <Label layoutX="187.0" layoutY="284.0" text="País" textFill="#373c3f">
+                                 <font>
+                                    <Font name="Segoe UI Bold" size="14.0" />
+                                 </font>
+                              </Label>
+                              <TextField fx:id="txtCountryName" layoutX="125.0" layoutY="302.0" prefHeight="30.0" prefWidth="150.0" promptText="ex. Brasil" style="-fx-background-color: #d9d9d9; -fx-border-color: #373c3f; -fx-border-width: 0 0 2 0;" />
                            </children>
                            <opaqueInsets>
                               <Insets />
                            </opaqueInsets>
                         </Pane>
-                        <TableView fx:id="tbCountry" layoutX="420.0" layoutY="64.0" onMouseClicked="#loadSelectedCoin" prefHeight="580.0" prefWidth="650.0" style="-fx-background-color: #d9d9d9; -fx-border-color: #373c3f; -fx-border-width: 2px;" />
+                        <TableView fx:id="tbCountry" layoutX="420.0" layoutY="64.0" onMouseClicked="#loadSelectedCoin" prefHeight="580.0" prefWidth="650.0" style="-fx-background-color: #d9d9d9; -fx-border-color: #373c3f; -fx-border-width: 2px;">
+                           <columnResizePolicy>
+                              <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                           </columnResizePolicy></TableView>
                         <TextField layoutX="420.0" layoutY="15.0" prefHeight="40.0" prefWidth="650.0" promptText="ex. Estados Unidos" style="-fx-background-color: #ffffff; -fx-border-color: #373c3f; -fx-border-width: 2;">
                            <font>
                               <Font size="16.0" />

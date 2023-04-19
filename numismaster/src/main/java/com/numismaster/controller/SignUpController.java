@@ -10,12 +10,12 @@ import java.util.Optional;
 
 import javax.sql.rowset.serial.SerialException;
 
+import com.numismaster.javafx.MaskTextField;
 import com.numismaster.model.Gender;
 import com.numismaster.model.Type;
 import com.numismaster.model.User;
 import com.numismaster.service.UserService;
 import com.numismaster.util.Email;
-import com.numismaster.util.MaskTextField;
 import com.numismaster.util.Util;
 import com.numismaster.util.Validator;
 

@@ -20,6 +20,7 @@ import com.numismaster.util.Util;
 
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
@@ -32,13 +33,13 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -55,6 +56,12 @@ public class RegisterItensController {
 	private List<Country> countryList;
 	private Coin coin;
 	private double x, y = 0;
+
+	private CoinService coinService = new CoinService();
+	private CountryService countryService = new CountryService();
+	private ShapeService shapeService = new ShapeService();
+	private MaterialService materialService = new MaterialService();
+	private EdgeService edgeService = new EdgeService();
 
 	@FXML
 	private Button btnClose;
@@ -121,13 +128,21 @@ public class RegisterItensController {
 
 	//	Country
 	@FXML
-	private TableView<Country> tbCountry;
-	@FXML
 	private Button btnRegisterCountry;
 	@FXML
 	private Button btnDeleteCountry;
 	@FXML
+	private TextField txtCountryCode;
+	@FXML
+	private TextField txtCountryName;
+	@FXML
 	private Button btnUpdateCountry;
+	@FXML
+	private TableView<Country> tbCountry;
+	@FXML
+	private TableColumn<Country, String> colCountryCode = new TableColumn<>("Código");
+	@FXML
+	private TableColumn<Country, String> colCountryName = new TableColumn<>("Nome");
 	
 	//	Shape
 	@FXML
@@ -191,6 +206,19 @@ public class RegisterItensController {
 				txtWeight.setText(filteredValue);
 			}
 		});
+		txtCountryCode.textProperty().addListener((observable, oldValue, newValue) -> {
+			String filteredValue = newValue.replaceAll("[^a-zA-z]", "");
+			if (!newValue.equals(filteredValue)) {
+				txtCountryCode.setText(filteredValue);
+			}
+		});
+		Util.addTextLimiter(txtCountryCode, 3);
+		txtCountryName.textProperty().addListener((observable, oldValue, newValue) -> {
+			String filteredValue = newValue.replaceAll("[^a-z A-z]", "");
+			if (!newValue.equals(filteredValue)) {
+				txtCountryName.setText(filteredValue);
+			}
+		});
 	}
 
 	public boolean validadeCoinFields() {
@@ -239,59 +267,48 @@ public class RegisterItensController {
 			alert.setContentText("Deseja realmente registrar este moeda?");
 
 			if (alert.showAndWait().get() == ButtonType.OK) {
-				CoinService coinService = new CoinService();
-
-				coin.setId(0);
-				coin.setName(txtCoinName.getText());
-				coin.setDenomination(Integer.parseInt(txtDenomination.getText()));
-				coin.setWeight(Float.parseFloat(txtWeight.getText().replace(",", ".")));
-				coin.setDiameter(Float.parseFloat(txtDiameter.getText().replace(",", ".")));
-				coin.setThickness(Float.parseFloat(txtThickness.getText().replace(",", ".")));
-				coin.setRarity(boxRarity.getValue());
+				Coin tempCoin = new Coin();
+				tempCoin.setId(0);
+				tempCoin.setName(txtCoinName.getText());
+				tempCoin.setDenomination(Integer.parseInt(txtDenomination.getText()));
+				tempCoin.setWeight(Float.parseFloat(txtWeight.getText().replace(",", ".")));
+				tempCoin.setDiameter(Float.parseFloat(txtDiameter.getText().replace(",", ".")));
+				tempCoin.setThickness(Float.parseFloat(txtThickness.getText().replace(",", ".")));
+				tempCoin.setRarity(boxRarity.getValue());
 
 				for (Country country : countryList) {
 					if (boxCountry.getSelectionModel().getSelectedItem().equals(country.getName())) {
-						coin.setCountry(country);
+						tempCoin.setCountry(country);
 						break;
 					}
 				}
-				coin.getShapes().clear();
+				tempCoin.getShapes().clear();
 				for (Shape shape : shapeList) {
 					if (boxShape.getCheckModel().isChecked(shape.getName())) {
-						coin.getShapes().add(shape);
+						tempCoin.getShapes().add(shape);
 					}
 				}
-				coin.getMaterials().clear();
+				tempCoin.getMaterials().clear();
 				for (Material material : materialList) {
 					if (boxMaterial.getCheckModel().isChecked(material.getName())) {
-						coin.getMaterials().add(material);
+						tempCoin.getMaterials().add(material);
 					}
 				}
-				coin.getEdges().clear();
+				tempCoin.getEdges().clear();
 				for (Edge edge : edgeList) {
 					if (boxEdge.getCheckModel().isChecked(edge.getName())) {
-						coin.getEdges().add(edge);
+						tempCoin.getEdges().add(edge);
 					}
 				}
 
-				if (coinService.save(coin)) {
+				if (coinService.save(tempCoin)) {
 					Alert alertSuccess = new Alert(AlertType.INFORMATION);
 					alertSuccess.setTitle("Sucesso");
 					alertSuccess.setHeaderText("Sucesso ao registrar moeda");
 					alertSuccess.setContentText("Moeda registrada com sucesso!");
 					alertSuccess.showAndWait();
 
-					txtCoinName.clear();
-					txtDenomination.clear();
-					txtWeight.clear();
-					txtDiameter.clear();
-					txtThickness.clear();
-					boxRarity.getSelectionModel().clearSelection();
-					boxCountry.getSelectionModel().clearSelection();
-					boxShape.getCheckModel().clearChecks();
-					boxMaterial.getCheckModel().clearChecks();
-					boxEdge.getCheckModel().clearChecks();
-
+					clearCoinFields();
 					loadCoinTable();
 				}
 			}
@@ -319,17 +336,18 @@ public class RegisterItensController {
 			Alert alert = new Alert(AlertType.CONFIRMATION);
 			alert.setTitle("Confirmação");
 			alert.setHeaderText("Confirmação de remoção");
-			alert.setContentText(
-					"Deseja realmente apagar a moeda: " + tbCoin.getSelectionModel().getSelectedItem().getName() + "?");
+			alert.setContentText("Deseja realmente apagar a moeda: " + tbCoin.getSelectionModel().getSelectedItem().getName() + "?");
 
 			if (alert.showAndWait().get() == ButtonType.OK) {
 				coin = tbCoin.getSelectionModel().getSelectedItem();
-				CoinService coinService = new CoinService();
 				if (coinService.delete(coin)) {
 					alert = new Alert(AlertType.CONFIRMATION);
 					alert.setTitle("Sucesso!");
 					alert.setHeaderText("Sucesso na remoção");
 					alert.setContentText("Moeda apagada com sucesso!");
+					alert.showAndWait();
+
+					clearCoinFields();
 					loadCoinTable();
 				}
 			}
@@ -360,8 +378,6 @@ public class RegisterItensController {
 			alert.setContentText("Deseja realmente atualizar este moeda?");
 
 			if (alert.showAndWait().get() == ButtonType.OK) {
-				CoinService coinService = new CoinService();
-
 				coin.setName(txtCoinName.getText());
 				coin.setDenomination(Integer.parseInt(txtDenomination.getText()));
 				coin.setWeight(Float.parseFloat(txtWeight.getText().replace(",", ".")));
@@ -479,7 +495,6 @@ public class RegisterItensController {
 
 	public void loadCoinTable() {
 		tbCoin.getColumns().clear();
-		CoinService coinService = new CoinService();
 		ObservableList<Coin> coinList = FXCollections.observableArrayList();
 
 		for (Coin coin : coinService.findAll()) {
@@ -489,11 +504,43 @@ public class RegisterItensController {
 		colCoinName.setCellValueFactory(new PropertyValueFactory<>("name"));
 		colDenomination.setCellValueFactory(new PropertyValueFactory<>("denomination"));
 		colWeight.setCellValueFactory(new PropertyValueFactory<>("weight"));
+		colWeight.setCellFactory(column -> new TableCell<Coin, Float>() {
+			@Override
+			protected void updateItem(Float item, boolean empty) {
+				super.updateItem(item, empty);
+				if (empty || item == null) {
+					setText("");
+				} else {
+					setText(String.format("%.2f", item));
+				}
+			}
+		});
 		colDiameter.setCellValueFactory(new PropertyValueFactory<>("diameter"));
+		colDiameter.setCellFactory(column -> new TableCell<Coin, Float>() {
+			@Override
+			protected void updateItem(Float item, boolean empty) {
+				super.updateItem(item, empty);
+				if (empty || item == null) {
+					setText("");
+				} else {
+					setText(String.format("%.2f", item));
+				}
+			}
+		});
 		colThickness.setCellValueFactory(new PropertyValueFactory<>("thickness"));
+		colThickness.setCellFactory(column -> new TableCell<Coin, Float>() {
+			@Override
+			protected void updateItem(Float item, boolean empty) {
+				super.updateItem(item, empty);
+				if (empty || item == null) {
+					setText("");
+				} else {
+					setText(String.format("%.2f", item));
+				}
+			}
+		});
 		colRarity.setCellValueFactory(new PropertyValueFactory<>("rarity"));
-		colCountry
-				.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getCountry().getName()));
+		colCountry.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getCountry().getName()));
 		colShape.setCellValueFactory(
 				new Callback<TableColumn.CellDataFeatures<Coin, List<String>>, ObservableValue<List<String>>>() {
 					@Override
@@ -546,13 +593,23 @@ public class RegisterItensController {
 					}
 				});
 
-		tbCoin.getColumns().addAll(colCoinName, colDenomination, colWeight, colDiameter, colThickness, colRarity,
-				colCountry, colShape, colMaterial, colEdge);
+		tbCoin.getColumns().addAll(colCoinName, colDenomination, colWeight, colDiameter, colThickness, colRarity, colCountry, colShape, colMaterial, colEdge);
 		tbCoin.setItems(coinList);
 	}
 
 	public void loadCountryTable(){
+		tbCountry.getColumns().clear();
+		ObservableList<Country> countryList = FXCollections.observableArrayList();
 
+		for (Country country : countryService.findAll()) {
+			countryList.add(country);
+		}
+
+		colCountryCode.setCellValueFactory(new PropertyValueFactory<>("code"));
+		colCountryName.setCellValueFactory(new PropertyValueFactory<>("name"));
+
+		tbCountry.getColumns().addAll(colCountryCode, colCountryName);
+		tbCountry.setItems(countryList);
 	}
 
 	public void loadShapeTable(){
@@ -587,11 +644,20 @@ public class RegisterItensController {
 
 	}
 
-	public void initializeBoxes() {
+	public void clearCoinFields(){
+		txtCoinName.clear();
+		txtDenomination.clear();
+		txtWeight.clear();
+		txtDiameter.clear();
+		txtThickness.clear();
+		boxRarity.getSelectionModel().clearSelection();
+		boxCountry.getSelectionModel().clearSelection();
+		boxShape.getCheckModel().clearChecks();
+		boxMaterial.getCheckModel().clearChecks();
+		boxEdge.getCheckModel().clearChecks();
+	}
 
-		ShapeService shapeService = new ShapeService();
-		MaterialService materialService = new MaterialService();
-		EdgeService edgeService = new EdgeService();
+	public void initializeBoxes() {
 
 		shapeList = shapeService.findAll();
 		materialList = materialService.findAll();
@@ -649,7 +715,6 @@ public class RegisterItensController {
 	}
 
 	public ObservableList<String> loadCountries() {
-		CountryService countryService = new CountryService();
 		countryList = countryService.findAll();
 		final ObservableList<String> obsList = FXCollections.observableArrayList();
 		for (Country c : countryList) {
@@ -660,10 +725,8 @@ public class RegisterItensController {
 	}
 
 	public ObservableList<String> loadEdges() {
-		EdgeService edgeService = new EdgeService();
-		List<Edge> list = edgeService.findAll();
 		final ObservableList<String> obsList = FXCollections.observableArrayList();
-		for (Edge e : list) {
+		for (Edge e : edgeList) {
 			obsList.add(e.getName());
 		}
 
@@ -724,4 +787,5 @@ public class RegisterItensController {
 		Stage stage = (Stage) ((Button) e.getSource()).getScene().getWindow();
 		stage.setIconified(true);
 	}
+
 }
