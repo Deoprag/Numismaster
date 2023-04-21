@@ -21,7 +21,7 @@
    <children>
       <TabPane layoutX="200.0" layoutY="32.0" prefHeight="686.0" prefWidth="1078.0" style="-fx-background-color: #586065;" tabClosingPolicy="UNAVAILABLE">
         <tabs>
-          <Tab fx:id="tabCoin" closable="false" text="Moeda">
+          <Tab fx:id="tabCoin" closable="false" onSelectionChanged="#loadCoinTable" text="Moeda">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="1078.0" style="-fx-background-color: #586065;">
                      <children>
@@ -186,7 +186,7 @@
                               <Insets />
                            </opaqueInsets>
                         </Pane>
-                        <TableView fx:id="tbCountry" layoutX="420.0" layoutY="64.0" onMouseClicked="#loadSelectedCoin" prefHeight="580.0" prefWidth="650.0" style="-fx-background-color: #d9d9d9; -fx-border-color: #373c3f; -fx-border-width: 2px;">
+                        <TableView fx:id="tbCountry" layoutX="420.0" layoutY="64.0" onMouseClicked="#loadSelectedCountry" prefHeight="580.0" prefWidth="650.0" style="-fx-background-color: #d9d9d9; -fx-border-color: #373c3f; -fx-border-width: 2px;">
                            <columnResizePolicy>
                               <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                            </columnResizePolicy></TableView>
@@ -198,7 +198,7 @@
                      </children></AnchorPane>
             </content>
           </Tab>
-            <Tab fx:id="tabShape" closable="false" text="Formato">
+            <Tab fx:id="tabShape" closable="false" onSelectionChanged="#loadShapeTable" text="Formato">
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #f4f4f4;">
                      <children>
@@ -243,7 +243,7 @@
                               <Insets />
                            </opaqueInsets>
                         </Pane>
-                        <TableView fx:id="tbShape" layoutX="420.0" layoutY="64.0" onMouseClicked="#loadSelectedCoin" prefHeight="580.0" prefWidth="650.0" style="-fx-background-color: #d9d9d9; -fx-border-color: #373c3f; -fx-border-width: 2px;" />
+                        <TableView fx:id="tbShape" layoutX="420.0" layoutY="64.0" onMouseClicked="#loadSelectedShape" prefHeight="580.0" prefWidth="650.0" style="-fx-background-color: #d9d9d9; -fx-border-color: #373c3f; -fx-border-width: 2px;" />
                         <TextField layoutX="420.0" layoutY="15.0" prefHeight="40.0" prefWidth="650.0" promptText="ex. Circular" style="-fx-background-color: #ffffff; -fx-border-color: #373c3f; -fx-border-width: 2;">
                            <font>
                               <Font size="16.0" />
@@ -252,7 +252,7 @@
                      </children></AnchorPane>
               </content>
             </Tab>
-            <Tab fx:id="tabMaterial" closable="false" text="Material">
+            <Tab fx:id="tabMaterial" closable="false" onSelectionChanged="#loadMaterialTable" text="Material">
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #f4f4f4;">
                      <children>
@@ -297,7 +297,7 @@
                               <Insets />
                            </opaqueInsets>
                         </Pane>
-                        <TableView fx:id="tbMaterial" layoutX="420.0" layoutY="64.0" onMouseClicked="#loadSelectedCoin" prefHeight="580.0" prefWidth="650.0" style="-fx-background-color: #d9d9d9; -fx-border-color: #373c3f; -fx-border-width: 2px;" />
+                        <TableView fx:id="tbMaterial" layoutX="420.0" layoutY="64.0" onMouseClicked="#loadSelectedMaterial" prefHeight="580.0" prefWidth="650.0" style="-fx-background-color: #d9d9d9; -fx-border-color: #373c3f; -fx-border-width: 2px;" />
                         <TextField layoutX="420.0" layoutY="15.0" prefHeight="40.0" prefWidth="650.0" promptText="ex. Cobre" style="-fx-background-color: #ffffff; -fx-border-color: #373c3f; -fx-border-width: 2;">
                            <font>
                               <Font size="16.0" />
@@ -306,7 +306,7 @@
                      </children></AnchorPane>
               </content>
             </Tab>
-            <Tab fx:id="tabEdge" closable="false" text="Borda">
+            <Tab fx:id="tabEdge" closable="false" onSelectionChanged="#loadEdgeTable" text="Borda">
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #f4f4f4;">
                      <children>
@@ -351,7 +351,7 @@
                               <Insets />
                            </opaqueInsets>
                         </Pane>
-                        <TableView fx:id="tbEdge" layoutX="420.0" layoutY="64.0" onMouseClicked="#loadSelectedCoin" prefHeight="580.0" prefWidth="650.0" style="-fx-background-color: #d9d9d9; -fx-border-color: #373c3f; -fx-border-width: 2px;" />
+                        <TableView fx:id="tbEdge" layoutX="420.0" layoutY="64.0" onMouseClicked="#loadSelectedEdge" prefHeight="580.0" prefWidth="650.0" style="-fx-background-color: #d9d9d9; -fx-border-color: #373c3f; -fx-border-width: 2px;" />
                         <TextField layoutX="420.0" layoutY="15.0" prefHeight="40.0" prefWidth="650.0" promptText="ex. Serrilhada" style="-fx-background-color: #ffffff; -fx-border-color: #373c3f; -fx-border-width: 2;">
                            <font>
                               <Font size="16.0" />

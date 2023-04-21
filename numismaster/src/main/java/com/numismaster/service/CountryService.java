@@ -16,29 +16,41 @@ public class CountryService {
     }
 
     public boolean save(Country country){
-        if(countryRepository.findByName(country.getName()) != null) {
-            Alert alert = new Alert(AlertType.WARNING);
-            alert.setTitle("OPS...");
-            alert.setHeaderText("Impossivel cadastrar país.");
-            alert.setContentText("Já existe um país cadastrado com esse nome!");
-            alert.showAndWait();
-        } else {
-            if(countryRepository.findByCode(country.getCode()) != null){
+        if(country.getId() == 0){
+            if(countryRepository.findByName(country.getName()) != null) {
                 Alert alert = new Alert(AlertType.WARNING);
                 alert.setTitle("OPS...");
                 alert.setHeaderText("Impossivel cadastrar país.");
-                alert.setContentText("Já existe um país cadastrado com esse código!");
+                alert.setContentText("Já existe um país cadastrado com esse nome!");
                 alert.showAndWait();
             } else {
-                if(country.getId() == 0){
-                    countryRepository.insert(country);
+                if(countryRepository.findByCode(country.getCode()) != null){
+                    Alert alert = new Alert(AlertType.WARNING);
+                    alert.setTitle("OPS...");
+                    alert.setHeaderText("Impossivel cadastrar país.");
+                    alert.setContentText("Já existe um país cadastrado com esse código!");
+                    alert.showAndWait();
                 } else {
-                    countryRepository.update(country);
+                    return countryRepository.insert(country);
                 }
-                return true;
             }
+        } else {
+            return countryRepository.update(country);
         }
         return false;
+    }
+
+    public boolean delete(Country country){
+        if(country.getId() == 0){
+            Alert alert = new Alert(AlertType.WARNING);
+            alert.setTitle("OPS...");
+            alert.setHeaderText("Impossivel deletar país.");
+            alert.setContentText("O país não está cadastrado no sistema!");
+            alert.showAndWait();
+        } else {
+            countryRepository.delete(country.getId());
+        }
+        return true;
     }
 
     public Country findById(int id) {

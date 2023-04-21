@@ -55,6 +55,11 @@ public class RegisterItensController {
 	private List<Material> materialList;
 	private List<Country> countryList;
 	private Coin coin;
+	private Country country;
+	private Shape shape;
+	private Material material;
+	private Edge edge;
+
 	private double x, y = 0;
 
 	private CoinService coinService = new CoinService();
@@ -121,7 +126,7 @@ public class RegisterItensController {
 	private TableColumn<Coin, String> colCountry = new TableColumn<>("País");
 	@FXML
 	private TableColumn<Coin, List<String>> colShape = new TableColumn<>("Formatos");
-	@FXML
+	@FXMLs
 	private TableColumn<Coin, List<String>> colMaterial = new TableColumn<>("Materiais");
 	@FXML
 	private TableColumn<Coin, List<String>> colEdge = new TableColumn<>("Bordas");
@@ -176,8 +181,7 @@ public class RegisterItensController {
 
 	public void initialize() {
 		fixImage(profilePhoto, true);
-		initializeBoxes();
-		loadCoinTable();
+		updateBoxes();
 		checkInputs();
 	}
 
@@ -240,7 +244,23 @@ public class RegisterItensController {
 	}
 
 	public boolean validateCountryFields(){
-
+		if(txtCountryCode.getText().isBlank() || txtCountryName.getText().isBlank()){
+			Alert alert = new Alert(AlertType.WARNING);
+			alert.setTitle("ERRO!");
+			alert.setHeaderText("Verifique os campos.");
+			alert.setContentText("Você precisa preencher todos os campos!");
+			alert.showAndWait();
+			return false;
+		} else {
+			if (txtCountryCode.getText().length() < 2){
+				Alert alert = new Alert(AlertType.WARNING);
+				alert.setTitle("ERRO!");
+				alert.setHeaderText("Verifique o código do país.");
+				alert.setContentText("O código do país deve ter pelo menos 2 caracteres!");
+				alert.showAndWait();
+				return false;
+			}
+		}
 		return true;
 	}
 
@@ -264,7 +284,7 @@ public class RegisterItensController {
 			Alert alert = new Alert(AlertType.CONFIRMATION);
 			alert.setTitle("Confirmação");
 			alert.setHeaderText("Confirmação de registro");
-			alert.setContentText("Deseja realmente registrar este moeda?");
+			alert.setContentText("Deseja realmente registrar esta moeda?");
 
 			if (alert.showAndWait().get() == ButtonType.OK) {
 				Coin tempCoin = new Coin();
@@ -316,7 +336,34 @@ public class RegisterItensController {
 	}
 
 	public void registerCountry(){
+		if(validateCountryFields()){
+			Alert alert = new Alert(AlertType.CONFIRMATION);
+			alert.setTitle("Confirmação");
+			alert.setHeaderText("Confirmação de registro");
+			alert.setContentText("Deseja realmente registrar este país?");
 
+			if (alert.showAndWait().get() == ButtonType.OK) {
+				Country tempCountry = new Country();
+				tempCountry.setId(0);
+				tempCountry.setCode(txtCountryCode.getText());
+				tempCountry.setName(txtCountryName.getText());
+
+				if (countryService.save(tempCountry)) {
+					Alert alertSuccess = new Alert(AlertType.INFORMATION);
+					alertSuccess.setTitle("Sucesso");
+					alertSuccess.setHeaderText("Sucesso ao registrar país");
+					alertSuccess.setContentText("País registrado com sucesso!");
+					alertSuccess.showAndWait();
+
+					clearCountryFields();
+					loadCountryTable();
+
+					updateBoxes();
+					clearCoinFields();
+					loadCoinTable();
+				}
+			}
+		}
 	}
 	
 	public void registerShape(){
@@ -355,7 +402,30 @@ public class RegisterItensController {
 	}
 
 	public void deleteCountry(){
+		if(tbCountry.getSelectionModel().getSelectedItem() != null){
+			Alert alert = new Alert(AlertType.CONFIRMATION);
+			alert.setTitle("Confirmação");
+			alert.setHeaderText("Confirmação de remoção");
+			alert.setContentText("Deseja realmente apagar o país: " + tbCountry.getSelectionModel().getSelectedItem().getName() + "?");
 
+			if (alert.showAndWait().get() == ButtonType.OK) {
+				country = tbCountry.getSelectionModel().getSelectedItem();
+				if (countryService.delete(country)) {
+					alert = new Alert(AlertType.CONFIRMATION);
+					alert.setTitle("Sucesso!");
+					alert.setHeaderText("Sucesso na remoção");
+					alert.setContentText("País apagado com sucesso!");
+					alert.showAndWait();
+
+					clearCountryFields();
+					loadCountryTable();
+					
+					updateBoxes();
+					clearCoinFields();
+					loadCoinTable();
+				}
+			}
+		}
 	}
 
 	public void deleteShape(){
@@ -417,18 +487,8 @@ public class RegisterItensController {
 					alertSuccess.setHeaderText("Sucesso ao atualizar moeda");
 					alertSuccess.setContentText("Moeda atualizada com sucesso!");
 					alertSuccess.showAndWait();
-
-					txtCoinName.clear();
-					txtDenomination.clear();
-					txtWeight.clear();
-					txtDiameter.clear();
-					txtThickness.clear();
-					boxRarity.getSelectionModel().clearSelection();
-					boxCountry.getSelectionModel().clearSelection();
-					boxShape.getCheckModel().clearChecks();
-					boxMaterial.getCheckModel().clearChecks();
-					boxEdge.getCheckModel().clearChecks();
 					
+					clearCoinFields();
 					loadCoinTable();
 				}
 			}
@@ -436,7 +496,32 @@ public class RegisterItensController {
 	}
 
 	public void updateCountry(){
+		if(validateCountryFields()){
+			Alert alert = new Alert(AlertType.CONFIRMATION);
+			alert.setTitle("Confirmação");
+			alert.setHeaderText("Confirmação de atualização");
+			alert.setContentText("Deseja realmente atualizar este país?");
 
+			if (alert.showAndWait().get() == ButtonType.OK) {
+				country.setCode(txtCountryCode.getText());
+				country.setName(txtCountryName.getText());
+
+				if (countryService.save(country)) {
+					Alert alertSuccess = new Alert(AlertType.INFORMATION);
+					alertSuccess.setTitle("Sucesso");
+					alertSuccess.setHeaderText("Sucesso ao atualizar país");
+					alertSuccess.setContentText("País atualizado com sucesso!");
+					alertSuccess.showAndWait();
+
+					clearCountryFields();
+					loadCountryTable();
+					
+					updateBoxes();
+					clearCoinFields();
+					loadCoinTable();
+				}
+			}
+		}
 	}
 
 	public void updateShape(){
@@ -478,7 +563,12 @@ public class RegisterItensController {
 	}
 
 	public void loadSelectedCountry(){
+		country = tbCountry.getSelectionModel().getSelectedItem();
 
+		if (country != null){
+			txtCountryCode.setText(country.getCode());
+			txtCountryName.setText(country.getName());
+		}
 	}
 
 	public void loadSelectedShape(){
@@ -495,8 +585,10 @@ public class RegisterItensController {
 
 	public void loadCoinTable() {
 		tbCoin.getColumns().clear();
+
 		ObservableList<Coin> coinList = FXCollections.observableArrayList();
 
+		coinService = new CoinService();
 		for (Coin coin : coinService.findAll()) {
 			coinList.add(coin);
 		}
@@ -516,7 +608,7 @@ public class RegisterItensController {
 			}
 		});
 		colDiameter.setCellValueFactory(new PropertyValueFactory<>("diameter"));
-		colDiameter.setCellFactory(column -> new TableCell<Coin, Float>() {
+		colDiameter.setCellFactory(column -> new TableCell<Coin, Float>() { 
 			@Override
 			protected void updateItem(Float item, boolean empty) {
 				super.updateItem(item, empty);
@@ -601,6 +693,7 @@ public class RegisterItensController {
 		tbCountry.getColumns().clear();
 		ObservableList<Country> countryList = FXCollections.observableArrayList();
 
+		countryService = new CountryService();
 		for (Country country : countryService.findAll()) {
 			countryList.add(country);
 		}
@@ -657,7 +750,24 @@ public class RegisterItensController {
 		boxEdge.getCheckModel().clearChecks();
 	}
 
-	public void initializeBoxes() {
+	public void clearCountryFields(){
+		txtCountryCode.clear();
+		txtCountryName.clear();
+	}
+
+	public void updateBoxes() {
+		boxRarity.getItems().clear();
+		boxCountry.getItems().clear();
+
+		if(boxShape != null){
+			boxShape.getItems().clear();
+		}
+		if(boxMaterial != null){
+			boxMaterial.getItems().clear();
+		}
+		if(boxEdge != null){
+			boxEdge.getItems().clear();
+		}
 
 		shapeList = shapeService.findAll();
 		materialList = materialService.findAll();

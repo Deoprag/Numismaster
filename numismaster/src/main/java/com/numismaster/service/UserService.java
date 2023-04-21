@@ -1,13 +1,17 @@
 package com.numismaster.service;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
 import com.numismaster.model.User;
 import com.numismaster.repository.UserRepository;
+import com.numismaster.util.Email;
+import com.numismaster.util.Util;
 import com.numismaster.util.Validator;
 
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.TextInputDialog;
 
 public class UserService {
     
@@ -61,8 +65,33 @@ public class UserService {
                                     alert.setContentText("O email informado já existe, escolha outro e tente novamente!");
                                     alert.showAndWait();
                                 } else {
-                                    if(userRepository.insert(user)){
-                                        return true;
+                                    Email email = new Email();
+                                    String code = Util.generateCode();
+                                    if(email.sendConfirmationCode(code, user.getEmail(), user.getFirstName())){
+                                        int i = 0;
+                                        do {
+                                            i++;
+                                            TextInputDialog td = new TextInputDialog();
+                                            td.setTitle("Finalizar cadastro. Tentativa: " + i + "/3");
+                                            td.setHeaderText("Insira o código de confirmação enviado no email: " + user.getEmail());
+                                            td.setContentText("Código: ");
+                            
+                                            Optional<String> result = td.showAndWait();
+                                            if (result.isPresent()) {
+                                                String name = result.get();
+                                                if (code.equals(name)) {
+                                                    return userRepository.insert(user);
+                                                }
+                                            }
+                                            if (i >= 3) {
+                                                Alert alert = new Alert(AlertType.ERROR);
+                                                alert.setTitle("ERRO!");
+                                                alert.setHeaderText("Código incorreto!");
+                                                alert.setContentText(
+                                                        "Você errou o código 3 vezes. Infelizmente não foi possivel finalizar o cadastro!");
+                                                alert.showAndWait();
+                                            }
+                                        } while (i < 3);
                                     }
                                 }
                             }

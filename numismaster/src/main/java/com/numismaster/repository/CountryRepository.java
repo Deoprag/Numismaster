@@ -5,6 +5,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
 import com.numismaster.model.Country;
@@ -38,17 +39,34 @@ public class CountryRepository {
     }
 
     public Country findByName(String name) {
-    	EntityManager em = factory.createEntityManager();
-    	Query query = em.createQuery("SELECT u FROM tb_country u WHERE u.name = :name");
-    	query.setParameter("name", name);
-    	return (Country) query.getSingleResult();
+        EntityManager em = factory.createEntityManager();
+        Country result;
+        try {
+            Query query = em.createQuery("SELECT u FROM tb_country u WHERE u.name = :name");
+            query.setParameter("name", name);
+            result = (Country) query.getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        } finally {
+            em.close();
+        }
+        return result;
     }
 
     public Country findByCode(String code) {
-    	EntityManager em = factory.createEntityManager();
-    	Query query = em.createQuery("SELECT u FROM tb_country u WHERE u.code = :code");
-    	query.setParameter("code", code);
-    	return (Country) query.getSingleResult();
+        EntityManager em = factory.createEntityManager();
+        Country result;
+        try {
+            Query query = em.createQuery("SELECT u FROM tb_country u WHERE u.code = :code");
+            query.setParameter("code", code);
+            result = (Country) query.getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        } finally {
+            em.close();
+        }
+        return result;
+
     }
 
     public List<Country> findAll() {

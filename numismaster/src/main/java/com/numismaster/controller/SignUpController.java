@@ -230,44 +230,13 @@ public class SignUpController {
 			user.setPassword(Util.hashPassword(txtPassword.getText()));
 			user.setBlocked(false);
 			user.setType(Type.Default);
-			Email email = new Email();
-			String code = Util.generateCode();
-
-			if(email.sendConfirmationCode(code, user.getEmail(), user.getFirstName())){
-				int i = 0;
-				do {
-					i++;
-					TextInputDialog td = new TextInputDialog();
-					td.setTitle("Finalizar cadastro. Tentativa: " + i + "/3");
-					td.setHeaderText("Insira o código de confirmação enviado no email: " + user.getEmail());
-					td.setContentText("Código: ");
-	
-					Optional<String> result = td.showAndWait();
-					if (result.isPresent()) {
-						String name = result.get();
-						if (code.equals(name)) {
-							if (userService.save(user)) {
-								Alert alert = new Alert(AlertType.CONFIRMATION);
-								alert.setTitle("SUCESSO!");
-								alert.setHeaderText("Usuário cadastrado com sucesso!");
-								alert.setContentText("Agora você poderá efetuar seu login no sistema.");
-								alert.showAndWait();
-								returnToLogin(e);
-							}
-							break;
-						}
-					} else {
-						break;
-					}
-					if (i >= 3) {
-						Alert alert = new Alert(AlertType.ERROR);
-						alert.setTitle("ERRO!");
-						alert.setHeaderText("Código incorreto!");
-						alert.setContentText(
-								"Você errou o código 3 vezes. Infelizmente não foi possivel finalizar o cadastro!");
-						alert.showAndWait();
-					}
-				} while (i < 3);
+			if(userService.save(user)){
+				Alert alert = new Alert(AlertType.CONFIRMATION);
+				alert.setTitle("SUCESSO!");
+				alert.setHeaderText("Usuário cadastrado com sucesso!");
+				alert.setContentText("Agora você poderá efetuar seu login no sistema.");
+				alert.showAndWait();
+				returnToLogin(e);
 			}
 		}
 	}

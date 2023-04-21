@@ -24,14 +24,10 @@ public class CoinService {
                 alert.setContentText("O nome de moeda informado já está cadastrado no sistema.");
                 alert.showAndWait();
             } else {
-                if(coinRepository.insert(coin)){
-                    return true;
-                }
+                return coinRepository.insert(coin);
             }
         } else {
-            if(coinRepository.update(coin)){
-                return true;
-            }
+            return coinRepository.update(coin);
         }
         return false;
     }
@@ -45,6 +41,13 @@ public class CoinService {
             alert.setContentText("A moeda está sendo utilizada por algum usuário no sistema.");
             alert.showAndWait();
         } else {
+            if(coin.getId() == 0){
+                Alert alert = new Alert(AlertType.WARNING);
+                alert.setTitle("OPS...");
+                alert.setHeaderText("Não é possível excluir a moeda.");
+                alert.setContentText("A moeda não está cadastrada no sistema.");
+                alert.showAndWait();
+            }
             return coinRepository.delete(coin.getId());
         }
         return false;
