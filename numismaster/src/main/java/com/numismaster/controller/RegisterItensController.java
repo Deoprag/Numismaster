@@ -126,7 +126,7 @@ public class RegisterItensController {
 	private TableColumn<Coin, String> colCountry = new TableColumn<>("País");
 	@FXML
 	private TableColumn<Coin, List<String>> colShape = new TableColumn<>("Formatos");
-	@FXMLs
+	@FXML
 	private TableColumn<Coin, List<String>> colMaterial = new TableColumn<>("Materiais");
 	@FXML
 	private TableColumn<Coin, List<String>> colEdge = new TableColumn<>("Bordas");
@@ -151,33 +151,45 @@ public class RegisterItensController {
 	
 	//	Shape
 	@FXML
-	private TableView<Shape> tbShape;
-	@FXML
 	private Button btnRegisterShape;
 	@FXML
 	private Button btnDeleteShape;
 	@FXML
 	private Button btnUpdateShape;
+	@FXML
+	private TextField txtShapeName;
+	@FXML
+	private TableView<Shape> tbShape;
+	@FXML
+	private TableColumn<Shape, String> colShapeName = new TableColumn<>("Formato");
 	
 	//	Material
-	@FXML
-	private TableView<Material> tbMaterial;
 	@FXML
 	private Button btnRegisterMaterial;
 	@FXML
 	private Button btnDeleteMaterial;
 	@FXML
 	private Button btnUpdateMaterial;
+	@FXML
+	private TextField txtMaterialName;
+	@FXML
+	private TableView<Material> tbMaterial;
+	@FXML
+	private TableColumn<Material, String> colMaterialName = new TableColumn<>("Material");
 	
 	//	Edge
-	@FXML
-	private TableView<Edge> tbEdge;
 	@FXML
 	private Button btnRegisterEdge;
 	@FXML
 	private Button btnDeleteEdge;
 	@FXML
 	private Button btnUpdateEdge;
+	@FXML
+	private TextField txtEdgeName;
+	@FXML
+	private TableView<Edge> tbEdge;
+	@FXML
+	private TableColumn<Edge, String> colEdgeName = new TableColumn<>("Borda");
 
 	public void initialize() {
 		fixImage(profilePhoto, true);
@@ -572,15 +584,27 @@ public class RegisterItensController {
 	}
 
 	public void loadSelectedShape(){
+		shape = tbShape.getSelectionModel().getSelectedItem();
 
+		if (shape != null){
+			txtShapeName.setText(shape.getName());
+		}
 	}
 
 	public void loadSelectedMaterial(){
+		material = tbMaterial.getSelectionModel().getSelectedItem();
 
+		if (material != null){
+			txtMaterialName.setText(material.getName());
+		}
 	}
 
 	public void loadSelectedEdge(){
+		edge = tbEdge.getSelectionModel().getSelectedItem();
 
+		if (edge != null){
+			txtEdgeName.setText(edge.getName());
+		}
 	}
 
 	public void loadCoinTable() {
@@ -684,7 +708,6 @@ public class RegisterItensController {
 						}
 					}
 				});
-
 		tbCoin.getColumns().addAll(colCoinName, colDenomination, colWeight, colDiameter, colThickness, colRarity, colCountry, colShape, colMaterial, colEdge);
 		tbCoin.setItems(coinList);
 	}
@@ -700,21 +723,50 @@ public class RegisterItensController {
 
 		colCountryCode.setCellValueFactory(new PropertyValueFactory<>("code"));
 		colCountryName.setCellValueFactory(new PropertyValueFactory<>("name"));
-
 		tbCountry.getColumns().addAll(colCountryCode, colCountryName);
 		tbCountry.setItems(countryList);
 	}
 
 	public void loadShapeTable(){
+		tbShape.getColumns().clear();
+		ObservableList<Shape> shapeList = FXCollections.observableArrayList();
 
+		shapeService = new ShapeService();
+		for (Shape shape : shapeService.findAll()){
+			shapeList.add(shape);
+		}
+
+		colShapeName.setCellValueFactory(new PropertyValueFactory<>("name"));
+		tbShape.getColumns().addAll(colShapeName);
+		tbShape.setItems(shapeList);
 	}
 
 	public void loadMaterialTable(){
+		tbMaterial.getColumns().clear();
+		ObservableList<Material> materialList = FXCollections.observableArrayList();
 
+		materialService = new MaterialService();
+		for(Material material : materialService.findAll()){
+			materialList.add(material);
+		}
+
+		colMaterialName.setCellValueFactory(new PropertyValueFactory<>("name"));
+		tbMaterial.getColumns().addAll(colMaterialName);
+		tbMaterial.setItems(materialList);
 	}
 
 	public void loadEdgeTable(){
+		tbEdge.getColumns().clear();
+		ObservableList<Edge> edgeList = FXCollections.observableArrayList();
 
+		edgeService = new EdgeService();
+		for (Edge edge : edgeService.findAll()){
+			edgeList.add(edge);
+		}
+
+		colEdgeName.setCellValueFactory(new PropertyValueFactory<>("name"));
+		tbEdge.getColumns().addAll(colEdgeName);
+		tbEdge.setItems(edgeList);
 	}
 
 	public void searchCoin(){

@@ -243,7 +243,10 @@
                               <Insets />
                            </opaqueInsets>
                         </Pane>
-                        <TableView fx:id="tbShape" layoutX="420.0" layoutY="64.0" onMouseClicked="#loadSelectedShape" prefHeight="580.0" prefWidth="650.0" style="-fx-background-color: #d9d9d9; -fx-border-color: #373c3f; -fx-border-width: 2px;" />
+                        <TableView fx:id="tbShape" layoutX="420.0" layoutY="64.0" onMouseClicked="#loadSelectedShape" prefHeight="580.0" prefWidth="650.0" style="-fx-background-color: #d9d9d9; -fx-border-color: #373c3f; -fx-border-width: 2px;">
+                           <columnResizePolicy>
+                              <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                           </columnResizePolicy></TableView>
                         <TextField layoutX="420.0" layoutY="15.0" prefHeight="40.0" prefWidth="650.0" promptText="ex. Circular" style="-fx-background-color: #ffffff; -fx-border-color: #373c3f; -fx-border-width: 2;">
                            <font>
                               <Font size="16.0" />
@@ -297,7 +300,10 @@
                               <Insets />
                            </opaqueInsets>
                         </Pane>
-                        <TableView fx:id="tbMaterial" layoutX="420.0" layoutY="64.0" onMouseClicked="#loadSelectedMaterial" prefHeight="580.0" prefWidth="650.0" style="-fx-background-color: #d9d9d9; -fx-border-color: #373c3f; -fx-border-width: 2px;" />
+                        <TableView fx:id="tbMaterial" layoutX="420.0" layoutY="64.0" onMouseClicked="#loadSelectedMaterial" prefHeight="580.0" prefWidth="650.0" style="-fx-background-color: #d9d9d9; -fx-border-color: #373c3f; -fx-border-width: 2px;">
+                           <columnResizePolicy>
+                              <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                           </columnResizePolicy></TableView>
                         <TextField layoutX="420.0" layoutY="15.0" prefHeight="40.0" prefWidth="650.0" promptText="ex. Cobre" style="-fx-background-color: #ffffff; -fx-border-color: #373c3f; -fx-border-width: 2;">
                            <font>
                               <Font size="16.0" />
@@ -351,7 +357,10 @@
                               <Insets />
                            </opaqueInsets>
                         </Pane>
-                        <TableView fx:id="tbEdge" layoutX="420.0" layoutY="64.0" onMouseClicked="#loadSelectedEdge" prefHeight="580.0" prefWidth="650.0" style="-fx-background-color: #d9d9d9; -fx-border-color: #373c3f; -fx-border-width: 2px;" />
+                        <TableView fx:id="tbEdge" layoutX="420.0" layoutY="64.0" onMouseClicked="#loadSelectedEdge" prefHeight="580.0" prefWidth="650.0" style="-fx-background-color: #d9d9d9; -fx-border-color: #373c3f; -fx-border-width: 2px;">
+                           <columnResizePolicy>
+                              <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                           </columnResizePolicy></TableView>
                         <TextField layoutX="420.0" layoutY="15.0" prefHeight="40.0" prefWidth="650.0" promptText="ex. Serrilhada" style="-fx-background-color: #ffffff; -fx-border-color: #373c3f; -fx-border-width: 2;">
                            <font>
                               <Font size="16.0" />
