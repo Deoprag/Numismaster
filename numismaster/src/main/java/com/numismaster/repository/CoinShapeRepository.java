@@ -7,6 +7,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 
 import com.numismaster.model.CoinShape;
+import com.numismaster.model.Shape;
 
 public class CoinShapeRepository {
 
@@ -64,5 +65,9 @@ public class CoinShapeRepository {
             transaction.rollback();
             return false;
         }
+    }
+
+    public List<CoinShape> findCoinsByShape(Shape shape){
+        return entityManager.createQuery("SELECT c FROM tb_coin_shape c WHERE c.shape = :shape", CoinShape.class).setParameter("shape", shape).getResultList();
     }
 }

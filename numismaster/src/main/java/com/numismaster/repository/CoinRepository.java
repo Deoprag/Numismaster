@@ -9,6 +9,10 @@ import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
 import com.numismaster.model.Coin;
+import com.numismaster.model.Country;
+import com.numismaster.model.Edge;
+import com.numismaster.model.Material;
+import com.numismaster.model.Shape;
 
 public class CoinRepository {
 
@@ -85,5 +89,9 @@ public class CoinRepository {
             e.printStackTrace();
             return false;
         }
+    }
+
+    public List<Coin> findByCountry(Country country){
+        return entityManager.createQuery("SELECT c FROM TB_Coin c WHERE c.country = :country", Coin.class).setParameter("country", country).getResultList();
     }
 }

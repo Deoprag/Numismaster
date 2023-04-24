@@ -3,6 +3,7 @@ package com.numismaster.service;
 import java.util.List;
 
 import com.numismaster.model.Country;
+import com.numismaster.repository.CoinRepository;
 import com.numismaster.repository.CountryRepository;
 
 import javafx.scene.control.Alert;
@@ -48,9 +49,18 @@ public class CountryService {
             alert.setContentText("O país não está cadastrado no sistema!");
             alert.showAndWait();
         } else {
-            countryRepository.delete(country.getId());
+            CoinRepository coinRepository = new CoinRepository();
+            if(coinRepository.findByCountry(country) != null){
+                Alert alert = new Alert(AlertType.WARNING);
+                alert.setTitle("OPS...");
+                alert.setHeaderText("Não é possível excluir o país.");
+                alert.setContentText("O país está sendo utilizada por alguma moeda no sistema.");
+                alert.showAndWait();
+            } else {
+                return countryRepository.delete(country.getId());
+            }
         }
-        return true;
+        return false;
     }
 
     public Country findById(int id) {

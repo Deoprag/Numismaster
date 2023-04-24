@@ -119,3 +119,12 @@
     -fx-background-color: #a8c7cc;
     -fx-cursor: hand;
 }
+
+.btn-clear{
+    -fx-background-color: #586065;
+    -fx-font-size: 12px;
+}
+
+.btn-clear:hover{
+    -fx-background-color: #373c3f;
+}

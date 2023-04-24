@@ -115,6 +115,7 @@
                                     <Font name="System Bold" size="16.0" />
                                  </font>
                               </Button>
+                              <Button layoutX="330.0" layoutY="14.0" mnemonicParsing="false" onAction="#clearCoinFields" styleClass="btn-clear" stylesheets="@../css/style.css" text="Limpar" />
                            </children>
                            <opaqueInsets>
                               <Insets />
@@ -181,6 +182,7 @@
                                  </font>
                               </Label>
                               <TextField fx:id="txtCountryName" layoutX="125.0" layoutY="302.0" prefHeight="30.0" prefWidth="150.0" promptText="ex. Brasil" style="-fx-background-color: #d9d9d9; -fx-border-color: #373c3f; -fx-border-width: 0 0 2 0;" />
+                              <Button layoutX="330.0" layoutY="14.0" mnemonicParsing="false" onAction="#clearCountryFields" styleClass="btn-clear" stylesheets="@../css/style.css" text="Limpar" />
                            </children>
                            <opaqueInsets>
                               <Insets />
@@ -238,6 +240,13 @@
                                     <Font name="System Bold" size="16.0" />
                                  </font>
                               </Button>
+                              <Label layoutX="172.0" layoutY="256.0" text="Formato" textFill="#373c3f">
+                                 <font>
+                                    <Font name="Segoe UI Bold" size="14.0" />
+                                 </font>
+                              </Label>
+                              <TextField fx:id="txtShapeName" layoutX="125.0" layoutY="274.0" prefHeight="30.0" prefWidth="150.0" promptText="ex. Circular" style="-fx-background-color: #d9d9d9; -fx-border-color: #373c3f; -fx-border-width: 0 0 2 0;" />
+                              <Button layoutX="330.0" layoutY="14.0" mnemonicParsing="false" onAction="#clearShapeFields" styleClass="btn-clear" stylesheets="@../css/style.css" text="Limpar" />
                            </children>
                            <opaqueInsets>
                               <Insets />
@@ -295,6 +304,7 @@
                                     <Font name="System Bold" size="16.0" />
                                  </font>
                               </Button>
+                              <Button layoutX="330.0" layoutY="14.0" mnemonicParsing="false" onAction="#clearMaterialFields" styleClass="btn-clear" stylesheets="@../css/style.css" text="Limpar" />
                            </children>
                            <opaqueInsets>
                               <Insets />
@@ -352,6 +362,7 @@
                                     <Font name="System Bold" size="16.0" />
                                  </font>
                               </Button>
+                              <Button layoutX="330.0" layoutY="14.0" mnemonicParsing="false" onAction="#clearEdgeFields" styleClass="btn-clear" stylesheets="@../css/style.css" text="Limpar" />
                            </children>
                            <opaqueInsets>
                               <Insets />
