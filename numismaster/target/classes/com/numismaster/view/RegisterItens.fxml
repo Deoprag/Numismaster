@@ -122,7 +122,7 @@
                            </opaqueInsets>
                         </Pane>
                         <TableView fx:id="tbCoin" layoutX="420.0" layoutY="64.0" onMouseClicked="#loadSelectedCoin" prefHeight="580.0" prefWidth="650.0" style="-fx-background-color: #d9d9d9; -fx-border-color: #373c3f; -fx-border-width: 2px;" tableMenuButtonVisible="true" />
-                        <TextField layoutX="420.0" layoutY="15.0" onKeyTyped="#searchCoin" prefHeight="40.0" prefWidth="650.0" promptText="ex. 1 Real" style="-fx-background-color: #ffffff; -fx-border-color: #373c3f; -fx-border-width: 2;">
+                        <TextField fx:id="txtCoinSearch" layoutX="420.0" layoutY="15.0" onKeyTyped="#searchCoin" prefHeight="40.0" prefWidth="650.0" promptText="ex. 1 Real" style="-fx-background-color: #ffffff; -fx-border-color: #373c3f; -fx-border-width: 2;">
                            <font>
                               <Font size="16.0" />
                            </font>
@@ -192,7 +192,7 @@
                            <columnResizePolicy>
                               <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                            </columnResizePolicy></TableView>
-                        <TextField layoutX="420.0" layoutY="15.0" prefHeight="40.0" prefWidth="650.0" promptText="ex. Estados Unidos" style="-fx-background-color: #ffffff; -fx-border-color: #373c3f; -fx-border-width: 2;">
+                        <TextField fx:id="txtCountrySearch" layoutX="420.0" layoutY="15.0" prefHeight="40.0" prefWidth="650.0" promptText="ex. Estados Unidos" style="-fx-background-color: #ffffff; -fx-border-color: #373c3f; -fx-border-width: 2;">
                            <font>
                               <Font size="16.0" />
                            </font>
@@ -256,7 +256,7 @@
                            <columnResizePolicy>
                               <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                            </columnResizePolicy></TableView>
-                        <TextField layoutX="420.0" layoutY="15.0" prefHeight="40.0" prefWidth="650.0" promptText="ex. Circular" style="-fx-background-color: #ffffff; -fx-border-color: #373c3f; -fx-border-width: 2;">
+                        <TextField fx:id="txtShapeSearch" layoutX="420.0" layoutY="15.0" prefHeight="40.0" prefWidth="650.0" promptText="ex. Circular" style="-fx-background-color: #ffffff; -fx-border-color: #373c3f; -fx-border-width: 2;">
                            <font>
                               <Font size="16.0" />
                            </font>
@@ -305,6 +305,12 @@
                                  </font>
                               </Button>
                               <Button layoutX="330.0" layoutY="14.0" mnemonicParsing="false" onAction="#clearMaterialFields" styleClass="btn-clear" stylesheets="@../css/style.css" text="Limpar" />
+                              <Label layoutX="172.0" layoutY="256.0" text="Material" textFill="#373c3f">
+                                 <font>
+                                    <Font name="Segoe UI Bold" size="14.0" />
+                                 </font>
+                              </Label>
+                              <TextField fx:id="txtMaterialName" layoutX="125.0" layoutY="274.0" prefHeight="30.0" prefWidth="150.0" promptText="ex. Aço" style="-fx-background-color: #d9d9d9; -fx-border-color: #373c3f; -fx-border-width: 0 0 2 0;" />
                            </children>
                            <opaqueInsets>
                               <Insets />
@@ -314,7 +320,7 @@
                            <columnResizePolicy>
                               <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                            </columnResizePolicy></TableView>
-                        <TextField layoutX="420.0" layoutY="15.0" prefHeight="40.0" prefWidth="650.0" promptText="ex. Cobre" style="-fx-background-color: #ffffff; -fx-border-color: #373c3f; -fx-border-width: 2;">
+                        <TextField fx:id="txtMaterialSearch" layoutX="420.0" layoutY="15.0" prefHeight="40.0" prefWidth="650.0" promptText="ex. Cobre" style="-fx-background-color: #ffffff; -fx-border-color: #373c3f; -fx-border-width: 2;">
                            <font>
                               <Font size="16.0" />
                            </font>
@@ -363,6 +369,12 @@
                                  </font>
                               </Button>
                               <Button layoutX="330.0" layoutY="14.0" mnemonicParsing="false" onAction="#clearEdgeFields" styleClass="btn-clear" stylesheets="@../css/style.css" text="Limpar" />
+                              <Label layoutX="180.0" layoutY="256.0" text="Borda" textFill="#373c3f">
+                                 <font>
+                                    <Font name="Segoe UI Bold" size="14.0" />
+                                 </font>
+                              </Label>
+                              <TextField fx:id="txtEdgeName" layoutX="125.0" layoutY="274.0" prefHeight="30.0" prefWidth="150.0" promptText="ex. Serrilhada" style="-fx-background-color: #d9d9d9; -fx-border-color: #373c3f; -fx-border-width: 0 0 2 0;" />
                            </children>
                            <opaqueInsets>
                               <Insets />
@@ -372,7 +384,7 @@
                            <columnResizePolicy>
                               <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                            </columnResizePolicy></TableView>
-                        <TextField layoutX="420.0" layoutY="15.0" prefHeight="40.0" prefWidth="650.0" promptText="ex. Serrilhada" style="-fx-background-color: #ffffff; -fx-border-color: #373c3f; -fx-border-width: 2;">
+                        <TextField fx:id="txtEdgeSearch" layoutX="420.0" layoutY="15.0" onKeyReleased="#searchCoin" prefHeight="40.0" prefWidth="650.0" promptText="ex. Serrilhada" style="-fx-background-color: #ffffff; -fx-border-color: #373c3f; -fx-border-width: 2;">
                            <font>
                               <Font size="16.0" />
                            </font>

@@ -3,7 +3,6 @@ package com.numismaster.controller;
 import java.io.IOException;
 import java.util.Optional;
 
-import com.numismaster.javafx.WaitingDialog;
 import com.numismaster.model.Type;
 import com.numismaster.model.User;
 import com.numismaster.service.UserService;

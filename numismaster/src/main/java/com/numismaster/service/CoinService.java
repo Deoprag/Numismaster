@@ -52,12 +52,12 @@ public class CoinService {
         }
         return false;
     }
+    
+    public Coin findByName(String name){
+        return coinRepository.findByName(name);
+    }
 
     public List<Coin> findAll(){
         return coinRepository.findAll();
-    }
-
-    public Coin findByName(String name){
-        return coinRepository.findByName(name);
     }
 }

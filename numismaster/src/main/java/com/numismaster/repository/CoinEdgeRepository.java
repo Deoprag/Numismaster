@@ -6,24 +6,24 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 
-import com.numismaster.model.CoinMaterial;
-import com.numismaster.model.Material;
+import com.numismaster.model.CoinEdge;
+import com.numismaster.model.Edge;
 
-public class CoinMaterialRepository {
+public class CoinEdgeRepository {
 
     private EntityManagerFactory factory;
     private EntityManager entityManager;
 
-    public CoinMaterialRepository() {
+    public CoinEdgeRepository() {
         factory = PersistenceManager.getEntityManagerFactory();
         entityManager = factory.createEntityManager();
     }
 
-    public boolean insert(CoinMaterial coinMaterial) {
+    public boolean insert(CoinEdge CoinEdge) {
         EntityTransaction transaction = entityManager.getTransaction();
         try {
             transaction.begin();
-            entityManager.persist(coinMaterial);
+            entityManager.persist(CoinEdge);
             transaction.commit();
             return true;
         } catch (Exception ex) {
@@ -32,19 +32,19 @@ public class CoinMaterialRepository {
         }
     }
 
-    public CoinMaterial findById(int id) {
-        return entityManager.find(CoinMaterial.class, id);
+    public CoinEdge findById(int id) {
+        return entityManager.find(CoinEdge.class, id);
     }
 
-    public List<CoinMaterial> findAll() {
-        return entityManager.createQuery("SELECT c FROM tb_coin_material c", CoinMaterial.class).getResultList();
+    public List<CoinEdge> findAll() {
+        return entityManager.createQuery("SELECT c FROM tb_coin_edge c", CoinEdge.class).getResultList();
     }
 
-    public boolean update(CoinMaterial coinMaterial) {
+    public boolean update(CoinEdge CoinEdge) {
         EntityTransaction transaction = entityManager.getTransaction();
         try {
             transaction.begin();
-            entityManager.merge(coinMaterial);
+            entityManager.merge(CoinEdge);
             transaction.commit();
             return true;
         } catch (Exception ex) {
@@ -57,8 +57,8 @@ public class CoinMaterialRepository {
         EntityTransaction transaction = entityManager.getTransaction();
         try {
             transaction.begin();
-            CoinMaterial coinMaterial = entityManager.find(CoinMaterial.class, id);
-            entityManager.remove(coinMaterial);
+            CoinEdge CoinEdge = entityManager.find(CoinEdge.class, id);
+            entityManager.remove(CoinEdge);
             transaction.commit();
             return true;
         } catch (Exception e) {
@@ -68,7 +68,7 @@ public class CoinMaterialRepository {
         }
     }
 
-    public List<CoinMaterial> findCoinsByMaterial(Material material){
-        return entityManager.createQuery("SELECT c FROM tb_coin_material c WHERE c.material = :material", CoinMaterial.class).setParameter("material", material).getResultList();
+    public List<CoinEdge> findCoinsByEdge(Edge edge){
+        return entityManager.createQuery("SELECT c FROM tb_coin_edge c WHERE c.edge = :edge", CoinEdge.class).setParameter("edge", edge).getResultList();
     }
 }

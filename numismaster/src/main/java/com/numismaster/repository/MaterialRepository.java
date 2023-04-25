@@ -5,6 +5,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
 import com.numismaster.model.Material;
@@ -42,9 +43,15 @@ public class MaterialRepository {
 
     public Material findByName(String name) {
     	EntityManager em = factory.createEntityManager();
-    	Query query = em.createQuery("SELECT u FROM tb_material u WHERE u.name = :name");
-    	query.setParameter("name", name);
-    	return (Material) query.getSingleResult();
+        try{
+            Query query = em.createQuery("SELECT u FROM tb_material u WHERE u.name = :name");
+            query.setParameter("name", name);
+            return (Material) query.getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        } finally {
+            em.close();
+        }
     }
     
     public boolean update(Material material) {

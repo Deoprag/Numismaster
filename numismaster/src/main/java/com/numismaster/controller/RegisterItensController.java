@@ -99,6 +99,8 @@ public class RegisterItensController {
 	@FXML
 	private TextField txtThickness;
 	@FXML
+	private TextField txtCoinSearch;
+	@FXML
 	private ComboBox<Rarity> boxRarity;
 	@FXML
 	private ComboBox<String> boxCountry;
@@ -141,6 +143,8 @@ public class RegisterItensController {
 	@FXML
 	private TextField txtCountryName;
 	@FXML
+	private TextField txtCountrySearch;
+	@FXML
 	private Button btnUpdateCountry;
 	@FXML
 	private TableView<Country> tbCountry;
@@ -159,6 +163,8 @@ public class RegisterItensController {
 	@FXML
 	private TextField txtShapeName;
 	@FXML
+	private TextField txtShapeSearch;
+	@FXML
 	private TableView<Shape> tbShape;
 	@FXML
 	private TableColumn<Shape, String> colShapeName = new TableColumn<>("Formato");
@@ -173,6 +179,8 @@ public class RegisterItensController {
 	@FXML
 	private TextField txtMaterialName;
 	@FXML
+	private TextField txtMaterialSearch;
+	@FXML
 	private TableView<Material> tbMaterial;
 	@FXML
 	private TableColumn<Material, String> colMaterialName = new TableColumn<>("Material");
@@ -186,6 +194,8 @@ public class RegisterItensController {
 	private Button btnUpdateEdge;
 	@FXML
 	private TextField txtEdgeName;
+	@FXML
+	private TextField txtEdgeSearch;
 	@FXML
 	private TableView<Edge> tbEdge;
 	@FXML
@@ -237,7 +247,7 @@ public class RegisterItensController {
 		});
 	}
 
-	public boolean validadeCoinFields() {
+	public boolean validateCoinFields() {
 		if (txtCoinName.getText().isBlank() || txtDenomination.getText().isBlank() ||
 				txtWeight.getText().isBlank() || txtDiameter.getText().isBlank() ||
 				txtThickness.getText().isBlank() || boxRarity.getValue() == null ||
@@ -288,18 +298,32 @@ public class RegisterItensController {
 		return true;
 	}
 
-	public boolean validadeMaterialFields() {
-
+	public boolean validateMaterialFields() {
+		if (txtMaterialName.getText().isBlank()) {
+			Alert alert = new Alert(AlertType.WARNING);
+			alert.setTitle("ERRO!");
+			alert.setHeaderText("Verifique os campos.");
+			alert.setContentText("Vocé precisa preencher todos os campos!");
+			alert.showAndWait();
+			return false;
+		}
 		return true;
 	}
 
-	public boolean validadeEdgeFields() {
-
+	public boolean validateEdgeFields() {
+		if (txtEdgeName.getText().isBlank()) {
+			Alert alert = new Alert(AlertType.WARNING);
+			alert.setTitle("ERRO!");
+			alert.setHeaderText("Verifique os campos.");
+			alert.setContentText("Vocé precisa preencher todos os campos!");
+			alert.showAndWait();
+			return false;
+		}
 		return true;
 	}
 
 	public void registerCoin() {
-		if (validadeCoinFields()) {
+		if (validateCoinFields()) {
 			Alert alert = new Alert(AlertType.CONFIRMATION);
 			alert.setTitle("Confirmação");
 			alert.setHeaderText("Confirmação de registro");
@@ -416,11 +440,63 @@ public class RegisterItensController {
 	}
 
 	public void registerMaterial() {
+		if (validateMaterialFields()) {
+			Alert alert = new Alert(AlertType.CONFIRMATION);
+			alert.setTitle("Confirmação");
+			alert.setHeaderText("Confirmação de registro");
+			alert.setContentText("Deseja realmente registrar este material?");
 
+			if (alert.showAndWait().get() == ButtonType.OK) {
+				Material tempMaterial = new Material();
+				tempMaterial.setId(0);
+				tempMaterial.setName(txtMaterialName.getText());
+
+				if (materialService.save(tempMaterial)) {
+					Alert alertSuccess = new Alert(AlertType.INFORMATION);
+					alertSuccess.setTitle("Sucesso");
+					alertSuccess.setHeaderText("Sucesso ao registrar material");
+					alertSuccess.setContentText("Material registrado com sucesso!");
+					alertSuccess.showAndWait();
+
+					clearMaterialFields();
+					loadMaterialTable();
+
+					updateBoxes();
+					clearCoinFields();
+					loadCoinTable();
+				}
+			}
+		}
 	}
 
 	public void registerEdge() {
+		if (validateEdgeFields()) {
+			Alert alert = new Alert(AlertType.CONFIRMATION);
+			alert.setTitle("Confirmação");
+			alert.setHeaderText("Confirmação de registro");
+			alert.setContentText("Deseja realmente registrar esta borda?");
 
+			if (alert.showAndWait().get() == ButtonType.OK) {
+				Edge tempEdge = new Edge();
+				tempEdge.setId(0);
+				tempEdge.setName(txtEdgeName.getText());
+
+				if (edgeService.save(tempEdge)) {
+					Alert alertSuccess = new Alert(AlertType.INFORMATION);
+					alertSuccess.setTitle("Sucesso");
+					alertSuccess.setHeaderText("Sucesso ao registrar borda");
+					alertSuccess.setContentText("Borda registrada com sucesso!");
+					alertSuccess.showAndWait();
+
+					clearEdgeFields();
+					loadEdgeTable();
+
+					updateBoxes();
+					clearCoinFields();
+					loadCoinTable();
+				}
+			}
+		}
 	}
 
 	public void deleteCoin() {
@@ -505,15 +581,63 @@ public class RegisterItensController {
 	}
 
 	public void deleteMaterial() {
+		if (tbMaterial.getSelectionModel().getSelectedItem() != null) {
+			Alert alert = new Alert(AlertType.CONFIRMATION);
+			alert.setTitle("Confirmação");
+			alert.setHeaderText("Confirmação de remoção");
+			alert.setContentText("Deseja realmente apagar o material: "
+					+ tbMaterial.getSelectionModel().getSelectedItem().getName() + "?");
 
+			if (alert.showAndWait().get() == ButtonType.OK) {
+				material = tbMaterial.getSelectionModel().getSelectedItem();
+				if (materialService.delete(material)) {
+					alert = new Alert(AlertType.CONFIRMATION);
+					alert.setTitle("Sucesso!");
+					alert.setHeaderText("Sucesso na remoção");
+					alert.setContentText("Material apagado com sucesso!");
+					alert.showAndWait();
+
+					clearMaterialFields();
+					loadMaterialTable();
+
+					updateBoxes();
+					clearCoinFields();
+					loadCoinTable();
+				}
+			}
+		}
 	}
 
 	public void deleteEdge() {
+		if (tbEdge.getSelectionModel().getSelectedItem() != null) {
+			Alert alert = new Alert(AlertType.CONFIRMATION);
+			alert.setTitle("Confirmação");
+			alert.setHeaderText("Confirmação de remoção");
+			alert.setContentText("Deseja realmente apagar a borda: "
+					+ tbEdge.getSelectionModel().getSelectedItem().getName() + "?");
 
+			if (alert.showAndWait().get() == ButtonType.OK) {
+				edge = tbEdge.getSelectionModel().getSelectedItem();
+				if (edgeService.delete(edge)) {
+					alert = new Alert(AlertType.CONFIRMATION);
+					alert.setTitle("Sucesso!");
+					alert.setHeaderText("Sucesso na remoção");
+					alert.setContentText("Borda apagada com sucesso!");
+					alert.showAndWait();
+
+					clearEdgeFields();
+					loadEdgeTable();
+
+					updateBoxes();
+					clearCoinFields();
+					loadCoinTable();
+				}
+			}
+		}
 	}
 
 	public void updateCoin() {
-		if (validadeCoinFields()) {
+		if (validateCoinFields()) {
 			Alert alert = new Alert(AlertType.CONFIRMATION);
 			alert.setTitle("Confirmação");
 			alert.setHeaderText("Confirmação de atualização");
@@ -596,16 +720,16 @@ public class RegisterItensController {
 	}
 
 	public void updateShape() {
-		if(validateShapeFields()){
+		if (validateShapeFields()) {
 			Alert alert = new Alert(AlertType.CONFIRMATION);
 			alert.setTitle("Confirmação");
 			alert.setHeaderText("Confirmação de atualização");
 			alert.setContentText("Deseja realmente atualizar este formato?");
 
-			if(alert.showAndWait().get() == ButtonType.OK){
+			if (alert.showAndWait().get() == ButtonType.OK) {
 				shape.setName(txtShapeName.getText());
 
-				if(shapeService.save(shape)){
+				if (shapeService.save(shape)) {
 					Alert alertSuccess = new Alert(AlertType.INFORMATION);
 					alertSuccess.setTitle("Sucesso");
 					alertSuccess.setHeaderText("Sucesso ao atualizar formato");
@@ -624,11 +748,59 @@ public class RegisterItensController {
 	}
 
 	public void updateMaterial() {
+		if (validateMaterialFields()) {
+			Alert alert = new Alert(AlertType.CONFIRMATION);
+			alert.setTitle("Confirmação");
+			alert.setHeaderText("Confirmação de atualização");
+			alert.setContentText("Deseja realmente atualizar este material?");
 
+			if (alert.showAndWait().get() == ButtonType.OK) {
+				material.setName(txtMaterialName.getText());
+
+				if (materialService.save(material)) {
+					Alert alertSuccess = new Alert(AlertType.INFORMATION);
+					alertSuccess.setTitle("Sucesso");
+					alertSuccess.setHeaderText("Sucesso ao atualizar material");
+					alertSuccess.setContentText("Material atualizado com sucesso!");
+					alertSuccess.showAndWait();
+
+					clearMaterialFields();
+					loadMaterialTable();
+
+					updateBoxes();
+					clearCoinFields();
+					loadCoinTable();
+				}
+			}
+		}
 	}
 
 	public void updateEdge() {
+		if (validateEdgeFields()) {
+			Alert alert = new Alert(AlertType.CONFIRMATION);
+			alert.setTitle("Confirmação");
+			alert.setHeaderText("Confirmação de atualização");
+			alert.setContentText("Deseja realmente atualizar esta borda?");
 
+			if (alert.showAndWait().get() == ButtonType.OK) {
+				edge.setName(txtEdgeName.getText());
+
+				if (edgeService.save(edge)) {
+					Alert alertSuccess = new Alert(AlertType.INFORMATION);
+					alertSuccess.setTitle("Sucesso");
+					alertSuccess.setHeaderText("Sucesso ao atualizar borda");
+					alertSuccess.setContentText("Borda atualizada com sucesso!");
+					alertSuccess.showAndWait();
+
+					clearEdgeFields();
+					loadEdgeTable();
+
+					updateBoxes();
+					clearCoinFields();
+					loadCoinTable();
+				}
+			}
+		}
 	}
 
 	public void loadSelectedCoin() {
@@ -855,23 +1027,41 @@ public class RegisterItensController {
 	}
 
 	public void searchCoin() {
+		if (txtCoinSearch.getText().isEmpty()) {
+			loadCoinTable();
+		} else {
 
+		}
 	}
 
 	public void searchCountry() {
+		if (txtCountrySearch.getText().isEmpty()) {
+			loadCountryTable();
+		} else {
 
+		}
 	}
 
 	public void searchShape() {
+		if (txtShapeSearch.getText().isEmpty()) {
+			loadShapeTable();
+		} else {
 
+		}
 	}
 
 	public void searchMaterial() {
-
+		if (txtMaterialSearch.getText().isEmpty()) {
+			loadMaterialTable();
+		}
 	}
 
 	public void searchEdge() {
+		if (txtEdgeSearch.getText().isEmpty()) {
+			loadEdgeTable();
+		} else {
 
+		}
 	}
 
 	public void clearCoinFields() {
@@ -886,27 +1076,32 @@ public class RegisterItensController {
 		boxShape.getCheckModel().clearChecks();
 		boxMaterial.getCheckModel().clearChecks();
 		boxEdge.getCheckModel().clearChecks();
+		tbCoin.getSelectionModel().clearSelection();
 	}
 
 	public void clearCountryFields() {
 		country = new Country();
 		txtCountryCode.clear();
 		txtCountryName.clear();
+		tbCountry.getSelectionModel().clearSelection();
 	}
 
 	public void clearShapeFields() {
 		shape = new Shape();
 		txtShapeName.clear();
+		tbShape.getSelectionModel().clearSelection();
 	}
 
 	public void clearMaterialFields() {
 		material = new Material();
 		txtMaterialName.clear();
+		tbMaterial.getSelectionModel().clearSelection();
 	}
 
 	public void clearEdgeFields() {
 		edge = new Edge();
 		txtEdgeName.clear();
+		tbEdge.getSelectionModel().clearSelection();
 	}
 
 	public void updateBoxes() {
