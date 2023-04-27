@@ -2,6 +2,7 @@ package com.numismaster.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
 
 import com.numismaster.javafx.NumismasterCheckComboBox;
 import com.numismaster.model.Coin;
@@ -20,11 +21,11 @@ import com.numismaster.util.Util;
 
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -67,6 +68,12 @@ public class RegisterItensController {
 	private ShapeService shapeService = new ShapeService();
 	private MaterialService materialService = new MaterialService();
 	private EdgeService edgeService = new EdgeService();
+
+	ObservableList<Coin> obsCoinList = FXCollections.observableArrayList();
+	ObservableList<Country> obsCountryList = FXCollections.observableArrayList();
+	ObservableList<Shape> obsShapeList = FXCollections.observableArrayList();
+	ObservableList<Material> obsMaterialList = FXCollections.observableArrayList();
+	ObservableList<Edge> obsEdgeList = FXCollections.observableArrayList();
 
 	@FXML
 	private Button btnClose;
@@ -863,13 +870,12 @@ public class RegisterItensController {
 	}
 
 	public void loadCoinTable() {
+		tbCoin.getItems().clear();
 		tbCoin.getColumns().clear();
-
-		ObservableList<Coin> coinList = FXCollections.observableArrayList();
 
 		coinService = new CoinService();
 		for (Coin coin : coinService.findAll()) {
-			coinList.add(coin);
+			obsCoinList.add(coin);
 		}
 
 		colCoinName.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -966,76 +972,104 @@ public class RegisterItensController {
 				});
 		tbCoin.getColumns().addAll(colCoinName, colDenomination, colWeight, colDiameter, colThickness, colRarity,
 				colCountry, colShape, colMaterial, colEdge);
-		tbCoin.setItems(coinList);
+		tbCoin.setItems(obsCoinList);
 	}
 
 	public void loadCountryTable() {
 		tbCountry.getColumns().clear();
-		ObservableList<Country> countryList = FXCollections.observableArrayList();
 
 		countryService = new CountryService();
 		for (Country country : countryService.findAll()) {
-			countryList.add(country);
+			obsCountryList.add(country);
 		}
 
 		colCountryCode.setCellValueFactory(new PropertyValueFactory<>("code"));
 		colCountryName.setCellValueFactory(new PropertyValueFactory<>("name"));
 		tbCountry.getColumns().addAll(colCountryCode, colCountryName);
-		tbCountry.setItems(countryList);
+		tbCountry.setItems(obsCountryList);
 	}
 
 	public void loadShapeTable() {
 		tbShape.getColumns().clear();
-		ObservableList<Shape> shapeList = FXCollections.observableArrayList();
 
 		shapeService = new ShapeService();
 		for (Shape shape : shapeService.findAll()) {
-			shapeList.add(shape);
+			obsShapeList.add(shape);
 		}
 
 		colShapeName.setCellValueFactory(new PropertyValueFactory<>("name"));
 		tbShape.getColumns().addAll(colShapeName);
-		tbShape.setItems(shapeList);
+		tbShape.setItems(obsShapeList);
 	}
 
 	public void loadMaterialTable() {
 		tbMaterial.getColumns().clear();
-		ObservableList<Material> materialList = FXCollections.observableArrayList();
 
 		materialService = new MaterialService();
 		for (Material material : materialService.findAll()) {
-			materialList.add(material);
+			obsMaterialList.add(material);
 		}
 
 		colMaterialName.setCellValueFactory(new PropertyValueFactory<>("name"));
 		tbMaterial.getColumns().addAll(colMaterialName);
-		tbMaterial.setItems(materialList);
+		tbMaterial.setItems(obsMaterialList);
 	}
 
 	public void loadEdgeTable() {
 		tbEdge.getColumns().clear();
-		ObservableList<Edge> edgeList = FXCollections.observableArrayList();
 
 		edgeService = new EdgeService();
 		for (Edge edge : edgeService.findAll()) {
-			edgeList.add(edge);
+			obsEdgeList.add(edge);
 		}
 
 		colEdgeName.setCellValueFactory(new PropertyValueFactory<>("name"));
 		tbEdge.getColumns().addAll(colEdgeName);
-		tbEdge.setItems(edgeList);
+		tbEdge.setItems(obsEdgeList);
 	}
 
 	public void searchCoin() {
-		if (txtCoinSearch.getText().isEmpty()) {
+		if(txtCoinSearch.getText().isEmpty()){
 			loadCoinTable();
 		} else {
-
+			loadCoinTable();
+			ObservableList<Coin> tempObsCoinList = FXCollections.observableArrayList();
+			for(Coin coin : obsCoinList){
+				if(coin.getName().toLowerCase().contains(txtCoinSearch.getText().toLowerCase()) ||
+					coin.getRarity().toString().toLowerCase().contains(txtCoinSearch.getText().toLowerCase()) ||
+					coin.getCountry().getName().toLowerCase().contains(txtCoinSearch.getText().toLowerCase())){
+					tempObsCoinList.add(coin);
+				}
+				for(Shape shape : coin.getShapes()){
+					if(shape.getName().toLowerCase().contains(txtCoinSearch.getText().toLowerCase())){
+						if(!tempObsCoinList.contains(coin)){
+							tempObsCoinList.add(coin);
+						}
+					}
+				}
+				for(Material material : coin.getMaterials()){
+					if(material.getName().toLowerCase().contains(txtCoinSearch.getText().toLowerCase())){
+						if(!tempObsCoinList.contains(coin)){
+							tempObsCoinList.add(coin);
+						}
+					}
+				}
+				for(Edge edge : coin.getEdges()){
+					if(edge.getName().toLowerCase().contains(txtCoinSearch.getText().toLowerCase())){		
+						if(!tempObsCoinList.contains(coin)){
+							tempObsCoinList.add(coin);
+						}
+					}
+				}
+			}
+			
+			tbCoin.getItems().clear();
+			tbCoin.setItems(tempObsCoinList);
 		}
 	}
 
 	public void searchCountry() {
-		if (txtCountrySearch.getText().isEmpty()) {
+		if(txtCountrySearch.getText().isEmpty()) {
 			loadCountryTable();
 		} else {
 
@@ -1043,7 +1077,7 @@ public class RegisterItensController {
 	}
 
 	public void searchShape() {
-		if (txtShapeSearch.getText().isEmpty()) {
+		if(txtShapeSearch.getText().isEmpty()) {
 			loadShapeTable();
 		} else {
 
@@ -1051,13 +1085,15 @@ public class RegisterItensController {
 	}
 
 	public void searchMaterial() {
-		if (txtMaterialSearch.getText().isEmpty()) {
+		if(txtMaterialSearch.getText().isEmpty()) {
 			loadMaterialTable();
+		} else {
+
 		}
 	}
 
 	public void searchEdge() {
-		if (txtEdgeSearch.getText().isEmpty()) {
+		if(txtEdgeSearch.getText().isEmpty()) {
 			loadEdgeTable();
 		} else {
 
