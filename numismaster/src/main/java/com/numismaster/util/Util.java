@@ -1,9 +1,6 @@
 package com.numismaster.util;
 
 import java.awt.Desktop;
-import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -14,20 +11,14 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.Blob;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Base64;
 import java.util.Date;
 import java.util.Random;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import javax.sql.rowset.serial.SerialBlob;
 import javax.sql.rowset.serial.SerialException;
-import javax.swing.JLabel;
-import javax.swing.Timer;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -40,39 +31,6 @@ public class Util {
 			Desktop.getDesktop().browse(new URL(urlString).toURI());
 		} catch (Exception e) {
 			e.printStackTrace();
-		}
-	}
-	
-	public static void data(final JLabel lblData) {
-		new Timer(0, new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				SimpleDateFormat s = new SimpleDateFormat("dd/MM/yyyy - k:mm:ss");
-				Date d = new java.util.Date();
-				lblData.setText(s.format(d));
-			}
-		}).start();
-	}
-	
-	public static void adjustLabelFontSize(JLabel label) {
-	    Font font = label.getFont();
-	    String text = label.getText();
-	    int stringWidth = label.getFontMetrics(font).stringWidth(text);
-	    int componentWidth = label.getWidth();
-	    if (stringWidth > componentWidth) {
-	        double widthRatio = (double)componentWidth / (double)stringWidth;
-	        int newFontSize = (int)(font.getSize() * widthRatio);
-	        label.setFont(new Font(font.getName(), font.getStyle(), newFontSize));
-	    }
-	}
-	
-	public static boolean isDatabaseOn() {
-		try {
-			EntityManagerFactory factory = Persistence.createEntityManagerFactory("numismasterPersistence");
-			EntityManager em = factory.createEntityManager();
-			em.close();
-			return true;
-		} catch (Exception e) {
-			return false;
 		}
 	}
 

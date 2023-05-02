@@ -1,4 +1,4 @@
-DROP DATABASE DB_Numismaster;
+DROP DATABASE IF EXISTS DB_Numismaster;
 CREATE DATABASE IF NOT EXISTS DB_Numismaster;
 USE DB_Numismaster;
 

@@ -2,7 +2,6 @@ package com.numismaster.controller;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Predicate;
 
 import com.numismaster.javafx.NumismasterCheckComboBox;
 import com.numismaster.model.Coin;
@@ -25,7 +24,6 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
-import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -976,6 +974,7 @@ public class RegisterItensController {
 	}
 
 	public void loadCountryTable() {
+		tbCountry.getItems().clear();
 		tbCountry.getColumns().clear();
 
 		countryService = new CountryService();
@@ -990,6 +989,7 @@ public class RegisterItensController {
 	}
 
 	public void loadShapeTable() {
+		tbShape.getItems().clear();
 		tbShape.getColumns().clear();
 
 		shapeService = new ShapeService();
@@ -1003,6 +1003,7 @@ public class RegisterItensController {
 	}
 
 	public void loadMaterialTable() {
+		tbMaterial.getItems().clear();
 		tbMaterial.getColumns().clear();
 
 		materialService = new MaterialService();
@@ -1016,6 +1017,7 @@ public class RegisterItensController {
 	}
 
 	public void loadEdgeTable() {
+		tbEdge.getItems().clear();
 		tbEdge.getColumns().clear();
 
 		edgeService = new EdgeService();
@@ -1072,7 +1074,16 @@ public class RegisterItensController {
 		if(txtCountrySearch.getText().isEmpty()) {
 			loadCountryTable();
 		} else {
-
+			loadCountryTable();
+			ObservableList<Country> tempObsCountryList = FXCollections.observableArrayList();
+			for (Country country : obsCountryList){
+				if(country.getName().toLowerCase().contains(txtCountrySearch.getText().toLowerCase()) ||
+				country.getCode().toLowerCase().contains(txtCountrySearch.getText().toLowerCase())){
+					tempObsCountryList.add(country);
+				}
+			}
+			tbCountry.getItems().clear();
+			tbCountry.setItems(tempObsCountryList);
 		}
 	}
 
@@ -1080,7 +1091,15 @@ public class RegisterItensController {
 		if(txtShapeSearch.getText().isEmpty()) {
 			loadShapeTable();
 		} else {
-
+			loadShapeTable();
+			ObservableList<Shape> tempObsShapeList = FXCollections.observableArrayList();
+			for (Shape shape : obsShapeList){
+				if(shape.getName().toLowerCase().contains(txtShapeSearch.getText().toLowerCase())){
+					tempObsShapeList.add(shape);
+				}
+			}
+			tbShape.getItems().clear();
+			tbShape.setItems(tempObsShapeList);
 		}
 	}
 
@@ -1088,7 +1107,15 @@ public class RegisterItensController {
 		if(txtMaterialSearch.getText().isEmpty()) {
 			loadMaterialTable();
 		} else {
-
+			loadMaterialTable();
+			ObservableList<Material> tempObsMaterialList = FXCollections.observableArrayList();
+			for (Material material : obsMaterialList){
+				if(material.getName().toLowerCase().contains(txtMaterialSearch.getText().toLowerCase())){
+					tempObsMaterialList.add(material);
+				}
+			}
+			tbMaterial.getItems().clear();
+			tbMaterial.setItems(tempObsMaterialList);
 		}
 	}
 
@@ -1096,7 +1123,15 @@ public class RegisterItensController {
 		if(txtEdgeSearch.getText().isEmpty()) {
 			loadEdgeTable();
 		} else {
-
+			loadEdgeTable();
+			ObservableList<Edge> tempObsEdgeList = FXCollections.observableArrayList();
+			for (Edge edge : obsEdgeList){
+				if(edge.getName().toLowerCase().contains(txtEdgeSearch.getText().toLowerCase())){
+					tempObsEdgeList.add(edge);
+				}
+			}
+			tbEdge.getItems().clear();
+			tbEdge.setItems(tempObsEdgeList);
 		}
 	}
 
