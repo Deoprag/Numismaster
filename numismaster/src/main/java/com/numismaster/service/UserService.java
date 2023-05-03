@@ -81,15 +81,29 @@ public class UserService {
                                                 String name = result.get();
                                                 if (code.equals(name)) {
                                                     return userRepository.insert(user);
+                                                } else {
+                                                    if (i >= 3) {
+                                                        Alert alert = new Alert(AlertType.ERROR);
+                                                        alert.setTitle("ERRO!");
+                                                        alert.setHeaderText("Código incorreto!");
+                                                        alert.setContentText(
+                                                                "Você errou o código 3 vezes. Infelizmente não foi possivel finalizar o cadastro!");
+                                                        alert.showAndWait();
+                                                    } else {
+                                                        Alert alert = new Alert(AlertType.ERROR);
+                                                        alert.setTitle("ERRO!");
+                                                        alert.setHeaderText("Código incorreto!");
+                                                        alert.setContentText("Código inválido. Tente novamente!");
+                                                        alert.showAndWait();
+                                                    }
                                                 }
-                                            }
-                                            if (i >= 3) {
+                                            } else {
                                                 Alert alert = new Alert(AlertType.ERROR);
-                                                alert.setTitle("ERRO!");
-                                                alert.setHeaderText("Código incorreto!");
-                                                alert.setContentText(
-                                                        "Você errou o código 3 vezes. Infelizmente não foi possivel finalizar o cadastro!");
+                                                alert.setTitle("OBS");
+                                                alert.setHeaderText("Operação cancelada!");
+                                                alert.setContentText("Você cancelou a operação!");
                                                 alert.showAndWait();
+                                                break;
                                             }
                                         } while (i < 3);
                                     }

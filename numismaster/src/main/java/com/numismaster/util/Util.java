@@ -34,6 +34,21 @@ public class Util {
 		}
 	}
 
+	public static String capitalizeString(String input) {
+		StringBuilder output = new StringBuilder();
+		String[] words = input.split(" ");
+		for (String word : words) {
+			if (word.length() > 0) {
+				output.append(Character.toUpperCase(word.charAt(0)));
+				if (word.length() > 1) {
+					output.append(word.substring(1));
+				}
+			}
+			output.append(" ");
+		}
+		return output.toString().trim();
+	}
+
 	public static String hashPassword(String password) {
         try {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");

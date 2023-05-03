@@ -21,7 +21,7 @@
          <children>
             <TabPane layoutX="-1.0" layoutY="2.0" prefHeight="690.0" prefWidth="1081.0" tabClosingPolicy="UNAVAILABLE">
               <tabs>
-                <Tab text="Minha coleção">
+                <Tab closable="false" text="Minha coleção">
                   <content>
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="171.0" prefWidth="1061.0">
                            <children>
@@ -47,7 +47,12 @@
                         </AnchorPane>
                   </content>
                 </Tab>
-                <Tab text="Untitled Tab 2">
+                  <Tab closable="false" text="Moedas">
+                    <content>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                    </content>
+                  </Tab>
+                <Tab closable="false" text="Mercado">
                   <content>
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
                   </content>

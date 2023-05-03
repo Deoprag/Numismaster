@@ -105,13 +105,13 @@ public class SignUpController {
 
 	public void checkInputs() {
 		txtFirstName.textProperty().addListener((observable, oldValue, newValue) -> {
-			String filteredValue = newValue.replaceAll("[^a-zA-Z]", "");
+			String filteredValue = newValue.replaceAll("[^a-z A-Z]", "");
 			if (!newValue.equals(filteredValue)) {
 				txtFirstName.setText(filteredValue);
 			}
 		});
 		txtLastName.textProperty().addListener((observable, oldValue, newValue) -> {
-			String filteredValue = newValue.replaceAll("[^a-zA-Z]", "");
+			String filteredValue = newValue.replaceAll("[^a-z A-Z]", "");
 			if (!newValue.equals(filteredValue)) {
 				txtLastName.setText(filteredValue);
 			}
@@ -200,28 +200,29 @@ public class SignUpController {
 				new ExtensionFilter("Imagens", "*.png", "*.jpg", "*.jpeg"));
 		File file = fc.showOpenDialog(btnFileChooser.getScene().getWindow());
 		try {
-			if (file.length() <= 2 * 1024 * 1024) {
-				FileInputStream fis = new FileInputStream(file);
-				user.setProfilePhoto(Util.convertToBlob(fis));
-				lblSelectedFile.setText(file.getName().toString());
-			} else {
-				Alert alert = new Alert(Alert.AlertType.WARNING);
-				alert.setTitle("Erro ao selecionar arquivo.");
-				alert.setHeaderText("Arquivo muito grande!");
-				alert.setContentText("O arquivo selecionado é maior do que 2MB. Selecione um arquivo menor.");
-				alert.showAndWait();
+			if(file != null){
+				if (file.length() <= 2 * 1024 * 1024) {
+					FileInputStream fis = new FileInputStream(file);
+					user.setProfilePhoto(Util.convertToBlob(fis));
+					lblSelectedFile.setText(file.getName().toString());
+				} else {
+					Alert alert = new Alert(Alert.AlertType.WARNING);
+					alert.setTitle("Erro ao selecionar arquivo.");
+					alert.setHeaderText("Arquivo muito grande!");
+					alert.setContentText("O arquivo selecionado é maior do que 2MB. Selecione um arquivo menor.");
+					alert.showAndWait();
+				}
 			}
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
 	}
 
-	@FXML
 	public void signUp(ActionEvent e) throws IOException {
 		if (validateSignUpFields()) {
 			UserService userService = new UserService();
-			user.setFirstName(txtFirstName.getText());
-			user.setLastName(txtLastName.getText());
+			user.setFirstName(Util.capitalizeString(txtFirstName.getText()));
+			user.setLastName(Util.capitalizeString(txtLastName.getText()));
 			user.setBirthDate(txtBirthDate.getValue());
 			user.setCpf(txtCpf.getText().replace(".", "").replace("-", ""));
 			user.setEmail(txtEmail.getText());
