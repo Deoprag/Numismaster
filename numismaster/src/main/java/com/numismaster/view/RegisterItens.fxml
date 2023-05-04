@@ -436,6 +436,7 @@
                   <Font name="Segoe UI Bold" size="16.0" />
                </font>
             </Label>
+            <Button fx:id="btnLogout" layoutX="35.0" layoutY="639.0" mnemonicParsing="false" onAction="#logout" prefHeight="25.0" prefWidth="130.0" styleClass="btn-delete" stylesheets="@../css/style.css" text="Sair" />
          </children>
       </Pane>
    </children>

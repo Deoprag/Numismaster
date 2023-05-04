@@ -1,16 +1,26 @@
 package com.numismaster.controller;
 
+import java.io.IOException;
+
+import com.numismaster.model.Coin;
+import com.numismaster.model.CoinUser;
 import com.numismaster.model.Type;
 import com.numismaster.model.User;
 import com.numismaster.util.Util;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -21,8 +31,11 @@ import javafx.stage.Stage;
 import lombok.Setter;
 
 @Setter
-public class MyCoinsController {
+public class MainMenuController {
 
+	private Stage stage;
+	private Scene scene;
+	private Parent root;
 	private User user;
 
 	@FXML
@@ -30,39 +43,45 @@ public class MyCoinsController {
 	@FXML
 	private Button btnMinimize;
 	@FXML
+	private Button btnLogout;
+	@FXML
 	private Pane paneBar;
 	@FXML
 	private ImageView profilePhoto;
 	@FXML
 	private Label lblName;
+
+	//	MyCollection
 	@FXML
-	// private TableView<TableCoin> tableCoins;
-	// @FXML
-	// private TableColumn<TableCoin, ImageView> imgFront;
-	// @FXML
-	// private TableColumn<TableCoin, ImageView> imgBack;
-	// @FXML
-	// private TableColumn<TableCoin, String> name;
-	// @FXML
-	// private TableColumn<TableCoin, String> country;
-	// @FXML
-	// private TableColumn<TableCoin, Short> year;
-	// @FXML
-	// private TableColumn<TableCoin, String> condition;
-	// @FXML
-	// private TableColumn<TableCoin, String> rarity;
-	// @FXML
-	// private TableColumn<TableCoin, Character> isForSale;
-	// @FXML
-	// private TableColumn<TableCoin, Float> price;
-	// @FXML
-	// private TableColumn<TableCoin, Button> details;
+	private TableView<CoinUser> tbCoinUser;
+	@FXML
+	private TableColumn<CoinUser, ImageView> colImgFront = new TableColumn<>("Imagem Frontal");
+	@FXML
+	private TableColumn<CoinUser, ImageView> colImgBack = new TableColumn<>("Imagem Traseira");
+	@FXML
+	private TableColumn<Coin, String> colName = new TableColumn<>("Nome");
+	@FXML
+	private TableColumn<Coin, String> colCountry = new TableColumn<>("País");
+	@FXML
+	private TableColumn<CoinUser, Short> colYear = new TableColumn<>("Ano");
+	@FXML
+	private TableColumn<CoinUser, String> colCondition = new TableColumn<>("Condição");
+	@FXML
+	private TableColumn<CoinUser, String> colRarity = new TableColumn<>("Raridade");
+	@FXML
+	private TableColumn<CoinUser, Character> colIsForSale = new TableColumn<>("A venda?");
+	@FXML
+	private TableColumn<CoinUser, Float> colPrice = new TableColumn<>("Preço");
+
+	//	Coins
+
+
+	//	Market
 
 	private double x, y = 0;
 
 	public void initialize() {
 		fixImage(profilePhoto, true);
-		loadCoins();
 	}
 
 	public void loadUser(User newUser) {
@@ -94,8 +113,20 @@ public class MyCoinsController {
 		}
 	}
 
-	public void loadCoins() {
+	public void logout(ActionEvent e) throws IOException {
+		Alert alert = new Alert(AlertType.CONFIRMATION);
+		alert.setTitle("Encerrar Sessão");
+		alert.setHeaderText("Você está saindo!");
+		alert.setContentText("Tem certeza que deseja encerrar sessão?");
 
+		if (alert.showAndWait().get() == ButtonType.OK) {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/numismaster/view/Login.fxml"));
+			root = loader.load();
+			stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
+			scene = new Scene(root);
+			stage.setScene(scene);
+			stage.show();
+		}
 	}
 
 	public void barPressed(MouseEvent e) {

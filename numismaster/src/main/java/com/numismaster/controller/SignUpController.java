@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Optional;
 
 import javax.sql.rowset.serial.SerialException;
 
@@ -15,7 +14,6 @@ import com.numismaster.model.Gender;
 import com.numismaster.model.Type;
 import com.numismaster.model.User;
 import com.numismaster.service.UserService;
-import com.numismaster.util.Email;
 import com.numismaster.util.Util;
 import com.numismaster.util.Validator;
 
@@ -33,7 +31,6 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;

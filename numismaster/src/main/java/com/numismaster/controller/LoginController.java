@@ -133,7 +133,7 @@ public class LoginController {
 					}
 				} else {
 					try {
-						myCoins(e);
+						mainMenu(e);
 					} catch (IOException e1) {
 						e1.printStackTrace();
 					}
@@ -149,11 +149,11 @@ public class LoginController {
 		}
 	}
 
-	public void myCoins(ActionEvent e) throws IOException {
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/numismaster/view/MyCoins.fxml"));
+	public void mainMenu(ActionEvent e) throws IOException {
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/numismaster/view/MainMenu.fxml"));
 		root = loader.load();
-		MyCoinsController mcc = loader.getController();
-		mcc.loadUser(user);
+		MainMenuController mmc = loader.getController();
+		mmc.loadUser(user);
 		stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
 		scene = new Scene(root);
 		stage.getIcons().add(new Image("/com/numismaster/icon/large-app-icon.png"));

@@ -1,5 +1,6 @@
 package com.numismaster.controller;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,6 +27,10 @@ import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
@@ -48,6 +53,9 @@ import javafx.util.Callback;
 
 public class RegisterItensController {
 
+	private Stage stage;
+	private Scene scene;
+	private Parent root;
 	private User user;
 	private List<Shape> shapeList;
 	private List<Edge> edgeList;
@@ -210,6 +218,22 @@ public class RegisterItensController {
 		fixImage(profilePhoto, true);
 		updateBoxes();
 		checkInputs();
+	}
+
+	public void logout(ActionEvent e) throws IOException {
+		Alert alert = new Alert(AlertType.CONFIRMATION);
+		alert.setTitle("Encerrar Sessão");
+		alert.setHeaderText("Você está saindo!");
+		alert.setContentText("Tem certeza que deseja encerrar sessão?");
+
+		if (alert.showAndWait().get() == ButtonType.OK) {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/numismaster/view/Login.fxml"));
+			root = loader.load();
+			stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
+			scene = new Scene(root);
+			stage.setScene(scene);
+			stage.show();
+		}
 	}
 
 	public void checkInputs() {

@@ -5,7 +5,6 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
-<?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
@@ -15,7 +14,7 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: #707980;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.numismaster.controller.MyCoinsController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: #707980;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.numismaster.controller.MainMenuController">
    <children>
       <Pane layoutX="198.0" layoutY="30.0" prefHeight="690.0" prefWidth="1082.0" style="-fx-border-width: 2; -fx-border-color: #373c3f;">
          <children>
@@ -25,20 +24,8 @@
                   <content>
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="171.0" prefWidth="1061.0">
                            <children>
-                              <TextField layoutX="364.0" layoutY="2.0" prefHeight="30.0" prefWidth="360.0" promptText="ex. 1 Real" style="-fx-border-color: #586065; -fx-border-width: 2; -fx-background-color: #fff;" />
-                              <TableView fx:id="tableCoins" layoutX="3.0" layoutY="33.0" prefHeight="624.0" prefWidth="1081.0" styleClass="tableCoins" stylesheets="@../css/style.css">
-                                <columns>
-                                    <TableColumn fx:id="imgFront" editable="false" prefWidth="150.0" resizable="false" text="Imagem Frente" />
-                                    <TableColumn fx:id="imgBack" editable="false" prefWidth="150.0" resizable="false" text="Imagem Costa" />
-                                  <TableColumn fx:id="name" editable="false" prefWidth="150.0" resizable="false" text="Nome" />
-                                    <TableColumn fx:id="country" editable="false" prefWidth="75.0" resizable="false" text="País" />
-                                  <TableColumn fx:id="year" editable="false" prefWidth="50.0" resizable="false" text="Ano" />
-                                    <TableColumn fx:id="condition" editable="false" prefWidth="75.0" resizable="false" text="Condição" />
-                                    <TableColumn fx:id="rarity" editable="false" prefWidth="100.0" resizable="false" text="Raridade" />
-                                    <TableColumn fx:id="isForSale" editable="false" prefWidth="75.0" resizable="false" text="A Venda?" />
-                                    <TableColumn fx:id="price" editable="false" prefWidth="100.0" resizable="false" text="Preço" />
-                                    <TableColumn fx:id="details" editable="false" prefWidth="152.0" resizable="false" text="Detalhes" />
-                                </columns>
+                              <TextField layoutX="364.0" layoutY="14.0" prefHeight="30.0" prefWidth="360.0" promptText="ex. 1 Real" style="-fx-border-color: #586065; -fx-border-width: 2; -fx-background-color: #fff;" />
+                              <TableView fx:id="tbCoinUser" layoutX="3.0" layoutY="57.0" prefHeight="600.0" prefWidth="1081.0" styleClass="tableCoins" stylesheets="@../css/style.css">
                                  <columnResizePolicy>
                                     <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                                  </columnResizePolicy>
@@ -49,7 +36,10 @@
                 </Tab>
                   <Tab closable="false" text="Moedas">
                     <content>
-                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <TextField layoutX="361.0" layoutY="14.0" prefHeight="30.0" prefWidth="360.0" promptText="ex. 1 Real" style="-fx-border-color: #586065; -fx-border-width: 2; -fx-background-color: #fff;" />
+                           </children></AnchorPane>
                     </content>
                   </Tab>
                 <Tab closable="false" text="Mercado">
@@ -105,6 +95,7 @@
                   <Font name="Segoe UI Bold" size="16.0" />
                </font>
             </Label>
+            <Button fx:id="btnLogout" layoutX="35.0" layoutY="639.0" mnemonicParsing="false" onAction="#logout" prefHeight="25.0" prefWidth="130.0" styleClass="btn-delete" stylesheets="@../css/style.css" text="Sair" />
          </children>
       </Pane>
    </children>
