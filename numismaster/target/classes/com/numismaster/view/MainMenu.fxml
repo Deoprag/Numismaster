@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableView?>
@@ -20,16 +24,17 @@
          <children>
             <TabPane layoutX="-1.0" layoutY="2.0" prefHeight="690.0" prefWidth="1081.0" tabClosingPolicy="UNAVAILABLE">
               <tabs>
-                <Tab closable="false" text="Minha coleção">
+                <Tab closable="false" text="Coleção">
                   <content>
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="171.0" prefWidth="1061.0">
                            <children>
-                              <TextField layoutX="364.0" layoutY="14.0" prefHeight="30.0" prefWidth="360.0" promptText="ex. 1 Real" style="-fx-border-color: #586065; -fx-border-width: 2; -fx-background-color: #fff;" />
-                              <TableView fx:id="tbCoinUser" layoutX="3.0" layoutY="57.0" prefHeight="600.0" prefWidth="1081.0" styleClass="tableCoins" stylesheets="@../css/style.css">
-                                 <columnResizePolicy>
-                                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-                                 </columnResizePolicy>
-                              </TableView>
+                              <ImageView fitHeight="657.0" fitWidth="1081.0" pickOnBounds="true">
+                                 <image>
+                                    <Image url="@../icon/collection_background.jpeg" />
+                                 </image>
+                              </ImageView>
+                              <TextField fx:id="txtCoinUserSearch" layoutX="361.0" layoutY="11.0" prefHeight="30.0" prefWidth="360.0" promptText="ex. 1 Real" style="-fx-border-color: #586065; -fx-border-width: 2; -fx-background-color: #fff;" />
+                              <TableView fx:id="tbCoinUser" layoutX="12.0" layoutY="50.0" prefHeight="600.0" prefWidth="1060.0" style="-fx-background-color: #d9d9d9; -fx-border-color: #373c3f; -fx-border-width: 2px;" />
                            </children>
                         </AnchorPane>
                   </content>
@@ -38,15 +43,120 @@
                     <content>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
-                              <TextField layoutX="361.0" layoutY="14.0" prefHeight="30.0" prefWidth="360.0" promptText="ex. 1 Real" style="-fx-border-color: #586065; -fx-border-width: 2; -fx-background-color: #fff;" />
+                              <ImageView fitHeight="657.0" fitWidth="1081.0" pickOnBounds="true">
+                                 <image>
+                                    <Image url="@../icon/coins_background.jpg" />
+                                 </image>
+                              </ImageView>
+                              <TextField fx:id="txtCoinSearch" layoutX="361.0" layoutY="11.0" onKeyReleased="#searchCoin" prefHeight="30.0" prefWidth="360.0" promptText="ex. 1 Real" style="-fx-border-color: #586065; -fx-border-width: 2; -fx-background-color: #fff;" />
+                              <TableView fx:id="tbCoin" layoutX="12.0" layoutY="50.0" prefHeight="600.0" prefWidth="1060.0" style="-fx-background-color: #d9d9d9; -fx-border-color: #373c3f; -fx-border-width: 2px;" />
                            </children></AnchorPane>
                     </content>
                   </Tab>
                 <Tab closable="false" text="Mercado">
                   <content>
-                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <ImageView fitHeight="657.0" fitWidth="1081.0" pickOnBounds="true">
+                                 <image>
+                                    <Image url="@../icon/marketplace_background.jpg" />
+                                 </image>
+                              </ImageView>
+                              <TextField fx:id="txtCoinSearch1" layoutX="360.0" layoutY="11.0" onKeyReleased="#searchCoin" prefHeight="30.0" prefWidth="360.0" promptText="ex. 1 Real" style="-fx-border-color: #586065; -fx-border-width: 2; -fx-background-color: #fff;" />
+                              <TableView fx:id="tbCoin1" layoutX="11.0" layoutY="50.0" prefHeight="600.0" prefWidth="1060.0" style="-fx-background-color: #d9d9d9; -fx-border-color: #373c3f; -fx-border-width: 2px;" />
+                           </children></AnchorPane>
                   </content>
                 </Tab>
+                  <Tab closable="false" onSelectionChanged="#loadEditableUser" text="Perfil">
+                    <content>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <Pane blendMode="SRC_ATOP" layoutX="16.0" layoutY="31.0" prefHeight="600.0" prefWidth="1050.0" style="-fx-border-color: #373c3f; -fx-background-color: #d9d9d9; -fx-border-width: 2;">
+                                 <children>
+                                    <Label layoutX="818.0" layoutY="320.0" text="CPF" textFill="#373c3f">
+                                       <font>
+                                          <Font name="Segoe UI Bold" size="14.0" />
+                                       </font>
+                                    </Label>
+                                    <TextField fx:id="txtEditFirstName" layoutX="618.0" layoutY="265.0" prefHeight="30.0" prefWidth="150.0" promptText="ex. João" style="-fx-background-color: #d9d9d9; -fx-border-color: #373c3f; -fx-border-width: 0 0 2 0;" />
+                                    <TextField fx:id="txtEditLastName" layoutX="818.0" layoutY="265.0" prefHeight="30.0" prefWidth="150.0" promptText="ex. Silva" style="-fx-background-color: #d9d9d9; -fx-border-color: #373c3f; -fx-border-width: 0 0 2 0;" />
+                                    <DatePicker fx:id="txtEditBirthDate" editable="false" layoutX="618.0" layoutY="335.0" prefHeight="30.0" prefWidth="150.0" promptText="dd/mm/aaaa" style="-fx-background-color: #d9d9d9;" />
+                                    <TextField fx:id="txtEditCpf" editable="false" layoutX="818.0" layoutY="335.0" onKeyReleased="#checkCpf" prefHeight="30.0" prefWidth="150.0" promptText="ex. 000.000.000-00" style="-fx-background-color: #d9d9d9; -fx-border-color: #373c3f; -fx-border-width: 0 0 2 0;" />
+                                    <ChoiceBox fx:id="boxEditGender" layoutX="618.0" layoutY="400.0" prefHeight="30.0" prefWidth="150.0" style="-fx-background-color: #d9d9d9; -fx-border-color: #373c3f; -fx-border-width: 0 0 2 0;" />
+                                    <TextField fx:id="txtEditUsername" editable="false" layoutX="818.0" layoutY="400.0" prefHeight="30.0" prefWidth="150.0" promptText="ex. joaosilva" style="-fx-background-color: #d9d9d9; -fx-border-color: #373c3f; -fx-border-width: 0 0 2 0;" />
+                                    <TextField fx:id="txtEditEmail" editable="false" layoutX="619.0" layoutY="465.0" prefHeight="30.0" prefWidth="150.0" promptText="ex. joaosilva@gmail.com" style="-fx-background-color: #d9d9d9; -fx-border-color: #373c3f; -fx-border-width: 0 0 2 0;" />
+                                    <Button fx:id="btnFileChooser" layoutX="818.0" layoutY="470.0" mnemonicParsing="false" onAction="#chooseFile" prefHeight="20.0" prefWidth="150.0" styleClass="btn-filechooser" stylesheets="@../css/style.css" text="Selecionar arquivo" textFill="#5b5b5b">
+                                       <font>
+                                          <Font size="11.0" />
+                                       </font>
+                                    </Button>
+                                    <Label layoutX="619.0" layoutY="450.0" text="Email" textFill="#373c3f">
+                                       <font>
+                                          <Font name="Segoe UI Bold" size="14.0" />
+                                       </font>
+                                    </Label>
+                                    <Label layoutX="618.0" layoutY="250.0" text="Nome" textFill="#373c3f">
+                                       <font>
+                                          <Font name="Segoe UI Bold" size="14.0" />
+                                       </font>
+                                    </Label>
+                                    <Label layoutX="818.0" layoutY="250.0" text="Sobrenome" textFill="#373c3f">
+                                       <font>
+                                          <Font name="Segoe UI Bold" size="14.0" />
+                                       </font>
+                                    </Label>
+                                    <Label layoutX="618.0" layoutY="320.0" text="Data de Nascimento" textFill="#373c3f">
+                                       <font>
+                                          <Font name="Segoe UI Bold" size="14.0" />
+                                       </font>
+                                    </Label>
+                                    <Label layoutX="818.0" layoutY="385.0" text="Nome de Usuário" textFill="#373c3f">
+                                       <font>
+                                          <Font name="Segoe UI Bold" size="14.0" />
+                                       </font>
+                                    </Label>
+                                    <Label alignment="CENTER" layoutX="525.0" layoutY="14.0" prefHeight="39.0" prefWidth="525.0" text="Editar Dados" textFill="#373c3f">
+                                       <font>
+                                          <Font name="Segoe UI Bold" size="32.0" />
+                                       </font>
+                                    </Label>
+                                    <Button fx:id="btnSaveUser" layoutX="743.0" layoutY="524.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="100.0" stylesheets="@../css/style.css" text="Salvar">
+                                       <font>
+                                          <Font size="10.0" />
+                                       </font>
+                                    </Button>
+                                    <Label layoutX="618.0" layoutY="385.0" text="Sexo" textFill="#373c3f">
+                                       <font>
+                                          <Font name="Segoe UI Bold" size="14.0" />
+                                       </font>
+                                    </Label>
+                                    <Label layoutX="819.0" layoutY="450.0" text="Foto de perfil" textFill="#373c3f">
+                                       <font>
+                                          <Font name="Segoe UI Bold" size="14.0" />
+                                       </font>
+                                    </Label>
+                                    <Label alignment="CENTER" layoutY="14.0" prefHeight="39.0" prefWidth="525.0" text="Estatísticas" textFill="#373c3f">
+                                       <font>
+                                          <Font name="Segoe UI Bold" size="32.0" />
+                                       </font>
+                                    </Label>
+                                    <Separator layoutX="519.0" layoutY="2.0" orientation="VERTICAL" prefHeight="596.0" style="-fx-background-color: #373c3f;" />
+                                    <ImageView fx:id="editProfilePhoto" fitHeight="150.0" fitWidth="150.0" layoutX="718.0" layoutY="72.0" pickOnBounds="true" />
+                                    <Circle fill="#ffffff00" layoutX="793.0" layoutY="147.0" radius="75.0" stroke="#373c3f" strokeType="OUTSIDE" strokeWidth="2.0" />
+                                    <Label fx:id="lblSelectedFile" alignment="TOP_LEFT" layoutX="818.0" layoutY="494.0" prefHeight="30.0" prefWidth="150.0" textAlignment="CENTER" textFill="#666666" wrapText="true">
+                                       <font>
+                                          <Font size="9.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                                 <opaqueInsets>
+                                    <Insets />
+                                 </opaqueInsets>
+                              </Pane>
+                           </children>
+                        </AnchorPane>
+                    </content>
+                  </Tab>
               </tabs>
             </TabPane>
          </children>

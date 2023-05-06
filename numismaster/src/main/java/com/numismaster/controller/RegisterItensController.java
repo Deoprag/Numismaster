@@ -128,7 +128,7 @@ public class RegisterItensController {
 	@FXML
 	private TableColumn<Coin, String> colCoinName = new TableColumn<>("Nome");
 	@FXML
-	private TableColumn<Coin, Integer> colDenomination = new TableColumn<>("Valor Nominal");
+	private TableColumn<Coin, Integer> colDenomination = new TableColumn<>("Valor de Face");
 	@FXML
 	private TableColumn<Coin, Float> colWeight = new TableColumn<>("Peso(g)");
 	@FXML
