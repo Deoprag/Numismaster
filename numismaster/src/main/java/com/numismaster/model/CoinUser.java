@@ -41,7 +41,7 @@ public class CoinUser {
 	private CoinCondition coinCondition;
 
 	@Column(name = "is_for_sale", nullable = false)
-	private boolean isForSale;
+	private boolean forSale;
 
 	@Column(name = "price")
 	private Float price;

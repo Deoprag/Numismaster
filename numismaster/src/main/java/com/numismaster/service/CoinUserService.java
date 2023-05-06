@@ -16,4 +16,16 @@ public class CoinUserService {
     public List<CoinUser> findUsersByCoin(Coin coin){
         return coinUserRepository.findUsersByCoin(coin.getId());
     }
+
+    public List<CoinUser> findAll(){
+        return coinUserRepository.findAll();
+    }
+
+    public CoinUser findById(int id){
+        return coinUserRepository.findById(id);
+    }
+
+    public List<CoinUser> findAllForSale(){
+        return coinUserRepository.findAllForSale();
+    }
 }

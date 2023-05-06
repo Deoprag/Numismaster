@@ -910,7 +910,7 @@ public class RegisterItensController {
 				if (empty || item == null) {
 					setText("");
 				} else {
-					setText(String.format("%.2f", item));
+					setText(String.format("%.1f", item));
 				}
 			}
 		});
@@ -922,7 +922,7 @@ public class RegisterItensController {
 				if (empty || item == null) {
 					setText("");
 				} else {
-					setText(String.format("%.2f", item));
+					setText(String.format("%.1f", item));
 				}
 			}
 		});
@@ -934,7 +934,7 @@ public class RegisterItensController {
 				if (empty || item == null) {
 					setText("");
 				} else {
-					setText(String.format("%.2f", item));
+					setText(String.format("%.1f", item));
 				}
 			}
 		});

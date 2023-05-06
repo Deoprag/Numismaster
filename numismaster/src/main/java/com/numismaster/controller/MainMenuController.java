@@ -3,6 +3,7 @@ package com.numismaster.controller;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,9 +18,9 @@ import com.numismaster.model.Gender;
 import com.numismaster.model.Material;
 import com.numismaster.model.Rarity;
 import com.numismaster.model.Shape;
-import com.numismaster.model.Type;
 import com.numismaster.model.User;
 import com.numismaster.service.CoinService;
+import com.numismaster.service.CoinUserService;
 import com.numismaster.util.Util;
 
 import javafx.beans.property.SimpleObjectProperty;
@@ -49,7 +50,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
@@ -66,8 +66,10 @@ public class MainMenuController {
 	private User user;
 
 	private CoinService coinService = new CoinService();
+	private CoinUserService coinUserService = new CoinUserService();
 
 	ObservableList<Coin> obsCoinList = FXCollections.observableArrayList();
+	ObservableList<CoinUser> obsCoinUserList = FXCollections.observableArrayList();
 
 	@FXML
 	private Button btnClose;
@@ -112,13 +114,13 @@ public class MainMenuController {
 	@FXML
 	private TableView<CoinUser> tbCoinUser;
 	@FXML
-	private TableColumn<CoinUser, ImageView> colImgFront = new TableColumn<>("Imagem Frontal");
+	private TableColumn<CoinUser, Blob> colImgFront = new TableColumn<>("Imagem Frontal");
 	@FXML
-	private TableColumn<CoinUser, ImageView> colImgBack = new TableColumn<>("Imagem Traseira");
+	private TableColumn<CoinUser, Blob> colImgBack = new TableColumn<>("Imagem Traseira");
 	@FXML
-	private TableColumn<Coin, String> colName = new TableColumn<>("Nome");
+	private TableColumn<CoinUser, String> colName = new TableColumn<>("Nome");
 	@FXML
-	private TableColumn<Coin, String> colCountryCollection = new TableColumn<>("País");
+	private TableColumn<CoinUser, String> colCountryCollection = new TableColumn<>("País");
 	@FXML
 	private TableColumn<CoinUser, Short> colYear = new TableColumn<>("Ano");
 	@FXML
@@ -126,9 +128,11 @@ public class MainMenuController {
 	@FXML
 	private TableColumn<CoinUser, String> colRarityCollection = new TableColumn<>("Raridade");
 	@FXML
-	private TableColumn<CoinUser, Character> colIsForSale = new TableColumn<>("A venda?");
+	private TableColumn<CoinUser, Boolean> colIsForSale = new TableColumn<>("A venda?");
 	@FXML
 	private TableColumn<CoinUser, Float> colPrice = new TableColumn<>("Preço");
+	@FXML
+	private TableColumn<CoinUser, String> colNotes = new TableColumn<>("Notas");
 
 	//	Coins
 	@FXML
@@ -159,16 +163,17 @@ public class MainMenuController {
 	private double x, y = 0;
 
 	public void initialize() {
+		boxEditGender.getItems().add(Gender.Feminino);
+		boxEditGender.getItems().add(Gender.Masculino);
+		boxEditGender.getItems().add(Gender.Outro);
 		fixImage(profilePhoto, true);
 		loadCoinTable();
+		loadCoinUserTable();
 	}
 
 	public void loadUser(User newUser) {
 		user = newUser;
 		lblName.setText(user.getFirstName() + " " + user.getLastName());
-		if (user.getType().equals(Type.Admin)) {
-			lblName.setTextFill(Color.rgb(255, 85, 85));
-		}
 		try {
 			profilePhoto.setImage(new Image(Util.convertFromBlob(user.getProfilePhoto())));
 			editProfilePhoto.setImage(new Image(Util.convertFromBlob(user.getProfilePhoto())));
@@ -178,7 +183,19 @@ public class MainMenuController {
 	}
 
 	public void loadEditableUser(){
+		txtEditFirstName.setText(user.getFirstName());
+		txtEditLastName.setText(user.getLastName());
+		txtEditBirthDate.setValue(user.getBirthDate());
+		txtEditCpf.setText(user.getCpf());
+		checkCpf();
+		boxEditGender.setValue(boxEditGender.getItems().get(boxEditGender.getItems().indexOf(user.getGender())));;
+		txtEditUsername.setText(user.getUsername());
+		txtEditEmail.setText(user.getEmail());
 
+		txtEditCpf.setDisable(true);
+		txtEditUsername.setDisable(true);
+		txtEditEmail.setDisable(true);
+		loadUser(user);
 	}
 
 	public void chooseFile(ActionEvent e) throws SerialException, SQLException {
@@ -226,7 +243,7 @@ public class MainMenuController {
 				if (empty || item == null) {
 					setText("");
 				} else {
-					setText(String.format("%.2f", item));
+					setText(String.format("%.1f", item));
 				}
 			}
 		});
@@ -238,7 +255,7 @@ public class MainMenuController {
 				if (empty || item == null) {
 					setText("");
 				} else {
-					setText(String.format("%.2f", item));
+					setText(String.format("%.1f", item));
 				}
 			}
 		});
@@ -250,7 +267,7 @@ public class MainMenuController {
 				if (empty || item == null) {
 					setText("");
 				} else {
-					setText(String.format("%.2f", item));
+					setText(String.format("%.1f", item));
 				}
 			}
 		});
@@ -311,6 +328,105 @@ public class MainMenuController {
 		tbCoin.getColumns().addAll(colCoinName, colDenomination, colWeight, colDiameter, colThickness, colRarity,
 				colCountry, colShape, colMaterial, colEdge);
 		tbCoin.setItems(obsCoinList);
+	}
+
+	public void loadCoinUserTable(){
+		tbCoinUser.getItems().clear();
+		tbCoinUser.getColumns().clear();
+
+		coinUserService = new CoinUserService();
+		for(CoinUser coinUser : coinUserService.findAll()){
+			obsCoinUserList.add(coinUser);
+		}
+
+		colImgFront.setCellValueFactory(new PropertyValueFactory<>("imageFront"));
+		colImgFront.setCellFactory(column -> new TableCell<CoinUser, Blob>() {
+            private final ImageView imageView = new ImageView();
+			{
+                imageView.setFitWidth(100);
+                imageView.setFitHeight(100);
+            }
+
+            @Override
+            protected void updateItem(Blob item, boolean empty) {
+                super.updateItem(item, empty);
+				if(getTableRow().getItem() == null){
+					imageView.setImage(null);
+				}else if (empty || item == null) {
+                    imageView.setImage(new Image(getClass().getResourceAsStream("../icon/no_image.png")));
+                } else {
+					try{
+						imageView.setImage(new Image(Util.convertFromBlob(item)));
+					} catch (Exception e){
+						e.printStackTrace();
+					}
+                }
+                setGraphic(imageView);
+            }
+        });
+		colImgFront.setCellValueFactory(new PropertyValueFactory<>("imageBack"));
+		colImgBack.setCellFactory(column -> new TableCell<CoinUser, Blob>() {
+            private final ImageView imageView = new ImageView();
+			{
+                imageView.setFitWidth(100);
+                imageView.setFitHeight(100);
+            }
+
+            @Override
+            protected void updateItem(Blob item, boolean empty) {
+                super.updateItem(item, empty);
+				if(getTableRow().getItem() == null){
+					imageView.setImage(null);
+				} else if (empty || item == null) {
+                    imageView.setImage(new Image(getClass().getResourceAsStream("../icon/no_image.png")));
+                } else {
+					try{
+						imageView.setImage(new Image(Util.convertFromBlob(item)));
+					} catch (Exception e){
+						e.printStackTrace();
+					}
+                }
+                setGraphic(imageView);
+            }
+        });
+
+		colName.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getCoin().getName()));
+		colCountryCollection.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getCoin().getCountry().getName()));
+		colYear.setCellValueFactory(new PropertyValueFactory<>("year"));
+		colCondition.setCellValueFactory(new PropertyValueFactory<>("coinCondition"));
+		colRarityCollection.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getCoin().getRarity().toString()));
+		colIsForSale.setCellValueFactory(new PropertyValueFactory<>("forSale"));
+		colIsForSale.setCellFactory(column -> new TableCell<CoinUser, Boolean>() {
+            @Override
+            protected void updateItem(Boolean item, boolean empty) {
+                super.updateItem(item, empty);
+                setText(empty || item == null ? null : item ? "Sim" : "Não");
+            }
+        });
+		colPrice.setCellValueFactory(new PropertyValueFactory<>("price"));
+		colPrice.setCellFactory(column -> new TableCell<CoinUser, Float>() {
+            @Override
+            protected void updateItem(Float item, boolean empty) {
+                super.updateItem(item, empty);
+                setText(empty || item == null ? null : item == 0 ? "Não Possui" : String.format("R$%.2f", item));
+            }
+        });
+		colNotes.setCellValueFactory(new PropertyValueFactory<>("notes"));
+		colNotes.setCellFactory(column -> new TableCell<CoinUser, String>() {
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+				if(getTableRow().getItem() == null){
+					setText(null);
+				} else {
+					setText(empty || item == null || item.isEmpty() ? "Não possui" : item);
+				}
+            }
+        });
+
+		tbCoinUser.getColumns().addAll(colImgFront, colImgBack, colName, colCountryCollection, colYear, colCondition, colRarityCollection,
+					colIsForSale, colPrice, colNotes);
+		tbCoinUser.setItems(obsCoinUserList);
 	}
 
 	public void searchCoin() {

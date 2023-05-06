@@ -33,7 +33,10 @@
                                     <Image url="@../icon/collection_background.jpeg" />
                                  </image>
                               </ImageView>
-                              <TextField fx:id="txtCoinUserSearch" layoutX="361.0" layoutY="11.0" prefHeight="30.0" prefWidth="360.0" promptText="ex. 1 Real" style="-fx-border-color: #586065; -fx-border-width: 2; -fx-background-color: #fff;" />
+                              <TextField fx:id="txtCoinUserSearch" layoutX="12.0" layoutY="8.0" prefHeight="30.0" prefWidth="1060.0" promptText="ex. 1 Real" style="-fx-border-color: #586065; -fx-border-width: 2; -fx-background-color: #fff;">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font></TextField>
                               <TableView fx:id="tbCoinUser" layoutX="12.0" layoutY="50.0" prefHeight="600.0" prefWidth="1060.0" style="-fx-background-color: #d9d9d9; -fx-border-color: #373c3f; -fx-border-width: 2px;" />
                            </children>
                         </AnchorPane>
@@ -48,7 +51,10 @@
                                     <Image url="@../icon/coins_background.jpg" />
                                  </image>
                               </ImageView>
-                              <TextField fx:id="txtCoinSearch" layoutX="361.0" layoutY="11.0" onKeyReleased="#searchCoin" prefHeight="30.0" prefWidth="360.0" promptText="ex. 1 Real" style="-fx-border-color: #586065; -fx-border-width: 2; -fx-background-color: #fff;" />
+                              <TextField fx:id="txtCoinSearch" layoutX="12.0" layoutY="8.0" onKeyReleased="#searchCoin" prefHeight="30.0" prefWidth="1060.0" promptText="ex. 1 Real" style="-fx-border-color: #586065; -fx-border-width: 2; -fx-background-color: #fff;">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font></TextField>
                               <TableView fx:id="tbCoin" layoutX="12.0" layoutY="50.0" prefHeight="600.0" prefWidth="1060.0" style="-fx-background-color: #d9d9d9; -fx-border-color: #373c3f; -fx-border-width: 2px;" />
                            </children></AnchorPane>
                     </content>
@@ -62,7 +68,10 @@
                                     <Image url="@../icon/marketplace_background.jpg" />
                                  </image>
                               </ImageView>
-                              <TextField fx:id="txtCoinSearch1" layoutX="360.0" layoutY="11.0" onKeyReleased="#searchCoin" prefHeight="30.0" prefWidth="360.0" promptText="ex. 1 Real" style="-fx-border-color: #586065; -fx-border-width: 2; -fx-background-color: #fff;" />
+                              <TextField fx:id="txtCoinSearch1" layoutX="12.0" layoutY="8.0" onKeyReleased="#searchCoin" prefHeight="30.0" prefWidth="1060.0" promptText="ex. 1 Real" style="-fx-border-color: #586065; -fx-border-width: 2; -fx-background-color: #fff;">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font></TextField>
                               <TableView fx:id="tbCoin1" layoutX="11.0" layoutY="50.0" prefHeight="600.0" prefWidth="1060.0" style="-fx-background-color: #d9d9d9; -fx-border-color: #373c3f; -fx-border-width: 2px;" />
                            </children></AnchorPane>
                   </content>
@@ -81,10 +90,10 @@
                                     <TextField fx:id="txtEditFirstName" layoutX="618.0" layoutY="265.0" prefHeight="30.0" prefWidth="150.0" promptText="ex. João" style="-fx-background-color: #d9d9d9; -fx-border-color: #373c3f; -fx-border-width: 0 0 2 0;" />
                                     <TextField fx:id="txtEditLastName" layoutX="818.0" layoutY="265.0" prefHeight="30.0" prefWidth="150.0" promptText="ex. Silva" style="-fx-background-color: #d9d9d9; -fx-border-color: #373c3f; -fx-border-width: 0 0 2 0;" />
                                     <DatePicker fx:id="txtEditBirthDate" editable="false" layoutX="618.0" layoutY="335.0" prefHeight="30.0" prefWidth="150.0" promptText="dd/mm/aaaa" style="-fx-background-color: #d9d9d9;" />
-                                    <TextField fx:id="txtEditCpf" editable="false" layoutX="818.0" layoutY="335.0" onKeyReleased="#checkCpf" prefHeight="30.0" prefWidth="150.0" promptText="ex. 000.000.000-00" style="-fx-background-color: #d9d9d9; -fx-border-color: #373c3f; -fx-border-width: 0 0 2 0;" />
+                                    <TextField fx:id="txtEditCpf" layoutX="818.0" layoutY="335.0" onKeyReleased="#checkCpf" prefHeight="30.0" prefWidth="150.0" style="-fx-background-color: #d9d9d9; -fx-border-color: #373c3f; -fx-border-width: 0 0 2 0;" />
                                     <ChoiceBox fx:id="boxEditGender" layoutX="618.0" layoutY="400.0" prefHeight="30.0" prefWidth="150.0" style="-fx-background-color: #d9d9d9; -fx-border-color: #373c3f; -fx-border-width: 0 0 2 0;" />
-                                    <TextField fx:id="txtEditUsername" editable="false" layoutX="818.0" layoutY="400.0" prefHeight="30.0" prefWidth="150.0" promptText="ex. joaosilva" style="-fx-background-color: #d9d9d9; -fx-border-color: #373c3f; -fx-border-width: 0 0 2 0;" />
-                                    <TextField fx:id="txtEditEmail" editable="false" layoutX="619.0" layoutY="465.0" prefHeight="30.0" prefWidth="150.0" promptText="ex. joaosilva@gmail.com" style="-fx-background-color: #d9d9d9; -fx-border-color: #373c3f; -fx-border-width: 0 0 2 0;" />
+                                    <TextField fx:id="txtEditUsername" editable="false" layoutX="818.0" layoutY="400.0" prefHeight="30.0" prefWidth="150.0" style="-fx-background-color: #d9d9d9; -fx-border-color: #373c3f; -fx-border-width: 0 0 2 0;" />
+                                    <TextField fx:id="txtEditEmail" editable="false" layoutX="619.0" layoutY="465.0" prefHeight="30.0" prefWidth="150.0" style="-fx-background-color: #d9d9d9; -fx-border-color: #373c3f; -fx-border-width: 0 0 2 0;" />
                                     <Button fx:id="btnFileChooser" layoutX="818.0" layoutY="470.0" mnemonicParsing="false" onAction="#chooseFile" prefHeight="20.0" prefWidth="150.0" styleClass="btn-filechooser" stylesheets="@../css/style.css" text="Selecionar arquivo" textFill="#5b5b5b">
                                        <font>
                                           <Font size="11.0" />
