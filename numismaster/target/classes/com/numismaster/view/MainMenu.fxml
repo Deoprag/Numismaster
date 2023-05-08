@@ -59,7 +59,7 @@
                            </children></AnchorPane>
                     </content>
                   </Tab>
-                <Tab closable="false" text="Mercado">
+                <Tab closable="false" onSelectionChanged="#loadMarketTable" text="Mercado">
                   <content>
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
@@ -72,7 +72,7 @@
                                  <font>
                                     <Font size="14.0" />
                                  </font></TextField>
-                              <TableView fx:id="tbCoin1" layoutX="11.0" layoutY="50.0" prefHeight="600.0" prefWidth="1060.0" style="-fx-background-color: #d9d9d9; -fx-border-color: #373c3f; -fx-border-width: 2px;" />
+                              <TableView fx:id="tbMarket" layoutX="11.0" layoutY="50.0" prefHeight="600.0" prefWidth="1060.0" style="-fx-background-color: #d9d9d9; -fx-border-color: #373c3f; -fx-border-width: 2px;" />
                            </children></AnchorPane>
                   </content>
                 </Tab>
