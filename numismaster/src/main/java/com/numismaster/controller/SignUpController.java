@@ -167,7 +167,7 @@ public class SignUpController {
 		Alert alert = new Alert(AlertType.CONFIRMATION);
 		alert.setTitle("Sair");
 		alert.setHeaderText("Você está saindo!");
-		alert.setContentText("Tem certeza que deseja sair?");
+		alert.setContentText("Tem certeza que deseja encerrar o sistema?");
 
 		if (alert.showAndWait().get() == ButtonType.OK) {
 			Stage stage = (Stage) ((Button) e.getSource()).getScene().getWindow();

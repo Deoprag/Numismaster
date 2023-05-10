@@ -21,6 +21,7 @@ import com.numismaster.model.Shape;
 import com.numismaster.model.User;
 import com.numismaster.service.CoinService;
 import com.numismaster.service.CoinUserService;
+import com.numismaster.service.UserService;
 import com.numismaster.util.Util;
 
 import javafx.beans.property.SimpleObjectProperty;
@@ -29,6 +30,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -59,6 +61,10 @@ import lombok.Setter;
 
 @Setter
 public class MainMenuController {
+
+	private int clickCount;
+	private Coin selectedItem;
+	private Coin lastSelectedItem;
 
 	private Stage stage;
 	private Scene scene;
@@ -624,6 +630,64 @@ public class MainMenuController {
 
 	}
 
+	public void saveUser(){
+		UserService userService = new UserService();
+		if(!txtEditFirstName.getText().isBlank() && !txtEditLastName.getText().isBlank()){
+			Alert alert = new Alert(AlertType.CONFIRMATION);
+			alert.setTitle("Confirmação");
+			alert.setHeaderText("Confirmação de atualização");
+			alert.setContentText("Deseja realmente atualizar seus dados?");
+
+			if (alert.showAndWait().get() == ButtonType.OK) {
+				user.setFirstName(txtEditFirstName.getText());
+				user.setLastName(txtEditLastName.getText());
+				if(userService.save(user)){
+					alert = new Alert(AlertType.CONFIRMATION);
+					alert.setTitle("Sucesso!");
+					alert.setHeaderText("Dados atualizads com sucesso!");
+					alert.setContentText("Os dados de usuário foram atualizados com sucesso!");
+					alert.showAndWait();
+					lblSelectedFile.setText("");
+					loadUser(user);
+				} else {
+					alert = new Alert(AlertType.ERROR);
+					alert.setTitle("Erro!");
+					alert.setHeaderText("Erro ao atualizar dados!");
+					alert.setContentText("Os dados de usuário não puderam ser salvos!");
+					alert.showAndWait();
+				}
+			}
+		} else {
+			Alert alert = new Alert(AlertType.INFORMATION);
+			alert.setTitle("Erro!");
+			alert.setHeaderText("Erro ao atualizar dados!");
+			alert.setContentText("Preencha todos os campos");
+			alert.showAndWait();
+		}
+	}
+
+	public void saveCoin(Coin coin){
+		CoinUserService coinUserService = new CoinUserService();
+
+	}
+
+	public void registerCoin(Event e){
+		selectedItem = tbCoin.getSelectionModel().getSelectedItem();
+
+		if (selectedItem != null && selectedItem.equals(lastSelectedItem)) {
+			clickCount++;
+		} else {
+			clickCount = 1;
+		}
+
+		if (clickCount == 2) {
+			saveCoin(selectedItem);
+			clickCount = 0;
+		}
+
+		lastSelectedItem = selectedItem;
+	}
+
 	@FXML
 	private void checkCpf() {
 		MaskTextField mtf = new MaskTextField();
@@ -648,7 +712,7 @@ public class MainMenuController {
 		Alert alert = new Alert(AlertType.CONFIRMATION);
 		alert.setTitle("Sair");
 		alert.setHeaderText("Você está saindo!");
-		alert.setContentText("Tem certeza que deseja sair?");
+		alert.setContentText("Tem certeza que deseja encerrar o sistema?");
 
 		if (alert.showAndWait().get() == ButtonType.OK) {
 			Stage stage = (Stage) ((Button) e.getSource()).getScene().getWindow();
