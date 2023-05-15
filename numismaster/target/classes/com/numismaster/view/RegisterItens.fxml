@@ -401,7 +401,7 @@
                   <Font name="Segoe UI Bold" size="24.0" />
                </font>
             </Label>
-            <Button fx:id="btnClose" layoutX="1249.0" layoutY="3.0" mnemonicParsing="false" onAction="#close" prefHeight="24.0" prefWidth="30.0" styleClass="btn-close" stylesheets="@../css/style.css" text="X" textFill="WHITE">
+            <Button fx:id="btnClose" layoutX="1248.0" layoutY="3.0" mnemonicParsing="false" onAction="#close" prefHeight="24.0" prefWidth="30.0" styleClass="btn-close" stylesheets="@../css/style.css" text="X" textFill="WHITE">
                <cursor>
                   <Cursor fx:constant="DEFAULT" />
                </cursor>
@@ -409,7 +409,7 @@
                   <Font name="System Bold" size="12.0" />
                </font>
             </Button>
-            <Button fx:id="btnMinimize" layoutX="1218.0" layoutY="3.0" mnemonicParsing="false" onAction="#minimize" prefHeight="24.0" prefWidth="30.0" styleClass="btn-minimize" stylesheets="@../css/style.css" text="_" textFill="WHITE">
+            <Button fx:id="btnMinimize" layoutX="1217.0" layoutY="3.0" mnemonicParsing="false" onAction="#minimize" prefHeight="24.0" prefWidth="30.0" styleClass="btn-minimize" stylesheets="@../css/style.css" text="_" textFill="WHITE">
                <cursor>
                   <Cursor fx:constant="DEFAULT" />
                </cursor>

@@ -159,6 +159,7 @@ public class LoginController {
 		stage.getIcons().add(new Image("/com/numismaster/icon/large-app-icon.png"));
 		stage.setScene(scene);
 		stage.show();
+		stage.centerOnScreen();
 	}
 
 	public void registerItens(ActionEvent e) throws IOException {
@@ -171,6 +172,7 @@ public class LoginController {
 		stage.getIcons().add(new Image("/com/numismaster/icon/large-app-icon.png"));
 		stage.setScene(scene);
 		stage.show();
+		stage.centerOnScreen();
 	}
 
 	public void signUp(ActionEvent e) throws IOException {
@@ -181,6 +183,7 @@ public class LoginController {
 		stage.getIcons().add(new Image("/com/numismaster/icon/large-app-icon.png"));
 		stage.setScene(scene);
 		stage.show();
+		stage.centerOnScreen();
 	}
 
 	public void barPressed(MouseEvent e) {

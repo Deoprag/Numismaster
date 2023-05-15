@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="630.0" prefWidth="800.0" style="-fx-background-color: #586065;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.numismaster.controller.SignUpController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="630.0" prefWidth="800.0" style="-fx-background-color: #586065; -fx-border-color: #373c3f; -fx-border-width: 2;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.numismaster.controller.SignUpController">
    <children>
       <Pane blendMode="SRC_ATOP" layoutX="150.0" layoutY="61.0" prefHeight="540.0" prefWidth="500.0" style="-fx-border-color: #373c3f; -fx-background-color: #d9d9d9; -fx-border-width: 2;">
          <children>
@@ -103,14 +103,14 @@
             <Insets />
          </opaqueInsets>
       </Pane>
-      <Pane fx:id="paneBar" onMouseDragged="#barDragged" onMousePressed="#barPressed" prefHeight="30.0" prefWidth="800.0" style="-fx-background-color: #373c3f;">
+      <Pane fx:id="paneBar" onMouseDragged="#barDragged" onMousePressed="#barPressed" prefHeight="30.0" prefWidth="800.0" style="-fx-background-color: #373c3f; -fx-border-color: 373c3f;">
          <children>
             <Label alignment="CENTER" layoutX="325.0" layoutY="2.0" prefHeight="24.0" prefWidth="175.0" text="Numismaster" textAlignment="JUSTIFY" textFill="WHITE">
                <font>
                   <Font name="Segoe UI Bold" size="24.0" />
                </font>
             </Label>
-            <Button fx:id="btnClose" layoutX="768.0" layoutY="3.0" mnemonicParsing="false" onAction="#close" prefHeight="24.0" prefWidth="30.0" styleClass="btn-close" stylesheets="@../css/style.css" text="X" textFill="WHITE">
+            <Button fx:id="btnClose" layoutX="767.0" layoutY="3.0" mnemonicParsing="false" onAction="#close" prefHeight="24.0" prefWidth="30.0" styleClass="btn-close" stylesheets="@../css/style.css" text="X" textFill="WHITE">
                <cursor>
                   <Cursor fx:constant="DEFAULT" />
                </cursor>
@@ -118,7 +118,7 @@
                   <Font name="System Bold" size="12.0" />
                </font>
             </Button>
-            <Button fx:id="btnMinimize" layoutX="737.0" layoutY="3.0" mnemonicParsing="false" onAction="#minimize" prefHeight="24.0" prefWidth="30.0" styleClass="btn-minimize" stylesheets="@../css/style.css" text="_" textFill="WHITE">
+            <Button fx:id="btnMinimize" layoutX="736.0" layoutY="3.0" mnemonicParsing="false" onAction="#minimize" prefHeight="24.0" prefWidth="30.0" styleClass="btn-minimize" stylesheets="@../css/style.css" text="_" textFill="WHITE">
                <cursor>
                   <Cursor fx:constant="DEFAULT" />
                </cursor>

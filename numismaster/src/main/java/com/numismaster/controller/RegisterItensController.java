@@ -233,6 +233,7 @@ public class RegisterItensController {
 			scene = new Scene(root);
 			stage.setScene(scene);
 			stage.show();
+			stage.centerOnScreen();
 		}
 	}
 

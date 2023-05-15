@@ -20,6 +20,7 @@ public class App extends Application {
 			stage.getIcons().add(new Image("/com/numismaster/icon/large-app-icon.png"));
 			stage.setScene(scene);
 			stage.show();
+			stage.centerOnScreen();
 			
 		} catch(Exception e) {
 			e.printStackTrace();

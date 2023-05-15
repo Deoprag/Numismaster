@@ -56,6 +56,7 @@ import javafx.scene.shape.Circle;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.util.Callback;
 import lombok.Setter;
 
@@ -67,6 +68,7 @@ public class MainMenuController {
 	private Coin lastSelectedItem;
 
 	private Stage stage;
+	private Stage stageRegisterCoin;
 	private Scene scene;
 	private Parent root;
 	private User user;
@@ -623,6 +625,7 @@ public class MainMenuController {
 			scene = new Scene(root);
 			stage.setScene(scene);
 			stage.show();
+			stage.centerOnScreen();
 		}
 	}
 
@@ -666,12 +669,25 @@ public class MainMenuController {
 		}
 	}
 
-	public void saveCoin(Coin coin){
-		CoinUserService coinUserService = new CoinUserService();
-
+	public void saveCoin(Event e, Coin coin) throws IOException{
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/numismaster/view/RegisterCoin.fxml"));
+		root = loader.load();
+		RegisterCoinController rcc = loader.getController();
+		rcc.setCoin(coin);
+		if (stageRegisterCoin == null || !stageRegisterCoin.isShowing()) {
+			stageRegisterCoin = new Stage();
+			Scene scene = new Scene(root);
+			stageRegisterCoin.initStyle(StageStyle.UNDECORATED);
+			stageRegisterCoin.setTitle("Numismaster");
+			stageRegisterCoin.setAlwaysOnTop(true);
+			stageRegisterCoin.getIcons().add(new Image("/com/numismaster/icon/large-app-icon.png"));
+			stageRegisterCoin.setScene(scene);
+			stageRegisterCoin.show();
+			stageRegisterCoin.centerOnScreen();
+		}
 	}
 
-	public void registerCoin(Event e){
+	public void registerCoin(Event e) throws IOException{
 		selectedItem = tbCoin.getSelectionModel().getSelectedItem();
 
 		if (selectedItem != null && selectedItem.equals(lastSelectedItem)) {
@@ -681,7 +697,7 @@ public class MainMenuController {
 		}
 
 		if (clickCount == 2) {
-			saveCoin(selectedItem);
+			saveCoin(e, selectedItem);
 			clickCount = 0;
 		}
 

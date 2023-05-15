@@ -187,6 +187,7 @@ public class SignUpController {
 		scene = new Scene(root);
 		stage.setScene(scene);
 		stage.show();
+		stage.centerOnScreen();
 	}
 
 	public void chooseFile(ActionEvent e) throws SerialException, SQLException {
