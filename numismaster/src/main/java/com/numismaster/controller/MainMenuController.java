@@ -673,7 +673,8 @@ public class MainMenuController {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/numismaster/view/RegisterCoin.fxml"));
 		root = loader.load();
 		RegisterCoinController rcc = loader.getController();
-		rcc.setCoin(coin);
+		rcc.loadUser(user);
+		rcc.loadCoin(coin);
 		if (stageRegisterCoin == null || !stageRegisterCoin.isShowing()) {
 			stageRegisterCoin = new Stage();
 			Scene scene = new Scene(root);

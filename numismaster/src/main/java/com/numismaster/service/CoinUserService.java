@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.numismaster.model.Coin;
 import com.numismaster.model.CoinUser;
+import com.numismaster.repository.CoinRepository;
 import com.numismaster.repository.CoinUserRepository;
 
 public class CoinUserService {
@@ -11,6 +12,18 @@ public class CoinUserService {
 
     public CoinUserService(){
         coinUserRepository = new CoinUserRepository();
+    }
+
+    public boolean save(CoinUser coinUser){
+        if(coinUser.getId() == 0){
+            return coinUserRepository.insert(coinUser);
+        } else {
+            return coinUserRepository.update(coinUser);
+        }
+    }
+
+    public boolean delete(CoinUser coinUser){
+        return coinUserRepository.delete(coinUser.getId());
     }
 
     public List<CoinUser> findUsersByCoin(Coin coin){

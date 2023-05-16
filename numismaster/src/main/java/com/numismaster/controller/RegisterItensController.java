@@ -243,7 +243,7 @@ public class RegisterItensController {
 			if (!newValue.equals(filteredValue)) {
 				txtDenomination.setText(filteredValue);
 			}
-		});
+		});	
 		txtDiameter.textProperty().addListener((observable, oldValue, newValue) -> {
 			String filteredValue = newValue.replaceAll("[^0-9,.]", "");
 			if (!newValue.equals(filteredValue)) {
@@ -1014,7 +1014,7 @@ public class RegisterItensController {
 	}
 
 	public void loadShapeTable() {
-		tbShape.getItems().clear();
+		tbShape.getItems().clear();	
 		tbShape.getColumns().clear();
 
 		shapeService = new ShapeService();

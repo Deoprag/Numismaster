@@ -87,9 +87,7 @@ public class SignUpController {
 
 	public void initialize() {
 		datePickerInitializer();
-		boxGender.getItems().add(Gender.Feminino);
-		boxGender.getItems().add(Gender.Masculino);
-		boxGender.getItems().add(Gender.Outro);
+		boxGender.getItems().addAll(Gender.values());
 		try {
 			File file = new File("numismaster/src/main/java/com/numismaster/icon/user.png");
 			FileInputStream fis = new FileInputStream(file);
