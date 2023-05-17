@@ -37,7 +37,7 @@
                                  <font>
                                     <Font size="14.0" />
                                  </font></TextField>
-                              <TableView fx:id="tbCoinUser" layoutX="12.0" layoutY="50.0" prefHeight="600.0" prefWidth="1060.0" style="-fx-background-color: #d9d9d9; -fx-border-color: #373c3f; -fx-border-width: 2px;" />
+                              <TableView fx:id="tbCoinUser" centerShape="false" focusTraversable="false" layoutX="12.0" layoutY="50.0" onMouseClicked="#coinEditor" prefHeight="600.0" prefWidth="1060.0" style="-fx-background-color: #d9d9d9; -fx-border-color: #373c3f; -fx-border-width: 2px;" />
                            </children>
                         </AnchorPane>
                   </content>
@@ -55,7 +55,7 @@
                                  <font>
                                     <Font size="14.0" />
                                  </font></TextField>
-                              <TableView fx:id="tbCoin" layoutX="12.0" layoutY="50.0" onMouseClicked="#registerCoin" prefHeight="600.0" prefWidth="1060.0" style="-fx-background-color: #d9d9d9; -fx-border-color: #373c3f; -fx-border-width: 2px;" />
+                              <TableView fx:id="tbCoin" centerShape="false" focusTraversable="false" layoutX="12.0" layoutY="50.0" onMouseClicked="#coinRegister" prefHeight="600.0" prefWidth="1060.0" style="-fx-background-color: #d9d9d9; -fx-border-color: #373c3f; -fx-border-width: 2px;" />
                            </children></AnchorPane>
                     </content>
                   </Tab>
@@ -72,7 +72,7 @@
                                  <font>
                                     <Font size="14.0" />
                                  </font></TextField>
-                              <TableView fx:id="tbMarket" layoutX="12.0" layoutY="50.0" prefHeight="600.0" prefWidth="1060.0" style="-fx-background-color: #d9d9d9; -fx-border-color: #373c3f; -fx-border-width: 2px;">
+                              <TableView fx:id="tbMarket" centerShape="false" focusTraversable="false" layoutX="12.0" layoutY="50.0" prefHeight="600.0" prefWidth="1060.0" style="-fx-background-color: #d9d9d9; -fx-border-color: #373c3f; -fx-border-width: 2px;">
                                  <columnResizePolicy>
                                     <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                                  </columnResizePolicy></TableView>
@@ -88,7 +88,7 @@
                                     <Font size="14.0" />
                                  </font>
                               </TextField>
-                              <TableView fx:id="tbTransaction" layoutX="12.0" layoutY="50.0" prefHeight="600.0" prefWidth="1060.0" style="-fx-background-color: #d9d9d9; -fx-border-color: #373c3f; -fx-border-width: 2px;">
+                              <TableView fx:id="tbTransaction" centerShape="false" focusTraversable="false" layoutX="12.0" layoutY="50.0" prefHeight="600.0" prefWidth="1060.0" style="-fx-background-color: #d9d9d9; -fx-border-color: #373c3f; -fx-border-width: 2px;">
                                  <columnResizePolicy>
                                     <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                                  </columnResizePolicy>

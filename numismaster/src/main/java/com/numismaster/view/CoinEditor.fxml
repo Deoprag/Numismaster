@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="680.0" prefWidth="650.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.numismaster.controller.RegisterCoinController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="680.0" prefWidth="650.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.numismaster.controller.CoinEditorController">
    <children>
       <Pane fx:id="paneBar" onMouseDragged="#barDragged" onMousePressed="#barPressed" prefHeight="30.0" prefWidth="650.0" style="-fx-background-color: #373c3f;">
          <children>
@@ -42,17 +42,17 @@
          <children>
             <Pane layoutX="50.0" layoutY="25.0" prefHeight="600.0" prefWidth="550.0" style="-fx-background-color: #d9d9d9; -fx-border-width: 5 0 0 0; -fx-border-color: #373c3f;">
                <children>
-                  <Button fx:id="btnRegister" layoutX="225.0" layoutY="546.0" mnemonicParsing="false" onAction="#registerCoin" prefHeight="40.0" prefWidth="100.0" styleClass="btn-add" stylesheets="@../css/style.css" text="Cadastrar" textFill="#373c3f">
+                  <Button fx:id="btnRegister" disable="true" layoutX="225.0" layoutY="546.0" mnemonicParsing="false" onAction="#registerCoin" prefHeight="40.0" prefWidth="100.0" styleClass="btn-add" stylesheets="@../css/style.css" text="Cadastrar" textFill="#373c3f" visible="false">
                      <font>
                         <Font name="System Bold" size="16.0" />
                      </font>
                   </Button>
-                  <Button fx:id="btnUpdate" layoutX="350.0" layoutY="546.0" mnemonicParsing="false" onAction="#updateCoin" prefHeight="40.0" prefWidth="100.0" styleClass="btn-update" stylesheets="@../css/style.css" text="Atualizar" textFill="#373c3f">
+                  <Button fx:id="btnUpdate" disable="true" layoutX="294.0" layoutY="546.0" mnemonicParsing="false" onAction="#updateCoin" prefHeight="40.0" prefWidth="100.0" styleClass="btn-update" stylesheets="@../css/style.css" text="Atualizar" textFill="#373c3f" visible="false">
                      <font>
                         <Font name="System Bold" size="16.0" />
                      </font>
                   </Button>
-                  <Button fx:id="btnDelete" layoutX="100.0" layoutY="546.0" mnemonicParsing="false" onAction="#deleteCoin" prefHeight="40.0" prefWidth="100.0" styleClass="btn-delete" stylesheets="@../css/style.css" text="Deletar" textFill="#373c3f">
+                  <Button fx:id="btnDelete" disable="true" layoutX="177.0" layoutY="546.0" mnemonicParsing="false" onAction="#deleteCoin" prefHeight="40.0" prefWidth="100.0" styleClass="btn-delete" stylesheets="@../css/style.css" text="Deletar" textFill="#373c3f" visible="false">
                      <font>
                         <Font name="System Bold" size="16.0" />
                      </font>
@@ -75,7 +75,7 @@
                      </font>
                   </Label>
                   <Separator layoutY="50.0" prefHeight="0.0" prefWidth="550.0" style="-fx-background-color: #777;" />
-                  <Label alignment="CENTER" layoutX="75.0" layoutY="11.0" prefHeight="39.0" prefWidth="400.0" text="Cadastrar na coleção" textFill="#373c3f">
+                  <Label alignment="CENTER" layoutX="75.0" layoutY="11.0" prefHeight="39.0" prefWidth="400.0" text="Coleção" textFill="#373c3f">
                      <font>
                         <Font name="Segoe UI Bold" size="32.0" />
                      </font>
@@ -86,13 +86,13 @@
                         <Font name="Segoe UI Bold" size="14.0" />
                      </font>
                   </Label>
-                  <CheckBox fx:id="checkForSale" layoutX="285.0" layoutY="256.0" mnemonicParsing="false" onAction="#changeTxtPrice" text="À venda" />
-                  <Button fx:id="btnSelectFrontImage" layoutX="200.0" layoutY="330.0" mnemonicParsing="false" onAction="#chooseFile" prefHeight="30.0" prefWidth="150.0" styleClass="btn-filechooser" stylesheets="@../css/style.css" text="Selecionar arquivo" textFill="#5b5b5b">
+                  <Button fx:id="btnSelectBackImage" layoutX="200.0" layoutY="390.0" mnemonicParsing="false" onAction="#chooseBackImage" prefHeight="30.0" prefWidth="150.0" styleClass="btn-filechooser" stylesheets="@../css/style.css" text="Selecionar arquivo" textFill="#5b5b5b">
                      <font>
                         <Font size="11.0" />
                      </font>
                   </Button>
-                  <Button fx:id="btnSelectBackImage" layoutX="200.0" layoutY="390.0" mnemonicParsing="false" onAction="#chooseFile" prefHeight="30.0" prefWidth="150.0" styleClass="btn-filechooser" stylesheets="@../css/style.css" text="Selecionar arquivo" textFill="#5b5b5b">
+                  <CheckBox fx:id="checkForSale" layoutX="285.0" layoutY="256.0" mnemonicParsing="false" onAction="#changeTxtPrice" text="À venda" />
+                  <Button fx:id="btnSelectFrontImage" layoutX="200.0" layoutY="330.0" mnemonicParsing="false" onAction="#chooseFrontImage" prefHeight="30.0" prefWidth="150.0" styleClass="btn-filechooser" stylesheets="@../css/style.css" text="Selecionar arquivo" textFill="#5b5b5b">
                      <font>
                         <Font size="11.0" />
                      </font>
@@ -113,12 +113,12 @@
                         <Font name="Segoe UI Bold" size="14.0" />
                      </font>
                   </Label>
-                  <Label fx:id="lblFrontalImage" alignment="TOP_LEFT" layoutX="363.0" layoutY="330.0" prefHeight="30.0" prefWidth="150.0" textAlignment="CENTER" textFill="#666666" wrapText="true">
+                  <Label fx:id="lblFrontalImage" alignment="TOP_LEFT" layoutX="200.0" layoutY="360.0" prefHeight="17.0" prefWidth="150.0" textAlignment="CENTER" textFill="#666666" wrapText="true">
                      <font>
                         <Font size="9.0" />
                      </font>
                   </Label>
-                  <Label fx:id="lblBackImage" alignment="TOP_LEFT" layoutX="363.0" layoutY="390.0" prefHeight="30.0" prefWidth="150.0" textAlignment="CENTER" textFill="#666666" wrapText="true">
+                  <Label fx:id="lblBackImage" alignment="TOP_LEFT" layoutX="200.0" layoutY="420.0" prefHeight="17.0" prefWidth="150.0" textAlignment="CENTER" textFill="#666666" wrapText="true">
                      <font>
                         <Font size="9.0" />
                      </font>
