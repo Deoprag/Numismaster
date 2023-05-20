@@ -42,34 +42,34 @@
          <children>
             <Pane layoutX="50.0" layoutY="25.0" prefHeight="600.0" prefWidth="550.0" style="-fx-background-color: #d9d9d9; -fx-border-width: 5 0 0 0; -fx-border-color: #373c3f;">
                <children>
-                  <Button fx:id="btnRegister" disable="true" layoutX="225.0" layoutY="546.0" mnemonicParsing="false" onAction="#registerCoin" prefHeight="40.0" prefWidth="100.0" styleClass="btn-add" stylesheets="@../css/style.css" text="Cadastrar" textFill="#373c3f" visible="false">
+                  <Button fx:id="btnRegister" disable="true" layoutX="225.0" layoutY="527.0" mnemonicParsing="false" onAction="#registerCoin" prefHeight="40.0" prefWidth="100.0" styleClass="btn-add" stylesheets="@../css/style.css" text="Cadastrar" textFill="#373c3f" visible="false">
                      <font>
                         <Font name="System Bold" size="16.0" />
                      </font>
                   </Button>
-                  <Button fx:id="btnUpdate" disable="true" layoutX="294.0" layoutY="546.0" mnemonicParsing="false" onAction="#updateCoin" prefHeight="40.0" prefWidth="100.0" styleClass="btn-update" stylesheets="@../css/style.css" text="Atualizar" textFill="#373c3f" visible="false">
+                  <Button fx:id="btnUpdate" disable="true" layoutX="294.0" layoutY="527.0" mnemonicParsing="false" onAction="#updateCoin" prefHeight="40.0" prefWidth="100.0" styleClass="btn-update" stylesheets="@../css/style.css" text="Atualizar" textFill="#373c3f" visible="false">
                      <font>
                         <Font name="System Bold" size="16.0" />
                      </font>
                   </Button>
-                  <Button fx:id="btnDelete" disable="true" layoutX="177.0" layoutY="546.0" mnemonicParsing="false" onAction="#deleteCoin" prefHeight="40.0" prefWidth="100.0" styleClass="btn-delete" stylesheets="@../css/style.css" text="Deletar" textFill="#373c3f" visible="false">
+                  <Button fx:id="btnDelete" disable="true" layoutX="177.0" layoutY="527.0" mnemonicParsing="false" onAction="#deleteCoin" prefHeight="40.0" prefWidth="100.0" styleClass="btn-delete" stylesheets="@../css/style.css" text="Deletar" textFill="#373c3f" visible="false">
                      <font>
                         <Font name="System Bold" size="16.0" />
                      </font>
                   </Button>
-                  <Label fx:id="lblCoinName" alignment="CENTER" layoutY="75.0" prefHeight="40.0" prefWidth="550.0" text="Nome moeda" textAlignment="CENTER" textFill="#373c3f" wrapText="true">
+                  <Label fx:id="lblCoinName" alignment="CENTER" layoutY="78.0" prefHeight="40.0" prefWidth="550.0" text="Nome moeda" textAlignment="CENTER" textFill="#373c3f" wrapText="true">
                      <font>
                         <Font name="Segoe UI Bold" size="16.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="txtCoinYear" layoutX="200.0" layoutY="150.0" prefHeight="30.0" prefWidth="150.0" promptText="ex. 1855" style="-fx-background-color: #d9d9d9; -fx-border-color: #373c3f; -fx-border-width: 0 0 2 0;" />
-                  <Label layoutX="200.0" layoutY="135.0" text="Ano" textFill="#373c3f">
+                  <TextField fx:id="txtCoinYear" layoutX="14.0" layoutY="357.0" prefHeight="30.0" prefWidth="150.0" promptText="ex. 1855" style="-fx-background-color: #d9d9d9; -fx-border-color: #373c3f; -fx-border-width: 0 0 2 0;" />
+                  <Label layoutX="14.0" layoutY="342.0" text="Ano *" textFill="#373c3f">
                      <font>
                         <Font name="Segoe UI Bold" size="14.0" />
                      </font>
                   </Label>
-                  <ChoiceBox fx:id="boxCondition" layoutX="200.0" layoutY="210.0" prefHeight="30.0" prefWidth="150.0" style="-fx-background-color: #d9d9d9; -fx-border-color: #373c3f; -fx-border-width: 0 0 2 0;" />
-                  <Label layoutX="200.0" layoutY="195.0" text="Condição" textFill="#373c3f">
+                  <ChoiceBox fx:id="boxCondition" layoutX="386.0" layoutY="357.0" prefHeight="30.0" prefWidth="150.0" style="-fx-background-color: #d9d9d9; -fx-border-color: #373c3f; -fx-border-width: 0 0 2 0;" />
+                  <Label layoutX="386.0" layoutY="342.0" text="Condição *" textFill="#373c3f">
                      <font>
                         <Font name="Segoe UI Bold" size="14.0" />
                      </font>
@@ -80,47 +80,101 @@
                         <Font name="Segoe UI Bold" size="32.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="txtCoinPrice" disable="true" layoutX="200.0" layoutY="270.0" prefHeight="30.0" prefWidth="150.0" promptText="ex. 249.90" style="-fx-background-color: #d9d9d9; -fx-border-color: #373c3f; -fx-border-width: 0 0 2 0;" />
-                  <Label layoutX="200.0" layoutY="255.0" text="Preço" textFill="#373c3f">
+                  <TextField fx:id="txtCoinPrice" disable="true" layoutX="200.0" layoutY="357.0" prefHeight="30.0" prefWidth="150.0" promptText="ex. 249.90" style="-fx-background-color: #d9d9d9; -fx-border-color: #373c3f; -fx-border-width: 0 0 2 0;" />
+                  <Label fx:id="lblCoinPrice" layoutX="200.0" layoutY="342.0" text="Preço" textFill="#373c3f">
                      <font>
                         <Font name="Segoe UI Bold" size="14.0" />
                      </font>
                   </Label>
-                  <Button fx:id="btnSelectBackImage" layoutX="200.0" layoutY="390.0" mnemonicParsing="false" onAction="#chooseBackImage" prefHeight="30.0" prefWidth="150.0" styleClass="btn-filechooser" stylesheets="@../css/style.css" text="Selecionar arquivo" textFill="#5b5b5b">
+                  <Button fx:id="btnSelectBackImage" layoutX="200.0" layoutY="416.0" mnemonicParsing="false" onAction="#chooseBackImage" prefHeight="30.0" prefWidth="150.0" styleClass="btn-filechooser" stylesheets="@../css/style.css" text="Selecionar arquivo" textFill="#5b5b5b">
                      <font>
                         <Font size="11.0" />
                      </font>
                   </Button>
-                  <CheckBox fx:id="checkForSale" layoutX="285.0" layoutY="256.0" mnemonicParsing="false" onAction="#changeTxtPrice" text="À venda" />
-                  <Button fx:id="btnSelectFrontImage" layoutX="200.0" layoutY="330.0" mnemonicParsing="false" onAction="#chooseFrontImage" prefHeight="30.0" prefWidth="150.0" styleClass="btn-filechooser" stylesheets="@../css/style.css" text="Selecionar arquivo" textFill="#5b5b5b">
+                  <CheckBox fx:id="checkForSale" layoutX="285.0" layoutY="343.0" mnemonicParsing="false" onAction="#changeTxtPrice" text="À venda" />
+                  <Button fx:id="btnSelectFrontImage" layoutX="14.0" layoutY="417.0" mnemonicParsing="false" onAction="#chooseFrontImage" prefHeight="30.0" prefWidth="150.0" styleClass="btn-filechooser" stylesheets="@../css/style.css" text="Selecionar arquivo" textFill="#5b5b5b">
                      <font>
                         <Font size="11.0" />
                      </font>
                   </Button>
-                  <Label layoutX="200.0" layoutY="315.0" text="Foto frontal" textFill="#373c3f">
+                  <Label layoutX="14.0" layoutY="402.0" text="Foto frontal" textFill="#373c3f">
                      <font>
                         <Font name="Segoe UI Bold" size="14.0" />
                      </font>
                   </Label>
-                  <Label layoutX="200.0" layoutY="375.0" text="Foto traseira" textFill="#373c3f">
+                  <Label layoutX="200.0" layoutY="401.0" text="Foto traseira" textFill="#373c3f">
                      <font>
                         <Font name="Segoe UI Bold" size="14.0" />
                      </font>
                   </Label>
-                  <TextArea fx:id="txtNotes" layoutX="188.0" layoutY="454.0" prefHeight="80.0" prefWidth="175.0" promptText="ex. Características da moeda, avarias, etc." wrapText="true" />
-                  <Label layoutX="200.0" layoutY="436.0" text="Notas" textFill="#373c3f">
+                  <TextArea fx:id="txtNotes" layoutX="384.0" layoutY="419.0" prefHeight="80.0" prefWidth="150.0" promptText="ex. Características da moeda, avarias, etc." wrapText="true" />
+                  <Label layoutX="386.0" layoutY="401.0" text="Notas" textFill="#373c3f">
                      <font>
                         <Font name="Segoe UI Bold" size="14.0" />
                      </font>
                   </Label>
-                  <Label fx:id="lblFrontalImage" alignment="TOP_LEFT" layoutX="200.0" layoutY="360.0" prefHeight="17.0" prefWidth="150.0" textAlignment="CENTER" textFill="#666666" wrapText="true">
+                  <Label fx:id="lblFrontalImage" alignment="TOP_LEFT" layoutX="14.0" layoutY="447.0" prefHeight="17.0" prefWidth="150.0" textAlignment="CENTER" textFill="#666666" wrapText="true">
                      <font>
                         <Font size="9.0" />
                      </font>
                   </Label>
-                  <Label fx:id="lblBackImage" alignment="TOP_LEFT" layoutX="200.0" layoutY="420.0" prefHeight="17.0" prefWidth="150.0" textAlignment="CENTER" textFill="#666666" wrapText="true">
+                  <Label fx:id="lblBackImage" alignment="TOP_LEFT" layoutX="200.0" layoutY="446.0" prefHeight="17.0" prefWidth="150.0" textAlignment="CENTER" textFill="#666666" wrapText="true">
                      <font>
                         <Font size="9.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="txtCoinDenomination" disable="true" editable="false" layoutX="14.0" layoutY="177.0" prefHeight="30.0" prefWidth="150.0" style="-fx-background-color: #d9d9d9; -fx-border-color: #373c3f; -fx-border-width: 0 0 2 0;" />
+                  <Label layoutX="14.0" layoutY="162.0" text="Valor de face" textFill="#373c3f">
+                     <font>
+                        <Font name="Segoe UI Bold" size="14.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="txtCoinThickness" disable="true" editable="false" layoutX="14.0" layoutY="237.0" prefHeight="30.0" prefWidth="150.0" style="-fx-background-color: #d9d9d9; -fx-border-color: #373c3f; -fx-border-width: 0 0 2 0;" />
+                  <Label layoutX="14.0" layoutY="222.0" text="Grossura" textFill="#373c3f">
+                     <font>
+                        <Font name="Segoe UI Bold" size="14.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="txtCoinShape" disable="true" editable="false" layoutX="14.0" layoutY="297.0" prefHeight="30.0" prefWidth="150.0" style="-fx-background-color: #d9d9d9; -fx-border-color: #373c3f; -fx-border-width: 0 0 2 0;" />
+                  <Label layoutX="14.0" layoutY="282.0" text="Formato" textFill="#373c3f">
+                     <font>
+                        <Font name="Segoe UI Bold" size="14.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="txtCoinMaterial" disable="true" editable="false" layoutX="200.0" layoutY="297.0" prefHeight="30.0" prefWidth="150.0" style="-fx-background-color: #d9d9d9; -fx-border-color: #373c3f; -fx-border-width: 0 0 2 0;" />
+                  <Label layoutX="200.0" layoutY="282.0" text="Material" textFill="#373c3f">
+                     <font>
+                        <Font name="Segoe UI Bold" size="14.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="txtCoinWeight" disable="true" editable="false" layoutX="200.0" layoutY="177.0" prefHeight="30.0" prefWidth="150.0" style="-fx-background-color: #d9d9d9; -fx-border-color: #373c3f; -fx-border-width: 0 0 2 0;" />
+                  <Label layoutX="200.0" layoutY="162.0" text="Peso" textFill="#373c3f">
+                     <font>
+                        <Font name="Segoe UI Bold" size="14.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="txtCoinDiameter" disable="true" editable="false" layoutX="386.0" layoutY="177.0" prefHeight="30.0" prefWidth="150.0" style="-fx-background-color: #d9d9d9; -fx-border-color: #373c3f; -fx-border-width: 0 0 2 0;" />
+                  <Label layoutX="386.0" layoutY="162.0" text="Diâmetro" textFill="#373c3f">
+                     <font>
+                        <Font name="Segoe UI Bold" size="14.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="txtCoinCountry" disable="true" editable="false" layoutX="386.0" layoutY="237.0" prefHeight="30.0" prefWidth="150.0" style="-fx-background-color: #d9d9d9; -fx-border-color: #373c3f; -fx-border-width: 0 0 2 0;" />
+                  <Label layoutX="386.0" layoutY="222.0" text="País" textFill="#373c3f">
+                     <font>
+                        <Font name="Segoe UI Bold" size="14.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="txtCoinEdge" disable="true" editable="false" layoutX="386.0" layoutY="297.0" prefHeight="30.0" prefWidth="150.0" style="-fx-background-color: #d9d9d9; -fx-border-color: #373c3f; -fx-border-width: 0 0 2 0;" />
+                  <Label layoutX="386.0" layoutY="282.0" text="Borda" textFill="#373c3f">
+                     <font>
+                        <Font name="Segoe UI Bold" size="14.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="txtCoinRarity" disable="true" editable="false" layoutX="200.0" layoutY="237.0" prefHeight="30.0" prefWidth="150.0" style="-fx-background-color: #d9d9d9; -fx-border-color: #373c3f; -fx-border-width: 0 0 2 0;" />
+                  <Label layoutX="200.0" layoutY="222.0" text="Raridade" textFill="#373c3f">
+                     <font>
+                        <Font name="Segoe UI Bold" size="14.0" />
                      </font>
                   </Label>
                </children>

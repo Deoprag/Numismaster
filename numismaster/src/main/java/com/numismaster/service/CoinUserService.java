@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.numismaster.model.Coin;
 import com.numismaster.model.CoinUser;
-import com.numismaster.repository.CoinRepository;
+import com.numismaster.model.User;
 import com.numismaster.repository.CoinUserRepository;
 
 public class CoinUserService {
@@ -32,6 +32,10 @@ public class CoinUserService {
 
     public List<CoinUser> findAll(){
         return coinUserRepository.findAll();
+    }
+
+    public List<CoinUser> findAllByUser(User user){
+        return coinUserRepository.findAllByUser(user.getId());
     }
 
     public CoinUser findById(int id){

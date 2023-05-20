@@ -198,13 +198,9 @@ public class MainMenuController {
 	private double x, y = 0;
 
 	public void initialize() {
-		boxEditGender.getItems().add(Gender.Feminino);
-		boxEditGender.getItems().add(Gender.Masculino);
-		boxEditGender.getItems().add(Gender.Outro);
+		boxEditGender.getItems().addAll(Gender.values());
 		fixImage(profilePhoto, true);
 		fixImage(editProfilePhoto, true);
-		loadCoinTable();
-		loadCoinUserTable();
 	}
 
 	public void loadUser(User newUser) {
@@ -216,6 +212,8 @@ public class MainMenuController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		loadCoinTable();
+		loadCoinUserTable();
 	}
 
 	public void loadEditableUser() {
@@ -372,7 +370,7 @@ public class MainMenuController {
 		tbCoinUser.getColumns().clear();
 
 		coinUserService = new CoinUserService();
-		for (CoinUser coinUser : coinUserService.findAll()) {
+		for (CoinUser coinUser : coinUserService.findAllByUser(user)) {
 			obsCoinUserList.add(coinUser);
 		}
 

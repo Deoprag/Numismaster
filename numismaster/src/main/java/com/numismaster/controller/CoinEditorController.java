@@ -10,6 +10,9 @@ import javax.sql.rowset.serial.SerialException;
 import com.numismaster.model.Coin;
 import com.numismaster.model.CoinCondition;
 import com.numismaster.model.CoinUser;
+import com.numismaster.model.Edge;
+import com.numismaster.model.Material;
+import com.numismaster.model.Shape;
 import com.numismaster.model.User;
 import com.numismaster.service.CoinUserService;
 import com.numismaster.util.Util;
@@ -49,14 +52,37 @@ public class CoinEditorController {
 
     private double x, y;
     
+    // Coin
     @FXML
     private Label lblCoinName;
+    @FXML
+    private TextField txtCoinDenomination;
+    @FXML
+    private TextField txtCoinWeight;
+    @FXML
+    private TextField txtCoinDiameter;
+    @FXML
+    private TextField txtCoinThickness;
+    @FXML
+    private TextField txtCoinRarity;
+    @FXML
+    private TextField txtCoinCountry;
+    @FXML
+    private TextField txtCoinEdge;
+    @FXML
+    private TextField txtCoinMaterial;
+    @FXML
+    private TextField txtCoinShape;
+
+    // CoinUser
     @FXML
     private TextField txtCoinYear;
     @FXML
     private ChoiceBox<CoinCondition> boxCondition;
     @FXML
     private CheckBox checkForSale;
+    @FXML
+    private Label lblCoinPrice;
     @FXML
     private TextField txtCoinPrice;
     @FXML
@@ -97,9 +123,55 @@ public class CoinEditorController {
 		});	
     }
 
+    public boolean validateFields(){
+        if(txtCoinYear.getText().isBlank()){
+            return false;
+        }
+        if(checkForSale.isSelected() && txtCoinPrice.getText().isBlank()){
+            return false;
+        }
+        if(boxCondition.getValue() == null){
+            return false;
+        }
+        return true;
+    }
+
+    public void loadCoinInfo(){
+        lblCoinName.setText(coin.getName().toUpperCase());
+        txtCoinDenomination.setText(String.valueOf(coin.getDenomination()));
+        txtCoinWeight.setText(String.valueOf(coin.getWeight()) + "g");
+        txtCoinDiameter.setText(String.valueOf(coin.getDiameter()) + "mm");
+        txtCoinThickness.setText(String.valueOf(coin.getThickness()) + "mm");
+        txtCoinRarity.setText(String.valueOf(coin.getRarity()));
+        txtCoinCountry.setText(coin.getCountry().getName());
+        StringBuilder shapeNames = new StringBuilder();
+        for (Shape shape : coin.getShapes()){
+            shapeNames.append(shape.getName()).append(", ");
+        }
+        if (shapeNames.length() > 0) {
+            shapeNames.delete(shapeNames.length() - 2, shapeNames.length());
+        }
+        StringBuilder materialNames = new StringBuilder();
+        for (Material material : coin.getMaterials()){
+            materialNames.append(material.getName()).append(", ");
+        }
+        if (materialNames.length() > 0) {
+            materialNames.delete(materialNames.length() - 2, materialNames.length());
+        }
+        StringBuilder edgeNames = new StringBuilder();
+        for (Edge edge : coin.getEdges()){
+            edgeNames.append(edge.getName()).append(", ");
+        }
+        if (edgeNames.length() > 0) {
+            edgeNames.delete(edgeNames.length() - 2, edgeNames.length());
+        }
+        txtCoinShape.setText(shapeNames.toString());
+        txtCoinMaterial.setText(materialNames.toString());
+        txtCoinEdge.setText(edgeNames.toString());
+    }
     public void loadCoin(Coin newCoin){
         coin = newCoin;
-        lblCoinName.setText(coin.getName().toUpperCase());
+        loadCoinInfo();
         btnRegister.setVisible(true);
         btnRegister.setDisable(false);
     }
@@ -112,7 +184,7 @@ public class CoinEditorController {
     public void loadCoinUser(CoinUser newCoinUser){
         coinUser = newCoinUser;
         coin = newCoinUser.getCoin();
-        lblCoinName.setText(coin.getName().toUpperCase());
+        loadCoinInfo();
         btnDelete.setVisible(true);
         btnDelete.setDisable(false);
         btnUpdate.setVisible(true);
@@ -129,39 +201,88 @@ public class CoinEditorController {
     }
     
     public void registerCoin(){
-        CoinUserService coinUserService = new CoinUserService();
-        coinUser.setUser(user);
-        coinUser.setCoin(coin);
-        coinUser.setYear(Short.parseShort(txtCoinYear.getText()));
-        coinUser.setCoinCondition(boxCondition.getValue());
-        coinUser.setForSale(checkForSale.isSelected());
-        if(coinUser.isForSale()){
-            coinUser.setPrice(Float.parseFloat(txtCoinPrice.getText().replace(",", ".")));
-        }
-        coinUser.setNotes(txtNotes.getText());
-        if(coinUserService.save(coinUser)){
-            Alert alert = new Alert(AlertType.CONFIRMATION);
-            alert.setTitle("Sucesso!");
-            alert.setHeaderText("Adicionado com sucesso!");
-            alert.setContentText("A moeda foi adicionada à coleção com sucesso!");
-            alert.showAndWait();
-            btnClose.fire();
+        if(validateFields()){
+            CoinUserService coinUserService = new CoinUserService();
+            coinUser.setUser(user);
+            coinUser.setCoin(coin);
+            coinUser.setYear(Short.parseShort(txtCoinYear.getText()));
+            coinUser.setCoinCondition(boxCondition.getValue());
+            coinUser.setForSale(checkForSale.isSelected());
+            if(coinUser.isForSale()){
+                coinUser.setPrice(Float.parseFloat(txtCoinPrice.getText().replace(",", ".")));
+            } else {
+                coinUser.setPrice(0f);
+            }
+            coinUser.setNotes(txtNotes.getText());
+            if(coinUserService.save(coinUser)){
+                Alert alert = new Alert(AlertType.CONFIRMATION);
+                alert.setTitle("Sucesso!");
+                alert.setHeaderText("Adicionado com sucesso!");
+                alert.setContentText("A moeda foi adicionada à coleção com sucesso!");
+                alert.showAndWait();
+                mainMenuController.loadCoinUserTable();
+                btnClose.fire();
+            } else {
+                Alert alert = new Alert(AlertType.ERROR);
+                alert.setTitle("Erro!");
+                alert.setHeaderText("Erro ao adicionar!");
+                alert.setContentText("A moeda não foi adicionada à coleção.");
+                alert.showAndWait();
+            }
         } else {
             Alert alert = new Alert(AlertType.ERROR);
-            alert.setTitle("Erro!");
-            alert.setHeaderText("Erro ao adicionar!");
-            alert.setContentText("A moeda não foi adicionada à coleção.");
+            alert.setTitle("ERRO!");
+            alert.setHeaderText("Verifique os campos.");
+            alert.setContentText("Você precisa preencher todos os campos obrigatórios!");
+            alert.showAndWait();
+        }
+    }
+
+    public void updateCoin(){
+        if(validateFields()){
+            CoinUserService coinUserService = new CoinUserService();
+            coinUser.setYear(Short.parseShort(txtCoinYear.getText()));
+            coinUser.setCoinCondition(boxCondition.getValue());
+            coinUser.setForSale(checkForSale.isSelected());
+            if(coinUser.isForSale()){
+                coinUser.setPrice(Float.parseFloat(txtCoinPrice.getText().replace(",", ".")));
+            } else {
+                coinUser.setPrice(0f);
+            }
+            coinUser.setNotes(txtNotes.getText());
+            if(coinUserService.save(coinUser)){
+                Alert alert = new Alert(AlertType.CONFIRMATION);
+                alert.setTitle("Sucesso!");
+                alert.setHeaderText("Atualizado com sucesso!");
+                alert.setContentText("A moeda foi atualizada com sucesso!");
+                alert.showAndWait();
+                mainMenuController.loadCoinUserTable();
+                btnClose.fire();
+            } else {
+                Alert alert = new Alert(AlertType.ERROR);
+                alert.setTitle("Erro!");
+                alert.setHeaderText("Erro ao atualizar!");
+                alert.setContentText("A moeda não foi atualizada.");
+                alert.showAndWait();
+            }
+        } else {
+            Alert alert = new Alert(AlertType.ERROR);
+            alert.setTitle("ERRO!");
+            alert.setHeaderText("Verifique os campos.");
+            alert.setContentText("Você precisa preencher todos os campos obrigatórios!");
             alert.showAndWait();
         }
     }
 
     public void changeTxtPrice(){
         if(checkForSale.isSelected()){
+            lblCoinPrice.setText("Preço *");
             if(coinUser.getPrice() != null){
                 txtCoinPrice.setText(coinUser.getPrice().toString());
             }
             txtCoinPrice.setDisable(false);
         } else {
+            lblCoinPrice.setText("Preço");
             txtCoinPrice.setText("");
             txtCoinPrice.setDisable(true);
         }
@@ -240,9 +361,6 @@ public class CoinEditorController {
         }
     }
     
-    public void updateCoin(){
-        
-    }
 
     public void barPressed(MouseEvent e) {
         x = e.getSceneX();

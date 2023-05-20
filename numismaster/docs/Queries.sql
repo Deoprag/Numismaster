@@ -2,7 +2,9 @@ use db_numismaster;
 select * from tb_user;
 select * from tb_coin_user;
 
-update tb_user set type = 1 where id = 1;
+SELECT * FROM tb_coin_user c WHERE c.is_for_sale = 1;
+
+update tb_user set type = 1 where id = 2;
 update tb_coin set rarity = 1 where rarity = 1;
 
 delete from tb_user where id = 4;
