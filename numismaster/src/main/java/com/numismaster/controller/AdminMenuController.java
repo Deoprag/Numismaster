@@ -8,6 +8,7 @@ import com.numismaster.javafx.NumismasterCheckComboBox;
 import com.numismaster.model.Coin;
 import com.numismaster.model.Country;
 import com.numismaster.model.Edge;
+import com.numismaster.model.Gender;
 import com.numismaster.model.Material;
 import com.numismaster.model.Rarity;
 import com.numismaster.model.Shape;
@@ -35,7 +36,9 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
@@ -51,7 +54,7 @@ import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
-public class RegisterItensController {
+public class AdminMenuController {
 
 	private Stage stage;
 	private Scene scene;
@@ -213,6 +216,30 @@ public class RegisterItensController {
 	private TableView<Edge> tbEdge;
 	@FXML
 	private TableColumn<Edge, String> colEdgeName = new TableColumn<>("Borda");
+
+	// User
+	@FXML
+	private Button btnRegisterUser;
+	@FXML
+	private Button btnDeleteUser;
+	@FXML
+	private Button btnUpdateUser;
+	@FXML
+	private TextField txtFirstName;
+	@FXML
+	private TextField txtLastName;
+	@FXML
+	private DatePicker txtBirthDate;
+	@FXML
+	private TextField txtCpf;
+	@FXML
+	private ChoiceBox<Gender> boxGender;
+	@FXML
+	private TextField txtUsername;
+	@FXML
+	private TextField txtEmail;
+	@FXML
+	private Button btnFileChooser;
 
 	public void initialize() {
 		fixImage(profilePhoto, true);
@@ -529,6 +556,10 @@ public class RegisterItensController {
 		}
 	}
 
+	public void registerUser(){
+
+	}
+
 	public void deleteCoin() {
 		if (tbCoin.getSelectionModel().getSelectedItem() != null) {
 			Alert alert = new Alert(AlertType.CONFIRMATION);
@@ -664,6 +695,10 @@ public class RegisterItensController {
 				}
 			}
 		}
+	}
+
+	public void deleteUser(){
+
 	}
 
 	public void updateCoin() {
@@ -833,6 +868,10 @@ public class RegisterItensController {
 		}
 	}
 
+	public void updateUser(){
+
+	}
+
 	public void loadSelectedCoin() {
 		coin = tbCoin.getSelectionModel().getSelectedItem();
 
@@ -890,6 +929,10 @@ public class RegisterItensController {
 		if (edge != null) {
 			txtEdgeName.setText(edge.getName());
 		}
+	}
+
+	public void loadSelectedUser(){
+
 	}
 
 	public void loadCoinTable() {
@@ -1055,6 +1098,10 @@ public class RegisterItensController {
 		tbEdge.setItems(obsEdgeList);
 	}
 
+	public void loadUserTable(){
+
+	}
+
 	public void searchCoin() {
 		if(txtCoinSearch.getText().isEmpty()){
 			loadCoinTable();
@@ -1160,6 +1207,10 @@ public class RegisterItensController {
 		}
 	}
 
+	public void searchUser(){
+
+	}
+
 	public void clearCoinFields() {
 		coin = new Coin();
 		txtCoinName.clear();
@@ -1198,6 +1249,10 @@ public class RegisterItensController {
 		edge = new Edge();
 		txtEdgeName.clear();
 		tbEdge.getSelectionModel().clearSelection();
+	}
+
+	public void clearUserFields(){
+
 	}
 
 	public void updateBoxes() {
@@ -1267,6 +1322,14 @@ public class RegisterItensController {
 				}
 			}
 		});
+	}
+
+	public void chooseFile(){
+
+	}
+
+	public void checkCpf(){
+		
 	}
 
 	public ObservableList<String> loadCountries() {

@@ -634,10 +634,6 @@ public class MainMenuController {
 		}
 	}
 
-	public void reloadSystem(ActionEvent e) {
-
-	}
-
 	public void saveUser(){
 		UserService userService = new UserService();
 		if(!txtEditFirstName.getText().isBlank() && !txtEditLastName.getText().isBlank()){

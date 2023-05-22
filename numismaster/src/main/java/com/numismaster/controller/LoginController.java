@@ -163,10 +163,10 @@ public class LoginController {
 	}
 
 	public void registerItens(ActionEvent e) throws IOException {
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/numismaster/view/RegisterItens.fxml"));
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/numismaster/view/AdminMenu.fxml"));
 		root = loader.load();
-		RegisterItensController ric = loader.getController();
-		ric.loadUser(user);
+		AdminMenuController amc = loader.getController();
+		amc.loadUser(user);
 		stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
 		scene = new Scene(root);
 		stage.getIcons().add(new Image("/com/numismaster/icon/large-app-icon.png"));
