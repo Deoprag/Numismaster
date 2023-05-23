@@ -28,6 +28,8 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
@@ -95,6 +97,14 @@ public class CoinEditorController {
     private Label lblBackImage;
     @FXML
     private TextArea txtNotes;
+    @FXML
+    private ImageView imgFront;
+    @FXML
+    private ImageView imgBack;
+    @FXML
+    private Label lblYear;
+    @FXML
+    private Label lblCondition;
 
     @FXML
     private Button btnDelete;
@@ -102,6 +112,8 @@ public class CoinEditorController {
     private Button btnRegister;
     @FXML
     private Button btnUpdate;
+    @FXML
+    private Button btnBuy;
 
     public void initialize(){
         boxCondition.getItems().addAll(CoinCondition.values());
@@ -199,6 +211,48 @@ public class CoinEditorController {
         boxCondition.setValue(coinUser.getCoinCondition());
         txtNotes.setText(coinUser.getNotes());
     }
+
+    public void loadCoinUserMkt(CoinUser newCoinUser) throws Exception{
+        coinUser = newCoinUser;
+        coin = newCoinUser.getCoin();
+        loadCoinInfo();
+        btnBuy.setVisible(true);
+        btnBuy.setDisable(false);
+        
+        txtCoinYear.setText(String.valueOf(coinUser.getYear()));
+        checkForSale.setSelected(coinUser.isForSale());
+        if(checkForSale.isSelected()){
+            txtCoinPrice.setText(String.valueOf(coinUser.getPrice()));
+            txtCoinPrice.setDisable(false);
+        }
+        boxCondition.setValue(coinUser.getCoinCondition());
+        txtNotes.setText(coinUser.getNotes());
+
+        txtCoinYear.setDisable(true);
+        txtCoinPrice.setDisable(true);
+        boxCondition.setDisable(true);
+        checkForSale.setDisable(true);
+        txtNotes.setDisable(true);
+        boxCondition.setDisable(true);
+        btnSelectFrontImage.setVisible(false);
+        btnSelectFrontImage.setDisable(true);
+
+        if(coinUser.getImageFront() == null){
+            imgFront.setImage(new Image(getClass().getResourceAsStream("../icon/no_image.png")));
+        } else {
+            imgFront.setImage(new Image(Util.convertFromBlob(coinUser.getImageFront())));
+        }
+        btnSelectBackImage.setVisible(false);
+        btnSelectBackImage.setDisable(true);
+        if(coinUser.getImageBack() == null){
+            imgBack.setImage(new Image(getClass().getResourceAsStream("../icon/no_image.png")));
+        } else {
+            imgBack.setImage(new Image(Util.convertFromBlob(coinUser.getImageBack())));
+        }
+
+        lblYear.setText("Ano");
+        lblCondition.setText("Condição");
+    }
     
     public void registerCoin(){
         if(validateFields()){
@@ -272,6 +326,10 @@ public class CoinEditorController {
             alert.setContentText("Você precisa preencher todos os campos obrigatórios!");
             alert.showAndWait();
         }
+    }
+
+    public void buyCoin(){
+        
     }
 
     public void changeTxtPrice(){

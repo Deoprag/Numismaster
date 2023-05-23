@@ -54,5 +54,4 @@ public class CoinUser {
 
 	@Column(name = "notes",  length = 200)
 	private String notes;
-
 }

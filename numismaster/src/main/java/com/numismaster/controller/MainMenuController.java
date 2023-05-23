@@ -651,15 +651,16 @@ public class MainMenuController {
 					alert.setHeaderText("Dados atualizads com sucesso!");
 					alert.setContentText("Os dados de usuário foram atualizados com sucesso!");
 					alert.showAndWait();
-					stage.close();
+					lblSelectedFile.setText("");
+					loadUser(user);
 				} else {
 					alert = new Alert(AlertType.ERROR);
 					alert.setTitle("Erro!");
 					alert.setHeaderText("Erro ao atualizar dados!");
 					alert.setContentText("Os dados de usuário não puderam ser salvos!");
 					alert.showAndWait();
-					stage.close();
 				}
+				
 			}
 		} else {
 			Alert alert = new Alert(AlertType.INFORMATION);
@@ -715,6 +716,36 @@ public class MainMenuController {
 			CoinEditorController rcc = loader.getController();
 			rcc.loadUser(user, this);
 			rcc.loadCoinUser(selectedCoinUser);
+			if (stageCoinEditor == null || !stageCoinEditor.isShowing()) {
+				stageCoinEditor = new Stage();
+				Scene scene = new Scene(root);
+				stageCoinEditor.initStyle(StageStyle.UNDECORATED);
+				stageCoinEditor.setTitle("Numismaster");
+				stageCoinEditor.getIcons().add(new Image("/com/numismaster/icon/large-app-icon.png"));
+				stageCoinEditor.setScene(scene);
+				stageCoinEditor.show();
+				stageCoinEditor.centerOnScreen();
+			}
+			clickCount = 0;
+		}
+		lastSelectedCoinUser = selectedCoinUser;
+	}
+
+	public void coinShop(Event e) throws Exception{
+		selectedCoinUser = tbMarket.getSelectionModel().getSelectedItem();
+
+		if (selectedCoinUser != null && selectedCoinUser.equals(lastSelectedCoinUser)) {
+			clickCount++;
+		} else {
+			clickCount = 1;
+		}
+
+		if (clickCount == 2) {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/numismaster/view/CoinEditor.fxml"));
+			root = loader.load();
+			CoinEditorController rcc = loader.getController();
+			rcc.loadUser(user, this);
+			rcc.loadCoinUserMkt(selectedCoinUser);
 			if (stageCoinEditor == null || !stageCoinEditor.isShowing()) {
 				stageCoinEditor = new Stage();
 				Scene scene = new Scene(root);
