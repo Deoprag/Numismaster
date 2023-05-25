@@ -45,4 +45,12 @@ public class CoinUserService {
     public List<CoinUser> findAllForSale(){
         return coinUserRepository.findAllForSale();
     }
+
+    public Long findHowManyCoinsByUser(User user){
+        return coinUserRepository.findHowManyCoinsByUser(user.getId());
+    }
+
+    public CoinUser findRarestCoinByUser(User user){
+        return coinUserRepository.findRarestCoinByUser(user.getId());
+    }
 }

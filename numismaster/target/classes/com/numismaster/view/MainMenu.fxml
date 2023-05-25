@@ -11,6 +11,7 @@
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -193,17 +194,20 @@
                                           <Font name="Segoe UI Bold" size="20.0" />
                                        </font>
                                     </Label>
-                                    <Label layoutX="14.0" layoutY="115.0" prefHeight="39.0" prefWidth="212.0" styleClass="lblCoin" stylesheets="@../css/style.css" text="Nenhuma" textFill="#373c3f">
+                                    <Label fx:id="lblRarestCoin" layoutX="14.0" layoutY="115.0" onMouseClicked="#loadRarestCoin" prefHeight="39.0" prefWidth="490.0" styleClass="lblCoin" stylesheets="@../css/style.css" text="Nenhuma" textFill="#373c3f" wrapText="true">
+                                       <font>
+                                          <Font name="Segoe UI Bold" size="20.0" />
+                                       </font>
+                                       <tooltip>
+                                          <Tooltip text="A raridade é definida por: raridade, condição e idade. Quanto mais antiga, bem cuidada e escassa, melhor." wrapText="true" />
+                                       </tooltip>
+                                    </Label>
+                                    <Label fx:id="lblCoinCount" layoutX="14.0" layoutY="218.0" prefHeight="39.0" prefWidth="212.0" styleClass="lblCoin" stylesheets="@../css/style.css" text="Nenhuma" textFill="#373c3f">
                                        <font>
                                           <Font name="Segoe UI Bold" size="20.0" />
                                        </font>
                                     </Label>
-                                    <Label layoutX="14.0" layoutY="218.0" prefHeight="39.0" prefWidth="212.0" styleClass="lblCoin" stylesheets="@../css/style.css" text="Nenhuma" textFill="#373c3f">
-                                       <font>
-                                          <Font name="Segoe UI Bold" size="20.0" />
-                                       </font>
-                                    </Label>
-                                    <Label layoutX="14.0" layoutY="515.0" prefHeight="39.0" prefWidth="212.0" styleClass="lblCoin" stylesheets="@../css/style.css" text="27/02/2004" textFill="#373c3f">
+                                    <Label fx:id="lblRegistrationDate" layoutX="14.0" layoutY="515.0" prefHeight="39.0" prefWidth="490.0" styleClass="lblCoin" stylesheets="@../css/style.css" text="27/02/2004" textFill="#373c3f">
                                        <font>
                                           <Font name="Segoe UI Bold" size="20.0" />
                                        </font>
@@ -266,6 +270,8 @@
                </font>
             </Label>
             <Button fx:id="btnLogout" layoutX="35.0" layoutY="639.0" mnemonicParsing="false" onAction="#logout" prefHeight="25.0" prefWidth="130.0" styleClass="btn-delete" stylesheets="@../css/style.css" text="Sair" />
+            <Button layoutX="35.0" layoutY="228.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="130.0" stylesheets="@../css/style.css" text="Solicitar novo item" textAlignment="CENTER" wrapText="true" />
+            <Button layoutX="35.0" layoutY="315.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="130.0" stylesheets="@../css/style.css" text="Minhas solicitações" textAlignment="CENTER" wrapText="true" />
          </children>
       </Pane>
    </children>

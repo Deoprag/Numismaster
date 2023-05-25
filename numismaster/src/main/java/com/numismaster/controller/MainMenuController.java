@@ -5,10 +5,9 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.Blob;
 import java.sql.SQLException;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import javax.sql.rowset.serial.SerialException;
 
@@ -70,6 +69,7 @@ public class MainMenuController {
 	private Coin lastSelectedCoin;
 	private CoinUser selectedCoinUser;
 	private CoinUser lastSelectedCoinUser;
+	private CoinUser rarestCoin;
 
 	private Stage stage;
 	private Stage stageCoinEditor;
@@ -122,6 +122,12 @@ public class MainMenuController {
 	private Button btnFileChooser;
 	@FXML
 	private Label lblSelectedFile;
+	@FXML
+	private Label lblRarestCoin;
+	@FXML
+	private Label lblCoinCount;
+	@FXML
+	private Label lblRegistrationDate;
 
 	// MyCollection
 	@FXML
@@ -212,8 +218,32 @@ public class MainMenuController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		CoinUserService cus = new CoinUserService();
+		rarestCoin = cus.findRarestCoinByUser(user);
+		lblRarestCoin.setText(rarestCoin.getCoin().getName());
+		lblCoinCount.setText(String.valueOf(cus.findHowManyCoinsByUser(user)));
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy - HH:mm:ss");
+		lblRegistrationDate.setText(user.getRegistrationDate().format(formatter));
 		loadCoinTable();
 		loadCoinUserTable();
+	}
+
+	public void loadRarestCoin() throws IOException{
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/numismaster/view/CoinEditor.fxml"));
+		root = loader.load();
+		CoinEditorController rcc = loader.getController();
+		rcc.loadUser(user, this);
+		rcc.loadCoinUser(rarestCoin);
+		if (stageCoinEditor == null || !stageCoinEditor.isShowing()) {
+			stageCoinEditor = new Stage();
+			Scene scene = new Scene(root);
+			stageCoinEditor.initStyle(StageStyle.UNDECORATED);
+			stageCoinEditor.setTitle("Numismaster");
+			stageCoinEditor.getIcons().add(new Image("/com/numismaster/icon/large-app-icon.png"));
+			stageCoinEditor.setScene(scene);
+			stageCoinEditor.show();
+			stageCoinEditor.centerOnScreen();
+		}
 	}
 
 	public void loadEditableUser() {
@@ -223,7 +253,6 @@ public class MainMenuController {
 		txtEditCpf.setText(user.getCpf());
 		checkCpf();
 		boxEditGender.setValue(boxEditGender.getItems().get(boxEditGender.getItems().indexOf(user.getGender())));
-		;
 		txtEditUsername.setText(user.getUsername());
 		txtEditEmail.setText(user.getEmail());
 

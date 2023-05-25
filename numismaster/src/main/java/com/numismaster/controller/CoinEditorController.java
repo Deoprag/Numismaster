@@ -267,7 +267,11 @@ public class CoinEditorController {
             } else {
                 coinUser.setPrice(0f);
             }
-            coinUser.setNotes(txtNotes.getText());
+            if(txtNotes.getText().isBlank()){
+                coinUser.setNotes(null);
+            } else {
+                coinUser.setNotes(txtNotes.getText());
+            }
             if(coinUserService.save(coinUser)){
                 Alert alert = new Alert(AlertType.CONFIRMATION);
                 alert.setTitle("Sucesso!");

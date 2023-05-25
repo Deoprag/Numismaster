@@ -1,5 +1,6 @@
 use db_numismaster;
 select * from tb_user;
+select * from tb_coin;
 select * from tb_coin_user;
 
 SELECT * FROM tb_coin_user c WHERE c.is_for_sale = 1;
@@ -13,3 +14,9 @@ select c.name, c.denomination, c.weight, c.diameter, c.thickness, c.rarity, cu.y
 FROM tb_coin_user cu
 INNER JOIN tb_coin c ON cu.coin_id = c.id
 INNER JOIN tb_user u ON cu.user_id = u.id;
+
+SELECT *
+FROM tb_coin_user
+WHERE user_id = 1
+ORDER BY raridade DESC, condicao DESC, ano DESC
+LIMIT 1;
