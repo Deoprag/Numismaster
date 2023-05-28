@@ -196,7 +196,7 @@ public class SignUpController {
 				new ExtensionFilter("Imagens", "*.png", "*.jpg", "*.jpeg"));
 		File file = fc.showOpenDialog(btnFileChooser.getScene().getWindow());
 		try {
-			if(file != null){
+			if (file != null) {
 				if (file.length() <= 2 * 1024 * 1024) {
 					FileInputStream fis = new FileInputStream(file);
 					user.setProfilePhoto(Util.convertToBlob(fis));
@@ -227,7 +227,7 @@ public class SignUpController {
 			user.setPassword(Util.hashPassword(txtPassword.getText()));
 			user.setBlocked(false);
 			user.setType(Type.Default);
-			if(userService.save(user)){
+			if (userService.save(user)) {
 				Alert alert = new Alert(AlertType.CONFIRMATION);
 				alert.setTitle("SUCESSO!");
 				alert.setHeaderText("Usuário cadastrado com sucesso!");

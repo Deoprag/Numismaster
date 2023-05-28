@@ -6,24 +6,22 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 
-import com.numismaster.model.CoinEdge;
-import com.numismaster.model.Edge;
+import com.numismaster.model.UserRequest;
 
-public class CoinEdgeRepository {
-
+public class UserRequestRepository {
     private EntityManagerFactory factory;
     private EntityManager entityManager;
 
-    public CoinEdgeRepository() {
+    public UserRequestRepository() {
         factory = PersistenceManager.getEntityManagerFactory();
         entityManager = factory.createEntityManager();
     }
 
-    public boolean insert(CoinEdge coinEdge) {
+    public boolean insert(UserRequest userRequest) {
         EntityTransaction transaction = entityManager.getTransaction();
         try {
             transaction.begin();
-            entityManager.persist(coinEdge);
+            entityManager.persist(userRequest);
             transaction.commit();
             return true;
         } catch (Exception ex) {
@@ -32,19 +30,19 @@ public class CoinEdgeRepository {
         }
     }
 
-    public CoinEdge findById(int id) {
-        return entityManager.find(CoinEdge.class, id);
+    public UserRequest findById(int id) {
+        return entityManager.find(UserRequest.class, id);
     }
 
-    public List<CoinEdge> findAll() {
-        return entityManager.createQuery("SELECT c FROM tb_coin_edge c", CoinEdge.class).getResultList();
+    public List<UserRequest> findAll() {
+        return entityManager.createQuery("SELECT r FROM tb_user_request r", UserRequest.class).getResultList();
     }
 
-    public boolean update(CoinEdge coinEdge) {
+    public boolean update(UserRequest userRequest) {
         EntityTransaction transaction = entityManager.getTransaction();
         try {
             transaction.begin();
-            entityManager.merge(coinEdge);
+            entityManager.merge(userRequest);
             transaction.commit();
             return true;
         } catch (Exception ex) {
@@ -57,18 +55,14 @@ public class CoinEdgeRepository {
         EntityTransaction transaction = entityManager.getTransaction();
         try {
             transaction.begin();
-            CoinEdge CoinEdge = entityManager.find(CoinEdge.class, id);
-            entityManager.remove(CoinEdge);
+            UserRequest userRequest = entityManager.find(UserRequest.class, id);
+            entityManager.remove(userRequest);
             transaction.commit();
             return true;
-        } catch (Exception e) {
+        } catch (Exception ex) {
             transaction.rollback();
-            e.printStackTrace();
+            ex.printStackTrace();
             return false;
         }
-    }
-
-    public List<CoinEdge> findCoinsByEdge(Edge edge){
-        return entityManager.createQuery("SELECT c FROM tb_coin_edge c WHERE c.edge = :edge", CoinEdge.class).setParameter("edge", edge).getResultList();
     }
 }

@@ -39,7 +39,7 @@ import lombok.Setter;
 
 @Setter
 public class CoinEditorController {
-    
+
     private MainMenuController mainMenuController;
     private Coin coin;
     private User user;
@@ -50,10 +50,10 @@ public class CoinEditorController {
     @FXML
     private Button btnMinimize;
     @FXML
-	private Pane paneBar;
+    private Pane paneBar;
 
     private double x, y;
-    
+
     // Coin
     @FXML
     private Label lblCoinName;
@@ -115,40 +115,47 @@ public class CoinEditorController {
     @FXML
     private Button btnBuy;
 
-    public void initialize(){
+    public void initialize() {
         boxCondition.getItems().addAll(CoinCondition.values());
         checkInputs();
     }
 
-    public void checkInputs(){
+    public void checkInputs() {
         txtCoinYear.textProperty().addListener((observable, oldValue, newValue) -> {
-			String filteredValue = newValue.replaceAll("[^0-9]", "");
-			if (!newValue.equals(filteredValue)) {
-				txtCoinYear.setText(filteredValue);
-			}
-		});
+            String filteredValue = newValue.replaceAll("[^0-9]", "");
+            if (!newValue.equals(filteredValue)) {
+                txtCoinYear.setText(filteredValue);
+            }
+        });
         txtCoinPrice.textProperty().addListener((observable, oldValue, newValue) -> {
-			String filteredValue = newValue.replaceAll("[^0-9,.]", "");
-			if (!newValue.equals(filteredValue)) {
-				txtCoinPrice.setText(filteredValue);
-			}
-		});	
+            String filteredValue = newValue.replaceAll("[^0-9,.]", "");
+            if (!newValue.equals(filteredValue)) {
+                txtCoinPrice.setText(filteredValue);
+            }
+        });
     }
 
-    public boolean validateFields(){
-        if(txtCoinYear.getText().isBlank()){
+    public boolean validateFields() {
+        if (txtCoinYear.getText().isBlank()) {
             return false;
         }
-        if(checkForSale.isSelected() && txtCoinPrice.getText().isBlank()){
+        if (checkForSale.isSelected() && txtCoinPrice.getText().isBlank()) {
             return false;
         }
-        if(boxCondition.getValue() == null){
+        if (boxCondition.getValue() == null) {
             return false;
+        }
+        try {
+            if (Float.parseFloat(txtCoinPrice.getText()) < 1) {
+                return false;
+            }
+        } catch (Exception e) {
+
         }
         return true;
     }
 
-    public void loadCoinInfo(){
+    public void loadCoinInfo() {
         lblCoinName.setText(coin.getName().toUpperCase());
         txtCoinDenomination.setText(String.valueOf(coin.getDenomination()));
         txtCoinWeight.setText(String.valueOf(coin.getWeight()) + "g");
@@ -157,21 +164,21 @@ public class CoinEditorController {
         txtCoinRarity.setText(String.valueOf(coin.getRarity()));
         txtCoinCountry.setText(coin.getCountry().getName());
         StringBuilder shapeNames = new StringBuilder();
-        for (Shape shape : coin.getShapes()){
+        for (Shape shape : coin.getShapes()) {
             shapeNames.append(shape.getName()).append(", ");
         }
         if (shapeNames.length() > 0) {
             shapeNames.delete(shapeNames.length() - 2, shapeNames.length());
         }
         StringBuilder materialNames = new StringBuilder();
-        for (Material material : coin.getMaterials()){
+        for (Material material : coin.getMaterials()) {
             materialNames.append(material.getName()).append(", ");
         }
         if (materialNames.length() > 0) {
             materialNames.delete(materialNames.length() - 2, materialNames.length());
         }
         StringBuilder edgeNames = new StringBuilder();
-        for (Edge edge : coin.getEdges()){
+        for (Edge edge : coin.getEdges()) {
             edgeNames.append(edge.getName()).append(", ");
         }
         if (edgeNames.length() > 0) {
@@ -181,19 +188,20 @@ public class CoinEditorController {
         txtCoinMaterial.setText(materialNames.toString());
         txtCoinEdge.setText(edgeNames.toString());
     }
-    public void loadCoin(Coin newCoin){
+
+    public void loadCoin(Coin newCoin) {
         coin = newCoin;
         loadCoinInfo();
         btnRegister.setVisible(true);
         btnRegister.setDisable(false);
     }
 
-    public void loadUser(User newUser, MainMenuController mmc){
+    public void loadUser(User newUser, MainMenuController mmc) {
         user = newUser;
         mainMenuController = mmc;
     }
 
-    public void loadCoinUser(CoinUser newCoinUser){
+    public void loadCoinUser(CoinUser newCoinUser) {
         coinUser = newCoinUser;
         coin = newCoinUser.getCoin();
         loadCoinInfo();
@@ -204,7 +212,7 @@ public class CoinEditorController {
 
         txtCoinYear.setText(String.valueOf(coinUser.getYear()));
         checkForSale.setSelected(coinUser.isForSale());
-        if(checkForSale.isSelected()){
+        if (checkForSale.isSelected()) {
             txtCoinPrice.setText(String.valueOf(coinUser.getPrice()));
             txtCoinPrice.setDisable(false);
         }
@@ -212,16 +220,16 @@ public class CoinEditorController {
         txtNotes.setText(coinUser.getNotes());
     }
 
-    public void loadCoinUserMkt(CoinUser newCoinUser) throws Exception{
+    public void loadCoinUserMkt(CoinUser newCoinUser) throws Exception {
         coinUser = newCoinUser;
         coin = newCoinUser.getCoin();
         loadCoinInfo();
         btnBuy.setVisible(true);
         btnBuy.setDisable(false);
-        
+
         txtCoinYear.setText(String.valueOf(coinUser.getYear()));
         checkForSale.setSelected(coinUser.isForSale());
-        if(checkForSale.isSelected()){
+        if (checkForSale.isSelected()) {
             txtCoinPrice.setText(String.valueOf(coinUser.getPrice()));
             txtCoinPrice.setDisable(false);
         }
@@ -237,14 +245,14 @@ public class CoinEditorController {
         btnSelectFrontImage.setVisible(false);
         btnSelectFrontImage.setDisable(true);
 
-        if(coinUser.getImageFront() == null){
+        if (coinUser.getImageFront() == null) {
             imgFront.setImage(new Image(getClass().getResourceAsStream("../icon/no_image.png")));
         } else {
             imgFront.setImage(new Image(Util.convertFromBlob(coinUser.getImageFront())));
         }
         btnSelectBackImage.setVisible(false);
         btnSelectBackImage.setDisable(true);
-        if(coinUser.getImageBack() == null){
+        if (coinUser.getImageBack() == null) {
             imgBack.setImage(new Image(getClass().getResourceAsStream("../icon/no_image.png")));
         } else {
             imgBack.setImage(new Image(Util.convertFromBlob(coinUser.getImageBack())));
@@ -253,26 +261,26 @@ public class CoinEditorController {
         lblYear.setText("Ano");
         lblCondition.setText("Condição");
     }
-    
-    public void registerCoin(){
-        if(validateFields()){
+
+    public void registerCoin() {
+        if (validateFields()) {
             CoinUserService coinUserService = new CoinUserService();
             coinUser.setUser(user);
             coinUser.setCoin(coin);
             coinUser.setYear(Short.parseShort(txtCoinYear.getText()));
             coinUser.setCoinCondition(boxCondition.getValue());
             coinUser.setForSale(checkForSale.isSelected());
-            if(coinUser.isForSale()){
+            if (coinUser.isForSale()) {
                 coinUser.setPrice(Float.parseFloat(txtCoinPrice.getText().replace(",", ".")));
             } else {
                 coinUser.setPrice(0f);
             }
-            if(txtNotes.getText().isBlank()){
+            if (txtNotes.getText().isBlank()) {
                 coinUser.setNotes(null);
             } else {
                 coinUser.setNotes(txtNotes.getText());
             }
-            if(coinUserService.save(coinUser)){
+            if (coinUserService.save(coinUser)) {
                 Alert alert = new Alert(AlertType.CONFIRMATION);
                 alert.setTitle("Sucesso!");
                 alert.setHeaderText("Adicionado com sucesso!");
@@ -296,19 +304,19 @@ public class CoinEditorController {
         }
     }
 
-    public void updateCoin(){
-        if(validateFields()){
+    public void updateCoin() {
+        if (validateFields()) {
             CoinUserService coinUserService = new CoinUserService();
             coinUser.setYear(Short.parseShort(txtCoinYear.getText()));
             coinUser.setCoinCondition(boxCondition.getValue());
             coinUser.setForSale(checkForSale.isSelected());
-            if(coinUser.isForSale()){
+            if (coinUser.isForSale()) {
                 coinUser.setPrice(Float.parseFloat(txtCoinPrice.getText().replace(",", ".")));
             } else {
                 coinUser.setPrice(0f);
             }
             coinUser.setNotes(txtNotes.getText());
-            if(coinUserService.save(coinUser)){
+            if (coinUserService.save(coinUser)) {
                 Alert alert = new Alert(AlertType.CONFIRMATION);
                 alert.setTitle("Sucesso!");
                 alert.setHeaderText("Atualizado com sucesso!");
@@ -332,14 +340,14 @@ public class CoinEditorController {
         }
     }
 
-    public void buyCoin(){
-        
+    public void buyCoin() {
+
     }
 
-    public void changeTxtPrice(){
-        if(checkForSale.isSelected()){
+    public void changeTxtPrice() {
+        if (checkForSale.isSelected()) {
             lblCoinPrice.setText("Preço *");
-            if(coinUser.getPrice() != null){
+            if (coinUser.getPrice() != null) {
                 txtCoinPrice.setText(coinUser.getPrice().toString());
             }
             txtCoinPrice.setDisable(false);
@@ -350,59 +358,59 @@ public class CoinEditorController {
         }
     }
 
-    public void chooseFrontImage() throws SerialException, SQLException{
+    public void chooseFrontImage() throws SerialException, SQLException {
         FileChooser fc = new FileChooser();
-		fc.setTitle("Selecionar imagem");
-		fc.setInitialDirectory(null);
-		fc.getExtensionFilters().addAll(
-				new ExtensionFilter("Imagens", "*.png", "*.jpg", "*.jpeg"));
-		File file = fc.showOpenDialog(btnSelectFrontImage.getScene().getWindow());
-		try {
-			if(file != null){
-				if (file.length() <= 2 * 1024 * 1024) {
-					FileInputStream fis = new FileInputStream(file);
-					coinUser.setImageFront(Util.convertToBlob(fis));
-					lblFrontalImage.setText(file.getName().toString());
-				} else {
-					Alert alert = new Alert(Alert.AlertType.WARNING);
-					alert.setTitle("Erro ao selecionar arquivo.");
-					alert.setHeaderText("Arquivo muito grande!");
-					alert.setContentText("O arquivo selecionado é maior do que 2MB. Selecione um arquivo menor.");
-					alert.showAndWait();
-				}
-			}
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
+        fc.setTitle("Selecionar imagem");
+        fc.setInitialDirectory(null);
+        fc.getExtensionFilters().addAll(
+                new ExtensionFilter("Imagens", "*.png", "*.jpg", "*.jpeg"));
+        File file = fc.showOpenDialog(btnSelectFrontImage.getScene().getWindow());
+        try {
+            if (file != null) {
+                if (file.length() <= 2 * 1024 * 1024) {
+                    FileInputStream fis = new FileInputStream(file);
+                    coinUser.setImageFront(Util.convertToBlob(fis));
+                    lblFrontalImage.setText(file.getName().toString());
+                } else {
+                    Alert alert = new Alert(Alert.AlertType.WARNING);
+                    alert.setTitle("Erro ao selecionar arquivo.");
+                    alert.setHeaderText("Arquivo muito grande!");
+                    alert.setContentText("O arquivo selecionado é maior do que 2MB. Selecione um arquivo menor.");
+                    alert.showAndWait();
+                }
+            }
+        } catch (IOException e1) {
+            e1.printStackTrace();
+        }
     }
 
-    public void chooseBackImage() throws SerialException, SQLException{
+    public void chooseBackImage() throws SerialException, SQLException {
         FileChooser fc = new FileChooser();
-		fc.setTitle("Selecionar imagem");
-		fc.setInitialDirectory(null);
-		fc.getExtensionFilters().addAll(
-				new ExtensionFilter("Imagens", "*.png", "*.jpg", "*.jpeg"));
-		File file = fc.showOpenDialog(btnSelectBackImage.getScene().getWindow());
-		try {
-			if(file != null){
-				if (file.length() <= 2 * 1024 * 1024) {
-					FileInputStream fis = new FileInputStream(file);
-					coinUser.setImageBack(Util.convertToBlob(fis));
-					lblBackImage.setText(file.getName().toString());
-				} else {
-					Alert alert = new Alert(Alert.AlertType.WARNING);
-					alert.setTitle("Erro ao selecionar arquivo.");
-					alert.setHeaderText("Arquivo muito grande!");
-					alert.setContentText("O arquivo selecionado é maior do que 2MB. Selecione um arquivo menor.");
-					alert.showAndWait();
-				}
-			}
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
+        fc.setTitle("Selecionar imagem");
+        fc.setInitialDirectory(null);
+        fc.getExtensionFilters().addAll(
+                new ExtensionFilter("Imagens", "*.png", "*.jpg", "*.jpeg"));
+        File file = fc.showOpenDialog(btnSelectBackImage.getScene().getWindow());
+        try {
+            if (file != null) {
+                if (file.length() <= 2 * 1024 * 1024) {
+                    FileInputStream fis = new FileInputStream(file);
+                    coinUser.setImageBack(Util.convertToBlob(fis));
+                    lblBackImage.setText(file.getName().toString());
+                } else {
+                    Alert alert = new Alert(Alert.AlertType.WARNING);
+                    alert.setTitle("Erro ao selecionar arquivo.");
+                    alert.setHeaderText("Arquivo muito grande!");
+                    alert.setContentText("O arquivo selecionado é maior do que 2MB. Selecione um arquivo menor.");
+                    alert.showAndWait();
+                }
+            }
+        } catch (IOException e1) {
+            e1.printStackTrace();
+        }
     }
 
-    public void deleteCoin(){
+    public void deleteCoin() {
         CoinUserService coinUserService = new CoinUserService();
 
         Alert alert = new Alert(AlertType.CONFIRMATION);
@@ -411,7 +419,7 @@ public class CoinEditorController {
         alert.setContentText("Deseja realmente remover esta moeda da sua coleção?");
 
         if (alert.showAndWait().get() == ButtonType.OK) {
-            if(coinUserService.delete(coinUser)){
+            if (coinUserService.delete(coinUser)) {
                 Alert alert2 = new Alert(AlertType.CONFIRMATION);
                 alert2.setTitle("Sucesso!");
                 alert2.setHeaderText("Removido com sucesso!");
@@ -422,19 +430,18 @@ public class CoinEditorController {
             }
         }
     }
-    
 
     public void barPressed(MouseEvent e) {
         x = e.getSceneX();
         y = e.getSceneY();
     }
-    
+
     public void barDragged(MouseEvent e) {
         Stage stage = (Stage) ((Pane) e.getSource()).getScene().getWindow();
         stage.setY(e.getScreenY() - y);
         stage.setX(e.getScreenX() - x);
     }
-    
+
     public void close(ActionEvent e) {
         Stage stage = (Stage) ((Button) e.getSource()).getScene().getWindow();
         stage.close();

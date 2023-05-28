@@ -270,7 +270,7 @@ public class AdminMenuController {
 			if (!newValue.equals(filteredValue)) {
 				txtDenomination.setText(filteredValue);
 			}
-		});	
+		});
 		txtDiameter.textProperty().addListener((observable, oldValue, newValue) -> {
 			String filteredValue = newValue.replaceAll("[^0-9,.]", "");
 			if (!newValue.equals(filteredValue)) {
@@ -556,7 +556,7 @@ public class AdminMenuController {
 		}
 	}
 
-	public void registerUser(){
+	public void registerUser() {
 
 	}
 
@@ -697,7 +697,7 @@ public class AdminMenuController {
 		}
 	}
 
-	public void deleteUser(){
+	public void deleteUser() {
 
 	}
 
@@ -868,7 +868,7 @@ public class AdminMenuController {
 		}
 	}
 
-	public void updateUser(){
+	public void updateUser() {
 
 	}
 
@@ -931,7 +931,7 @@ public class AdminMenuController {
 		}
 	}
 
-	public void loadSelectedUser(){
+	public void loadSelectedUser() {
 
 	}
 
@@ -1057,7 +1057,7 @@ public class AdminMenuController {
 	}
 
 	public void loadShapeTable() {
-		tbShape.getItems().clear();	
+		tbShape.getItems().clear();
 		tbShape.getColumns().clear();
 
 		shapeService = new ShapeService();
@@ -1098,59 +1098,59 @@ public class AdminMenuController {
 		tbEdge.setItems(obsEdgeList);
 	}
 
-	public void loadUserTable(){
+	public void loadUserTable() {
 
 	}
 
 	public void searchCoin() {
-		if(txtCoinSearch.getText().isEmpty()){
+		if (txtCoinSearch.getText().isEmpty()) {
 			loadCoinTable();
 		} else {
 			loadCoinTable();
 			ObservableList<Coin> tempObsCoinList = FXCollections.observableArrayList();
-			for(Coin coin : obsCoinList){
-				if(coin.getName().toLowerCase().contains(txtCoinSearch.getText().toLowerCase()) ||
-					coin.getRarity().toString().toLowerCase().contains(txtCoinSearch.getText().toLowerCase()) ||
-					coin.getCountry().getName().toLowerCase().contains(txtCoinSearch.getText().toLowerCase())){
+			for (Coin coin : obsCoinList) {
+				if (coin.getName().toLowerCase().contains(txtCoinSearch.getText().toLowerCase()) ||
+						coin.getRarity().toString().toLowerCase().contains(txtCoinSearch.getText().toLowerCase()) ||
+						coin.getCountry().getName().toLowerCase().contains(txtCoinSearch.getText().toLowerCase())) {
 					tempObsCoinList.add(coin);
 				}
-				for(Shape shape : coin.getShapes()){
-					if(shape.getName().toLowerCase().contains(txtCoinSearch.getText().toLowerCase())){
-						if(!tempObsCoinList.contains(coin)){
+				for (Shape shape : coin.getShapes()) {
+					if (shape.getName().toLowerCase().contains(txtCoinSearch.getText().toLowerCase())) {
+						if (!tempObsCoinList.contains(coin)) {
 							tempObsCoinList.add(coin);
 						}
 					}
 				}
-				for(Material material : coin.getMaterials()){
-					if(material.getName().toLowerCase().contains(txtCoinSearch.getText().toLowerCase())){
-						if(!tempObsCoinList.contains(coin)){
+				for (Material material : coin.getMaterials()) {
+					if (material.getName().toLowerCase().contains(txtCoinSearch.getText().toLowerCase())) {
+						if (!tempObsCoinList.contains(coin)) {
 							tempObsCoinList.add(coin);
 						}
 					}
 				}
-				for(Edge edge : coin.getEdges()){
-					if(edge.getName().toLowerCase().contains(txtCoinSearch.getText().toLowerCase())){		
-						if(!tempObsCoinList.contains(coin)){
+				for (Edge edge : coin.getEdges()) {
+					if (edge.getName().toLowerCase().contains(txtCoinSearch.getText().toLowerCase())) {
+						if (!tempObsCoinList.contains(coin)) {
 							tempObsCoinList.add(coin);
 						}
 					}
 				}
 			}
-			
+
 			tbCoin.getItems().clear();
 			tbCoin.setItems(tempObsCoinList);
 		}
 	}
 
 	public void searchCountry() {
-		if(txtCountrySearch.getText().isEmpty()) {
+		if (txtCountrySearch.getText().isEmpty()) {
 			loadCountryTable();
 		} else {
 			loadCountryTable();
 			ObservableList<Country> tempObsCountryList = FXCollections.observableArrayList();
-			for (Country country : obsCountryList){
-				if(country.getName().toLowerCase().contains(txtCountrySearch.getText().toLowerCase()) ||
-				country.getCode().toLowerCase().contains(txtCountrySearch.getText().toLowerCase())){
+			for (Country country : obsCountryList) {
+				if (country.getName().toLowerCase().contains(txtCountrySearch.getText().toLowerCase()) ||
+						country.getCode().toLowerCase().contains(txtCountrySearch.getText().toLowerCase())) {
 					tempObsCountryList.add(country);
 				}
 			}
@@ -1160,13 +1160,13 @@ public class AdminMenuController {
 	}
 
 	public void searchShape() {
-		if(txtShapeSearch.getText().isEmpty()) {
+		if (txtShapeSearch.getText().isEmpty()) {
 			loadShapeTable();
 		} else {
 			loadShapeTable();
 			ObservableList<Shape> tempObsShapeList = FXCollections.observableArrayList();
-			for (Shape shape : obsShapeList){
-				if(shape.getName().toLowerCase().contains(txtShapeSearch.getText().toLowerCase())){
+			for (Shape shape : obsShapeList) {
+				if (shape.getName().toLowerCase().contains(txtShapeSearch.getText().toLowerCase())) {
 					tempObsShapeList.add(shape);
 				}
 			}
@@ -1176,13 +1176,13 @@ public class AdminMenuController {
 	}
 
 	public void searchMaterial() {
-		if(txtMaterialSearch.getText().isEmpty()) {
+		if (txtMaterialSearch.getText().isEmpty()) {
 			loadMaterialTable();
 		} else {
 			loadMaterialTable();
 			ObservableList<Material> tempObsMaterialList = FXCollections.observableArrayList();
-			for (Material material : obsMaterialList){
-				if(material.getName().toLowerCase().contains(txtMaterialSearch.getText().toLowerCase())){
+			for (Material material : obsMaterialList) {
+				if (material.getName().toLowerCase().contains(txtMaterialSearch.getText().toLowerCase())) {
 					tempObsMaterialList.add(material);
 				}
 			}
@@ -1192,13 +1192,13 @@ public class AdminMenuController {
 	}
 
 	public void searchEdge() {
-		if(txtEdgeSearch.getText().isEmpty()) {
+		if (txtEdgeSearch.getText().isEmpty()) {
 			loadEdgeTable();
 		} else {
 			loadEdgeTable();
 			ObservableList<Edge> tempObsEdgeList = FXCollections.observableArrayList();
-			for (Edge edge : obsEdgeList){
-				if(edge.getName().toLowerCase().contains(txtEdgeSearch.getText().toLowerCase())){
+			for (Edge edge : obsEdgeList) {
+				if (edge.getName().toLowerCase().contains(txtEdgeSearch.getText().toLowerCase())) {
 					tempObsEdgeList.add(edge);
 				}
 			}
@@ -1207,7 +1207,7 @@ public class AdminMenuController {
 		}
 	}
 
-	public void searchUser(){
+	public void searchUser() {
 
 	}
 
@@ -1251,7 +1251,7 @@ public class AdminMenuController {
 		tbEdge.getSelectionModel().clearSelection();
 	}
 
-	public void clearUserFields(){
+	public void clearUserFields() {
 
 	}
 
@@ -1324,12 +1324,12 @@ public class AdminMenuController {
 		});
 	}
 
-	public void chooseFile(){
+	public void chooseFile() {
 
 	}
 
-	public void checkCpf(){
-		
+	public void checkCpf() {
+
 	}
 
 	public ObservableList<String> loadCountries() {
@@ -1360,6 +1360,19 @@ public class AdminMenuController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	public void changeToUserMenu(ActionEvent e) throws IOException {
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/numismaster/view/MainMenu.fxml"));
+		root = loader.load();
+		MainMenuController mmc = loader.getController();
+		mmc.loadUser(user);
+		stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
+		scene = new Scene(root);
+		stage.getIcons().add(new Image("/com/numismaster/icon/large-app-icon.png"));
+		stage.setScene(scene);
+		stage.show();
+		stage.centerOnScreen();
 	}
 
 	public void fixImage(ImageView image, boolean circle) {

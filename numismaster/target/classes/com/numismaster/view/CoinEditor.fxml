@@ -8,6 +8,7 @@
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -87,6 +88,9 @@
                      <font>
                         <Font name="Segoe UI Bold" size="14.0" />
                      </font>
+                     <tooltip>
+                        <Tooltip text="Preço mínimo: R$1,00" />
+                     </tooltip>
                   </Label>
                   <Button fx:id="btnSelectBackImage" layoutX="200.0" layoutY="416.0" mnemonicParsing="false" onAction="#chooseBackImage" prefHeight="30.0" prefWidth="150.0" styleClass="btn-filechooser" stylesheets="@../css/style.css" text="Selecionar arquivo" textFill="#5b5b5b">
                      <font>

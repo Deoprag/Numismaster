@@ -19,6 +19,7 @@ import com.numismaster.model.Gender;
 import com.numismaster.model.Material;
 import com.numismaster.model.Rarity;
 import com.numismaster.model.Shape;
+import com.numismaster.model.Type;
 import com.numismaster.model.User;
 import com.numismaster.service.CoinService;
 import com.numismaster.service.CoinUserService;
@@ -53,6 +54,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
@@ -90,6 +92,8 @@ public class MainMenuController {
 	private Button btnMinimize;
 	@FXML
 	private Button btnLogout;
+	@FXML
+	private Button btnChangeMenu;
 	@FXML
 	private Pane paneBar;
 	@FXML
@@ -215,20 +219,25 @@ public class MainMenuController {
 		try {
 			profilePhoto.setImage(new Image(Util.convertFromBlob(user.getProfilePhoto())));
 			editProfilePhoto.setImage(new Image(Util.convertFromBlob(user.getProfilePhoto())));
+			CoinUserService cus = new CoinUserService();
+			rarestCoin = cus.findRarestCoinByUser(user);
+			lblRarestCoin.setText(rarestCoin.getCoin().getName());
+			lblCoinCount.setText(String.valueOf(cus.findHowManyCoinsByUser(user)));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		CoinUserService cus = new CoinUserService();
-		rarestCoin = cus.findRarestCoinByUser(user);
-		lblRarestCoin.setText(rarestCoin.getCoin().getName());
-		lblCoinCount.setText(String.valueOf(cus.findHowManyCoinsByUser(user)));
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy - HH:mm:ss");
 		lblRegistrationDate.setText(user.getRegistrationDate().format(formatter));
 		loadCoinTable();
 		loadCoinUserTable();
+		if (user.getType().equals(Type.Admin)) {
+			lblName.setTextFill(Color.rgb(255, 85, 85));
+			btnChangeMenu.setDisable(false);
+			btnChangeMenu.setVisible(true);
+		}
 	}
 
-	public void loadRarestCoin() throws IOException{
+	public void loadRarestCoin() throws IOException {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/numismaster/view/CoinEditor.fxml"));
 		root = loader.load();
 		CoinEditorController rcc = loader.getController();
@@ -556,7 +565,8 @@ public class MainMenuController {
 			}
 		});
 
-		colOwner.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getUser().getFirstName() + " " + cellData.getValue().getUser().getLastName()));
+		colOwner.setCellValueFactory(cellData -> new SimpleStringProperty(
+				cellData.getValue().getUser().getFirstName() + " " + cellData.getValue().getUser().getLastName()));
 		colNameMkt.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getCoin().getName()));
 		colCountryMkt.setCellValueFactory(
 				cellData -> new SimpleStringProperty(cellData.getValue().getCoin().getCountry().getName()));
@@ -585,7 +595,8 @@ public class MainMenuController {
 			}
 		});
 
-		tbMarket.getColumns().addAll(colImgFrontMkt, colImgBackMkt, colOwner, colNameMkt, colCountryMkt, colYearMkt, colConditionMkt,
+		tbMarket.getColumns().addAll(colImgFrontMkt, colImgBackMkt, colOwner, colNameMkt, colCountryMkt, colYearMkt,
+				colConditionMkt,
 				colRarityMkt, colPrice, colNotes);
 		tbMarket.setItems(obsCoinUserListMkt);
 	}
@@ -663,9 +674,9 @@ public class MainMenuController {
 		}
 	}
 
-	public void saveUser(){
+	public void saveUser() {
 		UserService userService = new UserService();
-		if(!txtEditFirstName.getText().isBlank() && !txtEditLastName.getText().isBlank()){
+		if (!txtEditFirstName.getText().isBlank() && !txtEditLastName.getText().isBlank()) {
 			Alert alert = new Alert(AlertType.CONFIRMATION);
 			alert.setTitle("Confirmação");
 			alert.setHeaderText("Confirmação de atualização");
@@ -674,7 +685,7 @@ public class MainMenuController {
 			if (alert.showAndWait().get() == ButtonType.OK) {
 				user.setFirstName(txtEditFirstName.getText());
 				user.setLastName(txtEditLastName.getText());
-				if(userService.save(user)){
+				if (userService.save(user)) {
 					alert = new Alert(AlertType.CONFIRMATION);
 					alert.setTitle("Sucesso!");
 					alert.setHeaderText("Dados atualizads com sucesso!");
@@ -689,7 +700,7 @@ public class MainMenuController {
 					alert.setContentText("Os dados de usuário não puderam ser salvos!");
 					alert.showAndWait();
 				}
-				
+
 			}
 		} else {
 			Alert alert = new Alert(AlertType.INFORMATION);
@@ -700,7 +711,7 @@ public class MainMenuController {
 		}
 	}
 
-	public void coinRegister(Event e) throws IOException{
+	public void coinRegister(Event e) throws IOException {
 		selectedCoin = tbCoin.getSelectionModel().getSelectedItem();
 
 		if (selectedCoin != null && selectedCoin.equals(lastSelectedCoin)) {
@@ -730,7 +741,7 @@ public class MainMenuController {
 		lastSelectedCoin = selectedCoin;
 	}
 
-	public void coinEditor(Event e) throws IOException{
+	public void coinEditor(Event e) throws IOException {
 		selectedCoinUser = tbCoinUser.getSelectionModel().getSelectedItem();
 
 		if (selectedCoinUser != null && selectedCoinUser.equals(lastSelectedCoinUser)) {
@@ -760,7 +771,7 @@ public class MainMenuController {
 		lastSelectedCoinUser = selectedCoinUser;
 	}
 
-	public void coinShop(Event e) throws Exception{
+	public void coinShop(Event e) throws Exception {
 		selectedCoinUser = tbMarket.getSelectionModel().getSelectedItem();
 
 		if (selectedCoinUser != null && selectedCoinUser.equals(lastSelectedCoinUser)) {
@@ -790,8 +801,29 @@ public class MainMenuController {
 		lastSelectedCoinUser = selectedCoinUser;
 	}
 
+	public void registerRequest(){
+
+	}
+
+	public void clearRequestFields(){
+		
+	}
+
+	public void changeToAdminMenu(ActionEvent e) throws IOException {
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/numismaster/view/AdminMenu.fxml"));
+		root = loader.load();
+		AdminMenuController amc = loader.getController();
+		amc.loadUser(user);
+		stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
+		scene = new Scene(root);
+		stage.getIcons().add(new Image("/com/numismaster/icon/large-app-icon.png"));
+		stage.setScene(scene);
+		stage.show();
+		stage.centerOnScreen();
+	}
+
 	@FXML
-	private void checkCpf() {
+	public void checkCpf() {
 		MaskTextField mtf = new MaskTextField();
 		mtf.setMask("###.###.###-##");
 		mtf.setValidCharacters("0123456789");

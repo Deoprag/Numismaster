@@ -122,3 +122,20 @@ CREATE TABLE TB_Coin_User_Sale (
 	FOREIGN KEY (sale_id) REFERENCES TB_Sale (id),
     CONSTRAINT coin_sale_id PRIMARY KEY (id)
 );
+
+CREATE TABLE TB_Request(
+	id INT AUTO_INCREMENT,
+    requested_item INT NOT NULL,
+    notes TEXT NOT NULL,
+    request_situation INT NOT NULL,
+    CONSTRAINT request_id PRIMARY KEY (id)
+);
+
+CREATE TABLE TB_User_Request(
+	id INT AUTO_INCREMENT,
+    user_id INT NOT NULL,
+    request_id INT NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES TB_User (id),
+    FOREIGN KEY (request_id) REFERENCES TB_Request (id),
+    CONSTRAINT user_request_id PRIMARY KEY (id)
+);

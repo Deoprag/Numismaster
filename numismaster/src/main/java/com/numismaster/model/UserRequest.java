@@ -1,6 +1,7 @@
 package com.numismaster.model;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -16,17 +17,17 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity(name = "TB_Coin_Material")
-public class CoinMaterial {
-	@Id
+@Entity(name = "TB_User_Request")
+public class UserRequest {
+    @Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
-	@ManyToOne
-	@JoinColumn(name = "coin_id", nullable = false)
-	private Coin coin;
-
-	@ManyToOne
-	@JoinColumn(name = "material_id", nullable = false)
-	private Material material;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "request_id", nullable = false)
+    private Request request;
 }
