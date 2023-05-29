@@ -3,6 +3,11 @@ select * from tb_user;
 select * from tb_coin;
 select * from tb_coin_user;
 
+select ur.id, r.id, u.id, u.first_name from tb_user_request ur
+inner join tb_request r on r.id = ur.request_id
+inner join tb_user u on u.id = ur.user_id;
+
+
 SELECT * FROM tb_coin_user c WHERE c.is_for_sale = 1;
 
 update tb_user set type = 1 where id = 2;

@@ -16,13 +16,18 @@ import com.numismaster.model.Coin;
 import com.numismaster.model.CoinUser;
 import com.numismaster.model.Edge;
 import com.numismaster.model.Gender;
+import com.numismaster.model.Item;
 import com.numismaster.model.Material;
 import com.numismaster.model.Rarity;
+import com.numismaster.model.Request;
+import com.numismaster.model.RequestSituation;
 import com.numismaster.model.Shape;
 import com.numismaster.model.Type;
 import com.numismaster.model.User;
+import com.numismaster.model.UserRequest;
 import com.numismaster.service.CoinService;
 import com.numismaster.service.CoinUserService;
+import com.numismaster.service.UserRequestService;
 import com.numismaster.service.UserService;
 import com.numismaster.util.Util;
 
@@ -48,6 +53,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
@@ -102,6 +108,8 @@ public class MainMenuController {
 	private TextField txtCoinSearch;
 	@FXML
 	private TextField txtCoinUserSearch;
+	@FXML
+	private TextField txtMarketSearch;
 	@FXML
 	private Label lblName;
 
@@ -205,10 +213,17 @@ public class MainMenuController {
 	@FXML
 	private TableColumn<CoinUser, String> colNotesMkt = new TableColumn<>("Notas");
 
+	// Request
+	@FXML
+	private ChoiceBox<Item> boxItems;
+	@FXML
+	private TextArea txtRequestNotes;
+
 	private double x, y = 0;
 
 	public void initialize() {
 		boxEditGender.getItems().addAll(Gender.values());
+		boxItems.getItems().addAll(Item.values());
 		fixImage(profilePhoto, true);
 		fixImage(editProfilePhoto, true);
 	}
@@ -641,6 +656,102 @@ public class MainMenuController {
 		}
 	}
 
+	public void searchCoinUser(){
+		if (txtCoinUserSearch.getText().isEmpty()) {
+			loadCoinUserTable();
+		} else {
+			loadCoinUserTable();
+			ObservableList<CoinUser> tempObsCoinUserList = FXCollections.observableArrayList();
+			for (CoinUser coinUser : obsCoinUserList) {
+				if (coinUser.getCoin().getName().toLowerCase().contains(txtCoinUserSearch.getText().toLowerCase()) ||
+						coinUser.getCoin().getRarity().toString().toLowerCase().contains(txtCoinUserSearch.getText().toLowerCase()) ||
+						coinUser.getCoin().getCountry().getName().toLowerCase().contains(txtCoinUserSearch.getText().toLowerCase()) ||
+						coinUser.getCoinCondition().toString().toLowerCase().contains(txtCoinUserSearch.getText().toLowerCase()) ||
+						coinUser.getNotes() != null && coinUser.getNotes().toLowerCase().contains(txtCoinUserSearch.getText().toLowerCase()) ||
+						String.valueOf(coinUser.getYear()).contains(txtCoinUserSearch.getText())) {
+					tempObsCoinUserList.add(coinUser);
+				}
+				for (Shape shape : coinUser.getCoin().getShapes()) {
+					if (shape.getName().toLowerCase().contains(txtCoinUserSearch.getText().toLowerCase())) {
+						if (!tempObsCoinUserList.contains(coinUser)) {
+							tempObsCoinUserList.add(coinUser);
+						}
+					}
+				}
+				for (Material material : coinUser.getCoin().getMaterials()) {
+					if (material.getName().toLowerCase().contains(txtCoinUserSearch.getText().toLowerCase())) {
+						if (!tempObsCoinUserList.contains(coinUser)) {
+							tempObsCoinUserList.add(coinUser);
+						}
+					}
+				}
+				for (Edge edge : coinUser.getCoin().getEdges()) {
+					if (edge.getName().toLowerCase().contains(txtCoinUserSearch.getText().toLowerCase())) {
+						if (!tempObsCoinUserList.contains(coinUser)) {
+							tempObsCoinUserList.add(coinUser);
+						}
+					}
+				}
+			}
+
+			tbCoinUser.getItems().clear();
+			tbCoinUser.setItems(tempObsCoinUserList);
+		}
+	}
+
+	public void searchMarket(){
+		if (txtMarketSearch.getText().isEmpty()) {
+			loadMarketTable();
+		} else {
+			loadMarketTable();
+			ObservableList<CoinUser> tempObsMarketList = FXCollections.observableArrayList();
+			for (CoinUser coinUser : obsCoinUserListMkt) {
+				String name = coinUser.getUser().getFirstName() + " " + coinUser.getUser().getLastName();
+				if (coinUser.getCoin().getName().toLowerCase().contains(txtMarketSearch.getText().toLowerCase()) ||
+						coinUser.getCoin().getRarity().toString().toLowerCase().contains(txtMarketSearch.getText().toLowerCase()) ||
+						coinUser.getCoin().getCountry().getName().toLowerCase().contains(txtMarketSearch.getText().toLowerCase()) ||
+						coinUser.getCoinCondition().toString().toLowerCase().contains(txtMarketSearch.getText().toLowerCase()) ||
+						coinUser.getNotes() != null && coinUser.getNotes().toLowerCase().contains(txtMarketSearch.getText().toLowerCase()) ||
+						String.valueOf(coinUser.getYear()).contains(txtMarketSearch.getText()) ||
+						name.toLowerCase().contains(txtMarketSearch.getText().toLowerCase())) {
+					tempObsMarketList.add(coinUser);
+				}
+				for (Shape shape : coinUser.getCoin().getShapes()) {
+					if (shape.getName().toLowerCase().contains(txtMarketSearch.getText().toLowerCase())) {
+						if (!tempObsMarketList.contains(coinUser)) {
+							tempObsMarketList.add(coinUser);
+						}
+					}
+				}
+				for (Material material : coinUser.getCoin().getMaterials()) {
+					if (material.getName().toLowerCase().contains(txtMarketSearch.getText().toLowerCase())) {
+						if (!tempObsMarketList.contains(coinUser)) {
+							tempObsMarketList.add(coinUser);
+						}
+					}
+				}
+				for (Edge edge : coinUser.getCoin().getEdges()) {
+					if (edge.getName().toLowerCase().contains(txtMarketSearch.getText().toLowerCase())) {
+						if (!tempObsMarketList.contains(coinUser)) {
+							tempObsMarketList.add(coinUser);
+						}
+					}
+				}
+			}
+
+			tbMarket.getItems().clear();
+			tbMarket.setItems(tempObsMarketList);
+		}
+	}
+
+	public void searchTransaction(){
+
+	}
+
+	public void searchRequest(){
+
+	}
+
 	public void fixImage(ImageView image, boolean circle) {
 		image.setFitWidth(150);
 		image.setFitHeight(150);
@@ -801,12 +912,46 @@ public class MainMenuController {
 		lastSelectedCoinUser = selectedCoinUser;
 	}
 
-	public void registerRequest(){
-
+	public boolean validateRequestFields() {
+		
+		return true;
 	}
 
-	public void clearRequestFields(){
-		
+	public void registerRequest() {
+		if (validateRequestFields()) {
+			Alert alert = new Alert(AlertType.CONFIRMATION);
+			alert.setTitle("Confirmação");
+			alert.setHeaderText("Confirmação de registro");
+			alert.setContentText("Deseja realmente registrar esta solicitação?");
+
+			if (alert.showAndWait().get() == ButtonType.OK) {
+				Request tempRequest = new Request();
+				UserRequest userRequest = new UserRequest();
+				tempRequest.setRequestedItem(boxItems.getValue());
+				tempRequest.setNotes(txtRequestNotes.getText());
+				tempRequest.setRequestSituation(RequestSituation.Aberta);
+				userRequest.setRequest(tempRequest);
+				userRequest.setUser(user);
+
+				UserRequestService userRequestService = new UserRequestService();
+				if (userRequestService.save(userRequest)) {
+					Alert alertSuccess = new Alert(AlertType.INFORMATION);
+					alertSuccess.setTitle("Sucesso");
+					alertSuccess.setHeaderText("Sucesso ao registrar solicitação");
+					alertSuccess.setContentText("Solicitação registrada com sucesso!");
+					alertSuccess.showAndWait();
+
+					// updateRequestBox();
+					clearRequestFields();
+					// loadRequestTable();
+				}
+			}
+		}
+	}
+
+	public void clearRequestFields() {
+		boxItems.getSelectionModel().clearSelection();
+		txtRequestNotes.setText("");
 	}
 
 	public void changeToAdminMenu(ActionEvent e) throws IOException {

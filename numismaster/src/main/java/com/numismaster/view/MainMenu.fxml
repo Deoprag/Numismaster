@@ -35,7 +35,7 @@
                                     <Image url="@../icon/collection_background.jpeg" />
                                  </image>
                               </ImageView>
-                              <TextField fx:id="txtCoinUserSearch" layoutX="12.0" layoutY="8.0" prefHeight="30.0" prefWidth="1060.0" promptText="ex. 1 Real" style="-fx-border-color: #373c3f; -fx-border-width: 2; -fx-background-color: #fff;">
+                              <TextField fx:id="txtCoinUserSearch" layoutX="12.0" layoutY="8.0" onKeyReleased="#searchCoinUser" prefHeight="30.0" prefWidth="1060.0" promptText="ex. 1 Real" style="-fx-border-color: #373c3f; -fx-border-width: 2; -fx-background-color: #fff;">
                                  <font>
                                     <Font size="14.0" />
                                  </font></TextField>
@@ -70,7 +70,7 @@
                                     <Image url="@../icon/marketplace_background.jpg" />
                                  </image>
                               </ImageView>
-                              <TextField fx:id="txtMarketSearch" layoutX="12.0" layoutY="8.0" onKeyReleased="#searchCoin" prefHeight="30.0" prefWidth="1060.0" promptText="ex. 1 Real" style="-fx-border-color: #373c3f; -fx-border-width: 2; -fx-background-color: #fff;">
+                              <TextField fx:id="txtMarketSearch" layoutX="12.0" layoutY="8.0" onKeyReleased="#searchMarket" prefHeight="30.0" prefWidth="1060.0" promptText="ex. 1 Real" style="-fx-border-color: #373c3f; -fx-border-width: 2; -fx-background-color: #fff;">
                                  <font>
                                     <Font size="14.0" />
                                  </font></TextField>
@@ -131,7 +131,7 @@
                                           <Font name="Segoe UI Bold" size="14.0" />
                                        </font>
                                     </Label>
-                                    <TextArea fx:id="txtRequestNotes" layoutX="100.0" layoutY="270.0" prefHeight="150.0" prefWidth="200.0">
+                                    <TextArea fx:id="txtRequestNotes" layoutX="100.0" layoutY="270.0" prefHeight="150.0" prefWidth="200.0" wrapText="true">
                                        <tooltip>
                                           <Tooltip text="Descreva os motivos da sua solicitação" />
                                        </tooltip>

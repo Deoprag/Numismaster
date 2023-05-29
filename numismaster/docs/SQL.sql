@@ -125,9 +125,9 @@ CREATE TABLE TB_Coin_User_Sale (
 
 CREATE TABLE TB_Request(
 	id INT AUTO_INCREMENT,
-    requested_item INT NOT NULL,
+    requested_item SMALLINT NOT NULL,
     notes TEXT NOT NULL,
-    request_situation INT NOT NULL,
+    request_situation SMALLINT NOT NULL,
     CONSTRAINT request_id PRIMARY KEY (id)
 );
 
