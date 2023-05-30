@@ -42,7 +42,8 @@ public class CoinUserRepository {
     }
 
     public List<CoinUser> findAllForSale() {
-        return entityManager.createQuery("SELECT c FROM tb_coin_user c WHERE c.forSale = true", CoinUser.class).getResultList();
+        return entityManager.createQuery("SELECT c FROM tb_coin_user c WHERE c.forSale = true", CoinUser.class)
+                .getResultList();
     }
 
     public List<CoinUser> findAllByUser(Long id) {
@@ -55,7 +56,8 @@ public class CoinUserRepository {
     public CoinUser findRarestCoinByUser(Long id) {
         try {
             String queryString = "SELECT cu FROM tb_coin_user cu INNER JOIN cu.coin c "
-                                +"WHERE cu.user.id = :id ORDER BY c.rarity DESC, cu.coinCondition DESC, cu.year DESC";
+                    + "WHERE cu.user.id = :id "
+                    + "ORDER BY c.rarity DESC, cu.coinCondition DESC, cu.year DESC";
             TypedQuery<CoinUser> query = entityManager.createQuery(queryString, CoinUser.class);
             query.setParameter("id", id);
             query.setMaxResults(1);
@@ -66,7 +68,7 @@ public class CoinUserRepository {
         }
     }
 
-    public Long findHowManyCoinsByUser(Long id){
+    public Long findHowManyCoinsByUser(Long id) {
         try {
             String queryString = "SELECT COUNT(*) FROM tb_coin_user cu where cu.user.id = :id";
             TypedQuery<Long> query = entityManager.createQuery(queryString, Long.class);

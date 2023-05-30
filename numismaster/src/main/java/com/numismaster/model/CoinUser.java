@@ -52,6 +52,6 @@ public class CoinUser {
 	@Column(name = "image_back")
 	private Blob imageBack;
 
-	@Column(name = "notes",  length = 200)
+	@Column(name = "notes", length = 200)
 	private String notes;
 }

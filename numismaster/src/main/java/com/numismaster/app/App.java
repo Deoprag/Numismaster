@@ -10,9 +10,9 @@ import javafx.stage.StageStyle;
 
 public class App extends Application {
 
-    @Override
-    public void start(Stage stage) throws Exception {
-        try {
+	@Override
+	public void start(Stage stage) throws Exception {
+		try {
 			Parent root = FXMLLoader.load(getClass().getResource("/com/numismaster/view/Login.fxml"));
 			Scene scene = new Scene(root);
 			stage.initStyle(StageStyle.UNDECORATED);
@@ -21,9 +21,9 @@ public class App extends Application {
 			stage.setScene(scene);
 			stage.show();
 			stage.centerOnScreen();
-			
-		} catch(Exception e) {
+
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
-    }
+	}
 }

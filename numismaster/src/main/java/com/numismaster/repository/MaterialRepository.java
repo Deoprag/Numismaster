@@ -42,8 +42,8 @@ public class MaterialRepository {
     }
 
     public Material findByName(String name) {
-    	EntityManager em = factory.createEntityManager();
-        try{
+        EntityManager em = factory.createEntityManager();
+        try {
             Query query = em.createQuery("SELECT u FROM tb_material u WHERE u.name = :name");
             query.setParameter("name", name);
             return (Material) query.getSingleResult();
@@ -53,7 +53,7 @@ public class MaterialRepository {
             em.close();
         }
     }
-    
+
     public boolean update(Material material) {
         EntityTransaction transaction = entityManager.getTransaction();
         try {

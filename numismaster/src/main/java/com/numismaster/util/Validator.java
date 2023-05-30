@@ -6,8 +6,8 @@ import javax.mail.internet.InternetAddress;
 import javafx.scene.control.Label;
 
 public class Validator {
-    public static boolean isCpf(String cpf){
-        if (cpf.equals("00000000000") || cpf.equals("11111111111") || cpf.equals("22222222222")
+	public static boolean isCpf(String cpf) {
+		if (cpf.equals("00000000000") || cpf.equals("11111111111") || cpf.equals("22222222222")
 				|| cpf.equals("33333333333") || cpf.equals("44444444444") || cpf.equals("55555555555")
 				|| cpf.equals("66666666666") || cpf.equals("77777777777") || cpf.equals("88888888888")
 				|| cpf.equals("99999999999") || cpf.length() != 11)
@@ -51,23 +51,23 @@ public class Validator {
 		} catch (Exception e) {
 			return (false);
 		}
-    }
+	}
 
-	public static boolean isEmail(String email){
+	public static boolean isEmail(String email) {
 		boolean result = true;
-			try {
-				InternetAddress emailAddr = new InternetAddress(email);
-				emailAddr.validate();
-			} catch (AddressException ex) {
-				result = false;
-			}
-			return result;
+		try {
+			InternetAddress emailAddr = new InternetAddress(email);
+			emailAddr.validate();
+		} catch (AddressException ex) {
+			result = false;
+		}
+		return result;
 	}
 
 	public static boolean passwordRequirements(String password, String passwordConfirmation, Label label) {
 		if (password.length() < 8 || password.length() > 32) {
-			if(label != null) {
-				label.setText("A senha é muito curta!");	    		
+			if (label != null) {
+				label.setText("A senha é muito curta!");
 			}
 			return false;
 		}
@@ -87,23 +87,23 @@ public class Validator {
 			}
 
 			if (hasLetters && hasNumbers && hasSpecialChars) {
-				if(label != null) {
-					label.setText("");	        		
+				if (label != null) {
+					label.setText("");
 				}
-			} else if(label != null) {
+			} else if (label != null) {
 				label.setText("Verifique se sua senha possui: letras, números e caracteres especiais.");
 			}
 		}
 
-		if(!password.equals(passwordConfirmation)){
-			if(label != null) {
+		if (!password.equals(passwordConfirmation)) {
+			if (label != null) {
 				label.setText("As senhas não coincidem!");
 			}
 			return false;
 		}
 
-		if(label != null) {
-			label.setText("");	        		
+		if (label != null) {
+			label.setText("");
 		}
 		return true;
 	}

@@ -21,7 +21,7 @@ public class CoinUserSale {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "coin_user_id", nullable = false)
 	private CoinUser coinUser;
@@ -29,11 +29,11 @@ public class CoinUserSale {
 	@ManyToOne
 	@JoinColumn(name = "sale_id", nullable = false)
 	private Sale sale;
-	
+
 	@Column(name = "price", nullable = false)
 	private float price;
-	
+
 	@Column(name = "quantity", nullable = false)
 	private int quantity;
-	
+
 }

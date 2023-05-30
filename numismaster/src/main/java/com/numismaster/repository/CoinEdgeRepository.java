@@ -68,7 +68,8 @@ public class CoinEdgeRepository {
         }
     }
 
-    public List<CoinEdge> findCoinsByEdge(Edge edge){
-        return entityManager.createQuery("SELECT c FROM tb_coin_edge c WHERE c.edge = :edge", CoinEdge.class).setParameter("edge", edge).getResultList();
+    public List<CoinEdge> findCoinsByEdge(Edge edge) {
+        return entityManager.createQuery("SELECT c FROM tb_coin_edge c WHERE c.edge = :edge", CoinEdge.class)
+                .setParameter("edge", edge).getResultList();
     }
 }

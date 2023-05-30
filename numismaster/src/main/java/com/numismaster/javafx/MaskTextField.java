@@ -58,7 +58,7 @@ public class MaskTextField {
         }
     }
 
-    public void formatter(){
+    public void formatter() {
         formatter(this.tf, this.ValidCharacters, this.mask);
     }
 
@@ -77,7 +77,7 @@ public class MaskTextField {
     public void setValidCharacters(String ValidCharacters) {
         this.ValidCharacters = ValidCharacters;
     }
-    
+
     public String getMask() {
         return mask;
     }

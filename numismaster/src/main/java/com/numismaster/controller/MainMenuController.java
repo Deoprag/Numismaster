@@ -74,6 +74,7 @@ public class MainMenuController {
 
 	private int clickCount;
 	private Coin selectedCoin;
+	private UserRequest userRequest;
 	private Coin lastSelectedCoin;
 	private CoinUser selectedCoinUser;
 	private CoinUser lastSelectedCoinUser;
@@ -87,10 +88,14 @@ public class MainMenuController {
 
 	private CoinService coinService = new CoinService();
 	private CoinUserService coinUserService = new CoinUserService();
+	private UserRequestService userRequestService = new UserRequestService();
+	private UserService userService = new UserService();
+
 
 	ObservableList<Coin> obsCoinList = FXCollections.observableArrayList();
 	ObservableList<CoinUser> obsCoinUserList = FXCollections.observableArrayList();
 	ObservableList<CoinUser> obsCoinUserListMkt = FXCollections.observableArrayList();
+	ObservableList<UserRequest> obsRequestList = FXCollections.observableArrayList();
 
 	@FXML
 	private Button btnClose;
@@ -110,6 +115,8 @@ public class MainMenuController {
 	private TextField txtCoinUserSearch;
 	@FXML
 	private TextField txtMarketSearch;
+	@FXML
+	private TextField txtRequestSearch;
 	@FXML
 	private Label lblName;
 
@@ -138,6 +145,8 @@ public class MainMenuController {
 	private Label lblRarestCoin;
 	@FXML
 	private Label lblCoinCount;
+	@FXML
+	private Label lblBuyedCoinsCount;
 	@FXML
 	private Label lblRegistrationDate;
 
@@ -218,6 +227,15 @@ public class MainMenuController {
 	private ChoiceBox<Item> boxItems;
 	@FXML
 	private TextArea txtRequestNotes;
+	@FXML
+	private TableView<UserRequest> tbRequest;
+	@FXML
+	private TableColumn<UserRequest, String> colRequestedItem = new TableColumn<>("Item");
+	@FXML
+	private TableColumn<UserRequest, String> colRequestNotes = new TableColumn<>("Notas");
+	@FXML
+	private TableColumn<UserRequest, String> colRequestSituation = new TableColumn<>("Situação");
+
 
 	private double x, y = 0;
 
@@ -245,6 +263,7 @@ public class MainMenuController {
 		lblRegistrationDate.setText(user.getRegistrationDate().format(formatter));
 		loadCoinTable();
 		loadCoinUserTable();
+		loadRequestTable();
 		if (user.getType().equals(Type.Admin)) {
 			lblName.setTextFill(Color.rgb(255, 85, 85));
 			btnChangeMenu.setDisable(false);
@@ -509,7 +528,7 @@ public class MainMenuController {
 				if (getTableRow().getItem() == null) {
 					setText(null);
 				} else {
-					setText(empty || item == null || item.isEmpty() ? "Não possui" : item);
+					setText(empty || item == null || item.isBlank() ? "Não possui" : item);
 				}
 			}
 		});
@@ -605,7 +624,7 @@ public class MainMenuController {
 				if (getTableRow().getItem() == null) {
 					setText(null);
 				} else {
-					setText(empty || item == null || item.isEmpty() ? "Não possui" : item);
+					setText(empty || item == null || item.isBlank() ? "Não possui" : item);
 				}
 			}
 		});
@@ -616,8 +635,29 @@ public class MainMenuController {
 		tbMarket.setItems(obsCoinUserListMkt);
 	}
 
+	public void loadRequestTable(){
+		tbRequest.getItems().clear();
+		tbRequest.getColumns().clear();
+
+		userRequestService = new UserRequestService();
+		for(UserRequest userRequest : userRequestService.findAllByUser(user)){
+			obsRequestList.add(userRequest);
+		}
+
+		colRequestedItem.setCellValueFactory(cellData -> new SimpleStringProperty(
+			cellData.getValue().getRequest().getRequestedItem().toString()));
+		colRequestNotes.setCellValueFactory(cellData -> new SimpleStringProperty(
+			cellData.getValue().getRequest().getNotes()));
+		colRequestSituation.setCellValueFactory(cellData -> new SimpleStringProperty(
+			cellData.getValue().getRequest().getRequestSituation().toString()));
+
+		tbRequest.getColumns().addAll(colRequestedItem, colRequestSituation, colRequestNotes);
+		tbRequest.setItems(obsRequestList);
+
+	}
+
 	public void searchCoin() {
-		if (txtCoinSearch.getText().isEmpty()) {
+		if (txtCoinSearch.getText().isBlank()) {
 			loadCoinTable();
 		} else {
 			loadCoinTable();
@@ -657,7 +697,7 @@ public class MainMenuController {
 	}
 
 	public void searchCoinUser(){
-		if (txtCoinUserSearch.getText().isEmpty()) {
+		if (txtCoinUserSearch.getText().isBlank()) {
 			loadCoinUserTable();
 		} else {
 			loadCoinUserTable();
@@ -700,7 +740,7 @@ public class MainMenuController {
 	}
 
 	public void searchMarket(){
-		if (txtMarketSearch.getText().isEmpty()) {
+		if (txtMarketSearch.getText().isBlank()) {
 			loadMarketTable();
 		} else {
 			loadMarketTable();
@@ -749,8 +789,24 @@ public class MainMenuController {
 	}
 
 	public void searchRequest(){
-
+		if (txtRequestSearch.getText().isBlank()) {
+			loadRequestTable();
+		} else {
+			loadRequestTable();
+			ObservableList<UserRequest> tempObsRequestList = FXCollections.observableArrayList();
+			for (UserRequest request : obsRequestList) {
+				if (request.getRequest().getNotes().toLowerCase().contains(txtRequestSearch.getText().toLowerCase()) ||
+				request.getRequest().getRequestedItem().toString().toLowerCase().contains(txtRequestSearch.getText().toLowerCase()) ||
+				request.getRequest().getRequestSituation().toString().toLowerCase().contains(txtRequestSearch.getText().toLowerCase())) {
+					tempObsRequestList.add(request);
+				}
+			}
+			
+			tbRequest.getItems().clear();
+			tbRequest.setItems(tempObsRequestList);
+		}
 	}
+	
 
 	public void fixImage(ImageView image, boolean circle) {
 		image.setFitWidth(150);
@@ -786,7 +842,7 @@ public class MainMenuController {
 	}
 
 	public void saveUser() {
-		UserService userService = new UserService();
+		userService = new UserService();
 		if (!txtEditFirstName.getText().isBlank() && !txtEditLastName.getText().isBlank()) {
 			Alert alert = new Alert(AlertType.CONFIRMATION);
 			alert.setTitle("Confirmação");
@@ -913,7 +969,12 @@ public class MainMenuController {
 	}
 
 	public boolean validateRequestFields() {
-		
+		if(txtRequestNotes.getText().isBlank()){
+			return false;
+		}
+		if(boxItems.getSelectionModel().getSelectedItem() == null){
+			return false;
+		}
 		return true;
 	}
 
@@ -941,9 +1002,8 @@ public class MainMenuController {
 					alertSuccess.setContentText("Solicitação registrada com sucesso!");
 					alertSuccess.showAndWait();
 
-					// updateRequestBox();
 					clearRequestFields();
-					// loadRequestTable();
+					loadRequestTable();
 				}
 			}
 		}

@@ -13,11 +13,13 @@ import com.numismaster.model.Material;
 import com.numismaster.model.Rarity;
 import com.numismaster.model.Shape;
 import com.numismaster.model.User;
+import com.numismaster.model.UserRequest;
 import com.numismaster.service.CoinService;
 import com.numismaster.service.CountryService;
 import com.numismaster.service.EdgeService;
 import com.numismaster.service.MaterialService;
 import com.numismaster.service.ShapeService;
+import com.numismaster.service.UserRequestService;
 import com.numismaster.util.Util;
 
 import javafx.beans.property.SimpleObjectProperty;
@@ -77,12 +79,14 @@ public class AdminMenuController {
 	private ShapeService shapeService = new ShapeService();
 	private MaterialService materialService = new MaterialService();
 	private EdgeService edgeService = new EdgeService();
+	private UserRequestService userRequestService = new UserRequestService();
 
 	ObservableList<Coin> obsCoinList = FXCollections.observableArrayList();
 	ObservableList<Country> obsCountryList = FXCollections.observableArrayList();
 	ObservableList<Shape> obsShapeList = FXCollections.observableArrayList();
 	ObservableList<Material> obsMaterialList = FXCollections.observableArrayList();
 	ObservableList<Edge> obsEdgeList = FXCollections.observableArrayList();
+	ObservableList<UserRequest> obsUserRequestList = FXCollections.observableArrayList();
 
 	@FXML
 	private Button btnClose;
@@ -240,6 +244,8 @@ public class AdminMenuController {
 	private TextField txtEmail;
 	@FXML
 	private Button btnFileChooser;
+
+	// Request
 
 	public void initialize() {
 		fixImage(profilePhoto, true);
@@ -1103,7 +1109,7 @@ public class AdminMenuController {
 	}
 
 	public void searchCoin() {
-		if (txtCoinSearch.getText().isEmpty()) {
+		if (txtCoinSearch.getText().isBlank()) {
 			loadCoinTable();
 		} else {
 			loadCoinTable();
@@ -1143,7 +1149,7 @@ public class AdminMenuController {
 	}
 
 	public void searchCountry() {
-		if (txtCountrySearch.getText().isEmpty()) {
+		if (txtCountrySearch.getText().isBlank()) {
 			loadCountryTable();
 		} else {
 			loadCountryTable();
@@ -1160,7 +1166,7 @@ public class AdminMenuController {
 	}
 
 	public void searchShape() {
-		if (txtShapeSearch.getText().isEmpty()) {
+		if (txtShapeSearch.getText().isBlank()) {
 			loadShapeTable();
 		} else {
 			loadShapeTable();
@@ -1176,7 +1182,7 @@ public class AdminMenuController {
 	}
 
 	public void searchMaterial() {
-		if (txtMaterialSearch.getText().isEmpty()) {
+		if (txtMaterialSearch.getText().isBlank()) {
 			loadMaterialTable();
 		} else {
 			loadMaterialTable();
@@ -1192,7 +1198,7 @@ public class AdminMenuController {
 	}
 
 	public void searchEdge() {
-		if (txtEdgeSearch.getText().isEmpty()) {
+		if (txtEdgeSearch.getText().isBlank()) {
 			loadEdgeTable();
 		} else {
 			loadEdgeTable();

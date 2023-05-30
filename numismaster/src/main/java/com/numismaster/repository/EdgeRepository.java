@@ -42,8 +42,8 @@ public class EdgeRepository {
     }
 
     public Edge findByName(String name) {
-    	EntityManager em = factory.createEntityManager();
-        try{
+        EntityManager em = factory.createEntityManager();
+        try {
             Query query = em.createQuery("SELECT u FROM tb_edge u WHERE u.name = :name");
             query.setParameter("name", name);
             return (Edge) query.getSingleResult();

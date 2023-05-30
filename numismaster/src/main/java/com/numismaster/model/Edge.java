@@ -28,5 +28,5 @@ public class Edge {
 	private String name;
 
 	@OneToMany(mappedBy = "edge")
-    private List<CoinEdge> coinEdge;
+	private List<CoinEdge> coinEdge;
 }

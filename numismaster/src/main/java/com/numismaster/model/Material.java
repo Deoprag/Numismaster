@@ -22,10 +22,10 @@ public class Material {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	
+
 	@Column(name = "name", nullable = false, unique = true)
 	private String name;
-	
-    @OneToMany(mappedBy = "material")
-    private List<CoinMaterial> coinMaterial;
+
+	@OneToMany(mappedBy = "material")
+	private List<CoinMaterial> coinMaterial;
 }

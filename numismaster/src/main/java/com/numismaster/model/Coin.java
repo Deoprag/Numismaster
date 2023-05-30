@@ -20,7 +20,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-
 @Getter
 @Setter
 @NoArgsConstructor
@@ -31,7 +30,7 @@ public class Coin {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	
+
 	@Column(name = "name", nullable = false, unique = true)
 	private String name;
 
@@ -54,21 +53,15 @@ public class Coin {
 	@JoinColumn(name = "country_id", nullable = false)
 	private Country country;
 
-	@ManyToMany(cascade = {CascadeType.MERGE})
-	@JoinTable(name = "TB_Coin_Edge",
-			joinColumns = @JoinColumn(name = "coin_id"),
-			inverseJoinColumns = @JoinColumn(name = "edge_id"))
+	@ManyToMany(cascade = { CascadeType.MERGE })
+	@JoinTable(name = "TB_Coin_Edge", joinColumns = @JoinColumn(name = "coin_id"), inverseJoinColumns = @JoinColumn(name = "edge_id"))
 	private List<Edge> edges = new ArrayList<>();
 
-	@ManyToMany(cascade = {CascadeType.MERGE})
-	@JoinTable(name = "TB_Coin_Material",
-			joinColumns = @JoinColumn(name = "coin_id"),
-			inverseJoinColumns = @JoinColumn(name = "material_id"))
+	@ManyToMany(cascade = { CascadeType.MERGE })
+	@JoinTable(name = "TB_Coin_Material", joinColumns = @JoinColumn(name = "coin_id"), inverseJoinColumns = @JoinColumn(name = "material_id"))
 	private List<Material> materials = new ArrayList<>();
 
-	@ManyToMany(cascade = {CascadeType.MERGE})
-	@JoinTable(name = "TB_Coin_Shape",
-			joinColumns = @JoinColumn(name = "coin_id"),
-			inverseJoinColumns = @JoinColumn(name = "shape_id"))
+	@ManyToMany(cascade = { CascadeType.MERGE })
+	@JoinTable(name = "TB_Coin_Shape", joinColumns = @JoinColumn(name = "coin_id"), inverseJoinColumns = @JoinColumn(name = "shape_id"))
 	private List<Shape> shapes = new ArrayList<>();
 }

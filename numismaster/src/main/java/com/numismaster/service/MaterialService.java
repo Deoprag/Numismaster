@@ -12,12 +12,12 @@ import javafx.scene.control.Alert.AlertType;
 public class MaterialService {
     private MaterialRepository materialRepository;
 
-    public MaterialService(){
+    public MaterialService() {
         materialRepository = new MaterialRepository();
     }
 
-    public boolean save(Material material){
-        if(material.getId() == 0){
+    public boolean save(Material material) {
+        if (material.getId() == 0) {
             if (findByName(material.getName()) != null) {
                 Alert alert = new Alert(AlertType.WARNING);
                 alert.setTitle("OPS...");
@@ -32,8 +32,8 @@ public class MaterialService {
         return false;
     }
 
-    public boolean delete(Material material){
-        if(material.getId() == 0){
+    public boolean delete(Material material) {
+        if (material.getId() == 0) {
             Alert alert = new Alert(AlertType.WARNING);
             alert.setTitle("OPS...");
             alert.setHeaderText("Impossivel deletar material.");
@@ -41,7 +41,7 @@ public class MaterialService {
             alert.showAndWait();
         } else {
             CoinMaterialRepository coinMaterialRepository = new CoinMaterialRepository();
-            if(coinMaterialRepository.findCoinsByMaterial(material).size() > 0){
+            if (coinMaterialRepository.findCoinsByMaterial(material).size() > 0) {
                 Alert alert = new Alert(AlertType.WARNING);
                 alert.setTitle("OPS...");
                 alert.setHeaderText("Não é possível excluir o material.");
@@ -54,11 +54,11 @@ public class MaterialService {
         return false;
     }
 
-    public Material findByName(String name){
+    public Material findByName(String name) {
         return materialRepository.findByName(name);
     }
 
-    public List<Material> findAll(){
+    public List<Material> findAll() {
         return materialRepository.findAll();
     }
 }

@@ -14,15 +14,15 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.TextInputDialog;
 
 public class UserService {
-    
+
     private UserRepository userRepository;
 
-    public UserService(){
+    public UserService() {
         userRepository = new UserRepository();
     }
 
-    public boolean save(User user){
-        if(user.getId() == null){
+    public boolean save(User user) {
+        if (user.getId() == null) {
             if (!user.getBirthDate().isBefore(LocalDate.now().minusYears(18).plusDays(1))) {
                 Alert alert = new Alert(AlertType.WARNING);
                 alert.setTitle("OPS...");
@@ -55,27 +55,30 @@ public class UserService {
                                 Alert alert = new Alert(AlertType.WARNING);
                                 alert.setTitle("OPS...");
                                 alert.setHeaderText("Nome de usuário duplicado.");
-                                alert.setContentText("O nome de usuário informado já existe, escolha outro e tente novamente!");
+                                alert.setContentText(
+                                        "O nome de usuário informado já existe, escolha outro e tente novamente!");
                                 alert.showAndWait();
                             } else {
                                 if (findByEmail(user.getEmail()) != null) {
                                     Alert alert = new Alert(AlertType.WARNING);
                                     alert.setTitle("OPS...");
                                     alert.setHeaderText("Email duplicado.");
-                                    alert.setContentText("O email informado já existe, escolha outro e tente novamente!");
+                                    alert.setContentText(
+                                            "O email informado já existe, escolha outro e tente novamente!");
                                     alert.showAndWait();
                                 } else {
                                     Email email = new Email();
                                     String code = Util.generateCode();
-                                    if(email.sendConfirmationCode(code, user.getEmail(), user.getFirstName())){
+                                    if (email.sendConfirmationCode(code, user.getEmail(), user.getFirstName())) {
                                         int i = 0;
                                         do {
                                             i++;
                                             TextInputDialog td = new TextInputDialog();
                                             td.setTitle("Finalizar cadastro. Tentativa: " + i + "/3");
-                                            td.setHeaderText("Insira o código de confirmação enviado no email: " + user.getEmail());
+                                            td.setHeaderText("Insira o código de confirmação enviado no email: "
+                                                    + user.getEmail());
                                             td.setContentText("Código: ");
-                            
+
                                             Optional<String> result = td.showAndWait();
                                             if (result.isPresent()) {
                                                 String name = result.get();
@@ -114,34 +117,33 @@ public class UserService {
                 }
             }
         } else {
-            if(userRepository.update(user)){
+            if (userRepository.update(user)) {
                 return true;
             }
         }
         return false;
     }
 
-    public boolean delete(User user){
-        if(userRepository.delete(user.getId())){
+    public boolean delete(User user) {
+        if (userRepository.delete(user.getId())) {
             return true;
         }
         return false;
     }
 
-    public User login(String username, String password){
+    public User login(String username, String password) {
         return userRepository.login(username, password);
     }
 
-    public User findByCpf(String cpf){
+    public User findByCpf(String cpf) {
         return userRepository.findByCpf(cpf);
     }
 
-    public User findByUsername(String username){
+    public User findByUsername(String username) {
         return userRepository.findByUsername(username);
     }
 
-    public User findByEmail(String email){
+    public User findByEmail(String email) {
         return userRepository.findByEmail(email);
     }
 }
-

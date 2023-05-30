@@ -68,7 +68,9 @@ public class CoinMaterialRepository {
         }
     }
 
-    public List<CoinMaterial> findCoinsByMaterial(Material material){
-        return entityManager.createQuery("SELECT c FROM tb_coin_material c WHERE c.material = :material", CoinMaterial.class).setParameter("material", material).getResultList();
+    public List<CoinMaterial> findCoinsByMaterial(Material material) {
+        return entityManager
+                .createQuery("SELECT c FROM tb_coin_material c WHERE c.material = :material", CoinMaterial.class)
+                .setParameter("material", material).getResultList();
     }
 }

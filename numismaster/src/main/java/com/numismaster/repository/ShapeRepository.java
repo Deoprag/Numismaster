@@ -36,24 +36,24 @@ public class ShapeRepository {
     public Shape findById(int id) {
         return entityManager.find(Shape.class, id);
     }
-    
+
     public List<Shape> findAll() {
         return entityManager.createQuery("SELECT s FROM tb_shape s", Shape.class).getResultList();
     }
 
     public Shape findByName(String name) {
-    	EntityManager em = factory.createEntityManager();
+        EntityManager em = factory.createEntityManager();
         try {
             Query query = em.createQuery("SELECT u FROM tb_shape u WHERE u.name = :name");
             query.setParameter("name", name);
             return (Shape) query.getSingleResult();
-        }catch (NoResultException e) {
+        } catch (NoResultException e) {
             return null;
         } finally {
             em.close();
         }
     }
-    
+
     public boolean update(Shape shape) {
         EntityTransaction transaction = entityManager.getTransaction();
         try {

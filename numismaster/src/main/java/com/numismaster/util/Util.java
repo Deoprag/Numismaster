@@ -50,29 +50,29 @@ public class Util {
 	}
 
 	public static String hashPassword(String password) {
-        try {
-            MessageDigest digest = MessageDigest.getInstance("SHA-256");
-            byte[] hash = digest.digest(password.getBytes(StandardCharsets.UTF_8));
-            return Base64.getEncoder().encodeToString(hash);
-        } catch (NoSuchAlgorithmException e) {
-            System.err.println("Erro ao gerar hash da senha: " + e.getMessage());
-            return null;
-        }
-    }
-    
-    public static boolean verifyPassword(String plainPassword, String hashedPassword) {
-        String hashedPlainPassword = hashPassword(plainPassword);
-        return hashedPlainPassword.equals(hashedPassword);
-    }
+		try {
+			MessageDigest digest = MessageDigest.getInstance("SHA-256");
+			byte[] hash = digest.digest(password.getBytes(StandardCharsets.UTF_8));
+			return Base64.getEncoder().encodeToString(hash);
+		} catch (NoSuchAlgorithmException e) {
+			System.err.println("Erro ao gerar hash da senha: " + e.getMessage());
+			return null;
+		}
+	}
 
-	public static Date localDateToDate(LocalDate localDate){
+	public static boolean verifyPassword(String plainPassword, String hashedPassword) {
+		String hashedPlainPassword = hashPassword(plainPassword);
+		return hashedPlainPassword.equals(hashedPassword);
+	}
+
+	public static Date localDateToDate(LocalDate localDate) {
 		return Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
 	}
 
 	public static String generateCode() {
 		String code = "";
 		int i = 0;
-		while(i < 4) {
+		while (i < 4) {
 			Random rand = new Random();
 			code = code + rand.nextInt(9);
 			i++;
@@ -80,10 +80,10 @@ public class Util {
 		return code;
 	}
 
-	public static Blob convertToBlob(FileInputStream imageFis) throws SerialException, SQLException{
-		try{
+	public static Blob convertToBlob(FileInputStream imageFis) throws SerialException, SQLException {
+		try {
 			byte[] bytes = new byte[imageFis.available()];
-        	imageFis.read(bytes);
+			imageFis.read(bytes);
 			Blob image = new SerialBlob(bytes);
 			return image;
 		} catch (Exception e) {
@@ -92,22 +92,23 @@ public class Util {
 		return null;
 	}
 
-	public static FileInputStream convertFromBlob(Blob image) throws Exception{
+	public static FileInputStream convertFromBlob(Blob image) throws Exception {
 		File tempFile = File.createTempFile("tempfile", null);
-        try (InputStream inputStream = image.getBinaryStream(); FileOutputStream outputStream = new FileOutputStream(tempFile)) {
-            byte[] buffer = new byte[4096];
-            int bytesRead = -1;
-            while ((bytesRead = inputStream.read(buffer)) != -1) {
-                outputStream.write(buffer, 0, bytesRead);
-            }
-            return new FileInputStream(tempFile);
-        } catch (Exception e) {
-            tempFile.delete();
-            throw e;
-        }
-    }
+		try (InputStream inputStream = image.getBinaryStream();
+				FileOutputStream outputStream = new FileOutputStream(tempFile)) {
+			byte[] buffer = new byte[4096];
+			int bytesRead = -1;
+			while ((bytesRead = inputStream.read(buffer)) != -1) {
+				outputStream.write(buffer, 0, bytesRead);
+			}
+			return new FileInputStream(tempFile);
+		} catch (Exception e) {
+			tempFile.delete();
+			throw e;
+		}
+	}
 
-	public static String mockEmail(String originalEmail){
+	public static String mockEmail(String originalEmail) {
 		char maskChar = '*';
 
 		int atIndex = originalEmail.indexOf('@');
@@ -135,7 +136,8 @@ public class Util {
 	public static void addTextLimiter(final TextField tf, final int maxLength) {
 		tf.textProperty().addListener(new ChangeListener<String>() {
 			@Override
-			public void changed(final ObservableValue<? extends String> ov, final String oldValue, final String newValue) {
+			public void changed(final ObservableValue<? extends String> ov, final String oldValue,
+					final String newValue) {
 				if (tf.getText().length() > maxLength) {
 					String s = tf.getText().substring(0, maxLength);
 					tf.setText(s);

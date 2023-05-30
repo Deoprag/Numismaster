@@ -12,13 +12,13 @@ import javafx.scene.control.Alert.AlertType;
 public class ShapeService {
     private ShapeRepository shapeRepository;
 
-    public ShapeService(){
+    public ShapeService() {
         shapeRepository = new ShapeRepository();
     }
-    
-    public boolean save(Shape shape){
-        if(shape.getId() == 0){
-            if(findByName(shape.getName()) != null){
+
+    public boolean save(Shape shape) {
+        if (shape.getId() == 0) {
+            if (findByName(shape.getName()) != null) {
                 Alert alert = new Alert(AlertType.WARNING);
                 alert.setTitle("OPS...");
                 alert.setHeaderText("Formato duplicado.");
@@ -32,8 +32,8 @@ public class ShapeService {
         return false;
     }
 
-    public boolean delete(Shape shape){
-        if(shape.getId() == 0){
+    public boolean delete(Shape shape) {
+        if (shape.getId() == 0) {
             Alert alert = new Alert(AlertType.WARNING);
             alert.setTitle("OPS...");
             alert.setHeaderText("Impossivel deletar formato.");
@@ -41,7 +41,7 @@ public class ShapeService {
             alert.showAndWait();
         } else {
             CoinShapeRepository coinShapeRepository = new CoinShapeRepository();
-            if(coinShapeRepository.findCoinsByShape(shape).size() > 0){
+            if (coinShapeRepository.findCoinsByShape(shape).size() > 0) {
                 Alert alert = new Alert(AlertType.WARNING);
                 alert.setTitle("OPS...");
                 alert.setHeaderText("Não é possível excluir o formato.");
@@ -54,15 +54,15 @@ public class ShapeService {
         return false;
     }
 
-    public Shape fndById(int id){
+    public Shape fndById(int id) {
         return shapeRepository.findById(id);
     }
 
-    public Shape findByName(String name){
+    public Shape findByName(String name) {
         return shapeRepository.findByName(name);
     }
 
-    public List<Shape> findAll(){
+    public List<Shape> findAll() {
         return shapeRepository.findAll();
     }
 }

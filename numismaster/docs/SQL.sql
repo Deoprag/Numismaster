@@ -128,6 +128,9 @@ CREATE TABLE TB_Request(
     requested_item SMALLINT NOT NULL,
     notes TEXT NOT NULL,
     request_situation SMALLINT NOT NULL,
+    request_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    close_request_date TIMESTAMP,
+    CONSTRAINT request_situation_close_date CHECK (request_situation = 0 OR (request_situation > 0 AND close_date IS NOT NULL)),
     CONSTRAINT request_id PRIMARY KEY (id)
 );
 

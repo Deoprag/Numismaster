@@ -67,7 +67,8 @@ public class CoinShapeRepository {
         }
     }
 
-    public List<CoinShape> findCoinsByShape(Shape shape){
-        return entityManager.createQuery("SELECT c FROM tb_coin_shape c WHERE c.shape = :shape", CoinShape.class).setParameter("shape", shape).getResultList();
+    public List<CoinShape> findCoinsByShape(Shape shape) {
+        return entityManager.createQuery("SELECT c FROM tb_coin_shape c WHERE c.shape = :shape", CoinShape.class)
+                .setParameter("shape", shape).getResultList();
     }
 }

@@ -12,13 +12,13 @@ import javafx.scene.control.Alert.AlertType;
 public class EdgeService {
     private EdgeRepository edgeRepository;
 
-    public EdgeService(){
+    public EdgeService() {
         edgeRepository = new EdgeRepository();
     }
 
-    public boolean save(Edge edge){
-        if(edge.getId() == 0){
-            if(findByName(edge.getName()) != null){
+    public boolean save(Edge edge) {
+        if (edge.getId() == 0) {
+            if (findByName(edge.getName()) != null) {
                 Alert alert = new Alert(AlertType.WARNING);
                 alert.setTitle("OPS...");
                 alert.setHeaderText("Borda duplicada.");
@@ -32,8 +32,8 @@ public class EdgeService {
         return false;
     }
 
-    public boolean delete(Edge edge){
-        if (edge.getId() == 0){
+    public boolean delete(Edge edge) {
+        if (edge.getId() == 0) {
             Alert alert = new Alert(AlertType.WARNING);
             alert.setTitle("OPS...");
             alert.setHeaderText("Impossivel deletar borda.");
@@ -41,7 +41,7 @@ public class EdgeService {
             alert.showAndWait();
         } else {
             CoinEdgeRepository coinEdgeRepository = new CoinEdgeRepository();
-            if(coinEdgeRepository.findCoinsByEdge(edge).size() > 0){
+            if (coinEdgeRepository.findCoinsByEdge(edge).size() > 0) {
                 Alert alert = new Alert(AlertType.WARNING);
                 alert.setTitle("OPS...");
                 alert.setHeaderText("Não é possível excluir a borda.");
@@ -54,11 +54,11 @@ public class EdgeService {
         return false;
     }
 
-    public Edge findByName(String name){
+    public Edge findByName(String name) {
         return edgeRepository.findByName(name);
     }
 
-    public List<Edge> findAll(){
+    public List<Edge> findAll() {
         return edgeRepository.findAll();
     }
 }

@@ -12,16 +12,17 @@ import javafx.scene.paint.Color;
 
 public class NumismasterCheckComboBox<T> extends CheckComboBox<T> {
 
-    public NumismasterCheckComboBox(ObservableList<T> items, double width, double height, double x, double y){
+    public NumismasterCheckComboBox(ObservableList<T> items, double width, double height, double x, double y) {
         super(items);
         setPrefWidth(width);
-		setPrefHeight(height);
+        setPrefHeight(height);
         setLayoutX(x);
-		setLayoutY(y);
-        setStyle("-fx-body-color: #d9d9d9;"     + 
-                "-fx-selection-bar: #0096c9;"   +
+        setLayoutY(y);
+        setStyle("-fx-body-color: #d9d9d9;" +
+                "-fx-selection-bar: #0096c9;" +
                 "fx-border-style: hidden;");
-        setBorder(new Border(new BorderStroke(Color.valueOf("#373c3f"), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(0, 0, 3, 0))));
+        setBorder(new Border(new BorderStroke(Color.valueOf("#373c3f"), BorderStrokeStyle.SOLID, CornerRadii.EMPTY,
+                new BorderWidths(0, 0, 3, 0))));
         setTitle("Selecionados: 0/3");
     }
 }

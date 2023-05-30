@@ -11,13 +11,13 @@ import javafx.scene.control.Alert.AlertType;
 public class CoinService {
     private CoinRepository coinRepository;
 
-    public CoinService(){
+    public CoinService() {
         coinRepository = new CoinRepository();
     }
 
-    public boolean save(Coin coin){
-        if(coin.getId() == 0){
-            if(findByName(coin.getName()) != null){
+    public boolean save(Coin coin) {
+        if (coin.getId() == 0) {
+            if (findByName(coin.getName()) != null) {
                 Alert alert = new Alert(AlertType.WARNING);
                 alert.setTitle("OPS...");
                 alert.setHeaderText("Moeda duplicada.");
@@ -32,16 +32,16 @@ public class CoinService {
         return false;
     }
 
-    public boolean delete(Coin coin){
+    public boolean delete(Coin coin) {
         CoinUserService coinUserService = new CoinUserService();
-        if(coinUserService.findUsersByCoin(coin).size() > 0){
+        if (coinUserService.findUsersByCoin(coin).size() > 0) {
             Alert alert = new Alert(AlertType.WARNING);
             alert.setTitle("OPS...");
             alert.setHeaderText("Não é possível excluir a moeda.");
             alert.setContentText("A moeda está sendo utilizada por algum usuário no sistema.");
             alert.showAndWait();
         } else {
-            if(coin.getId() == 0){
+            if (coin.getId() == 0) {
                 Alert alert = new Alert(AlertType.WARNING);
                 alert.setTitle("OPS...");
                 alert.setHeaderText("Não é possível excluir a moeda.");
@@ -52,12 +52,12 @@ public class CoinService {
         }
         return false;
     }
-    
-    public Coin findByName(String name){
+
+    public Coin findByName(String name) {
         return coinRepository.findByName(name);
     }
 
-    public List<Coin> findAll(){
+    public List<Coin> findAll() {
         return coinRepository.findAll();
     }
 }

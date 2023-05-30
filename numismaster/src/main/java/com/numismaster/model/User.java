@@ -31,47 +31,45 @@ public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	@Column(name = "first_name", nullable = false)
 	private String firstName;
-	
+
 	@Column(name = "last_name", nullable = false)
 	private String lastName;
-	
+
 	@Column(name = "gender", nullable = false)
 	private Gender gender;
-	
+
 	@Column(name = "birth_date", nullable = false)
 	private LocalDate birthDate;
-	
+
 	@Column(name = "email", unique = true, nullable = false)
 	private String email;
-	
+
 	@Column(name = "cpf", unique = true, nullable = false, length = 11)
 	private String cpf;
-	
+
 	@Column(name = "username", unique = true, nullable = false)
 	private String username;
-	
+
 	@Column(name = "password", nullable = false)
 	private String password;
-	
+
 	@Column(name = "type", nullable = false)
 	private Type type = Type.Default;
-	
+
 	@Column(name = "is_blocked", nullable = false)
 	private boolean isBlocked = true;
-	
+
 	@Column(name = "profile_photo", nullable = false)
 	private Blob profilePhoto;
-	
+
 	@Column(name = "registration_date", nullable = false)
 	private LocalDateTime registrationDate = LocalDateTime.now();
-	
-	@ManyToMany(cascade = {CascadeType.ALL})
-	@JoinTable(name = "TB_Coin_User",
-			joinColumns = @JoinColumn(name = "user_id"),
-			inverseJoinColumns = @JoinColumn(name = "coin_id"))
+
+	@ManyToMany(cascade = { CascadeType.ALL })
+	@JoinTable(name = "TB_Coin_User", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "coin_id"))
 	private List<Coin> coins = new ArrayList<>();
 
 }

@@ -225,7 +225,10 @@ public class CoinEditorController {
         coin = newCoinUser.getCoin();
         loadCoinInfo();
         btnBuy.setVisible(true);
-        btnBuy.setDisable(false);
+
+        if (newCoinUser.getUser().getId() != user.getId()) {
+            btnBuy.setDisable(false);
+        }
 
         txtCoinYear.setText(String.valueOf(coinUser.getYear()));
         checkForSale.setSelected(coinUser.isForSale());

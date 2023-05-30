@@ -17,16 +17,16 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity(name = "TB_User_Request")
+@Entity(name = "tb_user_request")
 public class UserRequest {
     @Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
-    
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "request_id", nullable = false)
     private Request request;

@@ -17,11 +17,11 @@ import lombok.Setter;
 @AllArgsConstructor
 @Entity(name = "tb_country")
 public class Country {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	
+
 	@Column(name = "code", nullable = false, unique = true, length = 3)
 	private String code;
 

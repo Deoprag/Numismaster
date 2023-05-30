@@ -5,6 +5,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
+import javax.persistence.TypedQuery;
 
 import com.numismaster.model.UserRequest;
 
@@ -41,6 +42,13 @@ public class UserRequestRepository {
 
     public List<UserRequest> findAll() {
         return entityManager.createQuery("SELECT r FROM tb_user_request r", UserRequest.class).getResultList();
+    }
+
+    public List<UserRequest> findAllByUser(Long id) {
+        String queryString = "SELECT r FROM tb_user_request r WHERE r.user.id = :id";
+        TypedQuery<UserRequest> query = entityManager.createQuery(queryString, UserRequest.class);
+        query.setParameter("id", id);
+        return query.getResultList();
     }
 
     public boolean update(UserRequest userRequest) {

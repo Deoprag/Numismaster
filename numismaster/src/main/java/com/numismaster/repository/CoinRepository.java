@@ -37,7 +37,7 @@ public class CoinRepository {
 
     public Coin findById(int id) {
         return entityManager.createQuery(
-            "SELECT c FROM TB_Coin c ", Coin.class).setParameter("id", id).getSingleResult();
+                "SELECT c FROM TB_Coin c ", Coin.class).setParameter("id", id).getSingleResult();
     }
 
     public Coin findByName(String name) {
@@ -54,7 +54,7 @@ public class CoinRepository {
         }
         return result;
     }
-    
+
     public List<Coin> findAll() {
         return entityManager.createQuery("SELECT c FROM TB_Coin c ", Coin.class).getResultList();
     }
@@ -88,7 +88,8 @@ public class CoinRepository {
         }
     }
 
-    public List<Coin> findByCountry(Country country){
-        return entityManager.createQuery("SELECT c FROM TB_Coin c WHERE c.country = :country", Coin.class).setParameter("country", country).getResultList();
+    public List<Coin> findByCountry(Country country) {
+        return entityManager.createQuery("SELECT c FROM TB_Coin c WHERE c.country = :country", Coin.class)
+                .setParameter("country", country).getResultList();
     }
 }

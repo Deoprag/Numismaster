@@ -32,11 +32,15 @@ public class Sale {
         @Temporal(TemporalType.TIMESTAMP)
         private Date saleDate;
 
-        /*@ManyToOne(fetch = FetchType.LAZY)
-        @Column(name = "buyer_id", nullable = false)
-        private User buyer;
-
-        @ManyToOne(fetch = FetchType.LAZY)
-        @Column(name = "seller_id", nullable = false)
-        private User seller;*/
+        /*
+         * @ManyToOne(fetch = FetchType.LAZY)
+         * 
+         * @Column(name = "buyer_id", nullable = false)
+         * private User buyer;
+         * 
+         * @ManyToOne(fetch = FetchType.LAZY)
+         * 
+         * @Column(name = "seller_id", nullable = false)
+         * private User seller;
+         */
 }

@@ -83,17 +83,17 @@ public class UserRepository {
         }
         return user.getPassword().equals(Util.hashPassword(password)) ? user : null;
     }
-    
+
     @SuppressWarnings("unchecked")
     public List<User> findAllByName(String name) {
-    	EntityManager em = factory.createEntityManager();
-    	Query query = em.createQuery("SELECT u FROM tb_user u WHERE u.firstName = :name OR u.lastName = :name");
-    	query.setParameter("name", name);
-    	return query.getResultList();
+        EntityManager em = factory.createEntityManager();
+        Query query = em.createQuery("SELECT u FROM tb_user u WHERE u.firstName = :name OR u.lastName = :name");
+        query.setParameter("name", name);
+        return query.getResultList();
     }
 
     public User findByUsername(String username) {
-    	EntityManager em = factory.createEntityManager();
+        EntityManager em = factory.createEntityManager();
         User result;
         try {
             Query query = em.createQuery("SELECT u FROM tb_user u WHERE u.username = :username");
@@ -108,7 +108,7 @@ public class UserRepository {
     }
 
     public User findByEmail(String email) {
-    	EntityManager em = factory.createEntityManager();
+        EntityManager em = factory.createEntityManager();
         User result;
         try {
             Query query = em.createQuery("SELECT u FROM tb_user u WHERE u.email = :email");
@@ -119,11 +119,11 @@ public class UserRepository {
         } finally {
             em.close();
         }
-        return result;   
+        return result;
     }
 
     public User findByCpf(String cpf) {
-    	EntityManager em = factory.createEntityManager();
+        EntityManager em = factory.createEntityManager();
         User result;
         try {
             Query query = em.createQuery("SELECT u FROM tb_user u WHERE u.cpf = :cpf");

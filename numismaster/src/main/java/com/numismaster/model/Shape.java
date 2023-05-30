@@ -23,10 +23,10 @@ public class Shape {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	
+
 	@Column(name = "name", nullable = false, unique = true)
 	private String name;
 
 	@OneToMany(mappedBy = "shape")
-    private List<CoinShape> coinShape;
+	private List<CoinShape> coinShape;
 }
