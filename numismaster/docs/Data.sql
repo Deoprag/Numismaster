@@ -42,7 +42,7 @@ VALUES
 ('1 Real (XXXI Olimpiadas de Verao de 2016 no Rio - Futebol)', 3, 1.00, 7, 27, 1.95, 1),
 ('1 Real (XXXI Olimpiadas de Verao de 2016 no Rio - Basquete)', 3, 1.00, 7, 27, 1.95, 1),
 ('1 Real (XXXI Olimpiadas de Verao de 2016 no Rio - Paracanoagem)', 3, 1.00, 7, 27, 1.95, 1),
-('1 Dolar (Apollo 11 - 50º Aniversario', 4, 1.00, 26.7, 38.1, 6.17, 2),
+('1 Dolar (Apollo 11 - 50º Aniversario)', 4, 1.00, 26.7, 38.1, 6.17, 2),
 ('1 Dolar (Inovacao Americana - Dellaware)', 4, 1.00, 8.1, 26.4, 2, 2);
 
 INSERT INTO TB_Coin_Material (coin_id, material_id)
@@ -86,3 +86,11 @@ VALUES
 (1, 2, 2016, 1, 0, 0),
 (1, 3, 2016, 0, 1, 54.90),
 (1, 4, 2016, 1, 0, 0);
+
+INSERT INTO TB_Sale(price, buyer_id, seller_id)
+VALUES
+();
+
+INSERT INTO TB_Coin_User_Sale(coin_user_id, sale_id)
+VALUES
+();

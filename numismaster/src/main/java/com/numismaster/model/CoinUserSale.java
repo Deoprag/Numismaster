@@ -29,11 +29,4 @@ public class CoinUserSale {
 	@ManyToOne
 	@JoinColumn(name = "sale_id", nullable = false)
 	private Sale sale;
-
-	@Column(name = "price", nullable = false)
-	private float price;
-
-	@Column(name = "quantity", nullable = false)
-	private int quantity;
-
 }

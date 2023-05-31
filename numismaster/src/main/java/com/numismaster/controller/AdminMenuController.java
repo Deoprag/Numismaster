@@ -1,6 +1,8 @@
 package com.numismaster.controller;
 
 import java.io.IOException;
+import java.text.DateFormat;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,11 +56,13 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.util.Callback;
 
 public class AdminMenuController {
 
 	private Stage stage;
+	private Stage stageRequestEditor;
 	private Scene scene;
 	private Parent root;
 	private User user;
@@ -73,6 +77,7 @@ public class AdminMenuController {
 	private Edge edge;
 
 	private double x, y = 0;
+	private int clickCount = 0;
 
 	private CoinService coinService = new CoinService();
 	private CountryService countryService = new CountryService();
@@ -86,7 +91,10 @@ public class AdminMenuController {
 	ObservableList<Shape> obsShapeList = FXCollections.observableArrayList();
 	ObservableList<Material> obsMaterialList = FXCollections.observableArrayList();
 	ObservableList<Edge> obsEdgeList = FXCollections.observableArrayList();
-	ObservableList<UserRequest> obsUserRequestList = FXCollections.observableArrayList();
+	ObservableList<UserRequest> obsRequestList = FXCollections.observableArrayList();
+
+	private UserRequest selectedRequest;
+	private UserRequest lastSelectedRequest;
 
 	@FXML
 	private Button btnClose;
@@ -246,6 +254,22 @@ public class AdminMenuController {
 	private Button btnFileChooser;
 
 	// Request
+	@FXML
+	private TextField txtRequestSearch;
+	@FXML
+	private TableView<UserRequest> tbRequest;
+	@FXML
+	private TableColumn<UserRequest, String> colRequestedItem = new TableColumn<>("Item");
+	@FXML
+	private TableColumn<UserRequest, String> colRequestNotes = new TableColumn<>("Notas");
+	@FXML
+	private TableColumn<UserRequest, String> colRequestSituation = new TableColumn<>("Situação");
+	@FXML
+	private TableColumn<UserRequest, String> colRequestingPerson = new TableColumn<>("Solicitante");
+	@FXML
+	private TableColumn<UserRequest, String> colRequestDate = new TableColumn<>("Data de Solicitação");
+	@FXML
+	private TableColumn<UserRequest, LocalDateTime> colCloseRequestDate = new TableColumn<>("Data de Fechamento");
 
 	public void initialize() {
 		fixImage(profilePhoto, true);
@@ -941,6 +965,36 @@ public class AdminMenuController {
 
 	}
 
+	public void loadSelectedRequest() throws IOException {
+		selectedRequest = tbRequest.getSelectionModel().getSelectedItem();
+
+		if (selectedRequest != null && selectedRequest.equals(lastSelectedRequest)) {
+			clickCount++;
+		} else {
+			clickCount = 1;
+		}
+
+		if (clickCount == 2) {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/numismaster/view/RequestEditor.fxml"));
+			root = loader.load();
+			RequestEditorController requestEditorController = loader.getController();
+			requestEditorController.loadUser(user, this);
+			// loadRequest
+			if (stageRequestEditor == null || !stageRequestEditor.isShowing()) {
+				stageRequestEditor = new Stage();
+				Scene scene = new Scene(root);
+				stageRequestEditor.initStyle(StageStyle.UNDECORATED);
+				stageRequestEditor.setTitle("Numismaster");
+				stageRequestEditor.getIcons().add(new Image("/com/numismaster/icon/large-app-icon.png"));
+				stageRequestEditor.setScene(scene);
+				stageRequestEditor.show();
+				stageRequestEditor.centerOnScreen();
+			}
+			clickCount = 0;
+		}
+		lastSelectedRequest = selectedRequest;
+	}
+
 	public void loadCoinTable() {
 		tbCoin.getItems().clear();
 		tbCoin.getColumns().clear();
@@ -1108,6 +1162,43 @@ public class AdminMenuController {
 
 	}
 
+	public void loadRequestTable(){
+		tbRequest.getItems().clear();
+		tbRequest.getColumns().clear();
+
+		userRequestService = new UserRequestService();
+		for(UserRequest userRequest : userRequestService.findAll()){
+			obsRequestList.add(userRequest);
+		}
+
+		colRequestedItem.setCellValueFactory(cellData -> new SimpleStringProperty(
+			cellData.getValue().getRequest().getRequestedItem().toString()));
+		colRequestNotes.setCellValueFactory(cellData -> new SimpleStringProperty(
+			cellData.getValue().getRequest().getNotes()));
+		colRequestSituation.setCellValueFactory(cellData -> new SimpleStringProperty(
+			cellData.getValue().getRequest().getRequestSituation().toString()));
+		colRequestingPerson.setCellValueFactory(cellData -> new SimpleStringProperty(
+			cellData.getValue().getUser().getFirstName() + " " + cellData.getValue().getUser().getLastName()));
+		colRequestDate.setCellValueFactory(cellData -> new SimpleStringProperty(
+			Util.localDateTimeFormatter(cellData.getValue().getRequest().getRequestDate())));
+		colCloseRequestDate.setCellFactory(cellData -> new TableCell<UserRequest, LocalDateTime>() {
+			@Override
+			protected void updateItem(LocalDateTime item, boolean empty){
+				super.updateItem(item, empty);
+				if(getTableRow().getItem() == null){
+					setText(null);
+				} else {
+					item = getTableRow().getItem().getRequest().getCloseRequestDate();
+					setText(empty || item == null ? "Não possui" : Util.localDateTimeFormatter(item));
+				}
+			}
+		});
+
+		tbRequest.getColumns().addAll(colRequestedItem, colRequestSituation, colRequestNotes,
+		 		colRequestingPerson, colRequestDate, colCloseRequestDate);
+		tbRequest.setItems(obsRequestList);
+	}
+
 	public void searchCoin() {
 		if (txtCoinSearch.getText().isBlank()) {
 			loadCoinTable();
@@ -1215,6 +1306,25 @@ public class AdminMenuController {
 
 	public void searchUser() {
 
+	}
+
+	public void searchRequest(){
+		if (txtRequestSearch.getText().isBlank()) {
+			loadRequestTable();
+		} else {
+			loadRequestTable();
+			ObservableList<UserRequest> tempObsRequestList = FXCollections.observableArrayList();
+			for (UserRequest request : obsRequestList) {
+				if (request.getRequest().getNotes().toLowerCase().contains(txtRequestSearch.getText().toLowerCase()) ||
+				request.getRequest().getRequestedItem().toString().toLowerCase().contains(txtRequestSearch.getText().toLowerCase()) ||
+				request.getRequest().getRequestSituation().toString().toLowerCase().contains(txtRequestSearch.getText().toLowerCase())) {
+					tempObsRequestList.add(request);
+				}
+			}
+			
+			tbRequest.getItems().clear();
+			tbRequest.setItems(tempObsRequestList);
+		}
 	}
 
 	public void clearCoinFields() {

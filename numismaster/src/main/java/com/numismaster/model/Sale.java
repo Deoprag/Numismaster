@@ -1,14 +1,14 @@
 package com.numismaster.model;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -25,22 +25,17 @@ public class Sale {
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         private int id;
 
-        @Column(name = "total_price", nullable = false)
+        @Column(name = "price", nullable = false)
         private Float totalPrice;
 
         @Column(name = "sale_date", nullable = false, updatable = false)
-        @Temporal(TemporalType.TIMESTAMP)
-        private Date saleDate;
+        private LocalDateTime saleDate;
 
-        /*
-         * @ManyToOne(fetch = FetchType.LAZY)
-         * 
-         * @Column(name = "buyer_id", nullable = false)
-         * private User buyer;
-         * 
-         * @ManyToOne(fetch = FetchType.LAZY)
-         * 
-         * @Column(name = "seller_id", nullable = false)
-         * private User seller;
-         */
+        @ManyToOne
+        @JoinColumn(name = "buyer_id", nullable = false)
+        private User buyer;
+        
+        @ManyToOne
+        @JoinColumn(name = "seller_id", nullable = false)
+        private User seller;
 }

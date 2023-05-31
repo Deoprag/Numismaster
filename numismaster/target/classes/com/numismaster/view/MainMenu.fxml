@@ -203,7 +203,7 @@
                                           <Font name="Segoe UI Bold" size="32.0" />
                                        </font>
                                     </Label>
-                                    <Button fx:id="btnSaveUser" layoutX="743.0" layoutY="524.0" mnemonicParsing="false" onAction="#saveUser" prefHeight="40.0" prefWidth="100.0" stylesheets="@../css/style.css" text="Salvar">
+                                    <Button fx:id="btnSaveUser" layoutX="743.0" layoutY="524.0" mnemonicParsing="false" onAction="#saveUser" prefHeight="40.0" prefWidth="100.0" styleClass="btn-add" stylesheets="@../css/style.css" text="Salvar">
                                        <font>
                                           <Font size="10.0" />
                                        </font>

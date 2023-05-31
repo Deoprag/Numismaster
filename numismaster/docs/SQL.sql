@@ -59,8 +59,8 @@ CREATE TABLE TB_User (
 
 CREATE TABLE TB_Sale (
     id INT AUTO_INCREMENT,
-    total_price DECIMAL(10,2) NOT NULL,
     sale_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	price DECIMAL(10,2) NOT NULL,
     buyer_id INT NOT NULL,
     seller_id INT NOT NULL,
     FOREIGN KEY (buyer_id) REFERENCES TB_User(id),
@@ -116,8 +116,6 @@ CREATE TABLE TB_Coin_User_Sale (
 	id INT AUTO_INCREMENT,
 	coin_user_id INT NOT NULL,
 	sale_id INT NOT NULL,
-	price DECIMAL(10,2) NOT NULL,
-	quantity INT NOT NULL,
 	FOREIGN KEY (coin_user_id) REFERENCES TB_Coin_User (id),
 	FOREIGN KEY (sale_id) REFERENCES TB_Sale (id),
     CONSTRAINT coin_sale_id PRIMARY KEY (id)
@@ -130,7 +128,7 @@ CREATE TABLE TB_Request(
     request_situation SMALLINT NOT NULL,
     request_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     close_request_date TIMESTAMP,
-    CONSTRAINT request_situation_close_date CHECK (request_situation = 0 OR (request_situation > 0 AND close_date IS NOT NULL)),
+    CONSTRAINT request_situation_close_date CHECK (request_situation = 0 OR (request_situation > 0 AND close_request_date IS NOT NULL)),
     CONSTRAINT request_id PRIMARY KEY (id)
 );
 

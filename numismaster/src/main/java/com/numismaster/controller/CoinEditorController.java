@@ -344,7 +344,7 @@ public class CoinEditorController {
     }
 
     public void buyCoin() {
-
+        
     }
 
     public void changeTxtPrice() {

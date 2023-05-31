@@ -78,7 +78,7 @@
                   <Font name="Segoe UI Bold" size="32.0" />
                </font>
             </Label>
-            <Button fx:id="btnSignUp" layoutX="200.0" layoutY="476.0" mnemonicParsing="false" onAction="#signUp" prefHeight="40.0" prefWidth="100.0" stylesheets="@../css/style.css" text="Cadastrar">
+            <Button fx:id="btnSignUp" layoutX="200.0" layoutY="476.0" mnemonicParsing="false" onAction="#signUp" prefHeight="40.0" prefWidth="100.0" styleClass="btn-add" stylesheets="@../css/style.css" text="Cadastrar">
                <font>
                   <Font size="10.0" />
                </font>
@@ -135,7 +135,7 @@
             </ImageView>
          </children>
       </Pane>
-      <Button fx:id="btnReturn" layoutX="14.0" layoutY="43.0" mnemonicParsing="false" onAction="#returnToLogin" stylesheets="@../css/style.css" text="Voltar">
+      <Button fx:id="btnReturn" layoutX="14.0" layoutY="43.0" mnemonicParsing="false" onAction="#returnToLogin" styleClass="btn-delete" stylesheets="@../css/style.css" text="Voltar">
          <font>
             <Font name="Segoe UI Bold" size="14.0" />
          </font>

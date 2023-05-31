@@ -568,7 +568,7 @@
                   </AnchorPane>
               </content>
             </Tab>
-            <Tab text="Solicitações">
+            <Tab onSelectionChanged="#loadRequestTable" text="Solicitações">
                <content>
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
@@ -642,12 +642,12 @@
                               <GaussianBlur radius="3.0" />
                            </effect>
                         </ImageView>
-                        <TableView fx:id="tbUser1" layoutX="10.0" layoutY="63.0" onMouseClicked="#loadSelectedUser" prefHeight="580.0" prefWidth="1060.0" style="-fx-background-color: #d9d9d9; -fx-border-color: #373c3f; -fx-border-width: 2px;">
+                        <TableView fx:id="tbRequest" layoutX="10.0" layoutY="63.0" onMouseClicked="#loadSelectedRequest" prefHeight="580.0" prefWidth="1060.0" style="-fx-background-color: #d9d9d9; -fx-border-color: #373c3f; -fx-border-width: 2px;">
                            <columnResizePolicy>
                               <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                            </columnResizePolicy>
                         </TableView>
-                        <TextField fx:id="txtRequestSearch" layoutX="10.0" layoutY="15.0" onKeyReleased="#searchUser" prefHeight="40.0" prefWidth="1060.0" promptText="ex. Borda, Moeda, Pais" style="-fx-background-color: #ffffff; -fx-border-color: #373c3f; -fx-border-width: 2;">
+                        <TextField fx:id="txtRequestSearch" layoutX="10.0" layoutY="15.0" onKeyReleased="#searchRequest" prefHeight="40.0" prefWidth="1060.0" promptText="ex. Borda, Moeda, Pais" style="-fx-background-color: #ffffff; -fx-border-color: #373c3f; -fx-border-width: 2;">
                            <font>
                               <Font size="16.0" />
                            </font>
