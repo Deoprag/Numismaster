@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.time.Year;
 
 import javax.sql.rowset.serial.SerialException;
 
@@ -122,35 +123,80 @@ public class CoinEditorController {
 
     public void checkInputs() {
         txtCoinYear.textProperty().addListener((observable, oldValue, newValue) -> {
-            String filteredValue = newValue.replaceAll("[^0-9]", "");
-            if (!newValue.equals(filteredValue)) {
-                txtCoinYear.setText(filteredValue);
-            }
+            int maxLenght = 4;
+			String filteredValue = newValue.replaceAll("[^0-9]", "");
+
+			if(filteredValue.length() <= maxLenght){
+				if (!newValue.equals(filteredValue)) {
+					txtCoinYear.setText(filteredValue);
+				}
+			} else {
+				txtCoinYear.setText(oldValue);
+			}
         });
         txtCoinPrice.textProperty().addListener((observable, oldValue, newValue) -> {
+            int maxLenght = 9;
             String filteredValue = newValue.replaceAll("[^0-9,.]", "");
-            if (!newValue.equals(filteredValue)) {
-                txtCoinPrice.setText(filteredValue);
-            }
+
+			if(filteredValue.length() <= maxLenght){
+				if (!newValue.equals(filteredValue)) {
+					txtCoinPrice.setText(filteredValue);
+				}
+			} else {
+				txtCoinPrice.setText(oldValue);
+			}
         });
     }
 
     public boolean validateFields() {
         if (txtCoinYear.getText().isBlank()) {
+            Alert alert = new Alert(AlertType.ERROR);
+            alert.setTitle("ERRO!");
+            alert.setHeaderText("Verifique o ano.");
+            alert.setContentText("Preencha o campo de ano!");
+            alert.showAndWait();
+            return false;
+        }
+        if(Integer.parseInt(txtCoinYear.getText()) > Year.now().getValue()){
+            Alert alert = new Alert(AlertType.ERROR);
+            alert.setTitle("ERRO!");
+            alert.setHeaderText("Verifique o ano.");
+            alert.setContentText("O valor digitado no ano é superior ao ano atual!");
+            alert.showAndWait();
             return false;
         }
         if (checkForSale.isSelected() && txtCoinPrice.getText().isBlank()) {
-            return false;
-        }
-        if (boxCondition.getValue() == null) {
+            Alert alert = new Alert(AlertType.ERROR);
+            alert.setTitle("ERRO!");
+            alert.setHeaderText("Verifique o preço.");
+            alert.setContentText("Preencha o campo de preço!");
+            alert.showAndWait();
             return false;
         }
         try {
-            if (Float.parseFloat(txtCoinPrice.getText()) < 1) {
+            if (Float.parseFloat(txtCoinPrice.getText().replace(",", ".")) < 1 && !txtCoinPrice.getText().isBlank()) {
+                Alert alert = new Alert(AlertType.ERROR);
+                alert.setTitle("ERRO!");
+                alert.setHeaderText("Verifique o preço.");
+                alert.setContentText("O valor mínimo de preço é R$1,00!");
+                alert.showAndWait();
                 return false;
             }
-        } catch (Exception e) {
-
+        } catch (NumberFormatException e) {
+            Alert alert = new Alert(AlertType.ERROR);
+            alert.setTitle("ERRO!");
+            alert.setHeaderText("Verifique o preço.");
+            alert.setContentText("O valor digitado no preço não corresponde a um número!");
+            alert.showAndWait();
+            return false;
+        }
+        if (boxCondition.getValue() == null) {
+            Alert alert = new Alert(AlertType.ERROR);
+            alert.setTitle("ERRO!");
+            alert.setHeaderText("Verifique a condição.");
+            alert.setContentText("Escolha uma condição para sua moeda!");
+            alert.showAndWait();
+            return false;
         }
         return true;
     }
@@ -298,12 +344,6 @@ public class CoinEditorController {
                 alert.setContentText("A moeda não foi adicionada à coleção.");
                 alert.showAndWait();
             }
-        } else {
-            Alert alert = new Alert(AlertType.ERROR);
-            alert.setTitle("ERRO!");
-            alert.setHeaderText("Verifique os campos.");
-            alert.setContentText("Você precisa preencher todos os campos obrigatórios!");
-            alert.showAndWait();
         }
     }
 
@@ -334,12 +374,6 @@ public class CoinEditorController {
                 alert.setContentText("A moeda não foi atualizada.");
                 alert.showAndWait();
             }
-        } else {
-            Alert alert = new Alert(AlertType.ERROR);
-            alert.setTitle("ERRO!");
-            alert.setHeaderText("Verifique os campos.");
-            alert.setContentText("Você precisa preencher todos os campos obrigatórios!");
-            alert.showAndWait();
         }
     }
 

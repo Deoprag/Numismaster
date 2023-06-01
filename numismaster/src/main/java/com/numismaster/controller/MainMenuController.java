@@ -254,7 +254,9 @@ public class MainMenuController {
 			editProfilePhoto.setImage(new Image(Util.convertFromBlob(user.getProfilePhoto())));
 			CoinUserService cus = new CoinUserService();
 			rarestCoin = cus.findRarestCoinByUser(user);
-			lblRarestCoin.setText(rarestCoin.getCoin().getName());
+			if(rarestCoin != null) {
+				lblRarestCoin.setText(rarestCoin.getCoin().getName());
+			}
 			lblCoinCount.setText(String.valueOf(cus.findHowManyCoinsByUser(user)));
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -272,20 +274,22 @@ public class MainMenuController {
 	}
 
 	public void loadRarestCoin() throws IOException {
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/numismaster/view/CoinEditor.fxml"));
-		root = loader.load();
-		CoinEditorController rcc = loader.getController();
-		rcc.loadUser(user, this);
-		rcc.loadCoinUser(rarestCoin);
-		if (stageCoinEditor == null || !stageCoinEditor.isShowing()) {
-			stageCoinEditor = new Stage();
-			Scene scene = new Scene(root);
-			stageCoinEditor.initStyle(StageStyle.UNDECORATED);
-			stageCoinEditor.setTitle("Numismaster");
-			stageCoinEditor.getIcons().add(new Image("/com/numismaster/icon/large-app-icon.png"));
-			stageCoinEditor.setScene(scene);
-			stageCoinEditor.show();
-			stageCoinEditor.centerOnScreen();
+		if(rarestCoin != null) {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/numismaster/view/CoinEditor.fxml"));
+			root = loader.load();
+			CoinEditorController rcc = loader.getController();
+			rcc.loadUser(user, this);
+			rcc.loadCoinUser(rarestCoin);
+			if (stageCoinEditor == null || !stageCoinEditor.isShowing()) {
+				stageCoinEditor = new Stage();
+				Scene scene = new Scene(root);
+				stageCoinEditor.initStyle(StageStyle.UNDECORATED);
+				stageCoinEditor.setTitle("Numismaster");
+				stageCoinEditor.getIcons().add(new Image("/com/numismaster/icon/large-app-icon.png"));
+				stageCoinEditor.setScene(scene);
+				stageCoinEditor.show();
+				stageCoinEditor.centerOnScreen();
+			}
 		}
 	}
 

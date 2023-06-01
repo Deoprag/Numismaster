@@ -55,6 +55,9 @@ public class LoginController {
 	@FXML
 	private Pane paneBar;
 
+	public void initialize(){
+		checkInputs();
+	}
 	public void enter() {
 		txtPassword.setOnKeyPressed(event -> {
 			if (event.getCode().getName().equals("Enter")) {
@@ -63,11 +66,26 @@ public class LoginController {
 		});
 	}
 
-	public void checkUsernameInput(KeyEvent e) {
+	public void checkInputs() {
 		txtUsername.textProperty().addListener((observable, oldValue, newValue) -> {
-			String filteredValue = newValue.replaceAll("[^a-zA-Z0-9]", "");
-			if (!newValue.equals(filteredValue)) {
-				txtUsername.setText(filteredValue);
+			int maxLenght = 30;
+			String filteredValue = newValue.replaceAll("[^a-z A-Z]", "");
+
+			if(filteredValue.length() <= maxLenght){
+				if (!newValue.equals(filteredValue)) {
+					txtUsername.setText(filteredValue);
+				}
+			} else {
+				txtUsername.setText(oldValue);
+			}
+		});
+		txtPassword.textProperty().addListener((observable, oldValue, newValue) -> {
+			int maxLenght = 32;
+
+			if(newValue.length() <= maxLenght){
+				txtPassword.setText(newValue);
+			} else {
+				txtPassword.setText(oldValue);
 			}
 		});
 	}

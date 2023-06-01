@@ -63,7 +63,6 @@ public class CoinUserRepository {
             query.setMaxResults(1);
             return query.getSingleResult();
         } catch (Exception e) {
-            e.printStackTrace();
             return null;
         }
     }
@@ -75,7 +74,6 @@ public class CoinUserRepository {
             query.setParameter("id", id);
             return query.getSingleResult();
         } catch (Exception e) {
-            e.printStackTrace();
             return null;
         }
     }

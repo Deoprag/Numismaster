@@ -45,7 +45,7 @@
       </Pane>
       <Pane layoutY="30.0" prefHeight="600.0" prefWidth="200.0" style="-fx-background-color: #d9d9d9; -fx-border-color: #373c3f; -fx-border-width: 2;">
          <children>
-            <TextField fx:id="txtUsername" layoutX="20.0" layoutY="228.0" onKeyPressed="#checkUsernameInput" prefHeight="30.0" prefWidth="165.0" promptText="Insira aqui seu usuário" style="-fx-background-color: #d9d9d9; -fx-border-color: #565e62; -fx-border-width: 0 0 1px 0;" />
+            <TextField fx:id="txtUsername" layoutX="20.0" layoutY="228.0" prefHeight="30.0" prefWidth="165.0" promptText="Insira aqui seu usuário" style="-fx-background-color: #d9d9d9; -fx-border-color: #565e62; -fx-border-width: 0 0 1px 0;" />
             <Label layoutX="26.0" layoutY="209.0" text="Usuário" textFill="#565e62">
                <font>
                   <Font name="Segoe UI Bold" size="16.0" />

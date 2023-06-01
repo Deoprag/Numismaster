@@ -89,8 +89,8 @@ VALUES
 
 INSERT INTO TB_Sale(price, buyer_id, seller_id)
 VALUES
-();
+(149.9, 1, 2);
 
 INSERT INTO TB_Coin_User_Sale(coin_user_id, sale_id)
 VALUES
-();
+(6, 1);

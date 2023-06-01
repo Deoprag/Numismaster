@@ -100,21 +100,66 @@ public class SignUpController {
 
 	public void checkInputs() {
 		txtFirstName.textProperty().addListener((observable, oldValue, newValue) -> {
+			int maxLenght = 30;
 			String filteredValue = newValue.replaceAll("[^a-z A-Z]", "");
-			if (!newValue.equals(filteredValue)) {
-				txtFirstName.setText(filteredValue);
+
+			if(filteredValue.length() <= maxLenght){
+				if (!newValue.equals(filteredValue)) {
+					txtFirstName.setText(filteredValue);
+				}
+			} else {
+				txtFirstName.setText(oldValue);
 			}
 		});
 		txtLastName.textProperty().addListener((observable, oldValue, newValue) -> {
+			int maxLenght = 30;
 			String filteredValue = newValue.replaceAll("[^a-z A-Z]", "");
-			if (!newValue.equals(filteredValue)) {
-				txtLastName.setText(filteredValue);
+
+			if(filteredValue.length() <= maxLenght){
+				if (!newValue.equals(filteredValue)) {
+					txtLastName.setText(filteredValue);
+				}
+			} else {
+				txtLastName.setText(oldValue);
 			}
 		});
 		txtUsername.textProperty().addListener((observable, oldValue, newValue) -> {
-			String filteredValue = newValue.replaceAll("[^a-zA-Z0-9]", "");
-			if (!newValue.equals(filteredValue)) {
-				txtUsername.setText(filteredValue);
+			int maxLenght = 20;
+			String filteredValue = newValue.replaceAll("[^a-z A-Z]", "");
+
+			if(filteredValue.length() <= maxLenght){
+				if (!newValue.equals(filteredValue)) {
+					txtUsername.setText(filteredValue);
+				}
+			} else {
+				txtUsername.setText(oldValue);
+			}
+		});
+		txtPassword.textProperty().addListener((observable, oldValue, newValue) -> {
+			int maxLenght = 32;
+
+			if(newValue.length() <= maxLenght){
+				txtPassword.setText(newValue);
+			} else {
+				txtPassword.setText(oldValue);
+			}
+		});
+		txtPasswordConfirmation.textProperty().addListener((observable, oldValue, newValue) -> {
+			int maxLenght = 32;
+
+			if(newValue.length() <= maxLenght){
+				txtPasswordConfirmation.setText(newValue);
+			} else {
+				txtPasswordConfirmation.setText(oldValue);
+			}
+		});
+		txtEmail.textProperty().addListener((observable, oldValue, newValue) -> {
+			int maxLenght = 100;
+
+			if(newValue.length() <= maxLenght){
+				txtEmail.setText(newValue);
+			} else {
+				txtEmail.setText(oldValue);
 			}
 		});
 	}

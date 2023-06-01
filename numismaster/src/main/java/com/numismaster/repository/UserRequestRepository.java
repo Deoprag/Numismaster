@@ -22,11 +22,8 @@ public class UserRequestRepository {
         EntityTransaction transaction = entityManager.getTransaction();
         try {
             transaction.begin();
-            // Persiste o Request antes
             entityManager.persist(userRequest.getRequest());
             entityManager.flush();
-
-            // Persiste o UserRequest com o Request atualizado
             entityManager.persist(userRequest);
             transaction.commit();
             return true;

@@ -6,6 +6,8 @@ inner join tb_coin_user cu on cu.id = cus.coin_user_id
 inner join tb_user b on b.id = s.buyer_id
 inner join tb_user v on v.id = s.seller_id;
 
+describe tb_user;
+
 update tb_user set type = 1 where id = 2;
 
 update tb_user set birth_date = '2004-02-27' where id = 1;
