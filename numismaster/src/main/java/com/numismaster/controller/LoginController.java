@@ -23,7 +23,6 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.Image;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
@@ -34,6 +33,7 @@ public class LoginController {
 	private Scene scene;
 	private Parent root;
 	private User user;
+	private int count = 0;
 	private double x, y;
 
 	@FXML
@@ -163,6 +163,14 @@ public class LoginController {
 				alert.setHeaderText("Dados incorretos.");
 				alert.setContentText("Verifique se seu nome de usuário e senha estão corretos");
 				alert.showAndWait();
+				count++;
+				if(count >= 3) {
+					try {
+						userService.blockUser(txtUsername.getText());					
+					} catch (Exception e1) {
+						e1.printStackTrace();
+					}
+				}
 			}
 		}
 	}

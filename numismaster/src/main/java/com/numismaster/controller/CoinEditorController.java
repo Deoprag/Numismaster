@@ -13,9 +13,11 @@ import com.numismaster.model.CoinCondition;
 import com.numismaster.model.CoinUser;
 import com.numismaster.model.Edge;
 import com.numismaster.model.Material;
+import com.numismaster.model.Sale;
 import com.numismaster.model.Shape;
 import com.numismaster.model.User;
 import com.numismaster.service.CoinUserService;
+import com.numismaster.service.SaleService;
 import com.numismaster.util.Util;
 
 import javafx.event.ActionEvent;
@@ -336,6 +338,7 @@ public class CoinEditorController {
                 alert.setContentText("A moeda foi adicionada à coleção com sucesso!");
                 alert.showAndWait();
                 mainMenuController.loadCoinUserTable();
+                mainMenuController.loadMarketTable();
                 btnClose.fire();
             } else {
                 Alert alert = new Alert(AlertType.ERROR);
@@ -366,6 +369,7 @@ public class CoinEditorController {
                 alert.setContentText("A moeda foi atualizada com sucesso!");
                 alert.showAndWait();
                 mainMenuController.loadCoinUserTable();
+                mainMenuController.loadMarketTable();
                 btnClose.fire();
             } else {
                 Alert alert = new Alert(AlertType.ERROR);
@@ -378,7 +382,31 @@ public class CoinEditorController {
     }
 
     public void buyCoin() {
-        
+        SaleService saleService = new SaleService();
+
+        Alert alert = new Alert(AlertType.CONFIRMATION);
+        alert.setTitle("Confirmação");
+        alert.setHeaderText("Confirmação de compra");
+        alert.setContentText("Deseja realmente comprar essa moeda?");
+
+        if (alert.showAndWait().get() == ButtonType.OK) {
+            Sale sale = new Sale();
+            sale.setPrice(coinUser.getPrice());
+            sale.setBuyer(user);
+            sale.setSeller(coinUser.getUser());
+
+            if (saleService.coinSale(sale, coinUser)) {
+                Alert alert2 = new Alert(AlertType.CONFIRMATION);
+                alert2.setTitle("Sucesso!");
+                alert2.setHeaderText("Comprada com sucesso!");
+                alert2.setContentText("A compra da moeda foi realizada com sucesso!");
+                alert2.showAndWait();
+                // Inserir lógica do comprovante de compra
+                mainMenuController.loadCoinUserTable();
+                mainMenuController.loadMarketTable();
+                btnClose.fire();
+            }
+        }
     }
 
     public void changeTxtPrice() {

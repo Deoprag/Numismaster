@@ -1,10 +1,13 @@
 package com.numismaster.repository;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
-import java.util.List;
 
+import com.numismaster.model.CoinUser;
+import com.numismaster.model.CoinUserSale;
 import com.numismaster.model.Sale;
 
 public class SaleRepository {
@@ -57,6 +60,32 @@ public class SaleRepository {
             transaction.begin();
             Sale sale = entityManager.find(Sale.class, id);
             entityManager.remove(sale);
+            transaction.commit();
+            return true;
+        } catch (Exception ex) {
+            transaction.rollback();
+            return false;
+        }
+    }
+
+    public boolean coinSale(Sale sale, CoinUser coinUser) {
+        EntityTransaction transaction = entityManager.getTransaction();
+        try {
+            transaction.begin();
+            entityManager.persist(sale);
+            entityManager.flush();                              // Persiste e atualiza o sale
+
+            CoinUserSale coinUserSale = new CoinUserSale();
+            coinUserSale.setCoinUser(coinUser);
+            coinUserSale.setSale(sale);
+            entityManager.persist(coinUserSale);
+            entityManager.flush();                              // Persiste e atualiza o coinUserSale
+
+            coinUser.setUser(sale.getBuyer());
+            coinUser.setForSale(false);
+            coinUser.setPrice(null);
+            entityManager.merge(coinUser);                      // Altera o dono da moeda
+
             transaction.commit();
             return true;
         } catch (Exception ex) {

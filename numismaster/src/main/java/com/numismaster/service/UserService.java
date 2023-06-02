@@ -124,6 +124,12 @@ public class UserService {
         return false;
     }
 
+    public void blockUser(String username){
+        User user = findByUsername(username);
+        user.setBlocked(true);
+        userRepository.update(user);
+    }
+
     public boolean delete(User user) {
         if (userRepository.delete(user.getId())) {
             return true;

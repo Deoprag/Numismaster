@@ -93,4 +93,4 @@ VALUES
 
 INSERT INTO TB_Coin_User_Sale(coin_user_id, sale_id)
 VALUES
-(6, 1);
+(1, 1);

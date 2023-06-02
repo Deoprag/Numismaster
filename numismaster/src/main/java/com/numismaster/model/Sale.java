@@ -26,10 +26,10 @@ public class Sale {
         private int id;
 
         @Column(name = "price", nullable = false)
-        private Float totalPrice;
+        private Float price;
 
         @Column(name = "sale_date", nullable = false, updatable = false)
-        private LocalDateTime saleDate;
+        private LocalDateTime saleDate = LocalDateTime.now();
 
         @ManyToOne
         @JoinColumn(name = "buyer_id", nullable = false)

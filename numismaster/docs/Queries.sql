@@ -6,7 +6,7 @@ inner join tb_coin_user cu on cu.id = cus.coin_user_id
 inner join tb_user b on b.id = s.buyer_id
 inner join tb_user v on v.id = s.seller_id;
 
-describe tb_user;
+select * from tb_coin_user_sale;
 
 update tb_user set type = 1 where id = 2;
 

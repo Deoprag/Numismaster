@@ -7,6 +7,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
+import javax.transaction.Transaction;
 
 import com.numismaster.model.User;
 import com.numismaster.util.Util;
