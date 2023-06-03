@@ -1,5 +1,6 @@
 package com.numismaster.controller;
 
+import java.awt.Desktop;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -18,10 +19,13 @@ import com.numismaster.model.Shape;
 import com.numismaster.model.User;
 import com.numismaster.service.CoinUserService;
 import com.numismaster.service.SaleService;
+import com.numismaster.util.Report;
 import com.numismaster.util.Util;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
@@ -47,6 +51,10 @@ public class CoinEditorController {
     private Coin coin;
     private User user;
     private CoinUser coinUser = new CoinUser();
+
+    private Stage stage;
+	private Scene scene;
+	private Parent root;
 
     @FXML
     private Button btnClose;
@@ -174,23 +182,24 @@ public class CoinEditorController {
             alert.setContentText("Preencha o campo de preço!");
             alert.showAndWait();
             return false;
-        }
-        try {
-            if (Float.parseFloat(txtCoinPrice.getText().replace(",", ".")) < 1 && !txtCoinPrice.getText().isBlank()) {
+        } else if (checkForSale.isSelected() && !txtCoinPrice.getText().isBlank()) {
+            try {
+                if (Float.parseFloat(txtCoinPrice.getText().replace(",", ".")) < 1) {
+                    Alert alert = new Alert(AlertType.ERROR);
+                    alert.setTitle("ERRO!");
+                    alert.setHeaderText("Verifique o preço.");
+                    alert.setContentText("O valor mínimo de preço é R$1,00!");
+                    alert.showAndWait();
+                    return false;
+                }
+            } catch (NumberFormatException e) {
                 Alert alert = new Alert(AlertType.ERROR);
                 alert.setTitle("ERRO!");
                 alert.setHeaderText("Verifique o preço.");
-                alert.setContentText("O valor mínimo de preço é R$1,00!");
+                alert.setContentText("O valor digitado no preço não corresponde a um número!");
                 alert.showAndWait();
                 return false;
             }
-        } catch (NumberFormatException e) {
-            Alert alert = new Alert(AlertType.ERROR);
-            alert.setTitle("ERRO!");
-            alert.setHeaderText("Verifique o preço.");
-            alert.setContentText("O valor digitado no preço não corresponde a um número!");
-            alert.showAndWait();
-            return false;
         }
         if (boxCondition.getValue() == null) {
             Alert alert = new Alert(AlertType.ERROR);
@@ -381,7 +390,7 @@ public class CoinEditorController {
         }
     }
 
-    public void buyCoin() {
+    public void buyCoin() throws IOException {
         SaleService saleService = new SaleService();
 
         Alert alert = new Alert(AlertType.CONFIRMATION);
@@ -401,9 +410,19 @@ public class CoinEditorController {
                 alert2.setHeaderText("Comprada com sucesso!");
                 alert2.setContentText("A compra da moeda foi realizada com sucesso!");
                 alert2.showAndWait();
-                // Inserir lógica do comprovante de compra
                 mainMenuController.loadCoinUserTable();
                 mainMenuController.loadMarketTable();
+                if(Report.downloadPDF(Report.generateSaleNote(sale.getId()), sale)){
+                    Alert alert3 = new Alert(AlertType.CONFIRMATION);
+                    alert3.setTitle("Comprovante!");
+                    alert3.setHeaderText("Comprovante de compra!");
+                    alert3.setContentText("O comprovante de compra foi salvo na área de trabalho!");
+                    if(alert3.showAndWait().get() == ButtonType.OK){
+                        File file = new File (System.getProperty("user.home") + File.separator +"Desktop" + "/Comprovante #" + sale.getId() + ".pdf");
+                        Desktop.getDesktop().open(file);
+                    }
+                }
+                
                 btnClose.fire();
             }
         }

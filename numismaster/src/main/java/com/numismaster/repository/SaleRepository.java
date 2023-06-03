@@ -83,7 +83,7 @@ public class SaleRepository {
 
             coinUser.setUser(sale.getBuyer());
             coinUser.setForSale(false);
-            coinUser.setPrice(null);
+            coinUser.setPrice(0f);
             entityManager.merge(coinUser);                      // Altera o dono da moeda
 
             transaction.commit();

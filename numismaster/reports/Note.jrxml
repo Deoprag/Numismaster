@@ -367,7 +367,7 @@ WHERE s.id = $P{id}]]>
 					<textElement textAlignment="Left" verticalAlignment="Middle">
 						<font fontName="Arial" size="18" isBold="false"/>
 					</textElement>
-					<textFieldExpression><![CDATA[$F{sellerName}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{buyerName}]]></textFieldExpression>
 				</textField>
 				<rectangle>
 					<reportElement x="191" y="261" width="595" height="75" backcolor="#9AA8B1" uuid="7c76d325-32f1-4e69-a160-cb02e18aabd3">
@@ -385,7 +385,7 @@ WHERE s.id = $P{id}]]>
 					<textElement textAlignment="Left" verticalAlignment="Middle">
 						<font fontName="Arial" size="18" isBold="false"/>
 					</textElement>
-					<textFieldExpression><![CDATA[$F{buyerName}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{sellerName}]]></textFieldExpression>
 				</textField>
 				<rectangle>
 					<reportElement x="191" y="346" width="595" height="75" backcolor="#79848B" uuid="a2e29ff6-168f-43b6-aaea-795adca48baf">
