@@ -14,6 +14,7 @@ import javax.sql.rowset.serial.SerialException;
 import com.numismaster.javafx.MaskTextField;
 import com.numismaster.model.Coin;
 import com.numismaster.model.CoinUser;
+import com.numismaster.model.CoinUserSale;
 import com.numismaster.model.Edge;
 import com.numismaster.model.Gender;
 import com.numismaster.model.Item;
@@ -26,7 +27,9 @@ import com.numismaster.model.Type;
 import com.numismaster.model.User;
 import com.numismaster.model.UserRequest;
 import com.numismaster.service.CoinService;
+import com.numismaster.service.CoinUserSaleService;
 import com.numismaster.service.CoinUserService;
+import com.numismaster.service.SaleService;
 import com.numismaster.service.UserRequestService;
 import com.numismaster.service.UserService;
 import com.numismaster.util.Util;
@@ -74,7 +77,6 @@ public class MainMenuController {
 
 	private int clickCount;
 	private Coin selectedCoin;
-	private UserRequest userRequest;
 	private Coin lastSelectedCoin;
 	private CoinUser selectedCoinUser;
 	private CoinUser lastSelectedCoinUser;
@@ -88,6 +90,7 @@ public class MainMenuController {
 
 	private CoinService coinService = new CoinService();
 	private CoinUserService coinUserService = new CoinUserService();
+	private CoinUserSaleService coinUserSaleService = new CoinUserSaleService();
 	private UserRequestService userRequestService = new UserRequestService();
 	private UserService userService = new UserService();
 
@@ -95,6 +98,7 @@ public class MainMenuController {
 	ObservableList<Coin> obsCoinList = FXCollections.observableArrayList();
 	ObservableList<CoinUser> obsCoinUserList = FXCollections.observableArrayList();
 	ObservableList<CoinUser> obsCoinUserListMkt = FXCollections.observableArrayList();
+	ObservableList<CoinUserSale> obsCoinUserSaleList = FXCollections.observableArrayList();
 	ObservableList<UserRequest> obsRequestList = FXCollections.observableArrayList();
 
 	@FXML
@@ -222,6 +226,22 @@ public class MainMenuController {
 	@FXML
 	private TableColumn<CoinUser, String> colNotesMkt = new TableColumn<>("Notas");
 
+	// Transactions
+	@FXML
+	private TableView<CoinUserSale> tbTransaction;
+	@FXML
+	private TableColumn<CoinUserSale, Integer> colSaleId = new TableColumn<>("ID");
+	@FXML
+	private TableColumn<CoinUserSale, String> colSaleBuyer = new TableColumn<>("Comprador");
+	@FXML
+	private TableColumn<CoinUserSale, String> colSaleSeller = new TableColumn<>("Vendedor");
+	@FXML
+	private TableColumn<CoinUserSale, Float> colSalePrice = new TableColumn<>("Preço");
+	@FXML
+	private TableColumn<CoinUserSale, String> colSaleCoinName = new TableColumn<>("Moeda");
+	@FXML
+	private TableColumn<CoinUserSale, String> colSaleDate = new TableColumn<>("Data");
+
 	// Request
 	@FXML
 	private ChoiceBox<Item> boxItems;
@@ -252,20 +272,25 @@ public class MainMenuController {
 		try {
 			profilePhoto.setImage(new Image(Util.convertFromBlob(user.getProfilePhoto())));
 			editProfilePhoto.setImage(new Image(Util.convertFromBlob(user.getProfilePhoto())));
-			CoinUserService cus = new CoinUserService();
-			rarestCoin = cus.findRarestCoinByUser(user);
+			CoinUserService coinUserService = new CoinUserService();
+			SaleService saleService = new SaleService();
+			rarestCoin = coinUserService.findRarestCoinByUser(user);
 			if(rarestCoin != null) {
 				lblRarestCoin.setText(rarestCoin.getCoin().getName());
 			}
-			lblCoinCount.setText(String.valueOf(cus.findHowManyCoinsByUser(user)));
+			lblCoinCount.setText(String.valueOf(coinUserService.coinsByUser(user)));
+			lblBuyedCoinsCount.setText(String.valueOf(saleService.coinsBuyedByUser(user)));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy - HH:mm:ss");
 		lblRegistrationDate.setText(user.getRegistrationDate().format(formatter));
+
 		loadCoinTable();
 		loadCoinUserTable();
+		loadTransactionTable();
 		loadRequestTable();
+
 		if (user.getType().equals(Type.Admin)) {
 			lblName.setTextFill(Color.rgb(255, 85, 85));
 			btnChangeMenu.setDisable(false);
@@ -521,7 +546,11 @@ public class MainMenuController {
 			@Override
 			protected void updateItem(Float item, boolean empty) {
 				super.updateItem(item, empty);
-				setText(empty || item == null ? null : item == 0 ? "Não Possui" : String.format("R$%.2f", item));
+				if (empty || item == null) {
+					setText("");
+				} else {
+					setText(item == 0 ? "Não Possui" : String.format("R$%.2f", item));
+				}
 			}
 		});
 		colNotes.setCellValueFactory(new PropertyValueFactory<>("notes"));
@@ -529,17 +558,17 @@ public class MainMenuController {
 			@Override
 			protected void updateItem(String item, boolean empty) {
 				super.updateItem(item, empty);
-				if (getTableRow().getItem() == null) {
-					setText(null);
+				if (empty || item == null) {
+					setText("");
 				} else {
-					setText(empty || item == null || item.isBlank() ? "Não possui" : item);
+					setText(item.isBlank() ? "Não possui" : item);
 				}
 			}
 		});
 
 		tbCoinUser.getColumns().addAll(colImgFront, colImgBack, colName, colCountryCollection, colYear, colCondition,
 				colRarityCollection,
-				colIsForSale, colPrice, colNotes);
+				colIsForSale, colPrice, colNotes); 
 		tbCoinUser.setItems(obsCoinUserList);
 	}
 
@@ -634,9 +663,40 @@ public class MainMenuController {
 		});
 
 		tbMarket.getColumns().addAll(colImgFrontMkt, colImgBackMkt, colOwner, colNameMkt, colCountryMkt, colYearMkt,
-				colConditionMkt,
-				colRarityMkt, colPrice, colNotes);
+				colConditionMkt, colRarityMkt, colPriceMkt, colNotesMkt);
 		tbMarket.setItems(obsCoinUserListMkt);
+	}
+
+	public void loadTransactionTable(){
+		tbTransaction.getItems().clear();
+		tbTransaction.getColumns().clear();
+
+		coinUserSaleService = new CoinUserSaleService();
+		for(CoinUserSale coinUserSale : coinUserSaleService.findTransactionsByUser(user)){
+			obsCoinUserSaleList.add(coinUserSale);
+		}
+
+		colSaleId.setCellValueFactory(new PropertyValueFactory<>("id"));
+		colSaleBuyer.setCellValueFactory(cellData -> new SimpleStringProperty(
+			cellData.getValue().getSale().getBuyer().getFirstName() + " " + cellData.getValue().getSale().getBuyer().getLastName()));
+		colSaleSeller.setCellValueFactory(cellData -> new SimpleStringProperty(
+			cellData.getValue().getSale().getSeller().getFirstName() + " " + cellData.getValue().getSale().getSeller().getLastName()));
+		colSalePrice.setCellValueFactory(cellData -> new SimpleObjectProperty<Float>(
+			cellData.getValue().getSale().getPrice()));
+		colSalePrice.setCellFactory(column -> new TableCell<CoinUserSale, Float>() {
+			@Override
+			protected void updateItem(Float item, boolean empty) {
+				super.updateItem(item, empty);
+				setText(empty || item == null ? null : String.format("R$%.2f", item));
+			}
+		});
+		colSaleCoinName.setCellValueFactory(cellData -> new SimpleStringProperty(
+			cellData.getValue().getCoinUser().getCoin().getName()));
+		colSaleDate.setCellValueFactory(cellData -> new SimpleStringProperty(
+			Util.localDateTimeFormatter(cellData.getValue().getSale().getSaleDate())));
+		
+		tbTransaction.getColumns().addAll(colSaleId, colSaleBuyer, colSaleSeller, colSalePrice, colSaleCoinName, colSaleDate);
+		tbTransaction.setItems(obsCoinUserSaleList);
 	}
 
 	public void loadRequestTable(){

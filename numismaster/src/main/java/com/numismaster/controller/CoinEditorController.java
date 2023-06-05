@@ -336,7 +336,7 @@ public class CoinEditorController {
                 coinUser.setPrice(0f);
             }
             if (txtNotes.getText().isBlank()) {
-                coinUser.setNotes(null);
+                coinUser.setNotes("");
             } else {
                 coinUser.setNotes(txtNotes.getText());
             }
@@ -370,7 +370,11 @@ public class CoinEditorController {
             } else {
                 coinUser.setPrice(0f);
             }
-            coinUser.setNotes(txtNotes.getText());
+            if (txtNotes.getText().isBlank()) {
+                coinUser.setNotes("");
+            } else {
+                coinUser.setNotes(txtNotes.getText());
+            }
             if (coinUserService.save(coinUser)) {
                 Alert alert = new Alert(AlertType.CONFIRMATION);
                 alert.setTitle("Sucesso!");
@@ -379,6 +383,7 @@ public class CoinEditorController {
                 alert.showAndWait();
                 mainMenuController.loadCoinUserTable();
                 mainMenuController.loadMarketTable();
+                mainMenuController.loadTransactionTable();
                 btnClose.fire();
             } else {
                 Alert alert = new Alert(AlertType.ERROR);
@@ -386,6 +391,29 @@ public class CoinEditorController {
                 alert.setHeaderText("Erro ao atualizar!");
                 alert.setContentText("A moeda não foi atualizada.");
                 alert.showAndWait();
+            }
+        }
+    }
+
+    public void deleteCoin() {
+        CoinUserService coinUserService = new CoinUserService();
+
+        Alert alert = new Alert(AlertType.CONFIRMATION);
+        alert.setTitle("Confirmação");
+        alert.setHeaderText("Confirmação de remoção");
+        alert.setContentText("Deseja realmente remover esta moeda da sua coleção?");
+
+        if (alert.showAndWait().get() == ButtonType.OK) {
+            if (coinUserService.delete(coinUser)) {
+                Alert alert2 = new Alert(AlertType.CONFIRMATION);
+                alert2.setTitle("Sucesso!");
+                alert2.setHeaderText("Removido com sucesso!");
+                alert2.setContentText("A moeda foi removida da sua coleção com sucesso!");
+                alert2.showAndWait();
+                mainMenuController.loadCoinUserTable();
+                mainMenuController.loadMarketTable();
+                mainMenuController.loadTransactionTable();
+                btnClose.fire();
             }
         }
     }
@@ -412,6 +440,8 @@ public class CoinEditorController {
                 alert2.showAndWait();
                 mainMenuController.loadCoinUserTable();
                 mainMenuController.loadMarketTable();
+                mainMenuController.loadTransactionTable();
+
                 if(Report.downloadPDF(Report.generateSaleNote(sale.getId()), sale)){
                     Alert alert3 = new Alert(AlertType.CONFIRMATION);
                     alert3.setTitle("Comprovante!");
@@ -491,27 +521,6 @@ public class CoinEditorController {
             }
         } catch (IOException e1) {
             e1.printStackTrace();
-        }
-    }
-
-    public void deleteCoin() {
-        CoinUserService coinUserService = new CoinUserService();
-
-        Alert alert = new Alert(AlertType.CONFIRMATION);
-        alert.setTitle("Confirmação");
-        alert.setHeaderText("Confirmação de remoção");
-        alert.setContentText("Deseja realmente remover esta moeda da sua coleção?");
-
-        if (alert.showAndWait().get() == ButtonType.OK) {
-            if (coinUserService.delete(coinUser)) {
-                Alert alert2 = new Alert(AlertType.CONFIRMATION);
-                alert2.setTitle("Sucesso!");
-                alert2.setHeaderText("Removido com sucesso!");
-                alert2.setContentText("A moeda foi removida da sua coleção com sucesso!");
-                alert2.showAndWait();
-                mainMenuController.loadCoinUserTable();
-                btnClose.fire();
-            }
         }
     }
 

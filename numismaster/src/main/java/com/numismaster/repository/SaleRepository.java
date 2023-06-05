@@ -5,10 +5,12 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
+import javax.persistence.TypedQuery;
 
 import com.numismaster.model.CoinUser;
 import com.numismaster.model.CoinUserSale;
 import com.numismaster.model.Sale;
+import com.numismaster.model.User;
 
 public class SaleRepository {
 
@@ -91,6 +93,17 @@ public class SaleRepository {
         } catch (Exception ex) {
             transaction.rollback();
             return false;
+        }
+    }
+
+    public Long coinsBuyedByUser(Long id) {
+        try {
+            String queryString = "SELECT COUNT(*) FROM tb_sale s where s.buyer.id = :id";
+            TypedQuery<Long> query = entityManager.createQuery(queryString, Long.class);
+            query.setParameter("id", id);
+            return query.getSingleResult();
+        } catch (Exception e) {
+            return null;
         }
     }
 }
