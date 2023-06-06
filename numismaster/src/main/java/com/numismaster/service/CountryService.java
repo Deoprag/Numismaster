@@ -50,7 +50,7 @@ public class CountryService {
             alert.showAndWait();
         } else {
             CoinRepository coinRepository = new CoinRepository();
-            if (coinRepository.findByCountry(country) != null) {
+            if (coinRepository.findByCountry(country).size() > 0) {
                 Alert alert = new Alert(AlertType.WARNING);
                 alert.setTitle("OPS...");
                 alert.setHeaderText("Não é possível excluir o país.");

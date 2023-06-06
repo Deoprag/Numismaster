@@ -335,11 +335,7 @@ public class CoinEditorController {
             } else {
                 coinUser.setPrice(0f);
             }
-            if (txtNotes.getText().isBlank()) {
-                coinUser.setNotes("");
-            } else {
-                coinUser.setNotes(txtNotes.getText());
-            }
+            coinUser.setNotes(txtNotes.getText());
             if (coinUserService.save(coinUser)) {
                 Alert alert = new Alert(AlertType.CONFIRMATION);
                 alert.setTitle("Sucesso!");
@@ -370,11 +366,7 @@ public class CoinEditorController {
             } else {
                 coinUser.setPrice(0f);
             }
-            if (txtNotes.getText().isBlank()) {
-                coinUser.setNotes("");
-            } else {
-                coinUser.setNotes(txtNotes.getText());
-            }
+            coinUser.setNotes(txtNotes.getText());
             if (coinUserService.save(coinUser)) {
                 Alert alert = new Alert(AlertType.CONFIRMATION);
                 alert.setTitle("Sucesso!");

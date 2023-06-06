@@ -1,13 +1,13 @@
 package com.numismaster.controller;
 
 import java.io.IOException;
-import java.text.DateFormat;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.numismaster.javafx.NumismasterCheckComboBox;
 import com.numismaster.model.Coin;
+import com.numismaster.model.CoinUserSale;
 import com.numismaster.model.Country;
 import com.numismaster.model.Edge;
 import com.numismaster.model.Gender;
@@ -17,6 +17,7 @@ import com.numismaster.model.Shape;
 import com.numismaster.model.User;
 import com.numismaster.model.UserRequest;
 import com.numismaster.service.CoinService;
+import com.numismaster.service.CoinUserSaleService;
 import com.numismaster.service.CountryService;
 import com.numismaster.service.EdgeService;
 import com.numismaster.service.MaterialService;
@@ -49,12 +50,14 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Callback;
@@ -85,6 +88,7 @@ public class AdminMenuController {
 	private MaterialService materialService = new MaterialService();
 	private EdgeService edgeService = new EdgeService();
 	private UserRequestService userRequestService = new UserRequestService();
+	private CoinUserSaleService coinUserSaleService = new CoinUserSaleService();
 
 	ObservableList<Coin> obsCoinList = FXCollections.observableArrayList();
 	ObservableList<Country> obsCountryList = FXCollections.observableArrayList();
@@ -92,6 +96,7 @@ public class AdminMenuController {
 	ObservableList<Material> obsMaterialList = FXCollections.observableArrayList();
 	ObservableList<Edge> obsEdgeList = FXCollections.observableArrayList();
 	ObservableList<UserRequest> obsRequestList = FXCollections.observableArrayList();
+	ObservableList<CoinUserSale> obsCoinUserSaleList = FXCollections.observableArrayList();
 
 	private UserRequest selectedRequest;
 	private UserRequest lastSelectedRequest;
@@ -259,17 +264,33 @@ public class AdminMenuController {
 	@FXML
 	private TableView<UserRequest> tbRequest;
 	@FXML
+	private TableColumn<UserRequest, String> colRequestingPerson = new TableColumn<>("Solicitante");
+	@FXML
 	private TableColumn<UserRequest, String> colRequestedItem = new TableColumn<>("Item");
 	@FXML
 	private TableColumn<UserRequest, String> colRequestNotes = new TableColumn<>("Notas");
 	@FXML
 	private TableColumn<UserRequest, String> colRequestSituation = new TableColumn<>("Situação");
 	@FXML
-	private TableColumn<UserRequest, String> colRequestingPerson = new TableColumn<>("Solicitante");
-	@FXML
 	private TableColumn<UserRequest, String> colRequestDate = new TableColumn<>("Data de Solicitação");
 	@FXML
 	private TableColumn<UserRequest, LocalDateTime> colCloseRequestDate = new TableColumn<>("Data de Fechamento");
+
+	// Transactions
+	@FXML
+	private TableView<CoinUserSale> tbTransaction;
+	@FXML
+	private TableColumn<CoinUserSale, Integer> colSaleId = new TableColumn<>("ID");
+	@FXML
+	private TableColumn<CoinUserSale, String> colSaleBuyer = new TableColumn<>("Comprador");
+	@FXML
+	private TableColumn<CoinUserSale, String> colSaleSeller = new TableColumn<>("Vendedor");
+	@FXML
+	private TableColumn<CoinUserSale, Float> colSalePrice = new TableColumn<>("Preço");
+	@FXML
+	private TableColumn<CoinUserSale, String> colSaleCoinName = new TableColumn<>("Moeda");
+	@FXML
+	private TableColumn<CoinUserSale, String> colSaleDate = new TableColumn<>("Data");
 
 	public void initialize() {
 		fixImage(profilePhoto, true);
@@ -295,41 +316,132 @@ public class AdminMenuController {
 	}
 
 	public void checkInputs() {
+		txtCoinName.textProperty().addListener((observable, oldValue, newValue) -> {
+			int maxLenght = 100;
+			if(newValue.length() <= maxLenght){
+				txtCoinName.setText(newValue);
+			} else {
+				txtCoinName.setText(oldValue);
+			}
+		});
 		txtDenomination.textProperty().addListener((observable, oldValue, newValue) -> {
+			int maxLenght = 9;
 			String filteredValue = newValue.replaceAll("[^0-9]", "");
-			if (!newValue.equals(filteredValue)) {
-				txtDenomination.setText(filteredValue);
+
+			if(filteredValue.length() <= maxLenght){
+				if (!newValue.equals(filteredValue)) {
+					txtDenomination.setText(filteredValue);
+				}
+			} else {
+				txtDenomination.setText(oldValue);
 			}
 		});
 		txtDiameter.textProperty().addListener((observable, oldValue, newValue) -> {
+			int maxLenght = 6;
 			String filteredValue = newValue.replaceAll("[^0-9,.]", "");
-			if (!newValue.equals(filteredValue)) {
-				txtDiameter.setText(filteredValue);
+
+			if(filteredValue.length() <= maxLenght){
+				if (!newValue.equals(filteredValue)) {
+					txtDiameter.setText(filteredValue);
+				}
+			} else {
+				txtDiameter.setText(oldValue);
 			}
 		});
 		txtThickness.textProperty().addListener((observable, oldValue, newValue) -> {
+			int maxLenght = 6;
 			String filteredValue = newValue.replaceAll("[^0-9,.]", "");
-			if (!newValue.equals(filteredValue)) {
-				txtThickness.setText(filteredValue);
+
+			if(filteredValue.length() <= maxLenght){
+				if (!newValue.equals(filteredValue)) {
+					txtThickness.setText(filteredValue);
+				}
+			} else {
+				txtThickness.setText(oldValue);
 			}
 		});
 		txtWeight.textProperty().addListener((observable, oldValue, newValue) -> {
+			int maxLenght = 6;
 			String filteredValue = newValue.replaceAll("[^0-9,.]", "");
-			if (!newValue.equals(filteredValue)) {
-				txtWeight.setText(filteredValue);
+
+			if(filteredValue.length() <= maxLenght){
+				if (!newValue.equals(filteredValue)) {
+					txtWeight.setText(filteredValue);
+				}
+			} else {
+				txtWeight.setText(oldValue);
 			}
 		});
 		txtCountryCode.textProperty().addListener((observable, oldValue, newValue) -> {
+			int maxLenght = 3;
 			String filteredValue = newValue.replaceAll("[^a-zA-z]", "");
-			if (!newValue.equals(filteredValue)) {
-				txtCountryCode.setText(filteredValue);
+
+			if(filteredValue.length() <= maxLenght){
+				if (!newValue.equals(filteredValue)) {
+					txtCountryCode.setText(filteredValue);
+				}
+			} else {
+				txtCountryCode.setText(oldValue);
 			}
 		});
-		Util.addTextLimiter(txtCountryCode, 3);
 		txtCountryName.textProperty().addListener((observable, oldValue, newValue) -> {
-			String filteredValue = newValue.replaceAll("[^a-z A-z]", "");
-			if (!newValue.equals(filteredValue)) {
-				txtCountryName.setText(filteredValue);
+			int maxLenght = 50;
+			String filteredValue = newValue.replaceAll("[^a-zA-z ]", "");
+
+			if(filteredValue.length() <= maxLenght){
+				if (!newValue.equals(filteredValue)) {
+					txtCountryName.setText(filteredValue);
+				}
+			} else {
+				txtCountryName.setText(oldValue);
+			}
+		});
+		txtShapeName.textProperty().addListener((observable, oldValue, newValue) -> {
+			int maxLenght = 30;
+			String filteredValue = newValue.replaceAll("[^a-zA-z ]", "");
+
+			if(filteredValue.length() <= maxLenght){
+				if (!newValue.equals(filteredValue)) {
+					txtShapeName.setText(filteredValue);
+				}
+			} else {
+				txtShapeName.setText(oldValue);
+			}
+		});
+		txtMaterialName.textProperty().addListener((observable, oldValue, newValue) -> {
+			int maxLenght = 30;
+			String filteredValue = newValue.replaceAll("[^a-zA-z ]", "");
+
+			if(filteredValue.length() <= maxLenght){
+				if (!newValue.equals(filteredValue)) {
+					txtMaterialName.setText(filteredValue);
+				}
+			} else {
+				txtMaterialName.setText(oldValue);
+			}
+		});
+		txtEdgeName.textProperty().addListener((observable, oldValue, newValue) -> {
+			int maxLenght = 30;
+			String filteredValue = newValue.replaceAll("[^a-zA-z ]", "");
+
+			if(filteredValue.length() <= maxLenght){
+				if (!newValue.equals(filteredValue)) {
+					txtEdgeName.setText(filteredValue);
+				}
+			} else {
+				txtEdgeName.setText(oldValue);
+			}
+		});
+		txtEdgeName.textProperty().addListener((observable, oldValue, newValue) -> {
+			int maxLenght = 30;
+			String filteredValue = newValue.replaceAll("[^a-zA-z ]", "");
+
+			if(filteredValue.length() <= maxLenght){
+				if (!newValue.equals(filteredValue)) {
+					txtEdgeName.setText(filteredValue);
+				}
+			} else {
+				txtEdgeName.setText(oldValue);
 			}
 		});
 	}
@@ -346,6 +458,36 @@ public class AdminMenuController {
 			alert.setTitle("ERRO!");
 			alert.setHeaderText("Verifique os campos.");
 			alert.setContentText("Você precisa preencher todos os campos!");
+			alert.showAndWait();
+			return false;
+		}
+		try {
+			Float validador = Float.parseFloat(txtWeight.getText().replace(",", "."));
+		} catch (NumberFormatException e) {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("ERRO!");
+			alert.setHeaderText("Verifique o peso.");
+			alert.setContentText("O valor digitado no peso não corresponde a um número!");
+			alert.showAndWait();
+			return false;
+		}
+		try {
+			Float validador = Float.parseFloat(txtDiameter.getText().replace(",", "."));
+		} catch (NumberFormatException e) {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("ERRO!");
+			alert.setHeaderText("Verifique o diametro.");
+			alert.setContentText("O valor digitado no diametro não corresponde a um número!");
+			alert.showAndWait();
+			return false;
+		}
+		try {
+			Float validador = Float.parseFloat(txtThickness.getText().replace(",", "."));
+		} catch (NumberFormatException e) {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("ERRO!");
+			alert.setHeaderText("Verifique a grossura.");
+			alert.setContentText("O valor digitado na grossura não corresponde a um número!");
 			alert.showAndWait();
 			return false;
 		}
@@ -998,6 +1140,7 @@ public class AdminMenuController {
 	public void loadCoinTable() {
 		tbCoin.getItems().clear();
 		tbCoin.getColumns().clear();
+		Font font = new Font(20);
 
 		coinService = new CoinService();
 		for (Coin coin : coinService.findAll()) {
@@ -1016,6 +1159,8 @@ public class AdminMenuController {
 				} else {
 					setText(String.format("%.1f", item));
 				}
+				TextFieldTableCell<?, ?> cell = new TextFieldTableCell<>();
+            	cell.setFont(font);
 			}
 		});
 		colDiameter.setCellValueFactory(new PropertyValueFactory<>("diameter"));
@@ -1171,14 +1316,14 @@ public class AdminMenuController {
 			obsRequestList.add(userRequest);
 		}
 
+		colRequestingPerson.setCellValueFactory(cellData -> new SimpleStringProperty(
+			cellData.getValue().getUser().getFirstName() + " " + cellData.getValue().getUser().getLastName()));
 		colRequestedItem.setCellValueFactory(cellData -> new SimpleStringProperty(
 			cellData.getValue().getRequest().getRequestedItem().toString()));
 		colRequestNotes.setCellValueFactory(cellData -> new SimpleStringProperty(
 			cellData.getValue().getRequest().getNotes()));
 		colRequestSituation.setCellValueFactory(cellData -> new SimpleStringProperty(
 			cellData.getValue().getRequest().getRequestSituation().toString()));
-		colRequestingPerson.setCellValueFactory(cellData -> new SimpleStringProperty(
-			cellData.getValue().getUser().getFirstName() + " " + cellData.getValue().getUser().getLastName()));
 		colRequestDate.setCellValueFactory(cellData -> new SimpleStringProperty(
 			Util.localDateTimeFormatter(cellData.getValue().getRequest().getRequestDate())));
 		colCloseRequestDate.setCellFactory(cellData -> new TableCell<UserRequest, LocalDateTime>() {
@@ -1194,9 +1339,40 @@ public class AdminMenuController {
 			}
 		});
 
-		tbRequest.getColumns().addAll(colRequestedItem, colRequestSituation, colRequestNotes,
-		 		colRequestingPerson, colRequestDate, colCloseRequestDate);
+		tbRequest.getColumns().addAll(colRequestingPerson, colRequestedItem, colRequestSituation, colRequestNotes, colRequestDate, colCloseRequestDate);
 		tbRequest.setItems(obsRequestList);
+	}
+
+	public void loadTransactionTable(){
+		tbTransaction.getItems().clear();
+		tbTransaction.getColumns().clear();
+
+		coinUserSaleService = new CoinUserSaleService();
+		for(CoinUserSale coinUserSale : coinUserSaleService.findAll()){
+			obsCoinUserSaleList.add(coinUserSale);
+		}
+
+		colSaleId.setCellValueFactory(new PropertyValueFactory<>("id"));
+		colSaleBuyer.setCellValueFactory(cellData -> new SimpleStringProperty(
+			cellData.getValue().getSale().getBuyer().getFirstName() + " " + cellData.getValue().getSale().getBuyer().getLastName()));
+		colSaleSeller.setCellValueFactory(cellData -> new SimpleStringProperty(
+			cellData.getValue().getSale().getSeller().getFirstName() + " " + cellData.getValue().getSale().getSeller().getLastName()));
+		colSalePrice.setCellValueFactory(cellData -> new SimpleObjectProperty<Float>(
+			cellData.getValue().getSale().getPrice()));
+		colSalePrice.setCellFactory(column -> new TableCell<CoinUserSale, Float>() {
+			@Override
+			protected void updateItem(Float item, boolean empty) {
+				super.updateItem(item, empty);
+				setText(empty || item == null ? null : String.format("R$%.2f", item));
+			}
+		});
+		colSaleCoinName.setCellValueFactory(cellData -> new SimpleStringProperty(
+			cellData.getValue().getCoinUser().getCoin().getName()));
+		colSaleDate.setCellValueFactory(cellData -> new SimpleStringProperty(
+			Util.localDateTimeFormatter(cellData.getValue().getSale().getSaleDate())));
+		
+		tbTransaction.getColumns().addAll(colSaleId, colSaleBuyer, colSaleSeller, colSalePrice, colSaleCoinName, colSaleDate);
+		tbTransaction.setItems(obsCoinUserSaleList);
 	}
 
 	public void searchCoin() {

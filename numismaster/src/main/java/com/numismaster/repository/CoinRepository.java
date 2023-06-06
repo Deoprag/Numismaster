@@ -37,14 +37,14 @@ public class CoinRepository {
 
     public Coin findById(int id) {
         return entityManager.createQuery(
-                "SELECT c FROM TB_Coin c ", Coin.class).setParameter("id", id).getSingleResult();
+                "SELECT c FROM tb_coin c ", Coin.class).setParameter("id", id).getSingleResult();
     }
 
     public Coin findByName(String name) {
         EntityManager em = factory.createEntityManager();
         Coin result;
         try {
-            Query query = em.createQuery("SELECT c FROM TB_Coin c WHERE c.name = :name");
+            Query query = em.createQuery("SELECT c FROM tb_coin c WHERE c.name = :name");
             query.setParameter("name", name);
             result = (Coin) query.getSingleResult();
         } catch (NoResultException e) {
@@ -56,7 +56,7 @@ public class CoinRepository {
     }
 
     public List<Coin> findAll() {
-        return entityManager.createQuery("SELECT c FROM TB_Coin c ", Coin.class).getResultList();
+        return entityManager.createQuery("SELECT c FROM tb_coin c ", Coin.class).getResultList();
     }
 
     public boolean update(Coin coin) {
@@ -89,7 +89,7 @@ public class CoinRepository {
     }
 
     public List<Coin> findByCountry(Country country) {
-        return entityManager.createQuery("SELECT c FROM TB_Coin c WHERE c.country = :country", Coin.class)
+        return entityManager.createQuery("SELECT c FROM tb_coin c WHERE c.country = :country", Coin.class)
                 .setParameter("country", country).getResultList();
     }
 }

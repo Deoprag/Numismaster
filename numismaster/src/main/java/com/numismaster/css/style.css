@@ -1,4 +1,4 @@
-.button{
+.button {
     -fx-background-color: #373c3f;
     -fx-text-fill: white;
     -fx-font-family: Segoe UI;
@@ -6,15 +6,15 @@
     -fx-font-size: 16px;
 }
 
-.button:hover{
+.button:hover {
     -fx-background-color: #292c2e;
 }
 
-.button:pressed{
+.button:pressed {
     -fx-background-color: #1e2021;
 }
 
-.btn-close{
+.btn-close {
     -fx-background-color: #373c3f;
     -fx-text-fill: white;
     -fx-font-family: Segoe UI;
@@ -22,16 +22,16 @@
     -fx-font-size: 12px;
 }
 
-.btn-close:hover{
+.btn-close:hover {
     -fx-background-color: #ad3434;
-    
+
 }
 
-.btn-close:pressed{
+.btn-close:pressed {
     -fx-background-color: #872929;
 }
 
-.btn-minimize{
+.btn-minimize {
     -fx-background-color: #373c3f;
     -fx-text-fill: white;
     -fx-font-family: Segoe UI;
@@ -39,15 +39,15 @@
     -fx-font-size: 12px;
 }
 
-.btn-minimize:hover{
+.btn-minimize:hover {
     -fx-background-color: #c6c6c6;
 }
 
-.btn-minimize:pressed{
+.btn-minimize:pressed {
     -fx-background-color: #a0a0a0;
 }
 
-.clickableLabel{
+.clickableLabel {
     -fx-font-size: 10px;
     -fx-text-fill: #6293ac;
     -fx-font-family: Segoe UI;
@@ -55,92 +55,103 @@
     -fx-font-weight: none;
 }
 
-.clickableLabel:hover{
+.clickableLabel:hover {
     -fx-underline: true;
     -fx-background-color: #d9d9d9;
     -fx-font-weight: none;
     -fx-cursor: hand;
 }
 
-.btn-filechooser{
+.btn-filechooser {
     -fx-background-color: #d1d1d1;
     -fx-font-size: 11px;
     -fx-text-fill: #999999;
     -fx-font-weight: none;
 }
 
-.btn-filechooser:hover{
+.btn-filechooser:hover {
     -fx-background-color: #d1d1d1;
     -fx-text-fill: #888888;
     -fx-cursor: hand;
 }
 
-.btn-filechooser:pressed{
+.btn-filechooser:pressed {
     -fx-background-color: #d1d1d1;
     -fx-text-fill: #777777;
 }
 
-.tableCoins{
+.tableCoins {
     -fx-background-color: #757f86;
 }
 
-.btn-add{
+.btn-add {
     -fx-text-fill: #34393c;
     -fx-background-color: #90ee90;
-    -fx-border-color:  #34393c;
+    -fx-border-color: #34393c;
     -fx-border-width: 1;
 }
 
-.btn-add:hover{
+.btn-add:hover {
     -fx-background-color: #71bb71;
     -fx-cursor: hand;
 }
 
-.btn-delete{
+.btn-delete {
     -fx-text-fill: #34393c;
     -fx-background-color: #ee7a6d;
-    -fx-border-color:  #34393c;
+    -fx-border-color: #34393c;
     -fx-border-width: 1;
 }
 
-.btn-delete:hover{
+.btn-delete:hover {
     -fx-background-color: #bb5f55;
     -fx-cursor: hand;
 }
 
-.btn-update{
+.btn-update {
     -fx-text-fill: #34393c;
     -fx-background-color: #d2faff;
-    -fx-border-color:  #34393c;
+    -fx-border-color: #34393c;
     -fx-border-width: 1;
 }
 
-.btn-update:hover{
+.btn-update:hover {
     -fx-background-color: #a8c7cc;
     -fx-cursor: hand;
 }
 
-.btn-clear{
+.btn-clear {
     -fx-background-color: #586065;
     -fx-font-size: 12px;
 }
 
-.btn-clear:hover{
+.btn-clear:hover {
     -fx-background-color: #373c3f;
 }
 
-.btn-buy{
+.btn-buy {
     -fx-background-color: #deee90;
     -fx-text-fill: #34393c;
-    -fx-border-color:  #34393c;
+    -fx-border-color: #34393c;
     -fx-border-width: 1;
 }
 
-.btn-buy:hover{
+.btn-buy:hover {
     -fx-background-color: #b9bb71;
-    
+
 }
 
-.lblCoin:hover{
+.lblCoin:hover {
     -fx-text-fill: rgb(179, 23, 23);
+}
+
+.table-view .column-header {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+} 
+
+.table-view .table-cell{
+    -fx-alignment:center;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
 }

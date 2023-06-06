@@ -16,7 +16,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity(name = "TB_Coin_Material")
+@Entity(name = "tb_coin_material")
 public class CoinMaterial {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

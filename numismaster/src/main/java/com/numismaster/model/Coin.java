@@ -24,7 +24,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity(name = "TB_Coin")
+@Entity(name = "tb_coin")
 public class Coin {
 
 	@Id
