@@ -60,7 +60,7 @@
                         <Font name="System Bold" size="16.0" />
                      </font>
                   </Button>
-                  <Label fx:id="lblCoinName" alignment="CENTER" layoutY="78.0" prefHeight="40.0" prefWidth="550.0" text="Nome moeda" textAlignment="CENTER" textFill="#373c3f" wrapText="true">
+                  <Label fx:id="lblCoinName" alignment="CENTER" layoutY="78.0" prefHeight="60.0" prefWidth="550.0" text="Nome moeda" textAlignment="CENTER" textFill="#373c3f" wrapText="true">
                      <font>
                         <Font name="Segoe UI Bold" size="16.0" />
                      </font>

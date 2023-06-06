@@ -264,6 +264,34 @@ public class MainMenuController {
 		boxItems.getItems().addAll(Item.values());
 		fixImage(profilePhoto, true);
 		fixImage(editProfilePhoto, true);
+		checkInputs();
+	}
+
+	public void checkInputs() {
+		txtEditFirstName.textProperty().addListener((observable, oldValue, newValue) -> {
+            int maxLenght = 50;
+            String filteredValue = newValue.replaceAll("[^a-z A-z]", "");
+
+			if(filteredValue.length() <= maxLenght){
+				if (!newValue.equals(filteredValue)) {
+					txtEditFirstName.setText(filteredValue);
+				}
+			} else {
+				txtEditFirstName.setText(oldValue);
+			}
+        });
+		txtEditLastName.textProperty().addListener((observable, oldValue, newValue) -> {
+            int maxLenght = 50;
+            String filteredValue = newValue.replaceAll("[^a-z A-z]", "");
+
+			if(filteredValue.length() <= maxLenght){
+				if (!newValue.equals(filteredValue)) {
+					txtEditLastName.setText(filteredValue);
+				}
+			} else {
+				txtEditLastName.setText(oldValue);
+			}
+        });
 	}
 
 	public void loadUser(User newUser) {

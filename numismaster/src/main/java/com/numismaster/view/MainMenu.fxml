@@ -159,6 +159,7 @@
                            <children>
                               <Pane blendMode="SRC_ATOP" layoutX="16.0" layoutY="31.0" prefHeight="600.0" prefWidth="1050.0" style="-fx-border-color: #373c3f; -fx-background-color: #d9d9d9; -fx-border-width: 2;">
                                  <children>
+                                    <Circle fill="#757f86" layoutX="793.0" layoutY="147.0" radius="75.0" stroke="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" />
                                     <Label layoutX="818.0" layoutY="320.0" text="CPF" textFill="#373c3f">
                                        <font>
                                           <Font name="Segoe UI Bold" size="14.0" />
@@ -228,7 +229,6 @@
                                     </Label>
                                     <Separator layoutX="519.0" layoutY="2.0" orientation="VERTICAL" prefHeight="596.0" style="-fx-background-color: #373c3f;" />
                                     <ImageView fx:id="editProfilePhoto" fitHeight="150.0" fitWidth="150.0" layoutX="718.0" layoutY="72.0" pickOnBounds="true" />
-                                    <Circle fill="#ffffff00" layoutX="793.0" layoutY="147.0" radius="75.0" stroke="#373c3f" strokeType="OUTSIDE" strokeWidth="2.0" />
                                     <Label fx:id="lblSelectedFile" alignment="TOP_LEFT" layoutX="818.0" layoutY="494.0" prefHeight="30.0" prefWidth="150.0" textAlignment="CENTER" textFill="#666666" wrapText="true">
                                        <font>
                                           <Font size="9.0" />
@@ -249,22 +249,22 @@
                                           <Font name="Segoe UI Bold" size="20.0" />
                                        </font>
                                     </Label>
-                                    <Label fx:id="lblRarestCoin" layoutX="14.0" layoutY="115.0" onMouseClicked="#loadRarestCoin" prefHeight="39.0" prefWidth="490.0" styleClass="lblCoin" stylesheets="@../css/style.css" text="Nenhuma" textFill="#373c3f" wrapText="true">
+                                    <Label fx:id="lblRarestCoin" alignment="TOP_LEFT" layoutX="14.0" layoutY="120.0" onMouseClicked="#loadRarestCoin" prefHeight="60.0" prefWidth="490.0" styleClass="lblCoin" stylesheets="@../css/style.css" text="Nenhuma" textFill="#373c3f" wrapText="true">
                                        <font>
-                                          <Font name="Segoe UI Bold" size="20.0" />
+                                          <Font name="Segoe UI Bold" size="16.0" />
                                        </font>
                                        <tooltip>
                                           <Tooltip text="A raridade é definida por: raridade, condição e idade. Quanto mais antiga, bem cuidada e escassa, melhor." wrapText="true" />
                                        </tooltip>
                                     </Label>
-                                    <Label fx:id="lblCoinCount" layoutX="14.0" layoutY="218.0" prefHeight="39.0" prefWidth="490.0" styleClass="lblCoin" stylesheets="@../css/style.css" text="Nenhuma" textFill="#373c3f">
+                                    <Label fx:id="lblCoinCount" alignment="TOP_LEFT" layoutX="14.0" layoutY="223.0" prefHeight="60.0" prefWidth="490.0" styleClass="lblCoin" stylesheets="@../css/style.css" text="Nenhuma" textFill="#373c3f">
                                        <font>
-                                          <Font name="Segoe UI Bold" size="20.0" />
+                                          <Font name="Segoe UI Bold" size="16.0" />
                                        </font>
                                     </Label>
                                     <Label fx:id="lblRegistrationDate" layoutX="14.0" layoutY="515.0" prefHeight="39.0" prefWidth="490.0" styleClass="lblCoin" stylesheets="@../css/style.css" textFill="#373c3f">
                                        <font>
-                                          <Font name="Segoe UI Bold" size="20.0" />
+                                          <Font name="Segoe UI Bold" size="18.0" />
                                        </font>
                                     </Label>
                                     <Label layoutX="14.0" layoutY="280.0" prefHeight="39.0" prefWidth="270.0" text="- Compras realizadas:" textFill="#373c3f">
@@ -277,16 +277,17 @@
                                           <Font name="Segoe UI Bold" size="20.0" />
                                        </font>
                                     </Label>
-                                    <Label fx:id="lblBuyedCoinsCount" layoutX="14.0" layoutY="310.0" prefHeight="39.0" prefWidth="490.0" styleClass="lblCoin" stylesheets="@../css/style.css" text="Nenhuma" textFill="#373c3f">
+                                    <Label fx:id="lblBuyedCoinsCount" alignment="TOP_LEFT" layoutX="14.0" layoutY="315.0" prefHeight="60.0" prefWidth="490.0" styleClass="lblCoin" stylesheets="@../css/style.css" text="Nenhuma" textFill="#373c3f">
                                        <font>
-                                          <Font name="Segoe UI Bold" size="20.0" />
+                                          <Font name="Segoe UI Bold" size="16.0" />
                                        </font>
                                     </Label>
-                                    <Label layoutX="14.0" layoutY="411.0" prefHeight="39.0" prefWidth="490.0" styleClass="lblCoin" stylesheets="@../css/style.css" text="Nenhuma" textFill="#373c3f">
+                                    <Label alignment="TOP_LEFT" layoutX="14.0" layoutY="416.0" prefHeight="60.0" prefWidth="490.0" styleClass="lblCoin" stylesheets="@../css/style.css" text="Nenhuma" textFill="#373c3f">
                                        <font>
-                                          <Font name="Segoe UI Bold" size="20.0" />
+                                          <Font name="Segoe UI Bold" size="16.0" />
                                        </font>
                                     </Label>
+                                    <Circle fill="#ffffff00" layoutX="793.0" layoutY="147.0" radius="75.0" stroke="#373c3f" strokeType="OUTSIDE" strokeWidth="2.0" />
                                  </children>
                                  <opaqueInsets>
                                     <Insets />
