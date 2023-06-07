@@ -67,27 +67,8 @@ public class LoginController {
 	}
 
 	public void checkInputs() {
-		txtUsername.textProperty().addListener((observable, oldValue, newValue) -> {
-			int maxLenght = 30;
-			String filteredValue = newValue.replaceAll("[^a-z A-Z]", "");
-
-			if(filteredValue.length() <= maxLenght){
-				if (!newValue.equals(filteredValue)) {
-					txtUsername.setText(filteredValue);
-				}
-			} else {
-				txtUsername.setText(oldValue);
-			}
-		});
-		txtPassword.textProperty().addListener((observable, oldValue, newValue) -> {
-			int maxLenght = 32;
-
-			if(newValue.length() <= maxLenght){
-				txtPassword.setText(newValue);
-			} else {
-				txtPassword.setText(oldValue);
-			}
-		});
+		Util.addTextListener("[^a-z A-Z]", 30, txtUsername);
+		Util.addTextListener("", 32, txtPassword);
 	}
 
 	public void signIn(ActionEvent e) throws IOException {

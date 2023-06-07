@@ -140,16 +140,25 @@ public class Util {
 		return sb.toString();
 	}
 
-	public static void addTextLimiter(final TextField tf, final int maxLength) {
-		tf.textProperty().addListener(new ChangeListener<String>() {
-			@Override
-			public void changed(final ObservableValue<? extends String> ov, final String oldValue,
-					final String newValue) {
-				if (tf.getText().length() > maxLength) {
-					String s = tf.getText().substring(0, maxLength);
-					tf.setText(s);
+	public static void addTextListener(String regex, int size, TextField textField) {
+		textField.textProperty().addListener((observable, oldValue, newValue) -> {
+            int maxLenght = size;
+			if(regex.length() > 0) {
+				String filteredValue = newValue.replaceAll(regex, "");
+				if(filteredValue.length() <= maxLenght){
+					if (!newValue.equals(filteredValue)) {
+						textField.setText(filteredValue);
+					}
+				} else {
+					textField.setText(oldValue);
+				}
+			} else {
+				if(newValue.length() <= maxLenght){
+					textField.setText(newValue);
+				} else {
+					textField.setText(oldValue);
 				}
 			}
-		});
+        });
 	}
 }

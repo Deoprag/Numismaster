@@ -268,30 +268,8 @@ public class MainMenuController {
 	}
 
 	public void checkInputs() {
-		txtEditFirstName.textProperty().addListener((observable, oldValue, newValue) -> {
-            int maxLenght = 50;
-            String filteredValue = newValue.replaceAll("[^a-z A-z]", "");
-
-			if(filteredValue.length() <= maxLenght){
-				if (!newValue.equals(filteredValue)) {
-					txtEditFirstName.setText(filteredValue);
-				}
-			} else {
-				txtEditFirstName.setText(oldValue);
-			}
-        });
-		txtEditLastName.textProperty().addListener((observable, oldValue, newValue) -> {
-            int maxLenght = 50;
-            String filteredValue = newValue.replaceAll("[^a-z A-z]", "");
-
-			if(filteredValue.length() <= maxLenght){
-				if (!newValue.equals(filteredValue)) {
-					txtEditLastName.setText(filteredValue);
-				}
-			} else {
-				txtEditLastName.setText(oldValue);
-			}
-        });
+		Util.addTextListener("[^A-Z a-z]", 50, txtEditFirstName);
+		Util.addTextListener("[^A-Z a-z]", 50, txtEditLastName);
 	}
 
 	public void loadUser(User newUser) {

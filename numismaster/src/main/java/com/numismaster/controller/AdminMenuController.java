@@ -1,10 +1,12 @@
 package com.numismaster.controller;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.numismaster.javafx.MaskTextField;
 import com.numismaster.javafx.NumismasterCheckComboBox;
 import com.numismaster.model.Coin;
 import com.numismaster.model.CoinUserSale;
@@ -24,6 +26,7 @@ import com.numismaster.service.MaterialService;
 import com.numismaster.service.ShapeService;
 import com.numismaster.service.UserRequestService;
 import com.numismaster.util.Util;
+import com.numismaster.util.Validator;
 
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -254,9 +257,17 @@ public class AdminMenuController {
 	@FXML
 	private TextField txtUsername;
 	@FXML
+	private TextField txtPassword;
+	@FXML
+	private TextField txtPasswordConfirmation;
+	@FXML
 	private TextField txtEmail;
 	@FXML
 	private Button btnFileChooser;
+	@FXML
+	private Label lblSelectedFile;
+	@FXML
+	private Label lblWarning;
 
 	// Request
 	@FXML
@@ -316,134 +327,22 @@ public class AdminMenuController {
 	}
 
 	public void checkInputs() {
-		txtCoinName.textProperty().addListener((observable, oldValue, newValue) -> {
-			int maxLenght = 100;
-			if(newValue.length() <= maxLenght){
-				txtCoinName.setText(newValue);
-			} else {
-				txtCoinName.setText(oldValue);
-			}
-		});
-		txtDenomination.textProperty().addListener((observable, oldValue, newValue) -> {
-			int maxLenght = 9;
-			String filteredValue = newValue.replaceAll("[^0-9]", "");
-
-			if(filteredValue.length() <= maxLenght){
-				if (!newValue.equals(filteredValue)) {
-					txtDenomination.setText(filteredValue);
-				}
-			} else {
-				txtDenomination.setText(oldValue);
-			}
-		});
-		txtDiameter.textProperty().addListener((observable, oldValue, newValue) -> {
-			int maxLenght = 6;
-			String filteredValue = newValue.replaceAll("[^0-9,.]", "");
-
-			if(filteredValue.length() <= maxLenght){
-				if (!newValue.equals(filteredValue)) {
-					txtDiameter.setText(filteredValue);
-				}
-			} else {
-				txtDiameter.setText(oldValue);
-			}
-		});
-		txtThickness.textProperty().addListener((observable, oldValue, newValue) -> {
-			int maxLenght = 6;
-			String filteredValue = newValue.replaceAll("[^0-9,.]", "");
-
-			if(filteredValue.length() <= maxLenght){
-				if (!newValue.equals(filteredValue)) {
-					txtThickness.setText(filteredValue);
-				}
-			} else {
-				txtThickness.setText(oldValue);
-			}
-		});
-		txtWeight.textProperty().addListener((observable, oldValue, newValue) -> {
-			int maxLenght = 6;
-			String filteredValue = newValue.replaceAll("[^0-9,.]", "");
-
-			if(filteredValue.length() <= maxLenght){
-				if (!newValue.equals(filteredValue)) {
-					txtWeight.setText(filteredValue);
-				}
-			} else {
-				txtWeight.setText(oldValue);
-			}
-		});
-		txtCountryCode.textProperty().addListener((observable, oldValue, newValue) -> {
-			int maxLenght = 3;
-			String filteredValue = newValue.replaceAll("[^a-zA-z]", "");
-
-			if(filteredValue.length() <= maxLenght){
-				if (!newValue.equals(filteredValue)) {
-					txtCountryCode.setText(filteredValue);
-				}
-			} else {
-				txtCountryCode.setText(oldValue);
-			}
-		});
-		txtCountryName.textProperty().addListener((observable, oldValue, newValue) -> {
-			int maxLenght = 50;
-			String filteredValue = newValue.replaceAll("[^a-zA-z ]", "");
-
-			if(filteredValue.length() <= maxLenght){
-				if (!newValue.equals(filteredValue)) {
-					txtCountryName.setText(filteredValue);
-				}
-			} else {
-				txtCountryName.setText(oldValue);
-			}
-		});
-		txtShapeName.textProperty().addListener((observable, oldValue, newValue) -> {
-			int maxLenght = 30;
-			String filteredValue = newValue.replaceAll("[^a-zA-z ]", "");
-
-			if(filteredValue.length() <= maxLenght){
-				if (!newValue.equals(filteredValue)) {
-					txtShapeName.setText(filteredValue);
-				}
-			} else {
-				txtShapeName.setText(oldValue);
-			}
-		});
-		txtMaterialName.textProperty().addListener((observable, oldValue, newValue) -> {
-			int maxLenght = 30;
-			String filteredValue = newValue.replaceAll("[^a-zA-z ]", "");
-
-			if(filteredValue.length() <= maxLenght){
-				if (!newValue.equals(filteredValue)) {
-					txtMaterialName.setText(filteredValue);
-				}
-			} else {
-				txtMaterialName.setText(oldValue);
-			}
-		});
-		txtEdgeName.textProperty().addListener((observable, oldValue, newValue) -> {
-			int maxLenght = 30;
-			String filteredValue = newValue.replaceAll("[^a-zA-z ]", "");
-
-			if(filteredValue.length() <= maxLenght){
-				if (!newValue.equals(filteredValue)) {
-					txtEdgeName.setText(filteredValue);
-				}
-			} else {
-				txtEdgeName.setText(oldValue);
-			}
-		});
-		txtEdgeName.textProperty().addListener((observable, oldValue, newValue) -> {
-			int maxLenght = 30;
-			String filteredValue = newValue.replaceAll("[^a-zA-z ]", "");
-
-			if(filteredValue.length() <= maxLenght){
-				if (!newValue.equals(filteredValue)) {
-					txtEdgeName.setText(filteredValue);
-				}
-			} else {
-				txtEdgeName.setText(oldValue);
-			}
-		});
+		Util.addTextListener("", 100, txtCoinName);
+		Util.addTextListener("[^0-9]", 9, txtDenomination);
+		Util.addTextListener("[^0-9,.]", 6, txtDiameter);
+		Util.addTextListener("[^0-9,.]", 6, txtThickness);
+		Util.addTextListener("[^0-9,.]", 6, txtWeight);
+		Util.addTextListener("[^a-zA-Z]", 3, txtCountryCode);
+		Util.addTextListener("[^a-z A-Z]", 60, txtCountryName);
+		Util.addTextListener("[^a-z A-Z]", 30, txtShapeName);
+		Util.addTextListener("[^a-z A-Z]", 30, txtMaterialName);
+		Util.addTextListener("[^a-z A-Z]", 30, txtEdgeName);
+		Util.addTextListener("[^a-z A-Z]", 50, txtFirstName);
+		Util.addTextListener("[^a-z A-Z]", 50, txtLastName);
+		Util.addTextListener("[^a-zA-Z]", 16, txtUsername);
+		Util.addTextListener("", 32, txtPassword);
+		Util.addTextListener("", 32, txtPasswordConfirmation);
+		Util.addTextListener("", 100, txtEmail);
 	}
 
 	public boolean validateCoinFields() {
@@ -489,6 +388,13 @@ public class AdminMenuController {
 			alert.setHeaderText("Verifique a grossura.");
 			alert.setContentText("O valor digitado na grossura não corresponde a um número!");
 			alert.showAndWait();
+			return false;
+		}
+		return true;
+	}
+
+	public boolean checkPassword() {
+		if (!Validator.passwordRequirements(txtPassword.getText(), txtPasswordConfirmation.getText(), lblWarning)) {
 			return false;
 		}
 		return true;
@@ -1544,10 +1450,22 @@ public class AdminMenuController {
 	}
 
 	public void clearUserFields() {
-
+		user = new User();
+		txtFirstName.setText("");
+		txtLastName.setText("");
+		txtBirthDate.setValue(null);
+		txtCpf.setText("");
+		boxGender.getSelectionModel().select(-1);
+		txtUsername.setText("");
+		txtPassword.setText("");
+		txtPasswordConfirmation.setText("");
+		txtEmail.setText("");
+		lblWarning.setText("");
+		lblSelectedFile.setText("");
 	}
 
 	public void updateBoxes() {
+		boxGender.getItems().clear();
 		boxRarity.getItems().clear();
 		boxCountry.getItems().clear();
 
@@ -1581,6 +1499,7 @@ public class AdminMenuController {
 
 		boxRarity.getItems().addAll(Rarity.values());
 		boxCountry.setItems(loadCountries());
+		boxGender.getItems().addAll(Gender.values());
 
 		boxShape = new NumismasterCheckComboBox<String>(shapes, 150, 30, 225, 375);
 		paneCoin.getChildren().add(boxShape);
@@ -1620,8 +1539,13 @@ public class AdminMenuController {
 
 	}
 
-	public void checkCpf() {
-
+	@FXML
+	private void checkCpf() {
+		MaskTextField mtf = new MaskTextField();
+		mtf.setMask("###.###.###-##");
+		mtf.setValidCharacters("0123456789");
+		mtf.setTf(txtCpf);
+		mtf.formatter();
 	}
 
 	public ObservableList<String> loadCountries() {

@@ -7,6 +7,7 @@
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableView?>
@@ -475,8 +476,8 @@
                                     <Font name="Segoe UI Bold" size="32.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="lblWarning131" alignment="CENTER" contentDisplay="CENTER" layoutY="441.0" prefHeight="20.0" prefWidth="400.0" textAlignment="CENTER" textFill="#ff4a4a" wrapText="true" />
-                              <Label fx:id="lblSelectedFile131" alignment="TOP_LEFT" layoutX="223.0" layoutY="430.0" prefHeight="30.0" prefWidth="150.0" textAlignment="CENTER" textFill="#666666" wrapText="true">
+                              <Label fx:id="lblWarning" alignment="CENTER" contentDisplay="CENTER" layoutY="496.0" prefHeight="20.0" prefWidth="400.0" textAlignment="CENTER" textFill="#d33333" wrapText="true" />
+                              <Label fx:id="lblSelectedFile" alignment="TOP_LEFT" layoutX="224.0" layoutY="460.0" prefHeight="30.0" prefWidth="150.0" textAlignment="CENTER" textFill="#666666" wrapText="true">
                                  <font>
                                     <Font size="9.0" />
                                  </font>
@@ -507,14 +508,16 @@
                               <DatePicker fx:id="txtBirthDate" layoutX="25.0" layoutY="235.0" prefHeight="30.0" prefWidth="150.0" promptText="dd/mm/aaaa" style="-fx-background-color: #d9d9d9;" />
                               <TextField fx:id="txtCpf" layoutX="225.0" layoutY="235.0" onKeyReleased="#checkCpf" prefHeight="30.0" prefWidth="150.0" promptText="ex. 000.000.000-00" style="-fx-background-color: #d9d9d9; -fx-border-color: #373c3f; -fx-border-width: 0 0 2 0;" />
                               <ChoiceBox fx:id="boxGender" layoutX="25.0" layoutY="300.0" prefHeight="30.0" prefWidth="150.0" style="-fx-background-color: #d9d9d9; -fx-border-color: #373c3f; -fx-border-width: 0 0 2 0;" />
-                              <TextField fx:id="txtUsername" editable="false" layoutX="225.0" layoutY="300.0" prefHeight="30.0" prefWidth="150.0" promptText="ex. joaosilva" style="-fx-background-color: #d9d9d9; -fx-border-color: #373c3f; -fx-border-width: 0 0 2 0;" />
-                              <TextField fx:id="txtEmail" editable="false" layoutX="25.0" layoutY="375.0" prefHeight="30.0" prefWidth="150.0" promptText="ex. joaosilva@gmail.com" style="-fx-background-color: #d9d9d9; -fx-border-color: #373c3f; -fx-border-width: 0 0 2 0;" />
-                              <Button fx:id="btnFileChooser" layoutX="225.0" layoutY="381.0" mnemonicParsing="false" onAction="#chooseFile" prefHeight="20.0" prefWidth="150.0" styleClass="btn-filechooser" stylesheets="@../css/style.css" text="Selecionar arquivo" textFill="#5b5b5b">
+                              <TextField fx:id="txtUsername" layoutX="225.0" layoutY="300.0" prefHeight="30.0" prefWidth="150.0" promptText="ex. joaosilva" style="-fx-background-color: #d9d9d9; -fx-border-color: #373c3f; -fx-border-width: 0 0 2 0;" />
+                              <PasswordField fx:id="txtPassword" layoutX="25.0" layoutY="363.0" onKeyReleased="#checkPassword" prefHeight="30.0" prefWidth="150.0" promptText="Digite sua senha" style="-fx-background-color: #d9d9d9; -fx-border-color: #373c3f; -fx-border-width: 0 0 2 0;" />
+                              <PasswordField fx:id="txtPasswordConfirmation" layoutX="225.0" layoutY="363.0" onKeyReleased="#checkPassword" prefHeight="30.0" prefWidth="150.0" promptText="Repita a senha" style="-fx-background-color: #d9d9d9; -fx-border-color: #373c3f; -fx-border-width: 0 0 2 0;" />
+                              <TextField fx:id="txtEmail" layoutX="25.0" layoutY="430.0" prefHeight="30.0" prefWidth="150.0" promptText="ex. joaosilva@gmail.com" style="-fx-background-color: #d9d9d9; -fx-border-color: #373c3f; -fx-border-width: 0 0 2 0;" />
+                              <Button fx:id="btnFileChooser" layoutX="225.0" layoutY="436.0" mnemonicParsing="false" onAction="#chooseFile" prefHeight="20.0" prefWidth="150.0" styleClass="btn-filechooser" stylesheets="@../css/style.css" text="Selecionar arquivo" textFill="#5b5b5b">
                                  <font>
                                     <Font size="11.0" />
                                  </font>
                               </Button>
-                              <Label layoutX="25.0" layoutY="358.0" text="Email" textFill="#373c3f">
+                              <Label layoutX="25.0" layoutY="413.0" text="Email" textFill="#373c3f">
                                  <font>
                                     <Font name="Segoe UI Bold" size="14.0" />
                                  </font>
@@ -544,7 +547,17 @@
                                     <Font name="Segoe UI Bold" size="14.0" />
                                  </font>
                               </Label>
-                              <Label layoutX="226.0" layoutY="358.0" text="Foto de perfil" textFill="#373c3f">
+                              <Label layoutX="226.0" layoutY="413.0" text="Foto de perfil" textFill="#373c3f">
+                                 <font>
+                                    <Font name="Segoe UI Bold" size="14.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="25.0" layoutY="348.0" text="Senha" textFill="#373c3f">
+                                 <font>
+                                    <Font name="Segoe UI Bold" size="14.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="225.0" layoutY="348.0" text="Confirmação de Senha" textFill="#373c3f">
                                  <font>
                                     <Font name="Segoe UI Bold" size="14.0" />
                                  </font>

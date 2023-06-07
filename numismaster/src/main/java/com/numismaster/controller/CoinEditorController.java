@@ -132,30 +132,8 @@ public class CoinEditorController {
     }
 
     public void checkInputs() {
-        txtCoinYear.textProperty().addListener((observable, oldValue, newValue) -> {
-            int maxLenght = 4;
-			String filteredValue = newValue.replaceAll("[^0-9]", "");
-
-			if(filteredValue.length() <= maxLenght){
-				if (!newValue.equals(filteredValue)) {
-					txtCoinYear.setText(filteredValue);
-				}
-			} else {
-				txtCoinYear.setText(oldValue);
-			}
-        });
-        txtCoinPrice.textProperty().addListener((observable, oldValue, newValue) -> {
-            int maxLenght = 9;
-            String filteredValue = newValue.replaceAll("[^0-9,.]", "");
-
-			if(filteredValue.length() <= maxLenght){
-				if (!newValue.equals(filteredValue)) {
-					txtCoinPrice.setText(filteredValue);
-				}
-			} else {
-				txtCoinPrice.setText(oldValue);
-			}
-        });
+        Util.addTextListener("[^0-9]", 4, txtCoinYear);
+        Util.addTextListener("[^0-9,.]", 9, txtCoinPrice);
     }
 
     public boolean validateFields() {

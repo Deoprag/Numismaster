@@ -90,26 +90,24 @@ public class Validator {
 			} else if (!Character.isWhitespace(c)) {
 				hasSpecialChars = true;
 			}
-
-			if (hasLetters && hasNumbers && hasSpecialChars) {
+		}
+		if (hasLetters && hasNumbers && hasSpecialChars) {
+			if (label != null) {
+				label.setText("");
+			}
+			if (!password.equals(passwordConfirmation)) {
+				if (label != null) {
+					label.setText("As senhas não coincidem!");
+				}
+			} else {
 				if (label != null) {
 					label.setText("");
+					return true;
 				}
-			} else if (label != null) {
-				label.setText("Verifique se sua senha possui: letras, números e caracteres especiais.");
 			}
+		} else if (label != null) {
+			label.setText("Verifique se sua senha possui: letras, números e caracteres especiais.");
 		}
-
-		if (!password.equals(passwordConfirmation)) {
-			if (label != null) {
-				label.setText("As senhas não coincidem!");
-			}
-			return false;
-		}
-
-		if (label != null) {
-			label.setText("");
-		}
-		return true;
+		return false;
 	}
 }
