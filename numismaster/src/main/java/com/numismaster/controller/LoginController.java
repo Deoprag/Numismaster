@@ -64,10 +64,15 @@ public class LoginController {
 				btnSignIn.fire();
 			}
 		});
+		txtUsername.setOnKeyPressed(event -> {
+			if (event.getCode().getName().equals("Enter")) {
+				btnSignIn.fire();
+			}
+		});
 	}
 
 	public void checkInputs() {
-		Util.addTextListener("[^a-z A-Z]", 30, txtUsername);
+		Util.addTextListener("[^a-z A-Z]", 16, txtUsername);
 		Util.addTextListener("", 32, txtPassword);
 	}
 

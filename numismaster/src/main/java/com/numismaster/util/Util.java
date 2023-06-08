@@ -1,6 +1,7 @@
 package com.numismaster.util;
 
 import java.awt.Desktop;
+import java.awt.TextArea;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -22,9 +23,8 @@ import java.util.Random;
 import javax.sql.rowset.serial.SerialBlob;
 import javax.sql.rowset.serial.SerialException;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextFormatter;
 
 public class Util {
 

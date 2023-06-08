@@ -1,7 +1,6 @@
 package com.numismaster.controller;
 
 import java.io.IOException;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -51,6 +50,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
@@ -62,7 +62,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import javafx.util.Callback;
 
 public class AdminMenuController {
@@ -81,6 +80,7 @@ public class AdminMenuController {
 	private Shape shape;
 	private Material material;
 	private Edge edge;
+	private UserRequest request;
 
 	private double x, y = 0;
 	private int clickCount = 0;
@@ -100,9 +100,6 @@ public class AdminMenuController {
 	ObservableList<Edge> obsEdgeList = FXCollections.observableArrayList();
 	ObservableList<UserRequest> obsRequestList = FXCollections.observableArrayList();
 	ObservableList<CoinUserSale> obsCoinUserSaleList = FXCollections.observableArrayList();
-
-	private UserRequest selectedRequest;
-	private UserRequest lastSelectedRequest;
 
 	@FXML
 	private Button btnClose;
@@ -286,6 +283,12 @@ public class AdminMenuController {
 	private TableColumn<UserRequest, String> colRequestDate = new TableColumn<>("Data de Solicitação");
 	@FXML
 	private TableColumn<UserRequest, LocalDateTime> colCloseRequestDate = new TableColumn<>("Data de Fechamento");
+	@FXML
+	private TextField txtRequestUser;
+	@FXML
+	private TextField txtRequestItem;
+	@FXML
+	private TextArea txtRequestNotes;
 
 	// Transactions
 	@FXML
@@ -1014,33 +1017,13 @@ public class AdminMenuController {
 	}
 
 	public void loadSelectedRequest() throws IOException {
-		selectedRequest = tbRequest.getSelectionModel().getSelectedItem();
+		request = tbRequest.getSelectionModel().getSelectedItem();
 
-		if (selectedRequest != null && selectedRequest.equals(lastSelectedRequest)) {
-			clickCount++;
-		} else {
-			clickCount = 1;
+		if(request != null) {
+			txtRequestUser.setText(request.getUser().getFirstName() + " " + request.getUser().getLastName());
+			txtRequestItem.setText(request.getRequest().getRequestedItem().toString());
+			txtRequestNotes.setText(request.getRequest().getNotes());
 		}
-
-		if (clickCount == 2) {
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/numismaster/view/RequestEditor.fxml"));
-			root = loader.load();
-			RequestEditorController requestEditorController = loader.getController();
-			requestEditorController.loadUser(user, this);
-			// loadRequest
-			if (stageRequestEditor == null || !stageRequestEditor.isShowing()) {
-				stageRequestEditor = new Stage();
-				Scene scene = new Scene(root);
-				stageRequestEditor.initStyle(StageStyle.UNDECORATED);
-				stageRequestEditor.setTitle("Numismaster");
-				stageRequestEditor.getIcons().add(new Image("/com/numismaster/icon/large-app-icon.png"));
-				stageRequestEditor.setScene(scene);
-				stageRequestEditor.show();
-				stageRequestEditor.centerOnScreen();
-			}
-			clickCount = 0;
-		}
-		lastSelectedRequest = selectedRequest;
 	}
 
 	public void loadCoinTable() {
@@ -1451,17 +1434,34 @@ public class AdminMenuController {
 
 	public void clearUserFields() {
 		user = new User();
-		txtFirstName.setText("");
-		txtLastName.setText("");
+		txtFirstName.clear();
+		txtLastName.clear();
 		txtBirthDate.setValue(null);
-		txtCpf.setText("");
+		txtCpf.clear();
 		boxGender.getSelectionModel().select(-1);
-		txtUsername.setText("");
-		txtPassword.setText("");
-		txtPasswordConfirmation.setText("");
-		txtEmail.setText("");
+		txtUsername.clear();
+		txtPassword.clear();
+		txtPasswordConfirmation.clear();
+		txtEmail.clear();
 		lblWarning.setText("");
 		lblSelectedFile.setText("");
+		// tbUser.getSelectionModel().clearSelection();
+	}
+
+	public void clearRequestFields() {
+		request = new UserRequest();
+		txtRequestUser.clear();
+		txtRequestItem.clear();
+		txtRequestNotes.clear();
+		tbRequest.getSelectionModel().clearSelection();
+	}
+
+	public void acceptRequest() {
+
+	}
+
+	public void rejectRequest() {
+
 	}
 
 	public void updateBoxes() {

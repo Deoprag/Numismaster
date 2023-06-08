@@ -1,5 +1,6 @@
 package com.numismaster.controller;
 
+import java.awt.Desktop;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -27,8 +28,10 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
@@ -82,6 +85,10 @@ public class SignUpController {
 	private Label lblWarning;
 	@FXML
 	private Label lblSelectedFile;
+	@FXML
+	private CheckBox chckBoxTerms;
+	@FXML
+	private Hyperlink hyperLinkTerms;
 
 	private double x, y = 0;
 
@@ -101,10 +108,15 @@ public class SignUpController {
 	public void checkInputs() {
 		Util.addTextListener("[^A-Z a-z]", 50, txtFirstName);
 		Util.addTextListener("[^A-Z a-z]", 50, txtLastName);
-		Util.addTextListener("[^A-Za-z]", 20, txtUsername);
+		Util.addTextListener("[^A-Za-z]", 16, txtUsername);
 		Util.addTextListener("", 32, txtPassword);
 		Util.addTextListener("", 32, txtPasswordConfirmation);
 		Util.addTextListener("", 100, txtEmail);
+	}
+
+	public void loadLGPDTerms() throws IOException{
+		File file = new File ("numismaster/docs/LGPD/Termo.pdf");
+		Desktop.getDesktop().open(file);
 	}
 
 	public boolean validateSignUpFields() {
@@ -125,6 +137,14 @@ public class SignUpController {
 			alert.setTitle("OPS...");
 			alert.setHeaderText("Senha inválida.");
 			alert.setContentText("Verifique sua senha e tente novamente!");
+			alert.showAndWait();
+			return false;
+		}
+		if(!chckBoxTerms.isSelected()) {
+			Alert alert = new Alert(AlertType.WARNING);
+			alert.setTitle("OPS...");
+			alert.setHeaderText("Termo LGPD.");
+			alert.setContentText("Você precisa concordar com os termos antes de prosseguir!");
 			alert.showAndWait();
 			return false;
 		}

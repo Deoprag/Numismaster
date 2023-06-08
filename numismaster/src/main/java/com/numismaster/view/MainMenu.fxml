@@ -134,7 +134,7 @@
                                           <Font name="Segoe UI Bold" size="14.0" />
                                        </font>
                                     </Label>
-                                    <TextArea fx:id="txtRequestNotes" layoutX="100.0" layoutY="270.0" prefHeight="150.0" prefWidth="200.0" wrapText="true">
+                                    <TextArea fx:id="txtRequestNotes" layoutX="100.0" layoutY="270.0" onKeyReleased="#checkLength" prefHeight="150.0" prefWidth="200.0" wrapText="true">
                                        <tooltip>
                                           <Tooltip text="Descreva os motivos da sua solicitação" />
                                        </tooltip>

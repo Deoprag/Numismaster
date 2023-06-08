@@ -255,6 +255,8 @@ public class MainMenuController {
 	private TableColumn<UserRequest, String> colRequestNotes = new TableColumn<>("Notas");
 	@FXML
 	private TableColumn<UserRequest, String> colRequestSituation = new TableColumn<>("Situação");
+	@FXML
+	private Label lblLength;
 
 
 	private double x, y = 0;
@@ -270,6 +272,7 @@ public class MainMenuController {
 	public void checkInputs() {
 		Util.addTextListener("[^A-Z a-z]", 50, txtEditFirstName);
 		Util.addTextListener("[^A-Z a-z]", 50, txtEditLastName);
+		// Util.addTextListener("", 200, txtRequestNotes);
 	}
 
 	public void loadUser(User newUser) {
@@ -1082,6 +1085,12 @@ public class MainMenuController {
 	public void clearRequestFields() {
 		boxItems.getSelectionModel().clearSelection();
 		txtRequestNotes.setText("");
+	}
+
+	public void checkLength(){
+		if(txtRequestNotes.getLength() > 200) {
+			txtRequestNotes.setText(txtRequestNotes.getText(0, 200));
+		}
 	}
 
 	public void changeToAdminMenu(ActionEvent e) throws IOException {

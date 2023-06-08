@@ -48,7 +48,7 @@
 }
 
 .clickableLabel {
-    -fx-font-size: 10px;
+    -fx-font-size: 12px;
     -fx-text-fill: #6293ac;
     -fx-font-family: Segoe UI;
     -fx-background-color: #d9d9d9;
