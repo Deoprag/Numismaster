@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.Blob;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -256,7 +257,9 @@ public class MainMenuController {
 	@FXML
 	private TableColumn<UserRequest, String> colRequestSituation = new TableColumn<>("Situação");
 	@FXML
-	private Label lblLength;
+	private TableColumn<UserRequest, String> colRequestDate = new TableColumn<>("Data de Solicitação");
+	@FXML
+	private TableColumn<UserRequest, LocalDateTime> colCloseRequestDate = new TableColumn<>("Data de Fechamento");
 
 
 	private double x, y = 0;
@@ -723,8 +726,22 @@ public class MainMenuController {
 			cellData.getValue().getRequest().getNotes()));
 		colRequestSituation.setCellValueFactory(cellData -> new SimpleStringProperty(
 			cellData.getValue().getRequest().getRequestSituation().toString()));
+		colRequestDate.setCellValueFactory(cellData -> new SimpleStringProperty(
+			Util.localDateTimeFormatter(cellData.getValue().getRequest().getRequestDate())));
+		colCloseRequestDate.setCellFactory(cellData -> new TableCell<UserRequest, LocalDateTime>() {
+			@Override
+			protected void updateItem(LocalDateTime item, boolean empty){
+				super.updateItem(item, empty);
+				if(getTableRow().getItem() == null){
+					setText(null);
+				} else {
+					item = getTableRow().getItem().getRequest().getCloseRequestDate();
+					setText(empty || item == null ? "Não possui" : Util.localDateTimeFormatter(item));
+				}
+			}
+		});
 
-		tbRequest.getColumns().addAll(colRequestedItem, colRequestSituation, colRequestNotes);
+		tbRequest.getColumns().addAll(colRequestedItem, colRequestSituation, colRequestNotes, colRequestDate, colCloseRequestDate);
 		tbRequest.setItems(obsRequestList);
 
 	}

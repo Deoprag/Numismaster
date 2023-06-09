@@ -53,7 +53,7 @@
                                     <Font name="Segoe UI Bold" size="14.0" />
                                  </font>
                               </Label>
-                              <Label layoutX="225.0" layoutY="148.0" text="Valor Nominal" textFill="#373c3f">
+                              <Label layoutX="225.0" layoutY="148.0" text="Valor de Face" textFill="#373c3f">
                                  <font>
                                     <Font name="Segoe UI Bold" size="14.0" />
                                  </font>
@@ -656,11 +656,7 @@
                               <GaussianBlur radius="3.0" />
                            </effect>
                         </ImageView>
-                        <TableView fx:id="tbRequest" layoutX="420.0" layoutY="63.0" onMouseClicked="#loadSelectedRequest" prefHeight="580.0" prefWidth="650.0" style="-fx-background-color: #d9d9d9; -fx-border-color: #373c3f; -fx-border-width: 2px;" stylesheets="@../css/style.css">
-                           <columnResizePolicy>
-                              <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-                           </columnResizePolicy>
-                        </TableView>
+                        <TableView fx:id="tbRequest" layoutX="420.0" layoutY="63.0" onMouseClicked="#loadSelectedRequest" prefHeight="580.0" prefWidth="650.0" style="-fx-background-color: #d9d9d9; -fx-border-color: #373c3f; -fx-border-width: 2px;" stylesheets="@../css/style.css" />
                         <TextField fx:id="txtRequestSearch" layoutX="420.0" layoutY="15.0" onKeyReleased="#searchRequest" prefHeight="40.0" prefWidth="650.0" promptText="ex. Borda, Moeda, Pais" style="-fx-background-color: #ffffff; -fx-border-color: #373c3f; -fx-border-width: 2;">
                            <font>
                               <Font size="16.0" />
@@ -684,7 +680,7 @@
                                     <Font name="System Bold" size="16.0" />
                                  </font>
                               </Button>
-                              <Button layoutX="88.0" layoutY="530.0" mnemonicParsing="false" onAction="#deleteEdge" prefHeight="40.0" prefWidth="100.0" styleClass="btn-delete" stylesheets="@../css/style.css" text="Reprovar" textFill="#373c3f">
+                              <Button layoutX="88.0" layoutY="530.0" mnemonicParsing="false" onAction="#rejectRequest" prefHeight="40.0" prefWidth="100.0" styleClass="btn-delete" stylesheets="@../css/style.css" text="Reprovar" textFill="#373c3f">
                                  <font>
                                     <Font name="System Bold" size="16.0" />
                                  </font>

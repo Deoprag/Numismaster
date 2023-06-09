@@ -14,6 +14,8 @@ import com.numismaster.model.Edge;
 import com.numismaster.model.Gender;
 import com.numismaster.model.Material;
 import com.numismaster.model.Rarity;
+import com.numismaster.model.Request;
+import com.numismaster.model.RequestSituation;
 import com.numismaster.model.Shape;
 import com.numismaster.model.User;
 import com.numismaster.model.UserRequest;
@@ -22,6 +24,7 @@ import com.numismaster.service.CoinUserSaleService;
 import com.numismaster.service.CountryService;
 import com.numismaster.service.EdgeService;
 import com.numismaster.service.MaterialService;
+import com.numismaster.service.RequestService;
 import com.numismaster.service.ShapeService;
 import com.numismaster.service.UserRequestService;
 import com.numismaster.util.Util;
@@ -363,8 +366,24 @@ public class AdminMenuController {
 			alert.showAndWait();
 			return false;
 		}
+		if (Integer.parseInt(txtDenomination.getText()) <= 0) {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("ERRO!");
+			alert.setHeaderText("Verifique o valor de face.");
+			alert.setContentText("O número digitado no valor de face não pode ser zerado!");
+			alert.showAndWait();
+			return false;
+		}
 		try {
-			Float validador = Float.parseFloat(txtWeight.getText().replace(",", "."));
+			Float validator = Float.parseFloat(txtWeight.getText().replace(",", "."));
+			if (validator <= 0) {
+				Alert alert = new Alert(AlertType.ERROR);
+				alert.setTitle("ERRO!");
+				alert.setHeaderText("Verifique o peso.");
+				alert.setContentText("O valor digitado no peso não pode ser zerado!");
+				alert.showAndWait();
+				return false;
+			}
 		} catch (NumberFormatException e) {
 			Alert alert = new Alert(AlertType.ERROR);
 			alert.setTitle("ERRO!");
@@ -374,17 +393,33 @@ public class AdminMenuController {
 			return false;
 		}
 		try {
-			Float validador = Float.parseFloat(txtDiameter.getText().replace(",", "."));
+			Float validator = Float.parseFloat(txtDiameter.getText().replace(",", "."));
+			if (validator <= 0) {
+				Alert alert = new Alert(AlertType.ERROR);
+				alert.setTitle("ERRO!");
+				alert.setHeaderText("Verifique o diâmetro.");
+				alert.setContentText("O valor digitado no diâmetro não pode ser zerado!");
+				alert.showAndWait();
+				return false;
+			}
 		} catch (NumberFormatException e) {
 			Alert alert = new Alert(AlertType.ERROR);
 			alert.setTitle("ERRO!");
-			alert.setHeaderText("Verifique o diametro.");
-			alert.setContentText("O valor digitado no diametro não corresponde a um número!");
+			alert.setHeaderText("Verifique o diâmetro.");
+			alert.setContentText("O valor digitado no diâmetro não corresponde a um número!");
 			alert.showAndWait();
 			return false;
 		}
 		try {
-			Float validador = Float.parseFloat(txtThickness.getText().replace(",", "."));
+			Float validator = Float.parseFloat(txtThickness.getText().replace(",", "."));
+			if (validator <= 0) {
+				Alert alert = new Alert(AlertType.ERROR);
+				alert.setTitle("ERRO!");
+				alert.setHeaderText("Verifique a grossura.");
+				alert.setContentText("O valor digitado na grossura não pode ser zerado!");
+				alert.showAndWait();
+				return false;
+			}
 		} catch (NumberFormatException e) {
 			Alert alert = new Alert(AlertType.ERROR);
 			alert.setTitle("ERRO!");
@@ -1019,7 +1054,7 @@ public class AdminMenuController {
 	public void loadSelectedRequest() throws IOException {
 		request = tbRequest.getSelectionModel().getSelectedItem();
 
-		if(request != null) {
+		if (request != null) {
 			txtRequestUser.setText(request.getUser().getFirstName() + " " + request.getUser().getLastName());
 			txtRequestItem.setText(request.getRequest().getRequestedItem().toString());
 			txtRequestNotes.setText(request.getRequest().getNotes());
@@ -1049,7 +1084,7 @@ public class AdminMenuController {
 					setText(String.format("%.1f", item));
 				}
 				TextFieldTableCell<?, ?> cell = new TextFieldTableCell<>();
-            	cell.setFont(font);
+				cell.setFont(font);
 			}
 		});
 		colDiameter.setCellValueFactory(new PropertyValueFactory<>("diameter"));
@@ -1196,30 +1231,30 @@ public class AdminMenuController {
 
 	}
 
-	public void loadRequestTable(){
+	public void loadRequestTable() {
 		tbRequest.getItems().clear();
 		tbRequest.getColumns().clear();
 
 		userRequestService = new UserRequestService();
-		for(UserRequest userRequest : userRequestService.findAll()){
+		for (UserRequest userRequest : userRequestService.findAll()) {
 			obsRequestList.add(userRequest);
 		}
 
 		colRequestingPerson.setCellValueFactory(cellData -> new SimpleStringProperty(
-			cellData.getValue().getUser().getFirstName() + " " + cellData.getValue().getUser().getLastName()));
+				cellData.getValue().getUser().getFirstName() + " " + cellData.getValue().getUser().getLastName()));
 		colRequestedItem.setCellValueFactory(cellData -> new SimpleStringProperty(
-			cellData.getValue().getRequest().getRequestedItem().toString()));
+				cellData.getValue().getRequest().getRequestedItem().toString()));
 		colRequestNotes.setCellValueFactory(cellData -> new SimpleStringProperty(
-			cellData.getValue().getRequest().getNotes()));
+				cellData.getValue().getRequest().getNotes()));
 		colRequestSituation.setCellValueFactory(cellData -> new SimpleStringProperty(
-			cellData.getValue().getRequest().getRequestSituation().toString()));
+				cellData.getValue().getRequest().getRequestSituation().toString()));
 		colRequestDate.setCellValueFactory(cellData -> new SimpleStringProperty(
-			Util.localDateTimeFormatter(cellData.getValue().getRequest().getRequestDate())));
+				Util.localDateTimeFormatter(cellData.getValue().getRequest().getRequestDate())));
 		colCloseRequestDate.setCellFactory(cellData -> new TableCell<UserRequest, LocalDateTime>() {
 			@Override
-			protected void updateItem(LocalDateTime item, boolean empty){
+			protected void updateItem(LocalDateTime item, boolean empty) {
 				super.updateItem(item, empty);
-				if(getTableRow().getItem() == null){
+				if (getTableRow().getItem() == null) {
 					setText(null);
 				} else {
 					item = getTableRow().getItem().getRequest().getCloseRequestDate();
@@ -1228,26 +1263,29 @@ public class AdminMenuController {
 			}
 		});
 
-		tbRequest.getColumns().addAll(colRequestingPerson, colRequestedItem, colRequestSituation, colRequestNotes, colRequestDate, colCloseRequestDate);
+		tbRequest.getColumns().addAll(colRequestingPerson, colRequestedItem, colRequestSituation, colRequestNotes,
+				colRequestDate, colCloseRequestDate);
 		tbRequest.setItems(obsRequestList);
 	}
 
-	public void loadTransactionTable(){
+	public void loadTransactionTable() {
 		tbTransaction.getItems().clear();
 		tbTransaction.getColumns().clear();
 
 		coinUserSaleService = new CoinUserSaleService();
-		for(CoinUserSale coinUserSale : coinUserSaleService.findAll()){
+		for (CoinUserSale coinUserSale : coinUserSaleService.findAll()) {
 			obsCoinUserSaleList.add(coinUserSale);
 		}
 
 		colSaleId.setCellValueFactory(new PropertyValueFactory<>("id"));
 		colSaleBuyer.setCellValueFactory(cellData -> new SimpleStringProperty(
-			cellData.getValue().getSale().getBuyer().getFirstName() + " " + cellData.getValue().getSale().getBuyer().getLastName()));
+				cellData.getValue().getSale().getBuyer().getFirstName() + " "
+						+ cellData.getValue().getSale().getBuyer().getLastName()));
 		colSaleSeller.setCellValueFactory(cellData -> new SimpleStringProperty(
-			cellData.getValue().getSale().getSeller().getFirstName() + " " + cellData.getValue().getSale().getSeller().getLastName()));
+				cellData.getValue().getSale().getSeller().getFirstName() + " "
+						+ cellData.getValue().getSale().getSeller().getLastName()));
 		colSalePrice.setCellValueFactory(cellData -> new SimpleObjectProperty<Float>(
-			cellData.getValue().getSale().getPrice()));
+				cellData.getValue().getSale().getPrice()));
 		colSalePrice.setCellFactory(column -> new TableCell<CoinUserSale, Float>() {
 			@Override
 			protected void updateItem(Float item, boolean empty) {
@@ -1256,11 +1294,12 @@ public class AdminMenuController {
 			}
 		});
 		colSaleCoinName.setCellValueFactory(cellData -> new SimpleStringProperty(
-			cellData.getValue().getCoinUser().getCoin().getName()));
+				cellData.getValue().getCoinUser().getCoin().getName()));
 		colSaleDate.setCellValueFactory(cellData -> new SimpleStringProperty(
-			Util.localDateTimeFormatter(cellData.getValue().getSale().getSaleDate())));
-		
-		tbTransaction.getColumns().addAll(colSaleId, colSaleBuyer, colSaleSeller, colSalePrice, colSaleCoinName, colSaleDate);
+				Util.localDateTimeFormatter(cellData.getValue().getSale().getSaleDate())));
+
+		tbTransaction.getColumns().addAll(colSaleId, colSaleBuyer, colSaleSeller, colSalePrice, colSaleCoinName,
+				colSaleDate);
 		tbTransaction.setItems(obsCoinUserSaleList);
 	}
 
@@ -1373,7 +1412,7 @@ public class AdminMenuController {
 
 	}
 
-	public void searchRequest(){
+	public void searchRequest() {
 		if (txtRequestSearch.getText().isBlank()) {
 			loadRequestTable();
 		} else {
@@ -1381,12 +1420,15 @@ public class AdminMenuController {
 			ObservableList<UserRequest> tempObsRequestList = FXCollections.observableArrayList();
 			for (UserRequest request : obsRequestList) {
 				if (request.getRequest().getNotes().toLowerCase().contains(txtRequestSearch.getText().toLowerCase()) ||
-				request.getRequest().getRequestedItem().toString().toLowerCase().contains(txtRequestSearch.getText().toLowerCase()) ||
-				request.getRequest().getRequestSituation().toString().toLowerCase().contains(txtRequestSearch.getText().toLowerCase())) {
+						request.getRequest().getRequestedItem().toString().toLowerCase()
+								.contains(txtRequestSearch.getText().toLowerCase())
+						||
+						request.getRequest().getRequestSituation().toString().toLowerCase()
+								.contains(txtRequestSearch.getText().toLowerCase())) {
 					tempObsRequestList.add(request);
 				}
 			}
-			
+
 			tbRequest.getItems().clear();
 			tbRequest.setItems(tempObsRequestList);
 		}
@@ -1457,11 +1499,71 @@ public class AdminMenuController {
 	}
 
 	public void acceptRequest() {
-
+		if(request.getRequest().getRequestSituation().equals(RequestSituation.Aberta)) {
+			Alert alert = new Alert(AlertType.CONFIRMATION);
+			alert.setTitle("Confirmação");
+			alert.setHeaderText("Confirmação de aprovação");
+			alert.setContentText("Deseja realmente aprovar essa solicitação?");
+			
+			if (alert.showAndWait().get() == ButtonType.OK) {
+				RequestService requestService = new RequestService();
+				Request tempRequest = request.getRequest();
+				tempRequest.setRequestSituation(RequestSituation.Aprovada);
+				tempRequest.setCloseRequestDate(LocalDateTime.now());
+				if (requestService.save(tempRequest)) {
+					Alert alert2 = new Alert(AlertType.CONFIRMATION);
+					alert2.setTitle("Sucesso");
+					alert2.setHeaderText("Sucesso na aprovação");
+					alert2.setContentText("A solicitação foi aprovada com sucesso!");
+					alert2.showAndWait();
+					
+					loadRequestTable();
+				}
+			}
+		} else {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("ERRO");
+			alert.setHeaderText("Erro na aprovação");
+			alert.setContentText("Você não pode modificar uma solicitação fechada!");
+			alert.showAndWait();
+		}
 	}
 
 	public void rejectRequest() {
+		if(request.getRequest().getRequestSituation().equals(RequestSituation.Aberta)) {
+			Alert alert = new Alert(AlertType.CONFIRMATION);
+			alert.setTitle("Confirmação");
+			alert.setHeaderText("Confirmação de reprovação");
+			alert.setContentText("Deseja realmente reprovar essa solicitação?");
 
+			if (alert.showAndWait().get() == ButtonType.OK) {
+				RequestService requestService = new RequestService();
+				Request tempRequest = request.getRequest();
+				tempRequest.setRequestSituation(RequestSituation.Reprovada);
+				tempRequest.setCloseRequestDate(LocalDateTime.now());
+				if (requestService.save(tempRequest)) {
+					Alert alert2 = new Alert(AlertType.CONFIRMATION);
+					alert2.setTitle("Sucesso");
+					alert2.setHeaderText("Sucesso na reprovação");
+					alert2.setContentText("A solicitação foi reprovada com sucesso!");
+					alert2.showAndWait();
+					
+					loadRequestTable();
+				}
+			}
+		} else {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("ERRO");
+			alert.setHeaderText("Erro na reprovação");
+			alert.setContentText("Você não pode modificar uma solicitação fechada!");
+			alert.showAndWait();
+		}
+	}
+
+	public void checkLength() {
+		if (txtRequestNotes.getLength() > 200) {
+			txtRequestNotes.setText(txtRequestNotes.getText(0, 200));
+		}
 	}
 
 	public void updateBoxes() {

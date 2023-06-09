@@ -99,16 +99,12 @@
                      <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
-                              <TextField fx:id="txtRequestSearch" layoutX="420.0" layoutY="15.0" onKeyReleased="#searchRequest" prefHeight="40.0" prefWidth="650.0" promptText="ex. Deferido" style="-fx-border-color: #373c3f; -fx-border-width: 2; -fx-background-color: #fff;">
+                              <TextField fx:id="txtRequestSearch" layoutX="420.0" layoutY="15.0" onKeyReleased="#searchRequest" prefHeight="40.0" prefWidth="650.0" promptText="ex. Aberta" style="-fx-border-color: #373c3f; -fx-border-width: 2; -fx-background-color: #fff;">
                                  <font>
                                     <Font size="16.0" />
                                  </font>
                               </TextField>
-                              <TableView fx:id="tbRequest" centerShape="false" focusTraversable="false" layoutX="420.0" layoutY="64.0" prefHeight="580.0" prefWidth="650.0" style="-fx-background-color: #d9d9d9; -fx-border-color: #373c3f; -fx-border-width: 2px;" stylesheets="@../css/style.css">
-                                 <columnResizePolicy>
-                                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-                                 </columnResizePolicy>
-                              </TableView>
+                              <TableView fx:id="tbRequest" centerShape="false" focusTraversable="false" layoutX="420.0" layoutY="64.0" prefHeight="580.0" prefWidth="650.0" style="-fx-background-color: #d9d9d9; -fx-border-color: #373c3f; -fx-border-width: 2px;" stylesheets="@../css/style.css" />
                               <Pane blendMode="SRC_ATOP" layoutX="10.0" layoutY="15.0" prefHeight="630.0" prefWidth="400.0" style="-fx-border-color: #373c3f; -fx-background-color: #d9d9d9; -fx-border-width: 2;">
                                  <children>
                                     <Label alignment="CENTER" layoutY="30.0" prefHeight="39.0" prefWidth="400.0" text="Solicitação" textFill="#373c3f">
