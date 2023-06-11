@@ -494,6 +494,12 @@ public class CoinEditorController {
         }
     }
 
+    public void checkLength(){
+		if(txtNotes.getLength() > 200) {
+			txtNotes.setText(txtNotes.getText(0, 200));
+		}
+	}
+
     public void barPressed(MouseEvent e) {
         x = e.getSceneX();
         y = e.getSceneY();

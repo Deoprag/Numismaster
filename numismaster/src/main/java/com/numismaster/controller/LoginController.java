@@ -26,10 +26,12 @@ import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 public class LoginController {
 
 	private Stage stage;
+	private Stage stageForgotPassword;
 	private Scene scene;
 	private Parent root;
 	private User user;
@@ -158,6 +160,21 @@ public class LoginController {
 					}
 				}
 			}
+		}
+	}
+
+	public void forgotPassword(ActionEvent e) throws IOException {
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/numismaster/view/ForgotPassword.fxml"));
+		root = loader.load();
+		if (stageForgotPassword == null || !stageForgotPassword.isShowing()) {
+			stageForgotPassword = new Stage();
+			scene = new Scene(root);
+			stageForgotPassword.initStyle(StageStyle.UNDECORATED);
+			stageForgotPassword.setTitle("Numismaster");
+			stageForgotPassword.getIcons().add(new Image("/com/numismaster/icon/large-app-icon.png"));
+			stageForgotPassword.setScene(scene);
+			stageForgotPassword.show();
+			stageForgotPassword.centerOnScreen();
 		}
 	}
 

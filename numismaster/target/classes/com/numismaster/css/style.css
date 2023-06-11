@@ -148,10 +148,21 @@
 .table-view .column-header {
     -fx-font-size: 14px;
     -fx-font-weight: bold;
-} 
+}
 
-.table-view .table-cell{
-    -fx-alignment:center;
+.table-view .table-cell {
+    -fx-alignment: center;
     -fx-font-size: 12px;
     -fx-font-weight: bold;
+}
+
+.btn-send-code {
+    -fx-background-color: #586065;
+    -fx-font-size: 10px;
+    -fx-border-color: #34393c;
+    -fx-border-width: 1;
+}
+
+.btn-send-code:hover {
+    -fx-background-color: #373c3f;
 }

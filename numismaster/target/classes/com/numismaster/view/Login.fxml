@@ -72,7 +72,7 @@
             </Button>
             <Button fx:id="btnSignIn" layoutX="47.0" layoutY="392.0" mnemonicParsing="false" onAction="#signIn" prefHeight="45.0" prefWidth="110.0" stylesheets="@../css/style.css" text="Entrar" />
             <Button fx:id="btnSignUp" layoutX="48.0" layoutY="463.0" mnemonicParsing="false" onAction="#signUp" prefHeight="45.0" prefWidth="110.0" stylesheets="@../css/style.css" text="Cadastre-se" />
-            <Button fx:id="btnForgotPassword" alignment="CENTER" contentDisplay="CENTER" layoutX="17.0" layoutY="338.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="130.0" styleClass="clickableLabel" stylesheets="@../css/style.css" text="Esqueci minha senha" textFill="#6293ac" wrapText="true">
+            <Button fx:id="btnForgotPassword" alignment="CENTER" contentDisplay="CENTER" layoutX="17.0" layoutY="338.0" mnemonicParsing="false" onAction="#forgotPassword" prefHeight="25.0" prefWidth="130.0" styleClass="clickableLabel" stylesheets="@../css/style.css" text="Esqueci minha senha" textFill="#6293ac" wrapText="true">
                <cursor>
                   <Cursor fx:constant="DEFAULT" />
                </cursor>

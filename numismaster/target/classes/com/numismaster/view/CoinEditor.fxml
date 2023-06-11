@@ -113,7 +113,7 @@
                         <Font name="Segoe UI Bold" size="14.0" />
                      </font>
                   </Label>
-                  <TextArea fx:id="txtNotes" layoutX="384.0" layoutY="419.0" prefHeight="80.0" prefWidth="150.0" promptText="ex. Características da moeda, avarias, etc." wrapText="true" />
+                  <TextArea fx:id="txtNotes" layoutX="384.0" layoutY="419.0" onKeyReleased="#checkLength" prefHeight="80.0" prefWidth="150.0" promptText="ex. Características da moeda, avarias, etc." wrapText="true" />
                   <Label layoutX="386.0" layoutY="401.0" text="Notas" textFill="#373c3f">
                      <font>
                         <Font name="Segoe UI Bold" size="14.0" />
