@@ -87,7 +87,7 @@
                                     <Font size="14.0" />
                                  </font>
                               </TextField>
-                              <TableView fx:id="tbTransaction" centerShape="false" focusTraversable="false" layoutX="12.0" layoutY="50.0" prefHeight="600.0" prefWidth="1060.0" style="-fx-background-color: #d9d9d9; -fx-border-color: #373c3f; -fx-border-width: 2px;" stylesheets="@../css/style.css">
+                              <TableView fx:id="tbTransaction" centerShape="false" focusTraversable="false" layoutX="12.0" layoutY="50.0" onMouseClicked="#loadTransactionNote" prefHeight="600.0" prefWidth="1060.0" style="-fx-background-color: #d9d9d9; -fx-border-color: #373c3f; -fx-border-width: 2px;" stylesheets="@../css/style.css">
                                  <columnResizePolicy>
                                     <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                                  </columnResizePolicy></TableView>

@@ -787,12 +787,12 @@
                               <GaussianBlur radius="3.0" />
                            </effect>
                         </ImageView>
-                        <TableView fx:id="tbTransaction" layoutX="10.0" layoutY="63.0" onMouseClicked="#loadSelectedUser" prefHeight="580.0" prefWidth="1060.0" style="-fx-background-color: #d9d9d9; -fx-border-color: #373c3f; -fx-border-width: 2px;" stylesheets="@../css/style.css">
+                        <TableView fx:id="tbTransaction" layoutX="10.0" layoutY="63.0" onMouseClicked="#loadSelectedTransaction" prefHeight="580.0" prefWidth="1060.0" style="-fx-background-color: #d9d9d9; -fx-border-color: #373c3f; -fx-border-width: 2px;" stylesheets="@../css/style.css">
                            <columnResizePolicy>
                               <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                            </columnResizePolicy>
                         </TableView>
-                        <TextField fx:id="txtTransactionSearch" layoutX="10.0" layoutY="15.0" onKeyReleased="#searchUser" prefHeight="40.0" prefWidth="1060.0" promptText="ex. Nome comprador, vendedor, moeda" style="-fx-background-color: #ffffff; -fx-border-color: #373c3f; -fx-border-width: 2;">
+                        <TextField fx:id="txtTransactionSearch" layoutX="10.0" layoutY="15.0" onKeyReleased="#searchTransaction" prefHeight="40.0" prefWidth="1060.0" promptText="ex. Nome comprador, vendedor, moeda" style="-fx-background-color: #ffffff; -fx-border-color: #373c3f; -fx-border-width: 2;">
                            <font>
                               <Font size="16.0" />
                            </font>

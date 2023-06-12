@@ -33,6 +33,7 @@ import com.numismaster.service.CoinUserService;
 import com.numismaster.service.SaleService;
 import com.numismaster.service.UserRequestService;
 import com.numismaster.service.UserService;
+import com.numismaster.util.Report;
 import com.numismaster.util.Util;
 
 import javafx.beans.property.SimpleObjectProperty;
@@ -72,6 +73,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Callback;
 import lombok.Setter;
+import net.sf.jasperreports.engine.JasperPrint;
 
 @Setter
 public class MainMenuController {
@@ -81,6 +83,8 @@ public class MainMenuController {
 	private Coin lastSelectedCoin;
 	private CoinUser selectedCoinUser;
 	private CoinUser lastSelectedCoinUser;
+	private CoinUserSale selectedSale;
+	private CoinUserSale lastSelectedSale;
 	private CoinUser rarestCoin;
 
 	private Stage stage;
@@ -688,7 +692,8 @@ public class MainMenuController {
 			obsCoinUserSaleList.add(coinUserSale);
 		}
 
-		colSaleId.setCellValueFactory(new PropertyValueFactory<>("id"));
+		colSaleId.setCellValueFactory(cellData -> new SimpleObjectProperty<Integer>(
+			cellData.getValue().getSale().getId()));
 		colSaleBuyer.setCellValueFactory(cellData -> new SimpleStringProperty(
 			cellData.getValue().getSale().getBuyer().getFirstName() + " " + cellData.getValue().getSale().getBuyer().getLastName()));
 		colSaleSeller.setCellValueFactory(cellData -> new SimpleStringProperty(
@@ -1056,6 +1061,22 @@ public class MainMenuController {
 			clickCount = 0;
 		}
 		lastSelectedCoinUser = selectedCoinUser;
+	}
+
+	public void loadTransactionNote(Event e) throws Exception {
+		selectedSale = tbTransaction.getSelectionModel().getSelectedItem();
+
+		if (selectedSale != null && selectedSale.equals(lastSelectedSale)) {
+			clickCount++;
+		} else {
+			clickCount = 1;
+		}
+
+		if (clickCount == 2) {
+			Report.loadReport(Report.generateSaleNote(selectedSale.getSale().getId()), selectedSale.getSale());
+			clickCount = 0;
+		}
+		lastSelectedSale = selectedSale;
 	}
 
 	public boolean validateRequestFields() {

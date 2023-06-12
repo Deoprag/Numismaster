@@ -27,6 +27,7 @@ import com.numismaster.service.MaterialService;
 import com.numismaster.service.RequestService;
 import com.numismaster.service.ShapeService;
 import com.numismaster.service.UserRequestService;
+import com.numismaster.util.Report;
 import com.numismaster.util.Util;
 import com.numismaster.util.Validator;
 
@@ -37,6 +38,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -292,8 +294,10 @@ public class AdminMenuController {
 	private TextField txtRequestItem;
 	@FXML
 	private TextArea txtRequestNotes;
-
+	
 	// Transactions
+	@FXML
+	private TextField txtTransactionSearch;
 	@FXML
 	private TableView<CoinUserSale> tbTransaction;
 	@FXML
@@ -308,6 +312,8 @@ public class AdminMenuController {
 	private TableColumn<CoinUserSale, String> colSaleCoinName = new TableColumn<>("Moeda");
 	@FXML
 	private TableColumn<CoinUserSale, String> colSaleDate = new TableColumn<>("Data");
+	private CoinUserSale selectedSale;
+	private CoinUserSale lastSelectedSale;
 
 	public void initialize() {
 		fixImage(profilePhoto, true);
@@ -1061,6 +1067,22 @@ public class AdminMenuController {
 		}
 	}
 
+	public void loadSelectedTransaction(Event e) throws Exception {
+		selectedSale = tbTransaction.getSelectionModel().getSelectedItem();
+
+		if (selectedSale != null && selectedSale.equals(lastSelectedSale)) {
+			clickCount++;
+		} else {
+			clickCount = 1;
+		}
+
+		if (clickCount == 2) {
+			Report.loadReport(Report.generateSaleNote(selectedSale.getSale().getId()), selectedSale.getSale());
+			clickCount = 0;
+		}
+		lastSelectedSale = selectedSale;
+	}
+
 	public void loadCoinTable() {
 		tbCoin.getItems().clear();
 		tbCoin.getColumns().clear();
@@ -1277,7 +1299,8 @@ public class AdminMenuController {
 			obsCoinUserSaleList.add(coinUserSale);
 		}
 
-		colSaleId.setCellValueFactory(new PropertyValueFactory<>("id"));
+		colSaleId.setCellValueFactory(cellData -> new SimpleObjectProperty<Integer>(
+			cellData.getValue().getSale().getId()));
 		colSaleBuyer.setCellValueFactory(cellData -> new SimpleStringProperty(
 				cellData.getValue().getSale().getBuyer().getFirstName() + " "
 						+ cellData.getValue().getSale().getBuyer().getLastName()));
@@ -1431,6 +1454,27 @@ public class AdminMenuController {
 
 			tbRequest.getItems().clear();
 			tbRequest.setItems(tempObsRequestList);
+		}
+	}
+
+	public void searchTransaction() {
+		if (txtTransactionSearch.getText().isBlank()) {
+			loadTransactionTable();
+		} else {
+			loadTransactionTable();
+			ObservableList<CoinUserSale> tempObsTransactionList = FXCollections.observableArrayList();
+			for (CoinUserSale sale : obsCoinUserSaleList) {
+				if ((String.valueOf(sale.getSale().getId()).contains(txtTransactionSearch.getText())) ||
+						(sale.getSale().getBuyer().getFirstName().toLowerCase() + " " + sale.getSale().getBuyer().getLastName().toLowerCase()).contains(txtTransactionSearch.getText().toLowerCase()) ||
+						(sale.getSale().getSeller().getFirstName().toLowerCase() + " " + sale.getSale().getSeller().getLastName().toLowerCase()).contains(txtTransactionSearch.getText().toLowerCase()) ||
+						(sale.getCoinUser().getCoin().getName().toLowerCase()).contains(txtTransactionSearch.getText().toLowerCase()) ||
+						(Util.localDateTimeFormatter(sale.getSale().getSaleDate())).contains(txtTransactionSearch.getText().toLowerCase())) {
+					tempObsTransactionList.add(sale);
+				}
+			}
+
+			tbTransaction.getItems().clear();
+			tbTransaction.setItems(tempObsTransactionList);
 		}
 	}
 

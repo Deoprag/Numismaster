@@ -1,6 +1,7 @@
 package com.numismaster.util;
 
 import java.io.File;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.util.HashMap;
@@ -9,7 +10,9 @@ import java.awt.Desktop;
 
 import com.numismaster.model.Sale;
 
+import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
@@ -65,4 +68,14 @@ public class Report {
             return false;
         }
     }
+
+    public static void loadReport(JasperPrint jasperPrint, Sale sale) throws IOException, JRException {
+        File tempFile = File.createTempFile("report", ".pdf");
+        tempFile.deleteOnExit();
+        JasperExportManager.exportReportToPdfFile(jasperPrint, tempFile.getAbsolutePath());
+        File file = new File(tempFile.getAbsolutePath());
+        Desktop.getDesktop().open(file);
+    }
+
 }
+

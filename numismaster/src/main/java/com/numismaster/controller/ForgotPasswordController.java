@@ -41,11 +41,19 @@ public class ForgotPasswordController {
 	@FXML
 	private Button btnSave;
 	@FXML
+	private Button btnSendCode;
+	@FXML
 	private PasswordField txtPassword;
 	@FXML
 	private PasswordField txtPasswordConfirmation;
 	@FXML
 	private TextField txtEmail;
+	@FXML
+	private Label lblEmail;
+	@FXML
+	private Label lblNewPassword;
+	@FXML
+	private Label lblNewPasswordConfirmation;
 	@FXML
 	private Label lblWarning;
 	@FXML
@@ -68,27 +76,73 @@ public class ForgotPasswordController {
 			user = userService.findByEmail(txtEmail.getText());
 			confirmationCode = Util.generateCode();
 			Email email = new Email();
-			System.out.println(confirmationCode);
+			
 			try {
 				email.sendConfirmationCode(confirmationCode, user.getEmail(), user.getFirstName());
 			} catch (Exception e) {
 				
 			}
 			
-			Alert alert = new Alert(AlertType.CONFIRMATION);
-			alert.setTitle("CONFIRMAÇÃO");
-			alert.setHeaderText("Email enviado.");
-			alert.setContentText("Caso o email informado esteja cadastrado no sistema, você receberá um código de confirmação!");
-			alert.showAndWait();
-			txtPassword.setDisable(false);
-			txtPasswordConfirmation.setDisable(false);
-			btnSave.setDisable(false);
-		} else {
-			Alert alert = new Alert(AlertType.WARNING);
-			alert.setTitle("ERRO!");
-			alert.setHeaderText("Verifique o email.");
-			alert.setContentText("Você precisa preencher o campo de email!");
-			alert.showAndWait();
+			int i = 0;
+			do {
+				i++;
+				TextInputDialog td = new TextInputDialog();
+				td.setTitle("Finalizar troca de senha. Tentativa: " + i + "/3");
+				td.setHeaderText("Insira o código de confirmação enviado no email: "
+						+ txtEmail.getText());
+				td.setContentText("Código: ");
+
+				Optional<String> result = td.showAndWait();
+				if (result.isPresent()) {
+					String name = result.get();
+					if (confirmationCode.equals(name)) {
+						
+						lblEmail.setDisable(true);
+						lblEmail.setVisible(false);
+						txtEmail.setDisable(true);
+						txtEmail.setVisible(false);
+						btnSendCode.setDisable(true);
+						btnSendCode.setVisible(false);
+
+						lblNewPassword.setDisable(false);
+						lblNewPassword.setVisible(true);
+						txtPassword.setDisable(false);
+						txtPassword.setVisible(true);
+						lblNewPasswordConfirmation.setDisable(false);
+						lblNewPasswordConfirmation.setVisible(true);
+						txtPasswordConfirmation.setDisable(false);
+						txtPasswordConfirmation.setVisible(true);
+
+						btnSave.setVisible(true);
+						btnSave.setDisable(false);
+
+						break;
+					} else {
+						if (i >= 3) {
+							Alert alert = new Alert(AlertType.ERROR);
+							alert.setTitle("ERRO!");
+							alert.setHeaderText("Código incorreto!");
+							alert.setContentText(
+									"Você errou o código 3 vezes. Infelizmente não foi possivel finalizar a recuperação!");
+							alert.showAndWait();
+							btnClose.fire();
+						} else {
+							Alert alert = new Alert(AlertType.ERROR);
+							alert.setTitle("ERRO!");
+							alert.setHeaderText("Código incorreto!");
+							alert.setContentText("Código inválido. Tente novamente!");
+							alert.showAndWait();
+						}
+					}
+				} else {
+					Alert alert = new Alert(AlertType.ERROR);
+					alert.setTitle("OBS");
+					alert.setHeaderText("Operação cancelada!");
+					alert.setContentText("Você cancelou a operação!");
+					alert.showAndWait();
+					break;
+				}
+			} while (i < 3);
 		}
 	}
 
@@ -110,57 +164,17 @@ public class ForgotPasswordController {
 		}
 		if(password){
 			UserService userService = new UserService();
-			int i = 0;
-			do {
-				i++;
-				TextInputDialog td = new TextInputDialog();
-				td.setTitle("Finalizar cadastro. Tentativa: " + i + "/3");
-				td.setHeaderText("Insira o código de confirmação enviado no email: "
-						+ txtEmail.getText());
-				td.setContentText("Código: ");
+			user.setPassword(Util.hashPassword(txtPassword.getText()));
+			if(userService.save(user)) {
+				Alert alert = new Alert(AlertType.CONFIRMATION);
+				alert.setTitle("SUCESSO");
+				alert.setHeaderText("Senha alterada.");
+				alert.setContentText("A senha foi alterada com sucesso!");
 
-				Optional<String> result = td.showAndWait();
-				if (result.isPresent()) {
-					String name = result.get();
-					if (confirmationCode.equals(name)) {
-						user.setPassword(Util.hashPassword(txtPassword.getText()));
-						if(userService.save(user)) {
-							Alert alert = new Alert(AlertType.CONFIRMATION);
-							alert.setTitle("SUCESSO");
-							alert.setHeaderText("Senha alterada.");
-							alert.setContentText("A senha foi alterada com sucesso!");
-
-							if (alert.showAndWait().get() == ButtonType.OK) {
-								btnClose.fire();
-								break;
-							}
-							break;
-						}
-					} else {
-						if (i >= 3) {
-							Alert alert = new Alert(AlertType.ERROR);
-							alert.setTitle("ERRO!");
-							alert.setHeaderText("Código incorreto!");
-							alert.setContentText(
-									"Você errou o código 3 vezes. Infelizmente não foi possivel finalizar o cadastro!");
-							alert.showAndWait();
-						} else {
-							Alert alert = new Alert(AlertType.ERROR);
-							alert.setTitle("ERRO!");
-							alert.setHeaderText("Código incorreto!");
-							alert.setContentText("Código inválido. Tente novamente!");
-							alert.showAndWait();
-						}
-					}
-				} else {
-					Alert alert = new Alert(AlertType.ERROR);
-					alert.setTitle("OBS");
-					alert.setHeaderText("Operação cancelada!");
-					alert.setContentText("Você cancelou a operação!");
-					alert.showAndWait();
-					break;
+				if (alert.showAndWait().get() == ButtonType.OK) {
+					btnClose.fire();
 				}
-			} while (i < 3);
+			}
 		} else {
 			Alert alert = new Alert(AlertType.ERROR);
 			alert.setTitle("ERRO!");
