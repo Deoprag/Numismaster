@@ -704,7 +704,16 @@ public class AdminMenuController {
 	}
 
 	public void registerUser() {
+		if (validateUserFields()) {
+			Alert alert = new Alert(AlertType.CONFIRMATION);
+			alert.setTitle("Confirmação");
+			alert.setHeaderText("Confirmação de registro");
+			alert.setContentText("Deseja realmente registrar este usuário?");
 
+			if(alert.showAndWait().get() == ButtonType.OK) {
+			
+			}
+		}
 	}
 
 	public void deleteCoin() {
