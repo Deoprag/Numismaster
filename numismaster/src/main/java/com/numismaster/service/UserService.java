@@ -22,7 +22,7 @@ public class UserService {
         userRepository = new UserRepository();
     }
 
-    public boolean save(User user) {
+    public boolean save(User user, boolean admin) {
         if (user.getId() == null) {
             if (!user.getBirthDate().isBefore(LocalDate.now().minusYears(18).plusDays(1))) {
                 Alert alert = new Alert(AlertType.WARNING);
@@ -67,6 +67,8 @@ public class UserService {
                                     alert.setContentText(
                                             "O email informado já existe, escolha outro e tente novamente!");
                                     alert.showAndWait();
+                                } else if (admin) {
+                                    return userRepository.insert(user);
                                 } else {
                                     Email email = new Email();
                                     String code = Util.generateCode();
