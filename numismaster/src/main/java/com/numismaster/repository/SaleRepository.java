@@ -105,4 +105,17 @@ public class SaleRepository {
             return null;
         }
     }
+
+    public Long coinsSelledByUser(Long id) {
+        try {
+            String queryString = "SELECT COUNT(*) FROM tb_sale s where s.seller.id = :id";
+            TypedQuery<Long> query = entityManager.createQuery(queryString, Long.class);
+            query.setParameter("id", id);
+            return query.getSingleResult();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+
 }

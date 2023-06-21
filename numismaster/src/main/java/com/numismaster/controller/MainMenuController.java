@@ -158,6 +158,8 @@ public class MainMenuController {
 	@FXML
 	private Label lblBuyedCoinsCount;
 	@FXML
+	public Label lblSelledCoinsCount;
+	@FXML
 	private Label lblRegistrationDate;
 
 	// MyCollection
@@ -296,6 +298,7 @@ public class MainMenuController {
 			}
 			lblCoinCount.setText(String.valueOf(coinUserService.coinsByUser(user)));
 			lblBuyedCoinsCount.setText(String.valueOf(saleService.coinsBuyedByUser(user)));
+			lblSelledCoinsCount.setText(String.valueOf(saleService.coinsSelledByUser(user)));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

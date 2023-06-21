@@ -255,6 +255,8 @@ public class AdminMenuController {
 
 	// User
 	@FXML
+	private TextField txtUserSearch;
+	@FXML
 	private Button btnRegisterUser;
 	@FXML
 	private Button btnDeleteUser;
@@ -552,10 +554,10 @@ public class AdminMenuController {
 				return false;
 			}
 			if (txtFirstName.getText().isBlank() || txtLastName.getText().isBlank() ||
-			txtBirthDate.getValue().toString().isBlank() || txtCpf.getText().isBlank() ||
-			boxGender.getValue() == null || txtUsername.getText().isBlank() ||
-			txtEmail.getText().isBlank() || boxGender.getValue().toString().isBlank() ||
-			txtPassword.getText().isBlank() || txtPasswordConfirmation.getText().isBlank()) {
+					txtBirthDate.getValue().toString().isBlank() || txtCpf.getText().isBlank() ||
+					boxGender.getValue() == null || txtUsername.getText().isBlank() ||
+					txtEmail.getText().isBlank() || boxGender.getValue().toString().isBlank() ||
+					txtPassword.getText().isBlank() || txtPasswordConfirmation.getText().isBlank()) {
 				Alert alert = new Alert(AlertType.WARNING);
 				alert.setTitle("OPS...");
 				alert.setHeaderText("Verifique os campos.");
@@ -573,9 +575,9 @@ public class AdminMenuController {
 			}
 		} else {
 			if (txtFirstName.getText().isBlank() || txtLastName.getText().isBlank() ||
-			txtBirthDate.getValue().toString().isBlank() || txtCpf.getText().isBlank() ||
-			boxGender.getValue() == null || txtUsername.getText().isBlank() ||
-			txtEmail.getText().isBlank() || boxGender.getValue().toString().isBlank()) {
+					txtBirthDate.getValue().toString().isBlank() || txtCpf.getText().isBlank() ||
+					boxGender.getValue() == null || txtUsername.getText().isBlank() ||
+					txtEmail.getText().isBlank() || boxGender.getValue().toString().isBlank()) {
 				Alert alert = new Alert(AlertType.WARNING);
 				alert.setTitle("OPS...");
 				alert.setHeaderText("Verifique os campos.");
@@ -584,7 +586,7 @@ public class AdminMenuController {
 				return false;
 			}
 		}
-		
+
 		return true;
 	}
 
@@ -802,7 +804,7 @@ public class AdminMenuController {
 			alert.setHeaderText("Confirmação de registro");
 			alert.setContentText("Deseja realmente registrar este usuário?");
 
-			if(alert.showAndWait().get() == ButtonType.OK) {
+			if (alert.showAndWait().get() == ButtonType.OK) {
 				User tempEditableUser = new User();
 				UserService userService = new UserService();
 
@@ -983,7 +985,7 @@ public class AdminMenuController {
 
 			if (alert.showAndWait().get() == ButtonType.OK) {
 				editableUser = tbUser.getSelectionModel().getSelectedItem();
-				if(user.getId() == editableUser.getId()) {
+				if (user.getId() == editableUser.getId()) {
 					Alert alert2 = new Alert(Alert.AlertType.WARNING);
 					alert2.setTitle("ERRO!");
 					alert2.setHeaderText("Erro ao apagar!");
@@ -996,10 +998,10 @@ public class AdminMenuController {
 						alert.setHeaderText("Sucesso na remoção");
 						alert.setContentText("Usuário apagado com sucesso!");
 						alert.showAndWait();
-						
+
 						clearUserFields();
 						loadUserTable();
-						
+
 						loadRequestTable();
 						loadTransactionTable();
 					}
@@ -1182,7 +1184,7 @@ public class AdminMenuController {
 			alert.setHeaderText("Confirmação de atualização");
 			alert.setContentText("Deseja realmente atualizar este usuário?");
 
-			if(alert.showAndWait().get() == ButtonType.OK) {
+			if (alert.showAndWait().get() == ButtonType.OK) {
 				UserService userService = new UserService();
 				editableUser.setFirstName(Util.capitalizeString(txtFirstName.getText()));
 				editableUser.setLastName(Util.capitalizeString(txtLastName.getText()));
@@ -1191,7 +1193,7 @@ public class AdminMenuController {
 				editableUser.setEmail(txtEmail.getText());
 				editableUser.setGender(boxGender.getValue());
 				editableUser.setUsername(txtUsername.getText());
-				if(!txtPassword.getText().isBlank()) {
+				if (!txtPassword.getText().isBlank()) {
 					editableUser.setPassword(Util.hashPassword(txtPassword.getText()));
 				}
 				editableUser.setType(chkBoxAdmin.isSelected() ? Type.Administrador : Type.Comum);
@@ -1703,7 +1705,28 @@ public class AdminMenuController {
 	}
 
 	public void searchUser() {
+		if (txtUserSearch.getText().isBlank()) {
+			loadUserTable();
+		} else {
+			loadUserTable();
+			ObservableList<User> tempObsUserList = FXCollections.observableArrayList();
+			for (User user : obsUserList) {
+				if ((user.getFirstName().toLowerCase() + " " + user.getLastName().toLowerCase())
+						.contains(txtUserSearch.getText().toLowerCase()) ||
+						user.getFirstName().toLowerCase().contains(txtUserSearch.getText().toLowerCase()) ||
+						user.getLastName().toLowerCase().contains(txtUserSearch.getText().toLowerCase()) ||
+						user.getCpf().toString().contains(txtUserSearch.getText()) ||
+						user.getUsername().toLowerCase().contains((txtUserSearch.getText().toLowerCase())) ||
+						user.getEmail().toLowerCase().contains((txtUserSearch.getText().toLowerCase())) ||
+						user.getType().toString().toLowerCase().contains(txtUserSearch.getText().toLowerCase()) ||
+						user.getGender().toString().toLowerCase().contains(txtUserSearch.getText().toLowerCase())) {
+					tempObsUserList.add(user);
+				}
+			}
 
+			tbUser.getItems().clear();
+			tbUser.setItems(tempObsUserList);
+		}
 	}
 
 	public void searchRequest() {

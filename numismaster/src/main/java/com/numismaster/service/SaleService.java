@@ -19,4 +19,8 @@ public class SaleService {
     public Long coinsBuyedByUser(User user){
         return saleRepository.coinsBuyedByUser(user.getId());
     }
+
+    public Long coinsSelledByUser(User user){
+        return saleRepository.coinsSelledByUser(user.getId());
+    }
 }
