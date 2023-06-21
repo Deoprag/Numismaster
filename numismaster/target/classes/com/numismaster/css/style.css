@@ -166,3 +166,16 @@
 .btn-send-code:hover {
     -fx-background-color: #373c3f;
 }
+
+.btn-delete-account {
+    -fx-font-size: 10px;
+    -fx-text-fill: #34393c;
+    -fx-background-color: #ee7a6d;
+    -fx-border-color: #34393c;
+    -fx-border-width: 1;
+}
+
+.btn-delete-account:hover {
+    -fx-background-color: #bb5f55;
+    -fx-cursor: hand;
+}

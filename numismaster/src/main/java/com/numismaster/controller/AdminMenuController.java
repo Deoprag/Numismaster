@@ -1,9 +1,15 @@
 package com.numismaster.controller;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.sql.rowset.serial.SerialException;
 
 import com.numismaster.javafx.MaskTextField;
 import com.numismaster.javafx.NumismasterCheckComboBox;
@@ -50,6 +56,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
@@ -68,6 +75,8 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
+import javafx.stage.FileChooser;
+import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
@@ -78,6 +87,7 @@ public class AdminMenuController {
 	private Scene scene;
 	private Parent root;
 	private User user;
+	private User editableUser;
 	private List<Shape> shapeList;
 	private List<Edge> edgeList;
 	private List<Material> materialList;
@@ -99,6 +109,7 @@ public class AdminMenuController {
 	private EdgeService edgeService = new EdgeService();
 	private UserRequestService userRequestService = new UserRequestService();
 	private CoinUserSaleService coinUserSaleService = new CoinUserSaleService();
+	private UserService userService = new UserService();
 
 	ObservableList<Coin> obsCoinList = FXCollections.observableArrayList();
 	ObservableList<Country> obsCountryList = FXCollections.observableArrayList();
@@ -267,6 +278,10 @@ public class AdminMenuController {
 	private TextField txtPasswordConfirmation;
 	@FXML
 	private TextField txtEmail;
+	@FXML
+	private CheckBox chkBoxAdmin;
+	@FXML
+	private CheckBox chkBoxBlocked;
 	@FXML
 	private Button btnFileChooser;
 	@FXML
@@ -526,6 +541,53 @@ public class AdminMenuController {
 		return true;
 	}
 
+	public boolean validateUserFields(boolean password) {
+		if (password) {
+			if (txtBirthDate.getValue() == null) {
+				Alert alert = new Alert(AlertType.WARNING);
+				alert.setTitle("OPS...");
+				alert.setHeaderText("Verifique a data de nascimento.");
+				alert.setContentText("Você precisa inserir uma data válida!");
+				alert.showAndWait();
+				return false;
+			}
+			if (txtFirstName.getText().isBlank() || txtLastName.getText().isBlank() ||
+			txtBirthDate.getValue().toString().isBlank() || txtCpf.getText().isBlank() ||
+			boxGender.getValue() == null || txtUsername.getText().isBlank() ||
+			txtEmail.getText().isBlank() || boxGender.getValue().toString().isBlank() ||
+			txtPassword.getText().isBlank() || txtPasswordConfirmation.getText().isBlank()) {
+				Alert alert = new Alert(AlertType.WARNING);
+				alert.setTitle("OPS...");
+				alert.setHeaderText("Verifique os campos.");
+				alert.setContentText("Você precisa preencher todos os campos!");
+				alert.showAndWait();
+				return false;
+			}
+			if (!checkPassword()) {
+				Alert alert = new Alert(AlertType.WARNING);
+				alert.setTitle("OPS...");
+				alert.setHeaderText("Senha inválida.");
+				alert.setContentText("Verifique sua senha e tente novamente!");
+				alert.showAndWait();
+				return false;
+			}
+		} else {
+			if (txtFirstName.getText().isBlank() || txtLastName.getText().isBlank() ||
+			txtBirthDate.getValue().toString().isBlank() || txtCpf.getText().isBlank() ||
+			boxGender.getValue() == null || txtUsername.getText().isBlank() ||
+			txtEmail.getText().isBlank() || boxGender.getValue().toString().isBlank()) {
+				Alert alert = new Alert(AlertType.WARNING);
+				alert.setTitle("OPS...");
+				alert.setHeaderText("Verifique os campos.");
+				alert.setContentText("Você precisa preencher todos os campos!");
+				alert.showAndWait();
+				return false;
+			}
+		}
+		
+		return true;
+	}
+
 	public void registerCoin() {
 		if (validateCoinFields()) {
 			Alert alert = new Alert(AlertType.CONFIRMATION);
@@ -577,6 +639,12 @@ public class AdminMenuController {
 
 					clearCoinFields();
 					loadCoinTable();
+				} else {
+					Alert alert2 = new Alert(Alert.AlertType.WARNING);
+					alert2.setTitle("ERRO!");
+					alert2.setHeaderText("Erro no cadastro!");
+					alert2.setContentText("Ocorreu um erro ao cadastrar moeda.");
+					alert2.showAndWait();
 				}
 			}
 		}
@@ -608,6 +676,12 @@ public class AdminMenuController {
 					updateBoxes();
 					clearCoinFields();
 					loadCoinTable();
+				} else {
+					Alert alert2 = new Alert(Alert.AlertType.WARNING);
+					alert2.setTitle("ERRO!");
+					alert2.setHeaderText("Erro no cadastro!");
+					alert2.setContentText("Ocorreu um erro ao cadastrar país.");
+					alert2.showAndWait();
 				}
 			}
 		}
@@ -638,6 +712,12 @@ public class AdminMenuController {
 					updateBoxes();
 					clearCoinFields();
 					loadCoinTable();
+				} else {
+					Alert alert2 = new Alert(Alert.AlertType.WARNING);
+					alert2.setTitle("ERRO!");
+					alert2.setHeaderText("Erro no cadastro!");
+					alert2.setContentText("Ocorreu um erro ao cadastrar formato.");
+					alert2.showAndWait();
 				}
 			}
 		}
@@ -668,6 +748,12 @@ public class AdminMenuController {
 					updateBoxes();
 					clearCoinFields();
 					loadCoinTable();
+				} else {
+					Alert alert2 = new Alert(Alert.AlertType.WARNING);
+					alert2.setTitle("ERRO!");
+					alert2.setHeaderText("Erro no cadastro!");
+					alert2.setContentText("Ocorreu um erro ao cadastrar material.");
+					alert2.showAndWait();
 				}
 			}
 		}
@@ -698,20 +784,53 @@ public class AdminMenuController {
 					updateBoxes();
 					clearCoinFields();
 					loadCoinTable();
+				} else {
+					Alert alert2 = new Alert(Alert.AlertType.WARNING);
+					alert2.setTitle("ERRO!");
+					alert2.setHeaderText("Erro no cadastro!");
+					alert2.setContentText("Ocorreu um erro ao cadastrar borda.");
+					alert2.showAndWait();
 				}
 			}
 		}
 	}
 
-	public void registerUser() {
-		if (validateUserFields()) {
+	public void registerUser() throws FileNotFoundException, SerialException, SQLException {
+		if (validateUserFields(true)) {
 			Alert alert = new Alert(AlertType.CONFIRMATION);
 			alert.setTitle("Confirmação");
 			alert.setHeaderText("Confirmação de registro");
 			alert.setContentText("Deseja realmente registrar este usuário?");
 
 			if(alert.showAndWait().get() == ButtonType.OK) {
-			
+				User tempEditableUser = new User();
+				UserService userService = new UserService();
+
+				tempEditableUser.setFirstName(Util.capitalizeString(txtFirstName.getText()));
+				tempEditableUser.setLastName(Util.capitalizeString(txtLastName.getText()));
+				tempEditableUser.setBirthDate(txtBirthDate.getValue());
+				tempEditableUser.setCpf(txtCpf.getText().replace(".", "").replace("-", ""));
+				tempEditableUser.setEmail(txtEmail.getText());
+				tempEditableUser.setGender(boxGender.getValue());
+				tempEditableUser.setUsername(txtUsername.getText());
+				tempEditableUser.setPassword(Util.hashPassword(txtPassword.getText()));
+				tempEditableUser.setType(chkBoxAdmin.isSelected() ? Type.Administrador : Type.Comum);
+				tempEditableUser.setBlocked(chkBoxBlocked.isSelected() ? true : false);
+				if (editableUser.getProfilePhoto() == null) {
+					File file = new File("numismaster/src/main/java/com/numismaster/icon/user.png");
+					FileInputStream fis = new FileInputStream(file);
+					tempEditableUser.setProfilePhoto(Util.convertToBlob(fis));
+				}
+				if (userService.save(tempEditableUser, true)) {
+					Alert alert1 = new Alert(AlertType.CONFIRMATION);
+					alert1.setTitle("SUCESSO!");
+					alert1.setHeaderText("Usuário cadastrado com sucesso!");
+					alert1.setContentText("O usuário foi cadastrado com sucesso!");
+					alert1.showAndWait();
+
+					clearUserFields();
+					loadUserTable();
+				}
 			}
 		}
 	}
@@ -854,7 +973,39 @@ public class AdminMenuController {
 	}
 
 	public void deleteUser() {
+		if (tbUser.getSelectionModel().getSelectedItem() != null) {
+			Alert alert = new Alert(AlertType.CONFIRMATION);
+			alert.setTitle("Confirmação");
+			alert.setHeaderText("Confirmação de remoção");
+			alert.setContentText("Deseja realmente apagar o usuário: "
+					+ tbUser.getSelectionModel().getSelectedItem().getFirstName()
+					+ " " + tbUser.getSelectionModel().getSelectedItem().getLastName() + "?");
 
+			if (alert.showAndWait().get() == ButtonType.OK) {
+				editableUser = tbUser.getSelectionModel().getSelectedItem();
+				if(user.getId() == editableUser.getId()) {
+					Alert alert2 = new Alert(Alert.AlertType.WARNING);
+					alert2.setTitle("ERRO!");
+					alert2.setHeaderText("Erro ao apagar!");
+					alert2.setContentText("Você não pode apagar o próprio cadastro.");
+					alert2.showAndWait();
+				} else {
+					if (userService.delete(editableUser)) {
+						alert = new Alert(AlertType.CONFIRMATION);
+						alert.setTitle("Sucesso!");
+						alert.setHeaderText("Sucesso na remoção");
+						alert.setContentText("Usuário apagado com sucesso!");
+						alert.showAndWait();
+						
+						clearUserFields();
+						loadUserTable();
+						
+						loadRequestTable();
+						loadTransactionTable();
+					}
+				}
+			}
+		}
 	}
 
 	public void updateCoin() {
@@ -1025,7 +1176,44 @@ public class AdminMenuController {
 	}
 
 	public void updateUser() {
+		if (validateUserFields(!txtPassword.getText().isBlank() || !txtPasswordConfirmation.getText().isBlank())) {
+			Alert alert = new Alert(AlertType.CONFIRMATION);
+			alert.setTitle("Confirmação");
+			alert.setHeaderText("Confirmação de atualização");
+			alert.setContentText("Deseja realmente atualizar este usuário?");
 
+			if(alert.showAndWait().get() == ButtonType.OK) {
+				UserService userService = new UserService();
+				editableUser.setFirstName(Util.capitalizeString(txtFirstName.getText()));
+				editableUser.setLastName(Util.capitalizeString(txtLastName.getText()));
+				editableUser.setBirthDate(txtBirthDate.getValue());
+				editableUser.setCpf(txtCpf.getText().replace(".", "").replace("-", ""));
+				editableUser.setEmail(txtEmail.getText());
+				editableUser.setGender(boxGender.getValue());
+				editableUser.setUsername(txtUsername.getText());
+				if(!txtPassword.getText().isBlank()) {
+					editableUser.setPassword(Util.hashPassword(txtPassword.getText()));
+				}
+				editableUser.setType(chkBoxAdmin.isSelected() ? Type.Administrador : Type.Comum);
+				editableUser.setBlocked(chkBoxBlocked.isSelected() ? true : false);
+				if (userService.save(editableUser, true)) {
+					Alert alert1 = new Alert(AlertType.CONFIRMATION);
+					alert1.setTitle("SUCESSO!");
+					alert1.setHeaderText("Usuário atualizado com sucesso!");
+					alert1.setContentText("O usuário foi atualizado com sucesso!");
+					alert1.showAndWait();
+
+					clearUserFields();
+					loadUserTable();
+				} else {
+					Alert alert2 = new Alert(Alert.AlertType.WARNING);
+					alert2.setTitle("ERRO!");
+					alert2.setHeaderText("Erro na atualização!");
+					alert2.setContentText("Ocorreu um erro ao atualizar usuário.");
+					alert2.showAndWait();
+				}
+			}
+		}
 	}
 
 	public void loadSelectedCoin() {
@@ -1088,16 +1276,18 @@ public class AdminMenuController {
 	}
 
 	public void loadSelectedUser() {
-		user = tbUser.getSelectionModel().getSelectedItem();
+		editableUser = tbUser.getSelectionModel().getSelectedItem();
 
-		if (user != null) {
-			txtFirstName.setText(user.getFirstName());
-			txtLastName.setText(user.getFirstName());
-			txtBirthDate.setValue(user.getBirthDate());
-			txtCpf.setText(user.getCpf());
-			boxGender.getSelectionModel().select(user.getGender());
-			txtUsername.setText(user.getUsername());
-			txtEmail.setText(user.getEmail());
+		if (editableUser != null) {
+			txtFirstName.setText(editableUser.getFirstName());
+			txtLastName.setText(editableUser.getLastName());
+			txtBirthDate.setValue(editableUser.getBirthDate());
+			txtCpf.setText(editableUser.getCpf());
+			boxGender.getSelectionModel().select(editableUser.getGender());
+			txtUsername.setText(editableUser.getUsername());
+			txtEmail.setText(editableUser.getEmail());
+			chkBoxAdmin.setSelected(editableUser.getType() == Type.Administrador);
+			chkBoxBlocked.setSelected(editableUser.isBlocked());
 			checkCpf();
 		}
 	}
@@ -1609,7 +1799,7 @@ public class AdminMenuController {
 	}
 
 	public void clearUserFields() {
-		user = new User();
+		editableUser = new User();
 		txtFirstName.clear();
 		txtLastName.clear();
 		txtBirthDate.setValue(null);
@@ -1619,6 +1809,8 @@ public class AdminMenuController {
 		txtPassword.clear();
 		txtPasswordConfirmation.clear();
 		txtEmail.clear();
+		chkBoxAdmin.setSelected(false);
+		chkBoxBlocked.setSelected(false);
 		lblWarning.setText("");
 		lblSelectedFile.setText("");
 		tbUser.getSelectionModel().clearSelection();
@@ -1771,8 +1963,30 @@ public class AdminMenuController {
 		});
 	}
 
-	public void chooseFile() {
-
+	public void chooseFile() throws SerialException, SQLException {
+		FileChooser fc = new FileChooser();
+		fc.setTitle("Selecionar imagem");
+		fc.setInitialDirectory(null);
+		fc.getExtensionFilters().addAll(
+				new ExtensionFilter("Imagens", "*.png", "*.jpg", "*.jpeg"));
+		File file = fc.showOpenDialog(btnFileChooser.getScene().getWindow());
+		try {
+			if (file != null) {
+				if (file.length() <= 2 * 1024 * 1024) {
+					FileInputStream fis = new FileInputStream(file);
+					editableUser.setProfilePhoto(Util.convertToBlob(fis));
+					lblSelectedFile.setText(file.getName().toString());
+				} else {
+					Alert alert = new Alert(Alert.AlertType.WARNING);
+					alert.setTitle("Erro ao selecionar arquivo.");
+					alert.setHeaderText("Arquivo muito grande!");
+					alert.setContentText("O arquivo selecionado é maior do que 2MB. Selecione um arquivo menor.");
+					alert.showAndWait();
+				}
+			}
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
 	}
 
 	@FXML
@@ -1781,6 +1995,15 @@ public class AdminMenuController {
 		mtf.setMask("###.###.###-##");
 		mtf.setValidCharacters("0123456789");
 		mtf.setTf(txtCpf);
+		mtf.formatter();
+	}
+
+	@FXML
+	private void checkBirthDate() {
+		MaskTextField mtf = new MaskTextField();
+		mtf.setMask("##/##/####");
+		mtf.setValidCharacters("0123456789");
+		mtf.setTf(txtBirthDate.getEditor());
 		mtf.formatter();
 	}
 

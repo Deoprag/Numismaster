@@ -89,6 +89,7 @@ public class MainMenuController {
 
 	private Stage stage;
 	private Stage stageCoinEditor;
+	private Stage stageChangePassword;
 	private Scene scene;
 	private Parent root;
 	private User user;
@@ -946,7 +947,7 @@ public class MainMenuController {
 			if (alert.showAndWait().get() == ButtonType.OK) {
 				user.setFirstName(txtEditFirstName.getText());
 				user.setLastName(txtEditLastName.getText());
-				if (userService.save(user)) {
+				if (userService.save(user, false)) {
 					alert = new Alert(AlertType.CONFIRMATION);
 					alert.setTitle("Sucesso!");
 					alert.setHeaderText("Dados atualizads com sucesso!");
@@ -1124,6 +1125,23 @@ public class MainMenuController {
 		txtRequestNotes.setText("");
 	}
 
+	public void changePassword() throws IOException {
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/numismaster/view/ForgotPassword.fxml"));
+		root = loader.load();
+		if (stageChangePassword == null || !stageChangePassword.isShowing()) {
+			stageChangePassword = new Stage();
+			scene = new Scene(root);
+			ForgotPasswordController forgotPasswordController = loader.getController();
+			forgotPasswordController.changeTitle();
+			stageChangePassword.initStyle(StageStyle.UNDECORATED);
+			stageChangePassword.setTitle("Numismaster");
+			stageChangePassword.getIcons().add(new Image("/com/numismaster/icon/large-app-icon.png"));
+			stageChangePassword.setScene(scene);
+			stageChangePassword.show();
+			stageChangePassword.centerOnScreen();
+		}
+	}
+
 	public void checkLength(){
 		if(txtRequestNotes.getLength() > 200) {
 			txtRequestNotes.setText(txtRequestNotes.getText(0, 200));
@@ -1141,6 +1159,10 @@ public class MainMenuController {
 		stage.setScene(scene);
 		stage.show();
 		stage.centerOnScreen();
+	}
+
+	public void deleteAccount() {
+		
 	}
 
 	@FXML

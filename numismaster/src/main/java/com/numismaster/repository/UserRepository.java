@@ -29,6 +29,7 @@ public class UserRepository {
             transaction.commit();
             return true;
         } catch (Exception ex) {
+            ex.printStackTrace();
             transaction.rollback();
             return false;
         }

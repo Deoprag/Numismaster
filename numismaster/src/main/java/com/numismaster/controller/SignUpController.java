@@ -120,6 +120,14 @@ public class SignUpController {
 	}
 
 	public boolean validateSignUpFields() {
+		if (txtBirthDate.getValue() == null) {
+				Alert alert = new Alert(AlertType.WARNING);
+				alert.setTitle("OPS...");
+				alert.setHeaderText("Verifique a data de nascimento.");
+				alert.setContentText("Você precisa inserir uma data válida!");
+				alert.showAndWait();
+				return false;
+		}
 		if (txtFirstName.getText().isBlank() || txtLastName.getText().isBlank() ||
 				txtBirthDate.getValue().toString().isBlank() || txtCpf.getText().isBlank() ||
 				boxGender.getValue() == null || txtUsername.getText().isBlank() ||
@@ -235,7 +243,7 @@ public class SignUpController {
 			user.setPassword(Util.hashPassword(txtPassword.getText()));
 			user.setBlocked(false);
 			user.setType(Type.Comum);
-			if (userService.save(user)) {
+			if (userService.save(user, false)) {
 				Alert alert = new Alert(AlertType.CONFIRMATION);
 				alert.setTitle("SUCESSO!");
 				alert.setHeaderText("Usuário cadastrado com sucesso!");

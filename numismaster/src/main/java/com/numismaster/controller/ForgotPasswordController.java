@@ -2,6 +2,8 @@ package com.numismaster.controller;
 
 import java.util.Optional;
 
+import org.jfree.chart.title.TextTitle;
+
 import com.numismaster.model.User;
 import com.numismaster.service.UserService;
 import com.numismaster.util.Email;
@@ -49,6 +51,8 @@ public class ForgotPasswordController {
 	@FXML
 	private TextField txtEmail;
 	@FXML
+	private Label lblTitle;
+	@FXML
 	private Label lblEmail;
 	@FXML
 	private Label lblNewPassword;
@@ -61,6 +65,10 @@ public class ForgotPasswordController {
 	
 	public void initialize(){
 		checkInputs();
+	}
+
+	public void changeTitle() {
+		lblTitle.setText("Alterar senha");
 	}
 
 	public void checkInputs() {
@@ -165,7 +173,7 @@ public class ForgotPasswordController {
 		if(password){
 			UserService userService = new UserService();
 			user.setPassword(Util.hashPassword(txtPassword.getText()));
-			if(userService.save(user)) {
+			if(userService.save(user, false)) {
 				Alert alert = new Alert(AlertType.CONFIRMATION);
 				alert.setTitle("SUCESSO");
 				alert.setHeaderText("Senha alterada.");

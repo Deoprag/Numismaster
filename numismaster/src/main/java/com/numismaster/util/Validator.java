@@ -65,7 +65,12 @@ public class Validator {
 	}
 
 	public static boolean passwordRequirements(String password, String passwordConfirmation, Label label) {
-		if (password.length() < 8) {
+		if(password.length() == 0 && passwordConfirmation.length() == 0){
+			if (label != null) {
+				label.setText("");
+			}
+			return false;
+		} else if (password.length() < 8) {
 			if (label != null) {
 				label.setText("A senha é muito curta!");
 			}

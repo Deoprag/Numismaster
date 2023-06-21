@@ -67,51 +67,54 @@ public class UserService {
                                     alert.setContentText(
                                             "O email informado já existe, escolha outro e tente novamente!");
                                     alert.showAndWait();
-                                } else if (admin) {
-                                    return userRepository.insert(user);
                                 } else {
-                                    Email email = new Email();
-                                    String code = Util.generateCode();
-                                    if (email.sendConfirmationCode(code, user.getEmail(), user.getFirstName())) {
-                                        int i = 0;
-                                        do {
-                                            i++;
-                                            TextInputDialog td = new TextInputDialog();
-                                            td.setTitle("Finalizar cadastro. Tentativa: " + i + "/3");
-                                            td.setHeaderText("Insira o código de confirmação enviado no email: "
-                                                    + user.getEmail());
-                                            td.setContentText("Código: ");
-
-                                            Optional<String> result = td.showAndWait();
-                                            if (result.isPresent()) {
-                                                String name = result.get();
-                                                if (code.equals(name)) {
-                                                    return userRepository.insert(user);
-                                                } else {
-                                                    if (i >= 3) {
-                                                        Alert alert = new Alert(AlertType.ERROR);
-                                                        alert.setTitle("ERRO!");
-                                                        alert.setHeaderText("Código incorreto!");
-                                                        alert.setContentText(
-                                                                "Você errou o código 3 vezes. Infelizmente não foi possivel finalizar o cadastro!");
-                                                        alert.showAndWait();
+                                    System.out.println(admin);
+                                    if (admin) {
+                                        return userRepository.insert(user);
+                                    } else {
+                                        Email email = new Email();
+                                        String code = Util.generateCode();
+                                        if (email.sendConfirmationCode(code, user.getEmail(), user.getFirstName())) {
+                                            int i = 0;
+                                            do {
+                                                i++;
+                                                TextInputDialog td = new TextInputDialog();
+                                                td.setTitle("Finalizar cadastro. Tentativa: " + i + "/3");
+                                                td.setHeaderText("Insira o código de confirmação enviado no email: "
+                                                + user.getEmail());
+                                                td.setContentText("Código: ");
+                                                
+                                                Optional<String> result = td.showAndWait();
+                                                if (result.isPresent()) {
+                                                    String name = result.get();
+                                                    if (code.equals(name)) {
+                                                        return userRepository.insert(user);
                                                     } else {
-                                                        Alert alert = new Alert(AlertType.ERROR);
-                                                        alert.setTitle("ERRO!");
-                                                        alert.setHeaderText("Código incorreto!");
-                                                        alert.setContentText("Código inválido. Tente novamente!");
-                                                        alert.showAndWait();
+                                                        if (i >= 3) {
+                                                            Alert alert = new Alert(AlertType.ERROR);
+                                                            alert.setTitle("ERRO!");
+                                                            alert.setHeaderText("Código incorreto!");
+                                                            alert.setContentText(
+                                                                    "Você errou o código 3 vezes. Infelizmente não foi possivel finalizar o cadastro!");
+                                                                    alert.showAndWait();
+                                                        } else {
+                                                            Alert alert = new Alert(AlertType.ERROR);
+                                                            alert.setTitle("ERRO!");
+                                                            alert.setHeaderText("Código incorreto!");
+                                                            alert.setContentText("Código inválido. Tente novamente!");
+                                                            alert.showAndWait();
+                                                        }
                                                     }
+                                                } else {
+                                                    Alert alert = new Alert(AlertType.ERROR);
+                                                    alert.setTitle("OBS");
+                                                    alert.setHeaderText("Operação cancelada!");
+                                                    alert.setContentText("Você cancelou a operação!");
+                                                    alert.showAndWait();
+                                                    break;
                                                 }
-                                            } else {
-                                                Alert alert = new Alert(AlertType.ERROR);
-                                                alert.setTitle("OBS");
-                                                alert.setHeaderText("Operação cancelada!");
-                                                alert.setContentText("Você cancelou a operação!");
-                                                alert.showAndWait();
-                                                break;
-                                            }
-                                        } while (i < 3);
+                                            } while (i < 3);
+                                        }
                                     }
                                 }
                             }

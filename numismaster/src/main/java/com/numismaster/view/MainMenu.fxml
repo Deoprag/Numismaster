@@ -203,7 +203,7 @@
                                           <Font name="Segoe UI Bold" size="32.0" />
                                        </font>
                                     </Label>
-                                    <Button fx:id="btnSaveUser" layoutX="743.0" layoutY="524.0" mnemonicParsing="false" onAction="#saveUser" prefHeight="40.0" prefWidth="100.0" styleClass="btn-add" stylesheets="@../css/style.css" text="Salvar">
+                                    <Button fx:id="btnSaveUser" layoutX="818.0" layoutY="524.0" mnemonicParsing="false" onAction="#saveUser" prefHeight="40.0" prefWidth="130.0" styleClass="btn-add" stylesheets="@../css/style.css" text="Salvar">
                                        <font>
                                           <Font size="10.0" />
                                        </font>
@@ -284,6 +284,15 @@
                                        </font>
                                     </Label>
                                     <Circle fill="#ffffff00" layoutX="793.0" layoutY="147.0" radius="75.0" stroke="#373c3f" strokeType="OUTSIDE" strokeWidth="2.0" />
+                                    <Button fx:id="btnChangePassword" layoutX="638.0" layoutY="524.0" mnemonicParsing="false" onAction="#changePassword" prefHeight="40.0" prefWidth="130.0" styleClass="btn-buy" stylesheets="@../css/style.css" text="Alterar senha">
+                                       <font>
+                                          <Font size="10.0" />
+                                       </font>
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
+                                    </Button>
+                                    <Button layoutX="951.0" layoutY="14.0" mnemonicParsing="false" onAction="#deleteAccount" prefHeight="23.0" prefWidth="85.0" styleClass="btn-delete-account" stylesheets="@../css/style.css" text="Apagar Conta" />
                                  </children>
                                  <opaqueInsets>
                                     <Insets />

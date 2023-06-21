@@ -107,7 +107,7 @@ public class LoginController {
 								String name = result.get();
 								if (code.equals(name)) {
 									user.setBlocked(false);
-									if (userService.save(user)) {
+									if (userService.save(user, false)) {
 										Alert alert = new Alert(AlertType.CONFIRMATION);
 										alert.setTitle("SUCESSO!");
 										alert.setHeaderText("Usuário desbloqueado com sucesso!");
