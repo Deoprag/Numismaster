@@ -279,7 +279,6 @@ public class MainMenuController {
 	public void checkInputs() {
 		Util.addTextListener("[^A-Z a-z]", 50, txtEditFirstName);
 		Util.addTextListener("[^A-Z a-z]", 50, txtEditLastName);
-		// Util.addTextListener("", 200, txtRequestNotes);
 	}
 
 	public void loadUser(User newUser) {
@@ -307,7 +306,7 @@ public class MainMenuController {
 		loadTransactionTable();
 		loadRequestTable();
 
-		if (user.getType().equals(Type.Admin)) {
+		if (user.getType().equals(Type.Administrador)) {
 			lblName.setTextFill(Color.rgb(255, 85, 85));
 			btnChangeMenu.setDisable(false);
 			btnChangeMenu.setVisible(true);

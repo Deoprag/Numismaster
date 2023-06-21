@@ -1,7 +1,6 @@
 package com.numismaster.util;
 
 import java.awt.Desktop;
-import java.awt.TextArea;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -24,7 +23,6 @@ import javax.sql.rowset.serial.SerialBlob;
 import javax.sql.rowset.serial.SerialException;
 
 import javafx.scene.control.TextField;
-import javafx.scene.control.TextFormatter;
 
 public class Util {
 
@@ -51,6 +49,10 @@ public class Util {
 		return output.toString().trim();
 	}
 
+	public static String formatCpf(String oldCpf) {
+		return String.format(oldCpf, oldCpf.substring(0, 2)+ "." +  oldCpf.substring(3, 5) + "." + oldCpf.substring(6, 8) + "-" +  oldCpf.substring(9, 10));
+	}
+
 	public static String hashPassword(String password) {
 		try {
 			MessageDigest digest = MessageDigest.getInstance("SHA-256");
@@ -74,6 +76,11 @@ public class Util {
 	public static String localDateTimeFormatter(LocalDateTime localDateTime){
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy - HH:mm:ss");
         return localDateTime.format(formatter);
+	}
+
+	public static String localDateFormatter(LocalDate localDate){
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        return localDate.format(formatter);
 	}
 
 	public static String generateCode() {

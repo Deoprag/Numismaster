@@ -57,7 +57,7 @@ public class User {
 	private String password;
 
 	@Column(name = "type", nullable = false)
-	private Type type = Type.Default;
+	private Type type = Type.Comum;
 
 	@Column(name = "is_blocked", nullable = false)
 	private boolean isBlocked = true;

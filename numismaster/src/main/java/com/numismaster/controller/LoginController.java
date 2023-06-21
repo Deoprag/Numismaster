@@ -131,7 +131,7 @@ public class LoginController {
 							}
 						} while (i < 3);
 					}
-				} else if (user.getType().equals(Type.Admin)) {
+				} else if (user.getType().equals(Type.Administrador)) {
 					try {
 						registerItens(e);
 					} catch (IOException e1) {

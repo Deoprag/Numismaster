@@ -4,8 +4,6 @@ import java.util.List;
 
 import com.numismaster.model.Coin;
 import com.numismaster.model.CoinUser;
-import com.numismaster.model.CoinUserSale;
-import com.numismaster.model.Sale;
 import com.numismaster.model.User;
 import com.numismaster.repository.CoinUserRepository;
 

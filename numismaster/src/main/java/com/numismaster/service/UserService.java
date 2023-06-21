@@ -1,6 +1,7 @@
 package com.numismaster.service;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 import com.numismaster.model.User;
@@ -151,5 +152,9 @@ public class UserService {
 
     public User findByEmail(String email) {
         return userRepository.findByEmail(email);
+    }
+
+    public List<User> findAll() {
+        return userRepository.findAll();
     }
 }

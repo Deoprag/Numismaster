@@ -17,6 +17,7 @@ import com.numismaster.model.Rarity;
 import com.numismaster.model.Request;
 import com.numismaster.model.RequestSituation;
 import com.numismaster.model.Shape;
+import com.numismaster.model.Type;
 import com.numismaster.model.User;
 import com.numismaster.model.UserRequest;
 import com.numismaster.service.CoinService;
@@ -27,6 +28,7 @@ import com.numismaster.service.MaterialService;
 import com.numismaster.service.RequestService;
 import com.numismaster.service.ShapeService;
 import com.numismaster.service.UserRequestService;
+import com.numismaster.service.UserService;
 import com.numismaster.util.Report;
 import com.numismaster.util.Util;
 import com.numismaster.util.Validator;
@@ -105,6 +107,7 @@ public class AdminMenuController {
 	ObservableList<Edge> obsEdgeList = FXCollections.observableArrayList();
 	ObservableList<UserRequest> obsRequestList = FXCollections.observableArrayList();
 	ObservableList<CoinUserSale> obsCoinUserSaleList = FXCollections.observableArrayList();
+	ObservableList<User> obsUserList = FXCollections.observableArrayList();
 
 	@FXML
 	private Button btnClose;
@@ -270,6 +273,28 @@ public class AdminMenuController {
 	private Label lblSelectedFile;
 	@FXML
 	private Label lblWarning;
+	@FXML
+	private TableView<User> tbUser;
+	@FXML
+	private TableColumn<User, String> colFirstName = new TableColumn<>("Primeiro Nome");
+	@FXML
+	private TableColumn<User, String> colLastName = new TableColumn<>("Segundo Nome");
+	@FXML
+	private TableColumn<User, String> colGender = new TableColumn<>("Gênero");
+	@FXML
+	private TableColumn<User, String> colBirthDate = new TableColumn<>("Nascimento");
+	@FXML
+	private TableColumn<User, String> colEmail = new TableColumn<>("Email");
+	@FXML
+	private TableColumn<User, String> colCpf = new TableColumn<>("CPF");
+	@FXML
+	private TableColumn<User, String> colUsername = new TableColumn<>("Usuário");
+	@FXML
+	private TableColumn<User, String> colType = new TableColumn<>("Tipo");
+	@FXML
+	private TableColumn<User, Boolean> colIsBlocked = new TableColumn<>("Bloqueado?");
+	@FXML
+	private TableColumn<User, String> colRegistrationDate = new TableColumn<>("Registrado em");
 
 	// Request
 	@FXML
@@ -294,7 +319,7 @@ public class AdminMenuController {
 	private TextField txtRequestItem;
 	@FXML
 	private TextArea txtRequestNotes;
-	
+
 	// Transactions
 	@FXML
 	private TextField txtTransactionSearch;
@@ -1054,7 +1079,18 @@ public class AdminMenuController {
 	}
 
 	public void loadSelectedUser() {
+		user = tbUser.getSelectionModel().getSelectedItem();
 
+		if (user != null) {
+			txtFirstName.setText(user.getFirstName());
+			txtLastName.setText(user.getFirstName());
+			txtBirthDate.setValue(user.getBirthDate());
+			txtCpf.setText(user.getCpf());
+			boxGender.getSelectionModel().select(user.getGender());
+			txtUsername.setText(user.getUsername());
+			txtEmail.setText(user.getEmail());
+			checkCpf();
+		}
 	}
 
 	public void loadSelectedRequest() throws IOException {
@@ -1250,7 +1286,43 @@ public class AdminMenuController {
 	}
 
 	public void loadUserTable() {
+		tbUser.getItems().clear();
+		tbUser.getColumns().clear();
 
+		UserService userService = new UserService();
+		for (User user : userService.findAll()) {
+			obsUserList.add(user);
+		}
+
+		colFirstName.setCellValueFactory(new PropertyValueFactory<>("firstName"));
+		colLastName.setCellValueFactory(new PropertyValueFactory<>("lastName"));
+		colGender.setCellValueFactory(cellData -> new SimpleStringProperty(
+				cellData.getValue().getGender().toString()));
+		colBirthDate.setCellValueFactory(cellData -> new SimpleStringProperty(
+				Util.localDateFormatter(cellData.getValue().getBirthDate())));
+		colEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
+		colCpf.setCellValueFactory(new PropertyValueFactory<>("cpf"));
+		colUsername.setCellValueFactory(new PropertyValueFactory<>("username"));
+		colType.setCellValueFactory(cellData -> new SimpleStringProperty(
+				cellData.getValue().getType().toString()));
+		colIsBlocked.setCellFactory(cellData -> new TableCell<User, Boolean>() {
+			@Override
+			protected void updateItem(Boolean item, boolean empty) {
+				super.updateItem(item, empty);
+				if (getTableRow().getItem() == null) {
+					setText(null);
+				} else {
+					item = getTableRow().getItem().isBlocked();
+					setText(empty || !item ? "Não" : "Sim");
+				}
+			}
+		});
+		colRegistrationDate.setCellValueFactory(cellData -> new SimpleStringProperty(
+				Util.localDateTimeFormatter(cellData.getValue().getRegistrationDate())));
+
+		tbUser.getColumns().addAll(colFirstName, colLastName, colGender, colBirthDate, colEmail, colCpf, colUsername,
+				colType, colIsBlocked, colRegistrationDate);
+		tbUser.setItems(obsUserList);
 	}
 
 	public void loadRequestTable() {
@@ -1300,7 +1372,7 @@ public class AdminMenuController {
 		}
 
 		colSaleId.setCellValueFactory(cellData -> new SimpleObjectProperty<Integer>(
-			cellData.getValue().getSale().getId()));
+				cellData.getValue().getSale().getId()));
 		colSaleBuyer.setCellValueFactory(cellData -> new SimpleStringProperty(
 				cellData.getValue().getSale().getBuyer().getFirstName() + " "
 						+ cellData.getValue().getSale().getBuyer().getLastName()));
@@ -1465,10 +1537,19 @@ public class AdminMenuController {
 			ObservableList<CoinUserSale> tempObsTransactionList = FXCollections.observableArrayList();
 			for (CoinUserSale sale : obsCoinUserSaleList) {
 				if ((String.valueOf(sale.getSale().getId()).contains(txtTransactionSearch.getText())) ||
-						(sale.getSale().getBuyer().getFirstName().toLowerCase() + " " + sale.getSale().getBuyer().getLastName().toLowerCase()).contains(txtTransactionSearch.getText().toLowerCase()) ||
-						(sale.getSale().getSeller().getFirstName().toLowerCase() + " " + sale.getSale().getSeller().getLastName().toLowerCase()).contains(txtTransactionSearch.getText().toLowerCase()) ||
-						(sale.getCoinUser().getCoin().getName().toLowerCase()).contains(txtTransactionSearch.getText().toLowerCase()) ||
-						(Util.localDateTimeFormatter(sale.getSale().getSaleDate())).contains(txtTransactionSearch.getText().toLowerCase())) {
+						(sale.getSale().getBuyer().getFirstName().toLowerCase() + " "
+								+ sale.getSale().getBuyer().getLastName().toLowerCase())
+								.contains(txtTransactionSearch.getText().toLowerCase())
+						||
+						(sale.getSale().getSeller().getFirstName().toLowerCase() + " "
+								+ sale.getSale().getSeller().getLastName().toLowerCase())
+								.contains(txtTransactionSearch.getText().toLowerCase())
+						||
+						(sale.getCoinUser().getCoin().getName().toLowerCase())
+								.contains(txtTransactionSearch.getText().toLowerCase())
+						||
+						(Util.localDateTimeFormatter(sale.getSale().getSaleDate()))
+								.contains(txtTransactionSearch.getText().toLowerCase())) {
 					tempObsTransactionList.add(sale);
 				}
 			}
@@ -1531,7 +1612,7 @@ public class AdminMenuController {
 		txtEmail.clear();
 		lblWarning.setText("");
 		lblSelectedFile.setText("");
-		// tbUser.getSelectionModel().clearSelection();
+		tbUser.getSelectionModel().clearSelection();
 	}
 
 	public void clearRequestFields() {
@@ -1543,12 +1624,12 @@ public class AdminMenuController {
 	}
 
 	public void acceptRequest() {
-		if(request.getRequest().getRequestSituation().equals(RequestSituation.Aberta)) {
+		if (request.getRequest().getRequestSituation().equals(RequestSituation.Aberta)) {
 			Alert alert = new Alert(AlertType.CONFIRMATION);
 			alert.setTitle("Confirmação");
 			alert.setHeaderText("Confirmação de aprovação");
 			alert.setContentText("Deseja realmente aprovar essa solicitação?");
-			
+
 			if (alert.showAndWait().get() == ButtonType.OK) {
 				RequestService requestService = new RequestService();
 				Request tempRequest = request.getRequest();
@@ -1560,7 +1641,7 @@ public class AdminMenuController {
 					alert2.setHeaderText("Sucesso na aprovação");
 					alert2.setContentText("A solicitação foi aprovada com sucesso!");
 					alert2.showAndWait();
-					
+
 					loadRequestTable();
 				}
 			}
@@ -1574,7 +1655,7 @@ public class AdminMenuController {
 	}
 
 	public void rejectRequest() {
-		if(request.getRequest().getRequestSituation().equals(RequestSituation.Aberta)) {
+		if (request.getRequest().getRequestSituation().equals(RequestSituation.Aberta)) {
 			Alert alert = new Alert(AlertType.CONFIRMATION);
 			alert.setTitle("Confirmação");
 			alert.setHeaderText("Confirmação de reprovação");
@@ -1591,7 +1672,7 @@ public class AdminMenuController {
 					alert2.setHeaderText("Sucesso na reprovação");
 					alert2.setContentText("A solicitação foi reprovada com sucesso!");
 					alert2.showAndWait();
-					
+
 					loadRequestTable();
 				}
 			}

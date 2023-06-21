@@ -8,7 +8,9 @@ inner join tb_user v on v.id = s.seller_id;
 
 select * from tb_coin_user_sale;
 
-update tb_user set type = 1 where id = 2;
+update tb_user set is_blocked = 0 where id = 1;
+
+select * from tb_user;
 
 update tb_user set birth_date = '2004-02-27' where id = 1;
 update tb_coin set rarity = 1 where rarity = 1;

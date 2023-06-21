@@ -10,7 +10,6 @@ import javax.persistence.TypedQuery;
 import com.numismaster.model.CoinUser;
 import com.numismaster.model.CoinUserSale;
 import com.numismaster.model.Sale;
-import com.numismaster.model.User;
 
 public class SaleRepository {
 

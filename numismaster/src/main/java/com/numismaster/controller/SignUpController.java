@@ -234,7 +234,7 @@ public class SignUpController {
 			user.setUsername(txtUsername.getText());
 			user.setPassword(Util.hashPassword(txtPassword.getText()));
 			user.setBlocked(false);
-			user.setType(Type.Default);
+			user.setType(Type.Comum);
 			if (userService.save(user)) {
 				Alert alert = new Alert(AlertType.CONFIRMATION);
 				alert.setTitle("SUCESSO!");
