@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.sql.Blob;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -290,6 +291,8 @@ public class AdminMenuController {
 	private Label lblSelectedFile;
 	@FXML
 	private Label lblWarning;
+	@FXML
+	private Blob newProfilePhoto;
 	@FXML
 	private TableView<User> tbUser;
 	@FXML
@@ -818,10 +821,12 @@ public class AdminMenuController {
 				tempEditableUser.setPassword(Util.hashPassword(txtPassword.getText()));
 				tempEditableUser.setType(chkBoxAdmin.isSelected() ? Type.Administrador : Type.Comum);
 				tempEditableUser.setBlocked(chkBoxBlocked.isSelected() ? true : false);
-				if (editableUser.getProfilePhoto() == null) {
+				if (newProfilePhoto == null) {
 					File file = new File("numismaster/src/main/java/com/numismaster/icon/user.png");
 					FileInputStream fis = new FileInputStream(file);
 					tempEditableUser.setProfilePhoto(Util.convertToBlob(fis));
+				} else {
+					tempEditableUser.setProfilePhoto(newProfilePhoto);
 				}
 				if (userService.save(tempEditableUser, true)) {
 					Alert alert1 = new Alert(AlertType.CONFIRMATION);
@@ -1867,6 +1872,7 @@ public class AdminMenuController {
 					alert2.showAndWait();
 
 					loadRequestTable();
+					clearRequestFields();
 				}
 			}
 		} else {
@@ -1884,7 +1890,7 @@ public class AdminMenuController {
 			alert.setTitle("Confirmação");
 			alert.setHeaderText("Confirmação de reprovação");
 			alert.setContentText("Deseja realmente reprovar essa solicitação?");
-
+			
 			if (alert.showAndWait().get() == ButtonType.OK) {
 				RequestService requestService = new RequestService();
 				Request tempRequest = request.getRequest();
@@ -1896,8 +1902,9 @@ public class AdminMenuController {
 					alert2.setHeaderText("Sucesso na reprovação");
 					alert2.setContentText("A solicitação foi reprovada com sucesso!");
 					alert2.showAndWait();
-
+					
 					loadRequestTable();
+					clearRequestFields();	
 				}
 			}
 		} else {
@@ -1997,7 +2004,7 @@ public class AdminMenuController {
 			if (file != null) {
 				if (file.length() <= 2 * 1024 * 1024) {
 					FileInputStream fis = new FileInputStream(file);
-					editableUser.setProfilePhoto(Util.convertToBlob(fis));
+					newProfilePhoto = Util.convertToBlob(fis);
 					lblSelectedFile.setText(file.getName().toString());
 				} else {
 					Alert alert = new Alert(Alert.AlertType.WARNING);

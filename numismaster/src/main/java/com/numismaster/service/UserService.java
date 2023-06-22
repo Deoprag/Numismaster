@@ -68,7 +68,6 @@ public class UserService {
                                             "O email informado já existe, escolha outro e tente novamente!");
                                     alert.showAndWait();
                                 } else {
-                                    System.out.println(admin);
                                     if (admin) {
                                         return userRepository.insert(user);
                                     } else {

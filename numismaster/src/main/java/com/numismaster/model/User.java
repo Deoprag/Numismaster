@@ -15,6 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -72,4 +73,12 @@ public class User {
 	@JoinTable(name = "tb_coin_user", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "coin_id"))
 	private List<Coin> coins = new ArrayList<>();
 
+	@OneToMany(mappedBy = "seller", cascade = CascadeType.ALL)
+    private List<Sale> sellList;
+
+	@OneToMany(mappedBy = "buyer", cascade = CascadeType.ALL)
+	private List<Sale> buyList;
+
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+	private List<UserRequest> userRequests;
 }
