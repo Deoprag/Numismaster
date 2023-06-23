@@ -883,7 +883,18 @@ public class MainMenuController {
 	}
 
 	public void searchTransaction(){
+		if(txtTransactionSearch.getText().isBlank() {
+			loadTransactionTable();
+		} else {
+			loadTransactionTable();
+			ObservableList<UserRequest> tempObsCoinUserSaleList = FXCollections.observableArrayList();
+			for (CoinUserSale sale : obsCoinUserSaleList) {
+				// Implementar a pesquisa
+			}
 
+			tbTransaction.getItems.clear();
+			tbTransaction.setItems(tempObsCoinUserSaleList);
+		}
 	}
 
 	public void searchRequest(){
@@ -1165,7 +1176,35 @@ public class MainMenuController {
 	}
 
 	public void deleteAccount() {
+		Alert alert = new Alert(AlertType.CONFIRMATION);
+		alert.setTitle("Confirmação 1/2");
+		alert.setHeaderText("Confirmação de remoção");
+		alert.setContentText("Deseja realmente apagar sua conta?");
 		
+		if(alert.showAndWait().get() == ButtonType.OK) {
+			alert = new Alert(AlertType.CONFIRMATION);
+			alert.setTitle("Confirmação 2/2!");
+			alert.setHeaderText("Confirmação de remoção");
+			alert.setContentText("Tem certeza que deseja apagar sua conta? Essa ação não pode ser desfeita!");
+			
+			if(alert.showAndWait().get() == ButtonType.OK) {
+				if (userService.delete(editableUser)) {
+					alert = new Alert(AlertType.CONFIRMATION);
+					alert.setTitle("Sucesso!");
+					alert.setHeaderText("Sucesso na remoção");
+					alert.setContentText("Usuário apagado com sucesso!");
+					alert.showAndWait();
+					
+					FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/numismaster/view/Login.fxml"));
+					root = loader.load();
+					stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
+					scene = new Scene(root);
+					stage.setScene(scene);
+					stage.show();
+					stage.centerOnScreen();
+				}
+			}
+		}
 	}
 
 	@FXML
