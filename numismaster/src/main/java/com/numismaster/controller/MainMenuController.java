@@ -236,6 +236,8 @@ public class MainMenuController {
 
 	// Transactions
 	@FXML
+	private TextField txtTransactionSearch;
+	@FXML
 	private TableView<CoinUserSale> tbTransaction;
 	@FXML
 	private TableColumn<CoinUserSale, Integer> colSaleId = new TableColumn<>("ID");
@@ -883,16 +885,16 @@ public class MainMenuController {
 	}
 
 	public void searchTransaction(){
-		if(txtTransactionSearch.getText().isBlank() {
+		if(txtTransactionSearch.getText().isBlank()) {
 			loadTransactionTable();
 		} else {
 			loadTransactionTable();
-			ObservableList<UserRequest> tempObsCoinUserSaleList = FXCollections.observableArrayList();
+			ObservableList<CoinUserSale> tempObsCoinUserSaleList = FXCollections.observableArrayList();
 			for (CoinUserSale sale : obsCoinUserSaleList) {
 				// Implementar a pesquisa
 			}
 
-			tbTransaction.getItems.clear();
+			tbTransaction.getItems().clear();
 			tbTransaction.setItems(tempObsCoinUserSaleList);
 		}
 	}
@@ -1175,7 +1177,7 @@ public class MainMenuController {
 		stage.centerOnScreen();
 	}
 
-	public void deleteAccount() {
+	public void deleteAccount(ActionEvent e) throws IOException {
 		Alert alert = new Alert(AlertType.CONFIRMATION);
 		alert.setTitle("Confirmação 1/2");
 		alert.setHeaderText("Confirmação de remoção");
@@ -1186,9 +1188,8 @@ public class MainMenuController {
 			alert.setTitle("Confirmação 2/2!");
 			alert.setHeaderText("Confirmação de remoção");
 			alert.setContentText("Tem certeza que deseja apagar sua conta? Essa ação não pode ser desfeita!");
-			
 			if(alert.showAndWait().get() == ButtonType.OK) {
-				if (userService.delete(editableUser)) {
+				if (userService.delete(user)) {
 					alert = new Alert(AlertType.CONFIRMATION);
 					alert.setTitle("Sucesso!");
 					alert.setHeaderText("Sucesso na remoção");

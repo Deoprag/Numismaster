@@ -107,7 +107,7 @@ CREATE TABLE TB_Coin_User (
 	image_back LONGBLOB,
 	notes TEXT,
 	CONSTRAINT price_if_for_sale CHECK (is_for_sale = 0 OR (is_for_sale = 1 AND price IS NOT NULL)),
-	FOREIGN KEY (user_id) REFERENCES TB_User (id),
+	FOREIGN KEY (user_id) REFERENCES TB_User (id) ON DELETE CASCADE,
 	FOREIGN KEY (coin_id) REFERENCES TB_Coin (id),
 	CONSTRAINT coin_user_id PRIMARY KEY (id)
 );
@@ -116,9 +116,9 @@ CREATE TABLE TB_Coin_User_Sale (
 	id INT AUTO_INCREMENT,
 	coin_user_id INT NOT NULL,
 	sale_id INT NOT NULL,
-	FOREIGN KEY (coin_user_id) REFERENCES TB_Coin_User (id),
-	FOREIGN KEY (sale_id) REFERENCES TB_Sale (id),
-    CONSTRAINT coin_sale_id PRIMARY KEY (id)
+	FOREIGN KEY (coin_user_id) REFERENCES TB_Coin_User (id) ON DELETE CASCADE,
+	FOREIGN KEY (sale_id) REFERENCES TB_Sale (id) ON DELETE CASCADE,
+    CONSTRAINT coin_user_sale_id PRIMARY KEY (id)
 );
 
 CREATE TABLE TB_Request(
@@ -137,6 +137,6 @@ CREATE TABLE TB_User_Request(
     user_id INT NOT NULL,
     request_id INT NOT NULL,
     FOREIGN KEY (user_id) REFERENCES TB_User (id),
-    FOREIGN KEY (request_id) REFERENCES TB_Request (id),
+    FOREIGN KEY (request_id) REFERENCES TB_Request (id) ON DELETE CASCADE,
     CONSTRAINT user_request_id PRIMARY KEY (id)
 );

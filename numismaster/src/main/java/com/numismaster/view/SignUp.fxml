@@ -33,7 +33,7 @@
             </Label>
             <TextField fx:id="txtFirstName" layoutX="75.0" layoutY="90.0" prefHeight="30.0" prefWidth="150.0" promptText="ex. João" style="-fx-background-color: #d9d9d9; -fx-border-color: #373c3f; -fx-border-width: 0 0 2 0;" />
             <TextField fx:id="txtLastName" layoutX="275.0" layoutY="90.0" prefHeight="30.0" prefWidth="150.0" promptText="ex. Silva" style="-fx-background-color: #d9d9d9; -fx-border-color: #373c3f; -fx-border-width: 0 0 2 0;" />
-            <DatePicker fx:id="txtBirthDate" layoutX="75.0" layoutY="160.0" prefHeight="30.0" prefWidth="150.0" promptText="dd/mm/aaaa" style="-fx-background-color: #d9d9d9;" />
+            <DatePicker fx:id="txtBirthDate" editable="false" layoutX="75.0" layoutY="160.0" prefHeight="30.0" prefWidth="150.0" promptText="dd/mm/aaaa" style="-fx-background-color: #d9d9d9;" />
             <TextField fx:id="txtCpf" layoutX="275.0" layoutY="160.0" onKeyReleased="#checkCpf" prefHeight="30.0" prefWidth="150.0" promptText="ex. 000.000.000-00" style="-fx-background-color: #d9d9d9; -fx-border-color: #373c3f; -fx-border-width: 0 0 2 0;" />
             <ChoiceBox fx:id="boxGender" layoutX="75.0" layoutY="225.0" prefHeight="30.0" prefWidth="150.0" style="-fx-background-color: #d9d9d9; -fx-border-color: #373c3f; -fx-border-width: 0 0 2 0;" />
             <TextField fx:id="txtUsername" layoutX="275.0" layoutY="225.0" prefHeight="30.0" prefWidth="150.0" promptText="ex. joaosilva" style="-fx-background-color: #d9d9d9; -fx-border-color: #373c3f; -fx-border-width: 0 0 2 0;" />

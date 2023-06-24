@@ -136,10 +136,8 @@ public class UserService {
     }
 
     public boolean delete(User user) {
-        if (userRepository.delete(user.getId())) {
-            return true;
-        }
-        return false;
+        return userRepository.delete(user.getId());
+
     }
 
     public User login(String username, String password) {

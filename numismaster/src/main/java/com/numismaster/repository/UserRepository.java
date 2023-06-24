@@ -1,5 +1,6 @@
 package com.numismaster.repository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -8,6 +9,7 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
+import com.numismaster.model.CoinUserSale;
 import com.numismaster.model.User;
 import com.numismaster.util.Util;
 
@@ -61,10 +63,12 @@ public class UserRepository {
         try {
             transaction.begin();
             User user = entityManager.find(User.class, id);
+            
             entityManager.remove(user);
             transaction.commit();
             return true;
         } catch (Exception ex) {
+            ex.printStackTrace();
             transaction.rollback();
             return false;
         }
