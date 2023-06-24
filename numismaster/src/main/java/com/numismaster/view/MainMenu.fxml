@@ -82,7 +82,7 @@
                     <content>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
-                              <TextField fx:id="txtTransactionSearch" layoutX="12.0" layoutY="8.0" onKeyReleased="#searchCoin" prefHeight="30.0" prefWidth="1060.0" promptText="ex. 1 Real" style="-fx-border-color: #373c3f; -fx-border-width: 2; -fx-background-color: #fff;">
+                              <TextField fx:id="txtTransactionSearch" layoutX="12.0" layoutY="8.0" onKeyReleased="#searchTransaction" prefHeight="30.0" prefWidth="1060.0" promptText="ex. 1 Real" style="-fx-border-color: #373c3f; -fx-border-width: 2; -fx-background-color: #fff;">
                                  <font>
                                     <Font size="14.0" />
                                  </font>

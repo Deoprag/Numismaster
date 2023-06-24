@@ -100,7 +100,6 @@ public class MainMenuController {
 	private UserRequestService userRequestService = new UserRequestService();
 	private UserService userService = new UserService();
 
-
 	ObservableList<Coin> obsCoinList = FXCollections.observableArrayList();
 	ObservableList<CoinUser> obsCoinUserList = FXCollections.observableArrayList();
 	ObservableList<CoinUser> obsCoinUserListMkt = FXCollections.observableArrayList();
@@ -270,7 +269,6 @@ public class MainMenuController {
 	@FXML
 	private TableColumn<UserRequest, LocalDateTime> colCloseRequestDate = new TableColumn<>("Data de Fechamento");
 
-
 	private double x, y = 0;
 
 	public void initialize() {
@@ -295,7 +293,7 @@ public class MainMenuController {
 			CoinUserService coinUserService = new CoinUserService();
 			SaleService saleService = new SaleService();
 			rarestCoin = coinUserService.findRarestCoinByUser(user);
-			if(rarestCoin != null) {
+			if (rarestCoin != null) {
 				lblRarestCoin.setText(rarestCoin.getCoin().getName());
 			}
 			lblCoinCount.setText(String.valueOf(coinUserService.coinsByUser(user)));
@@ -320,7 +318,7 @@ public class MainMenuController {
 	}
 
 	public void loadRarestCoin() throws IOException {
-		if(rarestCoin != null) {
+		if (rarestCoin != null) {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/numismaster/view/CoinEditor.fxml"));
 			root = loader.load();
 			CoinEditorController rcc = loader.getController();
@@ -589,7 +587,7 @@ public class MainMenuController {
 
 		tbCoinUser.getColumns().addAll(colImgFront, colImgBack, colName, colCountryCollection, colYear, colCondition,
 				colRarityCollection,
-				colIsForSale, colPrice, colNotes); 
+				colIsForSale, colPrice, colNotes);
 		tbCoinUser.setItems(obsCoinUserList);
 	}
 
@@ -688,23 +686,25 @@ public class MainMenuController {
 		tbMarket.setItems(obsCoinUserListMkt);
 	}
 
-	public void loadTransactionTable(){
+	public void loadTransactionTable() {
 		tbTransaction.getItems().clear();
 		tbTransaction.getColumns().clear();
 
 		coinUserSaleService = new CoinUserSaleService();
-		for(CoinUserSale coinUserSale : coinUserSaleService.findTransactionsByUser(user)){
+		for (CoinUserSale coinUserSale : coinUserSaleService.findTransactionsByUser(user)) {
 			obsCoinUserSaleList.add(coinUserSale);
 		}
 
 		colSaleId.setCellValueFactory(cellData -> new SimpleObjectProperty<Integer>(
-			cellData.getValue().getSale().getId()));
+				cellData.getValue().getSale().getId()));
 		colSaleBuyer.setCellValueFactory(cellData -> new SimpleStringProperty(
-			cellData.getValue().getSale().getBuyer().getFirstName() + " " + cellData.getValue().getSale().getBuyer().getLastName()));
+				cellData.getValue().getSale().getBuyer().getFirstName() + " "
+						+ cellData.getValue().getSale().getBuyer().getLastName()));
 		colSaleSeller.setCellValueFactory(cellData -> new SimpleStringProperty(
-			cellData.getValue().getSale().getSeller().getFirstName() + " " + cellData.getValue().getSale().getSeller().getLastName()));
+				cellData.getValue().getSale().getSeller().getFirstName() + " "
+						+ cellData.getValue().getSale().getSeller().getLastName()));
 		colSalePrice.setCellValueFactory(cellData -> new SimpleObjectProperty<Float>(
-			cellData.getValue().getSale().getPrice()));
+				cellData.getValue().getSale().getPrice()));
 		colSalePrice.setCellFactory(column -> new TableCell<CoinUserSale, Float>() {
 			@Override
 			protected void updateItem(Float item, boolean empty) {
@@ -713,36 +713,37 @@ public class MainMenuController {
 			}
 		});
 		colSaleCoinName.setCellValueFactory(cellData -> new SimpleStringProperty(
-			cellData.getValue().getCoinUser().getCoin().getName()));
+				cellData.getValue().getCoinUser().getCoin().getName()));
 		colSaleDate.setCellValueFactory(cellData -> new SimpleStringProperty(
-			Util.localDateTimeFormatter(cellData.getValue().getSale().getSaleDate())));
-		
-		tbTransaction.getColumns().addAll(colSaleId, colSaleBuyer, colSaleSeller, colSalePrice, colSaleCoinName, colSaleDate);
+				Util.localDateTimeFormatter(cellData.getValue().getSale().getSaleDate())));
+
+		tbTransaction.getColumns().addAll(colSaleId, colSaleBuyer, colSaleSeller, colSalePrice, colSaleCoinName,
+				colSaleDate);
 		tbTransaction.setItems(obsCoinUserSaleList);
 	}
 
-	public void loadRequestTable(){
+	public void loadRequestTable() {
 		tbRequest.getItems().clear();
 		tbRequest.getColumns().clear();
 
 		userRequestService = new UserRequestService();
-		for(UserRequest userRequest : userRequestService.findAllByUser(user)){
+		for (UserRequest userRequest : userRequestService.findAllByUser(user)) {
 			obsRequestList.add(userRequest);
 		}
 
 		colRequestedItem.setCellValueFactory(cellData -> new SimpleStringProperty(
-			cellData.getValue().getRequest().getRequestedItem().toString()));
+				cellData.getValue().getRequest().getRequestedItem().toString()));
 		colRequestNotes.setCellValueFactory(cellData -> new SimpleStringProperty(
-			cellData.getValue().getRequest().getNotes()));
+				cellData.getValue().getRequest().getNotes()));
 		colRequestSituation.setCellValueFactory(cellData -> new SimpleStringProperty(
-			cellData.getValue().getRequest().getRequestSituation().toString()));
+				cellData.getValue().getRequest().getRequestSituation().toString()));
 		colRequestDate.setCellValueFactory(cellData -> new SimpleStringProperty(
-			Util.localDateTimeFormatter(cellData.getValue().getRequest().getRequestDate())));
+				Util.localDateTimeFormatter(cellData.getValue().getRequest().getRequestDate())));
 		colCloseRequestDate.setCellFactory(cellData -> new TableCell<UserRequest, LocalDateTime>() {
 			@Override
-			protected void updateItem(LocalDateTime item, boolean empty){
+			protected void updateItem(LocalDateTime item, boolean empty) {
 				super.updateItem(item, empty);
-				if(getTableRow().getItem() == null){
+				if (getTableRow().getItem() == null) {
 					setText(null);
 				} else {
 					item = getTableRow().getItem().getRequest().getCloseRequestDate();
@@ -751,7 +752,8 @@ public class MainMenuController {
 			}
 		});
 
-		tbRequest.getColumns().addAll(colRequestedItem, colRequestSituation, colRequestNotes, colRequestDate, colCloseRequestDate);
+		tbRequest.getColumns().addAll(colRequestedItem, colRequestSituation, colRequestNotes, colRequestDate,
+				colCloseRequestDate);
 		tbRequest.setItems(obsRequestList);
 
 	}
@@ -796,7 +798,7 @@ public class MainMenuController {
 		}
 	}
 
-	public void searchCoinUser(){
+	public void searchCoinUser() {
 		if (txtCoinUserSearch.getText().isBlank()) {
 			loadCoinUserTable();
 		} else {
@@ -804,10 +806,18 @@ public class MainMenuController {
 			ObservableList<CoinUser> tempObsCoinUserList = FXCollections.observableArrayList();
 			for (CoinUser coinUser : obsCoinUserList) {
 				if (coinUser.getCoin().getName().toLowerCase().contains(txtCoinUserSearch.getText().toLowerCase()) ||
-						coinUser.getCoin().getRarity().toString().toLowerCase().contains(txtCoinUserSearch.getText().toLowerCase()) ||
-						coinUser.getCoin().getCountry().getName().toLowerCase().contains(txtCoinUserSearch.getText().toLowerCase()) ||
-						coinUser.getCoinCondition().toString().toLowerCase().contains(txtCoinUserSearch.getText().toLowerCase()) ||
-						coinUser.getNotes() != null && coinUser.getNotes().toLowerCase().contains(txtCoinUserSearch.getText().toLowerCase()) ||
+						coinUser.getCoin().getRarity().toString().toLowerCase()
+								.contains(txtCoinUserSearch.getText().toLowerCase())
+						||
+						coinUser.getCoin().getCountry().getName().toLowerCase()
+								.contains(txtCoinUserSearch.getText().toLowerCase())
+						||
+						coinUser.getCoinCondition().toString().toLowerCase()
+								.contains(txtCoinUserSearch.getText().toLowerCase())
+						||
+						coinUser.getNotes() != null
+								&& coinUser.getNotes().toLowerCase().contains(txtCoinUserSearch.getText().toLowerCase())
+						||
 						String.valueOf(coinUser.getYear()).contains(txtCoinUserSearch.getText())) {
 					tempObsCoinUserList.add(coinUser);
 				}
@@ -839,7 +849,7 @@ public class MainMenuController {
 		}
 	}
 
-	public void searchMarket(){
+	public void searchMarket() {
 		if (txtMarketSearch.getText().isBlank()) {
 			loadMarketTable();
 		} else {
@@ -848,10 +858,18 @@ public class MainMenuController {
 			for (CoinUser coinUser : obsCoinUserListMkt) {
 				String name = coinUser.getUser().getFirstName() + " " + coinUser.getUser().getLastName();
 				if (coinUser.getCoin().getName().toLowerCase().contains(txtMarketSearch.getText().toLowerCase()) ||
-						coinUser.getCoin().getRarity().toString().toLowerCase().contains(txtMarketSearch.getText().toLowerCase()) ||
-						coinUser.getCoin().getCountry().getName().toLowerCase().contains(txtMarketSearch.getText().toLowerCase()) ||
-						coinUser.getCoinCondition().toString().toLowerCase().contains(txtMarketSearch.getText().toLowerCase()) ||
-						coinUser.getNotes() != null && coinUser.getNotes().toLowerCase().contains(txtMarketSearch.getText().toLowerCase()) ||
+						coinUser.getCoin().getRarity().toString().toLowerCase()
+								.contains(txtMarketSearch.getText().toLowerCase())
+						||
+						coinUser.getCoin().getCountry().getName().toLowerCase()
+								.contains(txtMarketSearch.getText().toLowerCase())
+						||
+						coinUser.getCoinCondition().toString().toLowerCase()
+								.contains(txtMarketSearch.getText().toLowerCase())
+						||
+						coinUser.getNotes() != null
+								&& coinUser.getNotes().toLowerCase().contains(txtMarketSearch.getText().toLowerCase())
+						||
 						String.valueOf(coinUser.getYear()).contains(txtMarketSearch.getText()) ||
 						name.toLowerCase().contains(txtMarketSearch.getText().toLowerCase())) {
 					tempObsMarketList.add(coinUser);
@@ -884,22 +902,37 @@ public class MainMenuController {
 		}
 	}
 
-	public void searchTransaction(){
-		if(txtTransactionSearch.getText().isBlank()) {
+	public void searchTransaction() {
+		if (txtTransactionSearch.getText().isBlank()) {
 			loadTransactionTable();
 		} else {
 			loadTransactionTable();
-			ObservableList<CoinUserSale> tempObsCoinUserSaleList = FXCollections.observableArrayList();
+			ObservableList<CoinUserSale> tempObsTransactionList = FXCollections.observableArrayList();
 			for (CoinUserSale sale : obsCoinUserSaleList) {
-				// Implementar a pesquisa
+				if ((String.valueOf(sale.getSale().getId()).contains(txtTransactionSearch.getText())) ||
+						(sale.getSale().getBuyer().getFirstName().toLowerCase() + " "
+								+ sale.getSale().getBuyer().getLastName().toLowerCase())
+								.contains(txtTransactionSearch.getText().toLowerCase())
+						||
+						(sale.getSale().getSeller().getFirstName().toLowerCase() + " "
+								+ sale.getSale().getSeller().getLastName().toLowerCase())
+								.contains(txtTransactionSearch.getText().toLowerCase())
+						||
+						(sale.getCoinUser().getCoin().getName().toLowerCase())
+								.contains(txtTransactionSearch.getText().toLowerCase())
+						||
+						(Util.localDateTimeFormatter(sale.getSale().getSaleDate()))
+								.contains(txtTransactionSearch.getText().toLowerCase())) {
+					tempObsTransactionList.add(sale);
+				}
 			}
 
 			tbTransaction.getItems().clear();
-			tbTransaction.setItems(tempObsCoinUserSaleList);
+			tbTransaction.setItems(tempObsTransactionList);
 		}
 	}
 
-	public void searchRequest(){
+	public void searchRequest() {
 		if (txtRequestSearch.getText().isBlank()) {
 			loadRequestTable();
 		} else {
@@ -907,17 +940,19 @@ public class MainMenuController {
 			ObservableList<UserRequest> tempObsRequestList = FXCollections.observableArrayList();
 			for (UserRequest request : obsRequestList) {
 				if (request.getRequest().getNotes().toLowerCase().contains(txtRequestSearch.getText().toLowerCase()) ||
-				request.getRequest().getRequestedItem().toString().toLowerCase().contains(txtRequestSearch.getText().toLowerCase()) ||
-				request.getRequest().getRequestSituation().toString().toLowerCase().contains(txtRequestSearch.getText().toLowerCase())) {
+						request.getRequest().getRequestedItem().toString().toLowerCase()
+								.contains(txtRequestSearch.getText().toLowerCase())
+						||
+						request.getRequest().getRequestSituation().toString().toLowerCase()
+								.contains(txtRequestSearch.getText().toLowerCase())) {
 					tempObsRequestList.add(request);
 				}
 			}
-			
+
 			tbRequest.getItems().clear();
 			tbRequest.setItems(tempObsRequestList);
 		}
 	}
-	
 
 	public void fixImage(ImageView image, boolean circle) {
 		image.setFitWidth(150);
@@ -1096,10 +1131,10 @@ public class MainMenuController {
 	}
 
 	public boolean validateRequestFields() {
-		if(txtRequestNotes.getText().isBlank()){
+		if (txtRequestNotes.getText().isBlank()) {
 			return false;
 		}
-		if(boxItems.getSelectionModel().getSelectedItem() == null){
+		if (boxItems.getSelectionModel().getSelectedItem() == null) {
 			return false;
 		}
 		return true;
@@ -1158,8 +1193,8 @@ public class MainMenuController {
 		}
 	}
 
-	public void checkLength(){
-		if(txtRequestNotes.getLength() > 200) {
+	public void checkLength() {
+		if (txtRequestNotes.getLength() > 200) {
 			txtRequestNotes.setText(txtRequestNotes.getText(0, 200));
 		}
 	}
@@ -1182,20 +1217,20 @@ public class MainMenuController {
 		alert.setTitle("Confirmação 1/2");
 		alert.setHeaderText("Confirmação de remoção");
 		alert.setContentText("Deseja realmente apagar sua conta?");
-		
-		if(alert.showAndWait().get() == ButtonType.OK) {
+
+		if (alert.showAndWait().get() == ButtonType.OK) {
 			alert = new Alert(AlertType.CONFIRMATION);
 			alert.setTitle("Confirmação 2/2!");
 			alert.setHeaderText("Confirmação de remoção");
 			alert.setContentText("Tem certeza que deseja apagar sua conta? Essa ação não pode ser desfeita!");
-			if(alert.showAndWait().get() == ButtonType.OK) {
+			if (alert.showAndWait().get() == ButtonType.OK) {
 				if (userService.delete(user)) {
 					alert = new Alert(AlertType.CONFIRMATION);
 					alert.setTitle("Sucesso!");
 					alert.setHeaderText("Sucesso na remoção");
 					alert.setContentText("Usuário apagado com sucesso!");
 					alert.showAndWait();
-					
+
 					FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/numismaster/view/Login.fxml"));
 					root = loader.load();
 					stage = (Stage) ((Node) e.getSource()).getScene().getWindow();

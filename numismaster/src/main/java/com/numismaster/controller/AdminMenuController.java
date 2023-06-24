@@ -136,11 +136,9 @@ public class AdminMenuController {
 	@FXML
 	private Pane paneCoin;
 	@FXML
-	private Button btnRegisterCoin;
+	private Button btnSaveCoin;
 	@FXML
 	private Button btnDeleteCoin;
-	@FXML
-	private Button btnUpdateCoin;
 	@FXML
 	private TextField txtCoinName;
 	@FXML
@@ -188,7 +186,7 @@ public class AdminMenuController {
 
 	// Country
 	@FXML
-	private Button btnRegisterCountry;
+	private Button btnSaveCountry;
 	@FXML
 	private Button btnDeleteCountry;
 	@FXML
@@ -198,8 +196,6 @@ public class AdminMenuController {
 	@FXML
 	private TextField txtCountrySearch;
 	@FXML
-	private Button btnUpdateCountry;
-	@FXML
 	private TableView<Country> tbCountry;
 	@FXML
 	private TableColumn<Country, String> colCountryCode = new TableColumn<>("Código");
@@ -208,11 +204,9 @@ public class AdminMenuController {
 
 	// Shape
 	@FXML
-	private Button btnRegisterShape;
+	private Button btnSaveShape;
 	@FXML
 	private Button btnDeleteShape;
-	@FXML
-	private Button btnUpdateShape;
 	@FXML
 	private TextField txtShapeName;
 	@FXML
@@ -224,11 +218,9 @@ public class AdminMenuController {
 
 	// Material
 	@FXML
-	private Button btnRegisterMaterial;
+	private Button btnSaveMaterial;
 	@FXML
 	private Button btnDeleteMaterial;
-	@FXML
-	private Button btnUpdateMaterial;
 	@FXML
 	private TextField txtMaterialName;
 	@FXML
@@ -240,11 +232,9 @@ public class AdminMenuController {
 
 	// Edge
 	@FXML
-	private Button btnRegisterEdge;
+	private Button btnSaveEdge;
 	@FXML
 	private Button btnDeleteEdge;
-	@FXML
-	private Button btnUpdateEdge;
 	@FXML
 	private TextField txtEdgeName;
 	@FXML
@@ -258,11 +248,9 @@ public class AdminMenuController {
 	@FXML
 	private TextField txtUserSearch;
 	@FXML
-	private Button btnRegisterUser;
+	private Button btnSaveUser;
 	@FXML
 	private Button btnDeleteUser;
-	@FXML
-	private Button btnUpdateUser;
 	@FXML
 	private TextField txtFirstName;
 	@FXML
@@ -1783,6 +1771,78 @@ public class AdminMenuController {
 
 			tbTransaction.getItems().clear();
 			tbTransaction.setItems(tempObsTransactionList);
+		}
+	}
+
+	public void saveCoin() {
+		try {
+			if(coin.getId() != 0) {
+				updateCoin();
+			} else {
+				registerCoin();
+			}
+		} catch (Exception e) {
+			registerCoin();
+		}
+	}
+
+	public void saveCountry() {
+		try {
+			if(country.getId() != 0) {
+				updateCountry();
+			} else {
+				registerCountry();
+			}
+		} catch (Exception e) {
+			registerCountry();
+		}
+	}
+
+	public void saveShape() {
+		try {
+			if(shape.getId() != 0) {
+				updateShape();
+			} else {
+				registerShape();
+			}
+		} catch (Exception e) {
+			registerShape();
+		}
+	}
+
+	public void saveMaterial() {
+		try {
+			if(material.getId() != 0) {
+				updateMaterial();
+			} else {
+				registerMaterial();
+			}
+		} catch (Exception e) {
+			registerMaterial();
+		}
+	}
+
+	public void saveEdge() {
+		try {
+			if(edge.getId() != 0) {
+				updateEdge();
+			} else {
+				registerEdge();
+			}
+		} catch (Exception e) {
+			registerEdge();
+		}
+	}
+
+	public void saveUser() throws FileNotFoundException, SerialException, SQLException {
+		try {
+			if(editableUser.getId() != 0) {
+				updateUser();
+			} else {
+				registerUser();
+			}
+		} catch (Exception e) {
+			registerUser();
 		}
 	}
 

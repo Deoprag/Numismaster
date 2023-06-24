@@ -63,8 +63,8 @@ CREATE TABLE TB_Sale (
 	price DECIMAL(10,2) NOT NULL,
     buyer_id INT NOT NULL,
     seller_id INT NOT NULL,
-    FOREIGN KEY (buyer_id) REFERENCES TB_User(id),
-    FOREIGN KEY (seller_id) REFERENCES TB_User(id),
+    FOREIGN KEY (buyer_id) REFERENCES TB_User(id) ON DELETE CASCADE,
+    FOREIGN KEY (seller_id) REFERENCES TB_User(id) ON DELETE CASCADE,
     CONSTRAINT sale_id PRIMARY KEY (id)
 );
 
@@ -107,7 +107,7 @@ CREATE TABLE TB_Coin_User (
 	image_back LONGBLOB,
 	notes TEXT,
 	CONSTRAINT price_if_for_sale CHECK (is_for_sale = 0 OR (is_for_sale = 1 AND price IS NOT NULL)),
-	FOREIGN KEY (user_id) REFERENCES TB_User (id) ON DELETE CASCADE,
+	FOREIGN KEY (user_id) REFERENCES TB_User (id),
 	FOREIGN KEY (coin_id) REFERENCES TB_Coin (id),
 	CONSTRAINT coin_user_id PRIMARY KEY (id)
 );
@@ -140,3 +140,24 @@ CREATE TABLE TB_User_Request(
     FOREIGN KEY (request_id) REFERENCES TB_Request (id) ON DELETE CASCADE,
     CONSTRAINT user_request_id PRIMARY KEY (id)
 );
+
+DELIMITER //
+CREATE PROCEDURE DeleteUserRecords(IN userId INT)
+BEGIN
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION
+    BEGIN
+        ROLLBACK;
+    END;
+
+    START TRANSACTION;
+    
+    DELETE FROM TB_User_Request WHERE user_id = userId;
+    DELETE FROM TB_Request WHERE id IN (SELECT request_id FROM TB_User_Request WHERE user_id = userId);
+    DELETE FROM TB_Coin_User_Sale WHERE coin_user_id IN (SELECT id FROM TB_Coin_User WHERE user_id = userId);
+    DELETE FROM TB_Coin_User WHERE user_id = userId;
+    DELETE FROM TB_Sale WHERE buyer_id = userId OR seller_id = userId;
+    DELETE FROM TB_User WHERE id = userId;
+    
+    COMMIT;
+END //
+DELIMITER ;

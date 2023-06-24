@@ -105,17 +105,12 @@
                                     <Font name="Segoe UI Bold" size="14.0" />
                                  </font>
                               </Label>
-                              <Button fx:id="btnRegisterCoin" layoutX="150.0" layoutY="530.0" mnemonicParsing="false" onAction="#registerCoin" prefHeight="40.0" prefWidth="100.0" styleClass="btn-add" stylesheets="@../css/style.css" text="Cadastrar" textFill="#373c3f">
+                              <Button fx:id="btnSaveCoin" layoutX="213.0" layoutY="530.0" mnemonicParsing="false" onAction="#saveCoin" prefHeight="40.0" prefWidth="100.0" styleClass="btn-add" stylesheets="@../css/style.css" text="Salvar" textFill="#373c3f">
                                  <font>
                                     <Font name="System Bold" size="16.0" />
                                  </font>
                               </Button>
-                              <Button fx:id="btnUpdateCoin" layoutX="275.0" layoutY="530.0" mnemonicParsing="false" onAction="#updateCoin" prefHeight="40.0" prefWidth="100.0" styleClass="btn-update" stylesheets="@../css/style.css" text="Atualizar" textFill="#373c3f">
-                                 <font>
-                                    <Font name="System Bold" size="16.0" />
-                                 </font>
-                              </Button>
-                              <Button fx:id="btnDeleteCoin" layoutX="25.0" layoutY="530.0" mnemonicParsing="false" onAction="#deleteCoin" prefHeight="40.0" prefWidth="100.0" styleClass="btn-delete" stylesheets="@../css/style.css" text="Deletar" textFill="#373c3f">
+                              <Button fx:id="btnDeleteCoin" layoutX="88.0" layoutY="530.0" mnemonicParsing="false" onAction="#deleteCoin" prefHeight="40.0" prefWidth="100.0" styleClass="btn-delete" stylesheets="@../css/style.css" text="Deletar" textFill="#373c3f">
                                  <font>
                                     <Font name="System Bold" size="16.0" />
                                  </font>
@@ -160,17 +155,12 @@
                                     <Font size="9.0" />
                                  </font>
                               </Label>
-                              <Button fx:id="btnRegisterCountry" layoutX="150.0" layoutY="530.0" mnemonicParsing="false" onAction="#registerCountry" prefHeight="40.0" prefWidth="100.0" styleClass="btn-add" stylesheets="@../css/style.css" text="Cadastrar" textFill="#373c3f">
+                              <Button fx:id="btnSaveCountry" layoutX="213.0" layoutY="530.0" mnemonicParsing="false" onAction="#saveCountry" prefHeight="40.0" prefWidth="100.0" styleClass="btn-add" stylesheets="@../css/style.css" text="Salvar" textFill="#373c3f">
                                  <font>
                                     <Font name="System Bold" size="16.0" />
                                  </font>
                               </Button>
-                              <Button fx:id="btnUpdateCountry" layoutX="275.0" layoutY="530.0" mnemonicParsing="false" onAction="#updateCountry" prefHeight="40.0" prefWidth="100.0" styleClass="btn-update" stylesheets="@../css/style.css" text="Atualizar" textFill="#373c3f">
-                                 <font>
-                                    <Font name="System Bold" size="16.0" />
-                                 </font>
-                              </Button>
-                              <Button fx:id="btnDeleteCountry" layoutX="25.0" layoutY="530.0" mnemonicParsing="false" onAction="#deleteCountry" prefHeight="40.0" prefWidth="100.0" styleClass="btn-delete" stylesheets="@../css/style.css" text="Deletar" textFill="#373c3f">
+                              <Button fx:id="btnDeleteCountry" layoutX="88.0" layoutY="530.0" mnemonicParsing="false" onAction="#deleteCountry" prefHeight="40.0" prefWidth="100.0" styleClass="btn-delete" stylesheets="@../css/style.css" text="Deletar" textFill="#373c3f">
                                  <font>
                                     <Font name="System Bold" size="16.0" />
                                  </font>
@@ -230,17 +220,12 @@
                                     <Font size="9.0" />
                                  </font>
                               </Label>
-                              <Button fx:id="btnRegisterShape" layoutX="150.0" layoutY="530.0" mnemonicParsing="false" onAction="#registerShape" prefHeight="40.0" prefWidth="100.0" styleClass="btn-add" stylesheets="@../css/style.css" text="Cadastrar" textFill="#373c3f">
+                              <Button fx:id="btnSaveShape" layoutX="213.0" layoutY="530.0" mnemonicParsing="false" onAction="#saveShape" prefHeight="40.0" prefWidth="100.0" styleClass="btn-add" stylesheets="@../css/style.css" text="Salvar" textFill="#373c3f">
                                  <font>
                                     <Font name="System Bold" size="16.0" />
                                  </font>
                               </Button>
-                              <Button fx:id="btnUpdateShape" layoutX="275.0" layoutY="530.0" mnemonicParsing="false" onAction="#updateShape" prefHeight="40.0" prefWidth="100.0" styleClass="btn-update" stylesheets="@../css/style.css" text="Atualizar" textFill="#373c3f">
-                                 <font>
-                                    <Font name="System Bold" size="16.0" />
-                                 </font>
-                              </Button>
-                              <Button fx:id="btnDeleteShape" layoutX="25.0" layoutY="530.0" mnemonicParsing="false" onAction="#deleteShape" prefHeight="40.0" prefWidth="100.0" styleClass="btn-delete" stylesheets="@../css/style.css" text="Deletar" textFill="#373c3f">
+                              <Button fx:id="btnDeleteShape" layoutX="88.0" layoutY="530.0" mnemonicParsing="false" onAction="#deleteShape" prefHeight="40.0" prefWidth="100.0" styleClass="btn-delete" stylesheets="@../css/style.css" text="Deletar" textFill="#373c3f">
                                  <font>
                                     <Font name="System Bold" size="16.0" />
                                  </font>
@@ -294,17 +279,12 @@
                                     <Font size="9.0" />
                                  </font>
                               </Label>
-                              <Button fx:id="btnRegisterMaterial" layoutX="150.0" layoutY="530.0" mnemonicParsing="false" onAction="#registerMaterial" prefHeight="40.0" prefWidth="100.0" styleClass="btn-add" stylesheets="@../css/style.css" text="Cadastrar" textFill="#373c3f">
+                              <Button fx:id="btnSaveMaterial" layoutX="213.0" layoutY="530.0" mnemonicParsing="false" onAction="#saveMaterial" prefHeight="40.0" prefWidth="100.0" styleClass="btn-add" stylesheets="@../css/style.css" text="Salvar" textFill="#373c3f">
                                  <font>
                                     <Font name="System Bold" size="16.0" />
                                  </font>
                               </Button>
-                              <Button fx:id="btnUpdateMaterial" layoutX="275.0" layoutY="530.0" mnemonicParsing="false" onAction="#updateMaterial" prefHeight="40.0" prefWidth="100.0" styleClass="btn-update" stylesheets="@../css/style.css" text="Atualizar" textFill="#373c3f">
-                                 <font>
-                                    <Font name="System Bold" size="16.0" />
-                                 </font>
-                              </Button>
-                              <Button fx:id="btnDeleteMaterial" layoutX="25.0" layoutY="530.0" mnemonicParsing="false" onAction="#deleteMaterial" prefHeight="40.0" prefWidth="100.0" styleClass="btn-delete" stylesheets="@../css/style.css" text="Deletar" textFill="#373c3f">
+                              <Button fx:id="btnDeleteMaterial" layoutX="88.0" layoutY="530.0" mnemonicParsing="false" onAction="#deleteMaterial" prefHeight="40.0" prefWidth="100.0" styleClass="btn-delete" stylesheets="@../css/style.css" text="Deletar" textFill="#373c3f">
                                  <font>
                                     <Font name="System Bold" size="16.0" />
                                  </font>
@@ -358,17 +338,12 @@
                                     <Font size="9.0" />
                                  </font>
                               </Label>
-                              <Button fx:id="btnRegisterEdge" layoutX="150.0" layoutY="530.0" mnemonicParsing="false" onAction="#registerEdge" prefHeight="40.0" prefWidth="100.0" styleClass="btn-add" stylesheets="@../css/style.css" text="Cadastrar" textFill="#373c3f">
+                              <Button fx:id="btnSaveEdge" layoutX="213.0" layoutY="530.0" mnemonicParsing="false" onAction="#saveEdge" prefHeight="40.0" prefWidth="100.0" styleClass="btn-add" stylesheets="@../css/style.css" text="Salvar" textFill="#373c3f">
                                  <font>
                                     <Font name="System Bold" size="16.0" />
                                  </font>
                               </Button>
-                              <Button fx:id="btnUpdateEdge" layoutX="275.0" layoutY="530.0" mnemonicParsing="false" onAction="#updateEdge" prefHeight="40.0" prefWidth="100.0" styleClass="btn-update" stylesheets="@../css/style.css" text="Atualizar" textFill="#373c3f">
-                                 <font>
-                                    <Font name="System Bold" size="16.0" />
-                                 </font>
-                              </Button>
-                              <Button fx:id="btnDeleteEdge" layoutX="25.0" layoutY="530.0" mnemonicParsing="false" onAction="#deleteEdge" prefHeight="40.0" prefWidth="100.0" styleClass="btn-delete" stylesheets="@../css/style.css" text="Deletar" textFill="#373c3f">
+                              <Button fx:id="btnDeleteEdge" layoutX="88.0" layoutY="530.0" mnemonicParsing="false" onAction="#deleteEdge" prefHeight="40.0" prefWidth="100.0" styleClass="btn-delete" stylesheets="@../css/style.css" text="Deletar" textFill="#373c3f">
                                  <font>
                                     <Font name="System Bold" size="16.0" />
                                  </font>
@@ -484,17 +459,12 @@
                                     <Font size="9.0" />
                                  </font>
                               </Label>
-                              <Button fx:id="btnRegisterUser" layoutX="150.0" layoutY="530.0" mnemonicParsing="false" onAction="#registerUser" prefHeight="40.0" prefWidth="100.0" styleClass="btn-add" stylesheets="@../css/style.css" text="Cadastrar" textFill="#373c3f">
+                              <Button fx:id="btnSaveUser" layoutX="213.0" layoutY="530.0" mnemonicParsing="false" onAction="#saveUser" prefHeight="40.0" prefWidth="100.0" styleClass="btn-add" stylesheets="@../css/style.css" text="Salvar" textFill="#373c3f">
                                  <font>
                                     <Font name="System Bold" size="16.0" />
                                  </font>
                               </Button>
-                              <Button fx:id="btnUpdateUser" layoutX="275.0" layoutY="530.0" mnemonicParsing="false" onAction="#updateUser" prefHeight="40.0" prefWidth="100.0" styleClass="btn-update" stylesheets="@../css/style.css" text="Atualizar" textFill="#373c3f">
-                                 <font>
-                                    <Font name="System Bold" size="16.0" />
-                                 </font>
-                              </Button>
-                              <Button fx:id="btnDeleteUser" layoutX="25.0" layoutY="530.0" mnemonicParsing="false" onAction="#deleteUser" prefHeight="40.0" prefWidth="100.0" styleClass="btn-delete" stylesheets="@../css/style.css" text="Deletar" textFill="#373c3f">
+                              <Button fx:id="btnDeleteUser" layoutX="88.0" layoutY="530.0" mnemonicParsing="false" onAction="#deleteUser" prefHeight="40.0" prefWidth="100.0" styleClass="btn-delete" stylesheets="@../css/style.css" text="Deletar" textFill="#373c3f">
                                  <font>
                                     <Font name="System Bold" size="16.0" />
                                  </font>

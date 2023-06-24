@@ -62,9 +62,11 @@ public class UserRepository {
         EntityTransaction transaction = entityManager.getTransaction();
         try {
             transaction.begin();
-            User user = entityManager.find(User.class, id);
-            
-            entityManager.remove(user);
+
+            Query query = entityManager.createNativeQuery("CALL DeleteUserRecords(:userId)");
+            query.setParameter("userId", id);
+            query.executeUpdate();
+
             transaction.commit();
             return true;
         } catch (Exception ex) {

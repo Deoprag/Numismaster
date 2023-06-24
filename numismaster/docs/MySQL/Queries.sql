@@ -4,13 +4,18 @@ select cus.id as "ID da transação", s.sale_date as "Data da venda", b.first_na
 inner join tb_sale s on s.id = cus.sale_id
 inner join tb_coin_user cu on cu.id = cus.coin_user_id
 inner join tb_user b on b.id = s.buyer_id
-inner join tb_user v on v.id = s.seller_id;
+inner join tb_user v on v.id = s.seller_id
+where s.buyer_id OR s.seller_id = 1;
 
 select * from tb_coin_user_sale;
 
+SELECT COUNT(*) FROM tb_sale s where s.seller_id = 1;
+
 update tb_user set is_blocked = 0 where id = 1;
 
-select * from tb_user;
+select * from tb_country;
+select * from tb_coin_user;
+select * from tb_sale;
 
 update tb_user set birth_date = '2004-02-27' where id = 1;
 update tb_coin set rarity = 1 where rarity = 1;
